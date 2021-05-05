@@ -9,6 +9,11 @@ const artist = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
+    website: {
+      type: DataTypes.STRING,
+      unique: false,
+      allowNull: true,
+    },
     description: {
       type: DataTypes.STRING,
       unique: false,
@@ -25,23 +30,11 @@ const artist = (sequelize, DataTypes) => {
   });
 
   Artist.associate = (models) => {
-    Artist.belongsTo(models.User);
+    Artist.belongsToMany(models.User, {
+      through: 'User_Artist',
+      as: 'followers',
+    });
   };
-
-  /* Artist.associate = (models) => {
-    Artist.hasMany(models.Release, { onDelete: 'CASCADE' });
-  }; */
-
-  /*
-
-  Artist.associate = (models) => {
-    Artist.hasMany(models.Comment, { onDelete: 'CASCADE'});
-  };
-
-  User.associate = (models) => {
-    User.hasMany(models.Release);
-  };
-  */
 
   return Artist;
 };

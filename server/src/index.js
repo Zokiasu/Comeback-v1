@@ -54,6 +54,7 @@ const createUsersWithMessages = async () => {
           text: 'Published the Road to learn React',
         },
       ],
+      artists: [{ name: 'artist' }],
     },
     {
       include: [models.Message, models.Artist],
@@ -79,7 +80,6 @@ const createUsersWithMessages = async () => {
 
   await models.Artist.create(
     {
-      userId: '1',
       name: 'Rihanna',
       image:
         'https://cdn.radiofrance.fr/s3/cruiser-production/2021/01/9046b609-68b8-494a-9dfd-53ca91a599a4/1200x680_rihanna.jpg',
@@ -87,9 +87,10 @@ const createUsersWithMessages = async () => {
         'Rihanna est la plus grande artiste de sa génération voire de la génération humaine',
       socials: ['facebooklol'],
       platforms: ['spotift.com'],
+      followers: [{ username: 'nom' }],
     },
     {
-      include: [models.User],
+      include: [{ model: models.User, as: 'followers' }],
     },
   );
   await models.Artist.create({
