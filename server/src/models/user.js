@@ -4,13 +4,28 @@ const user = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
     },
+    avatar: {
+      type: DataTypes.STRING,
+      unique: false,
+      allowNull: true,
+    },
   });
 
-  User.associate = models => {
+  User.associate = (models) => {
     User.hasMany(models.Message, { onDelete: 'CASCADE' });
+    User.hasMany(models.Artist);
   };
 
-  User.findByLogin = async login => {
+  /*
+  User.associate = (models) => {
+    User.hasMany(models.Artist);
+  };
+
+  User.associate = (models) => {
+    User.hasMany(models.Release);
+  };
+  */
+  User.findByLogin = async (login) => {
     let user = await User.findOne({
       where: { username: login },
     });
