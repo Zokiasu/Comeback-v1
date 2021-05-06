@@ -27,6 +27,7 @@ app.use(async (req, res, next) => {
 app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/artists', routes.artist);
+app.use('/events', routes.happening);
 app.use('/releases', routes.release);
 app.use('/musics', routes.music);
 app.use('/messages', routes.message);
@@ -102,15 +103,19 @@ const createUsersWithMessages = async () => {
       ],
     },
   );
-  await models.Artist.create({
-    name: 'Alex',
-    image:
-      'https://cdn.radiofrance.fr/s3/cruiser-production/2021/01/9046b609-68b8-494a-9dfd-53ca91a599a4/1200x680_rihanna.jpg',
-    description:
-      'Alex est la plus grande artiste de sa génération voire de la génération humaine',
-    socials: ['facebooklol'],
-    platforms: ['spotift.com'],
-  });
+  await models.Artist.create(
+    {
+      name: 'Alex',
+      image:
+        'https://cdn.radiofrance.fr/s3/cruiser-production/2021/01/9046b609-68b8-494a-9dfd-53ca91a599a4/1200x680_rihanna.jpg',
+      description:
+        'Alex est la plus grande artiste de sa génération voire de la génération humaine',
+      socials: ['facebooklol'],
+      platforms: ['spotift.com'],
+      events: [{ name: 'Concert incroyable' }],
+    },
+    { include: [{ model: models.Happening, as: 'events' }] },
+  );
 
   await models.Release.create(
     {
