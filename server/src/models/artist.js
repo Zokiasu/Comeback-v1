@@ -46,6 +46,10 @@ const artist = (sequelize, DataTypes) => {
       as: 'members',
       foreignKey: 'memberId',
     });
+
+    Artist.belongsToMany(models.Release, {
+      through: 'Release_Artist',
+    });
   };
 
   return Artist;

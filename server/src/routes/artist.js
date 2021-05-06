@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
       { model: req.context.models.User, as: 'followers' },
       { model: req.context.models.Artist, as: 'groups' },
       { model: req.context.models.Artist, as: 'members' },
+      req.context.models.Release,
     ],
   });
   return res.send(artists);
@@ -17,7 +18,12 @@ router.get('/:artistId', async (req, res) => {
   const artist = await req.context.models.Artist.findByPk(
     req.params.artistId,
     {
-      include: { model: req.context.models.User, as: 'followers' },
+      include: [
+        { model: req.context.models.User, as: 'followers' },
+        { model: req.context.models.Artist, as: 'groups' },
+        { model: req.context.models.Artist, as: 'members' },
+        req.context.models.Release,
+      ],
     },
   );
   return res.send(artist);

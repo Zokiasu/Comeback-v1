@@ -27,6 +27,7 @@ app.use(async (req, res, next) => {
 app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/artists', routes.artist);
+app.use('/releases', routes.release);
 app.use('/messages', routes.message);
 
 // Start
@@ -89,12 +90,14 @@ const createUsersWithMessages = async () => {
       platforms: ['spotift.com'],
       followers: [{ username: 'nom' }],
       groups: [{ name: 'group1' }],
+      releases: [{ name: 'nomalbum', type: 'SINGLE' }],
     },
     {
       include: [
         { model: models.User, as: 'followers' },
         { model: models.Artist, as: 'groups' },
         { model: models.Artist, as: 'members' },
+        models.Release,
       ],
     },
   );
