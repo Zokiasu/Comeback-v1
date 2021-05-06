@@ -19,4 +19,27 @@ router.get('/:happeningId', async (req, res) => {
   return res.send(happening);
 });
 
+router.post('/', async (req, res) => {
+  const happening = await req.context.models.Happening.create(
+    req.body,
+  );
+  return res.send(happening);
+});
+
+router.put('/:happeningId', async (req, res) => {
+  const happening = await req.context.models.Happening.findByPk(
+    req.params.happeningId,
+  );
+  happening.update(req.body);
+  return res.send(happening);
+});
+
+router.delete('/:happeningId', async (req, res) => {
+  const happening = await req.context.models.Happening.findByPk(
+    req.params.happeningId,
+  );
+  happening.destroy(req.body);
+  return res.send(happening);
+});
+
 export default router;

@@ -36,4 +36,20 @@ router.post('/', async (req, res) => {
   return res.send(artist);
 });
 
+router.put('/:artistId', async (req, res) => {
+  const artist = await req.context.models.Artist.findByPk(
+    req.params.artistId,
+  );
+  artist.update(req.body);
+  return res.send(artist);
+});
+
+router.delete('/:artistId', async (req, res) => {
+  const artist = await req.context.models.Artist.findByPk(
+    req.params.artistId,
+  );
+  artist.destroy(req.body);
+  return res.send(artist);
+});
+
 export default router;
