@@ -28,6 +28,7 @@ app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/artists', routes.artist);
 app.use('/releases', routes.release);
+app.use('/musics', routes.music);
 app.use('/messages', routes.message);
 
 // Start
@@ -110,4 +111,15 @@ const createUsersWithMessages = async () => {
     socials: ['facebooklol'],
     platforms: ['spotift.com'],
   });
+
+  await models.Release.create(
+    {
+      name: 'Release1',
+      type: 'SINGLE',
+      musics: [{ name: 'titre music' }],
+    },
+    {
+      include: [{ model: models.Music, as: 'musics' }],
+    },
+  );
 };

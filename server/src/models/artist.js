@@ -3,6 +3,7 @@ const artist = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       unique: false,
+      allowNull: false,
     },
     image: {
       type: DataTypes.STRING,

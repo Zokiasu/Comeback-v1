@@ -14,6 +14,7 @@ const models = {
   Message: sequelize.import('./message'),
   Artist: sequelize.import('./artist'),
   Release: sequelize.import('./release'),
+  Music: sequelize.import('./music'),
 };
 
 Object.keys(models).forEach((key) => {

@@ -3,6 +3,7 @@ const release = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       unique: false,
+      allowNull: false,
     },
     type: {
       type: DataTypes.ENUM('ALBUM', 'EP', 'SINGLE'),
@@ -28,6 +29,10 @@ const release = (sequelize, DataTypes) => {
   Release.associate = (models) => {
     Release.belongsToMany(models.Artist, {
       through: 'Release_Artist',
+    });
+    Release.belongsToMany(models.Music, {
+      through: 'Music_Release',
+      as: 'musics',
     });
   };
 
