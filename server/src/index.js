@@ -30,7 +30,6 @@ app.use('/artists', routes.artist);
 app.use('/events', routes.happening);
 app.use('/releases', routes.release);
 app.use('/musics', routes.music);
-app.use('/messages', routes.message);
 
 // Start
 
@@ -38,7 +37,7 @@ const eraseDatabaseOnSync = true;
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   if (eraseDatabaseOnSync) {
-    createUsersWithMessages();
+    createSeeds();
   }
 
   app.listen(process.env.PORT, () =>
@@ -46,38 +45,25 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   );
 });
 
-const createUsersWithMessages = async () => {
+const createSeeds = async () => {
   await models.User.create(
     {
       username: 'rwieruch',
       avatar:
         'https://static.wikia.nocookie.net/naruto/images/f/f1/Naruto_Partie_I.png/revision/latest?cb=20151201180820&path-prefix=fr',
-      messages: [
-        {
-          text: 'Published the Road to learn React',
-        },
-      ],
       artists: [{ name: 'artist' }],
     },
     {
-      include: [models.Message, models.Artist],
+      include: [models.Artist],
     },
   );
 
   await models.User.create(
     {
       username: 'ddavids',
-      messages: [
-        {
-          text: 'Happy to release ...',
-        },
-        {
-          text: 'Published a complete ...',
-        },
-      ],
     },
     {
-      include: [models.Message, models.Artist],
+      include: [models.Artist],
     },
   );
 

@@ -11,7 +11,6 @@ const sequelize = new Sequelize(
 
 const models = {
   User: sequelize.import('./user'),
-  Message: sequelize.import('./message'),
   Artist: sequelize.import('./artist'),
   Happening: sequelize.import('./happening'),
   Release: sequelize.import('./release'),
