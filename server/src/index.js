@@ -88,9 +88,14 @@ const createUsersWithMessages = async () => {
       socials: ['facebooklol'],
       platforms: ['spotift.com'],
       followers: [{ username: 'nom' }],
+      groups: [{ name: 'group1' }],
     },
     {
-      include: [{ model: models.User, as: 'followers' }],
+      include: [
+        { model: models.User, as: 'followers' },
+        { model: models.Artist, as: 'groups' },
+        { model: models.Artist, as: 'members' },
+      ],
     },
   );
   await models.Artist.create({

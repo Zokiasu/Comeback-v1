@@ -4,7 +4,11 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
-    include: { model: req.context.models.User, as: 'followers' },
+    include: [
+      { model: req.context.models.User, as: 'followers' },
+      { model: req.context.models.Artist, as: 'groups' },
+      { model: req.context.models.Artist, as: 'members' },
+    ],
   });
   return res.send(artists);
 });
