@@ -4,7 +4,10 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const users = await req.context.models.User.findAll({
-    include: [{ model: req.context.models.Artist, as: 'artists' }],
+    include: [
+      { model: req.context.models.Artist, as: 'artists' },
+      req.context.models.Request,
+    ],
   });
   return res.send(users);
 });

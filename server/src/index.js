@@ -26,6 +26,7 @@ app.use(async (req, res, next) => {
 
 app.use('/session', routes.session);
 app.use('/users', routes.user);
+app.use('/requests', routes.request);
 app.use('/artists', routes.artist);
 app.use('/events', routes.happening);
 app.use('/releases', routes.release);
@@ -52,9 +53,18 @@ const createSeeds = async () => {
       avatar:
         'https://static.wikia.nocookie.net/naruto/images/f/f1/Naruto_Partie_I.png/revision/latest?cb=20151201180820&path-prefix=fr',
       artists: [{ name: 'artist' }],
+      requests: [
+        {
+          state: 'PENDING',
+          method: 'POST',
+          checked_by: 2,
+          endpoint: '/artists',
+          body: { name: 'Amir' },
+        },
+      ],
     },
     {
-      include: [models.Artist],
+      include: [models.Artist, models.Request],
     },
   );
 
@@ -63,7 +73,7 @@ const createSeeds = async () => {
       username: 'ddavids',
     },
     {
-      include: [models.Artist],
+      include: [models.Artist, models.Request],
     },
   );
 

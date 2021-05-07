@@ -1,0 +1,19 @@
+const ROLES = {
+  ADMIN: 'ADMIN',
+  MODERATOR: 'MODERATOR',
+  NONE: 'NONE',
+};
+
+const REQUESTS = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DENIED: 'DENIED',
+};
+
+const METHODS = {
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+};
+
+export { ROLES, REQUESTS, METHODS };
