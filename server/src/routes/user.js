@@ -1,6 +1,9 @@
 import { Router } from 'express';
+import { createUser } from '../firebase/user';
 
 const router = Router();
+
+router.post('/auth/signup', createUser);
 
 router.get('/', async (req, res) => {
   const users = await req.context.models.User.findAll({

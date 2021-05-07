@@ -49,6 +49,7 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
 const createSeeds = async () => {
   await models.User.create(
     {
+      id: '1',
       username: 'rwieruch',
       avatar:
         'https://static.wikia.nocookie.net/naruto/images/f/f1/Naruto_Partie_I.png/revision/latest?cb=20151201180820&path-prefix=fr',
@@ -70,6 +71,7 @@ const createSeeds = async () => {
 
   await models.User.create(
     {
+      id: '2',
       username: 'ddavids',
     },
     {
@@ -86,7 +88,7 @@ const createSeeds = async () => {
         'Rihanna est la plus grande artiste de sa génération voire de la génération humaine',
       socials: ['facebooklol'],
       platforms: ['spotift.com'],
-      followers: [{ username: 'nom' }],
+      followers: [{ id: '3', username: 'nom' }],
       groups: [{ name: 'group1' }],
       releases: [{ name: 'nomalbum', type: 'SINGLE' }],
     },
