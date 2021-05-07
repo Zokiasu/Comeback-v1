@@ -10,6 +10,17 @@ sudo -u postgres psql
 postgres=# create database comeback;
 ```
 
+Make a dotenv file and fill with your credientials like so at server/.env
+
+```
+PORT=3000
+DATABASE=databasename
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+FIREBASE_PROJECT_ID=xxxxx-xxxxx
+FIREBASE_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----XXXXXXXX-----END PRIVATE KEY-----\n                                                                                                FIREBASE_CLIENT_EMAIL=xxxxxx-xxxxxx-xxxxxx@xxxxxx-xxxxxx.xxxx.xxxxxxx.xxx  
+```
+
 when it's done, go to the project folder and do
 
 ```
