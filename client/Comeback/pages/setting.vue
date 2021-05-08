@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <h1 class="title">
-        Comeback
+        Setting
       </h1>
     </div>
   </div>

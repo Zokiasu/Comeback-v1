@@ -23,7 +23,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  background-color: #1F1F1F;
+  background-color: #1F1D1D;
 }
 
 *,
