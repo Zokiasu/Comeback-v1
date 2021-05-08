@@ -1,9 +1,7 @@
 <template>
-  <div class="grid grid-cols-5">
-    <SideBar class="col-start-1 col-end-2 relative flex-col"/>
-    <div class="col-start-2 col-end-7 overflow-y-scroll relative flex-col max-h-screen">
-      <Nuxt />
-    </div>
+  <div>
+    <p>Presentation Page</p>
+    <Nuxt />
   </div>
 </template>
 
