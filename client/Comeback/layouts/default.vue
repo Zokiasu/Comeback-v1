@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-7">
-    <SideBar class="col-start-1 col-end-3 2xl:col-end-2 relative flex-col min-h-screen"/>
-    <div class="col-start-3 2xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative flex-col max-h-screen">
+    <SideBar class=" leftbar col-start-1 col-end-3 2xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
+    <div class="leftbar col-start-3 2xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen">
       <Nuxt />
     </div>
   </div>
@@ -62,5 +62,27 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+::-webkit-scrollbar {
+  width: 5px; /* width of the entire scrollbar */
+  height: 5px;
+  margin: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* color of the tracking area */
+  height: 5px;
+  margin: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #000000; /* color of the scroll thumb */
+  opacity: 50%;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #E1E1E1; /* color of the scroll thumb */
+  border-radius: 50px; /* roundness of the scroll thumb */
 }
 </style>

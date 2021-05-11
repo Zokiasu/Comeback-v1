@@ -1,6 +1,29 @@
 <template>
   <div class="text-white">
-    <img class="rounded-full mx-auto h-20 w-20 object-cover" src="https://k-gen.fr/wp-content/uploads/2019/01/kang-daniel-4-1600x768.png" alt="Artist Picture"/>
-    <h3 class="font-semibold text-center">Kang Daniel</h3>
+    <div class="h-40 w-40 mx-auto">
+    <router-link :to="`/artist/${id}`"><img class="bg-red-500 rounded-full h-40 w-40 object-cover" :src="img" alt="Artist Picture"/></router-link>
+    </div>
+    <h3 class="font-semibold text-center"> {{name}} </h3>
   </div>
 </template>
+
+<script>
+  export default {
+
+    props: ['artist', 'index'],
+
+    data(){
+        return {
+            id: '-1',
+            name:'Artist Name',
+            img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
+        }
+    },
+
+    created(){
+      this.id=this.index
+      if(this.artist.name) this.name=this.artist.name
+      if(this.artist.picture) this.img=this.artist.picture
+    },
+  }
+</script>

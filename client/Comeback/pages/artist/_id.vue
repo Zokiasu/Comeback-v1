@@ -1,21 +1,12 @@
 <template>
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-y-5 md:gap-y-10 my-5 w-full justify-center">
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
-    <ArtistCard />
+  <div class="container">
+    <div>
+      <h1 class="title">
+        Artist : {{ this.$route.params.id}}
+      </h1>
+      <img class="rounded-full mx-auto h-40 w-40 object-cover" :src="this.$store.state.artistList[this.$route.params.id].picture" alt="Artist Picture"/>
+      <h2 class="text-white text-2xl"> {{this.$store.state.artistList[this.$route.params.id].name}} </h2>
+    </div>
   </div>
 </template>
 
