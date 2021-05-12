@@ -19,8 +19,8 @@ export const loginUser = (email, password) => {
 };
 
 const CheckAuthentication = async () => {
-  const username = 'oazee';
-  const email = 'zazazezk@markus.com';
+  const username = 'imji';
+  const email = 'zjimmm@makus.com';
   const password = 'password';
   await createUserAccount({
     username,
@@ -31,7 +31,11 @@ const CheckAuthentication = async () => {
   await loginUser(email, password);
   const token = await firebase.auth().currentUser.getIdToken();
 
-  console.log('token', token);
+  axios
+    .get('http://localhost:3000/users', {
+      headers: { authorization: `Bearer ${token}` },
+    })
+    .then((res) => console.log(res.data));
 };
 
 CheckAuthentication();
