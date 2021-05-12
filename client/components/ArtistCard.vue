@@ -1,7 +1,7 @@
 <template>
   <div class="text-white">
-    <div class="h-40 w-40 mx-auto">
-    <router-link :to="`/artist/${id}`"><img class="bg-red-500 rounded-full h-40 w-40 object-cover" :src="img" alt="Artist Picture"/></router-link>
+    <div class="h-20 md:h-40 w-20 md:w-40 mx-auto">
+    <router-link :to="`/artist/${id}`"><img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover" :src="img" alt="Artist Picture"/></router-link>
     </div>
     <h3 class="font-semibold text-center"> {{name}} </h3>
   </div>

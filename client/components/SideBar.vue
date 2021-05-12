@@ -66,7 +66,7 @@
             </section>
             <section class="border-t-2 border-gray-400 space-y-2 mx-3 pt-2 text-sm">
                 <p class="text-center"><a href="#">Contact</a> - <a href="#">About</a> - <a href="#">Terms</a> - <a href="#">Privacy Policy</a></p>
-                <p class="text-center">©2021<br><a href="#">Studeler Dev.</a> - <a href="#">Cozy Codeur</a></p>
+                <p class="text-center">©2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
             </section>
         </footer>
     </div>
