@@ -8,7 +8,7 @@ export const createUser = async (req, res) => {
     password,
   });
 
-  const data = { id: user.uid, username };
+  const data = { id: user.uid, username, email };
 
   const user_data = await req.context.models.User.create(data);
 

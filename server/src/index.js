@@ -51,6 +51,7 @@ const createSeeds = async () => {
     {
       id: '1',
       username: 'rwieruch',
+      email: 'rwieruch@tst',
       avatar:
         'https://static.wikia.nocookie.net/naruto/images/f/f1/Naruto_Partie_I.png/revision/latest?cb=20151201180820&path-prefix=fr',
       artists: [{ name: 'artist' }],
@@ -73,6 +74,7 @@ const createSeeds = async () => {
     {
       id: '2',
       username: 'ddavids',
+      email: 'rwieruch@tt',
     },
     {
       include: [models.Artist, models.Request],
@@ -88,7 +90,9 @@ const createSeeds = async () => {
         'Rihanna est la plus grande artiste de sa génération voire de la génération humaine',
       socials: ['facebooklol'],
       platforms: ['spotift.com'],
-      followers: [{ id: '3', username: 'nom' }],
+      followers: [
+        { id: '3', username: 'nom', email: 'email@test.fr' },
+      ],
       groups: [{ name: 'group1' }],
       releases: [{ name: 'nomalbum', type: 'SINGLE' }],
     },

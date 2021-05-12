@@ -7,11 +7,19 @@ const user = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.STRING,
     },
+
     username: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
     },
+
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+
     role: {
       type: DataTypes.ENUM(ROLES.ADMIN, ROLES.MODERATOR, ROLES.NONE),
     },
