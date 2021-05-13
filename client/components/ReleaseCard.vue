@@ -1,7 +1,7 @@
 <template>
   <div class="texts flex flex-col text-white">
     <div class="relative">
-        <a href="#"><img class="rounded-md object-cover" :src="release.releasePicture" alt="Artist Picture"/></a>
+        <router-link :to="`/release/${release.releaseID}`"><img class="rounded-md object-cover" :src="release.releasePicture" alt="Artist Picture"/></router-link>
         <div class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl">
             <p class="text-center"> {{release.releaseDate.toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>
         </div>

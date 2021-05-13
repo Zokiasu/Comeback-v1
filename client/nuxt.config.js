@@ -21,6 +21,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/inject.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -41,5 +42,10 @@ export default {
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },
-  }
+    extends(config, ctx) {
+      config.node = {
+        fs: "empty"
+      };
+    }
+  },
 }

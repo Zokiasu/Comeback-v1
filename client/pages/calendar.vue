@@ -1,7 +1,7 @@
 <template>
   <div>
     <button class="fixed top-5 right-5 z-10 bg-gray-500 px-5 py-2 text-white flex space-x-5"><span>My Releases</span><img class="w-4 h-4 mt-1" src="../assets/image/arrow-down.png"/></button>
-    <CalendarDay class=""
+    <CalendarDay
       v-for="(date, index) in this.releaseDateList"
       :key="index"
       :date="date"
@@ -24,19 +24,9 @@
         }
     },
 
-    /*created(){
-      const options = { day:'numeric', month: 'long' };
-      const options2 = { year:'numeric' };
-      console.log((new Date('August 19, 2021, 12:30:00 GMT+02:00')).toLocaleDateString('en-US', options))
-      console.log((new Date('August 19, 2021, 12:30:00 GMT+02:00')).toLocaleDateString('en-US', options2))
-      console.log((new Date('August 19, 2021, 12:30:00 GMT+02:00')).toTimeString())
-
-    },*/
-
     mounted() {
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
-        console.log(this.$store.state.artistList[0].name)
     },
 
     methods: {

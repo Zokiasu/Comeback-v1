@@ -10,6 +10,15 @@ module.exports = {
   theme: {
     extend: {
     },
+    screens: {
+      'ms': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+      '3xl': '1792px',
+      '4xl': '2048px',
+    },
     backgroundColor: theme => ({
      ...theme('colors'),
      'main-gray': '#A6A4A4',

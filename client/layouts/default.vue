@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-7">
-    <SideBar class=" leftbar col-start-1 col-end-3 2xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
-    <div class="leftbar col-start-3 2xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen">
+    <SideBar class="leftbar col-start-1 col-end-3 xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
+    <div class="leftbar col-start-3 xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen">
       <Nuxt />
     </div>
   </div>
@@ -77,7 +77,6 @@ html {
 }
 
 ::-webkit-scrollbar-track-piece {
-  background-color: #000000; /* color of the scroll thumb */
   opacity: 50%;
 }
 
