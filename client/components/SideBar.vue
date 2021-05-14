@@ -7,40 +7,44 @@
             <nav>
                 <ul>
                     <li class="mb-5">
-                        <router-link class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'search' ? 'bg-transparent' : 'bg-gray-500'" to="/search">
-                            <img class="w-4 h-4 mt-1" src="../assets/image/search.png"/>
-                            <span>Search</span>
-                        </router-link>
+                        <div class="flex text-white bg-gray-500 rounded">
+                            <button class="pr-1 pl-2 rounded-none rounded-l py-1.5">
+                                <div class="">
+                                    <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
+                                </div>
+                            </button>
+                            <input type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-transparent">
+                        </div>
                     </li>
                     <li class="mb-5">
-                        <router-link class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'calendar' ? 'bg-transparent' : 'bg-gray-500'" to="/calendar">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'calendar' ? 'bg-transparent' : 'bg-gray-500'" to="/calendar">
                             <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
                             <span>Calendar</span>
-                        </router-link>
+                        </NuxtLink>
                     </li>
                     <li class="mb-5">
-                        <router-link class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'artist' ? 'bg-transparent' : 'bg-gray-500'" to="/artist">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'artist' ? 'bg-transparent' : 'bg-gray-500'" to="/artist">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Artists</span>
-                        </router-link>
+                        </NuxtLink>
                     </li>
                     <li class="mb-5">
-                        <router-link class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'profile' ? 'bg-transparent' : 'bg-gray-500'" to="/profile">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'profile' ? 'bg-transparent' : 'bg-gray-500'" to="/profile">
                             <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
                             <span>Profile</span>
-                        </router-link>
+                        </NuxtLink>
                     </li>
                     <!--<li class="mb-5">
-                        <router-link class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'discover' ? 'bg-transparent' : 'bg-gray-500'" to="/discover">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'discover' ? 'bg-transparent' : 'bg-gray-500'" to="/discover">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Discover</span>
-                        </router-link>
+                        </NuxtLink>
                     </li>-->
                     <li class="mb-5">
-                        <router-link class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'setting' ? 'bg-transparent' : 'bg-gray-500'" to="/setting">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'setting' ? 'bg-transparent' : 'bg-gray-500'" to="/setting">
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                             <span>Setting</span>
-                        </router-link>
+                        </NuxtLink>
                     </li>
                 </ul>
             </nav>
@@ -49,8 +53,9 @@
             <nav>
                 <ul>
                     <li class="mb-5">
-                        <!--<button class="Button bg-red-700 w-full">Add New Release</button>-->
-                        <button class="transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold w-full py-2 texts">New Comeback</button>
+                        <NuxtLink :to="`/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                            <span>New Comeback</span>
+                        </NuxtLink>
                     </li>
                 </ul>
             </nav>

@@ -4,10 +4,11 @@
         <h1 class="font-semibold text-4xl"> {{dates}} </h1>
     </div>
     <div class="grid gap-3 py-10 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
-    <ReleaseCard 
-        v-for="(release, index) in this.releaseList"
-        :release="release"
-        :key="index"/>
+        <ReleaseCard
+            v-for="(release, index) in this.releaseList"
+            :width="width"
+            :release="release"
+            :key="index"/>
     </div>
   </div>
 </template>
@@ -20,7 +21,7 @@
         data(){
             return {
               releaseList:[],
-              dates:''
+              dates:'',
             }
         },
 

@@ -1,11 +1,36 @@
 <template>
   <div class="grid grid-cols-7">
-    <SideBar class="leftbar col-start-1 col-end-3 xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
-    <div class="leftbar col-start-3 xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen">
-      <Nuxt />
+    <SideBar v-if="width" class="leftbar col-start-1 col-end-3 xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
+    <div class="leftbar xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen"  :class="width == true ? 'col-start-3' : 'col-start-1'">
+      <Nuxt :width="width"/>
     </div>
   </div>
 </template>
+
+<script>
+    export default {
+      data(){
+        return {
+          width:false,
+        }
+      },
+
+      mounted() {
+          window.addEventListener('resize', this.handleResize);
+          this.handleResize();
+      },
+
+      methods: {
+        handleResize() {
+          if(window.innerWidth > 768) {
+            this.width = true
+          } else {
+            this.width = false
+          }
+        },
+      }
+    }
+</script>
 
 <style>
 html {

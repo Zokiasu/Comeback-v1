@@ -1,15 +1,15 @@
 <template>
   <div style="background-color: #3B3B3B" class="texts text-white flex rounded relative">
     <div>
-        <img class="h-16 w-16 rounded-l object-cover" src="https://www.taiyou.fr/an_content/_upload/img-prod/45462/4_1.jpg" alt="Artist Picture"/>
+        <img class="h-full w-16 rounded-l object-cover" :src="release.releasePicture" alt="Artist Picture"/>
     </div>
-    <div class="px-5 col-start-2 col-end-4">
-        <div class="flex py-1.5">
-            <span class="font-semibold">Yellow</span>
-            <span class="text-center font-semibold text-sm absolute right-0 top-0 text-white py-1 px-2 rounded-bl rounded-tr shadow-2xl">6PM (KST)</span>
+    <div class="col-start-2 col-end-4 w-full pl-2 py-2">
+        <div class="flex justify-between w-full">
+            <span class="font-semibold">{{release.releaseName}}</span>
+            <span class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{release.releaseDate.toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}}</span>
         </div>
         <div class="flex text-sm">
-            <span>Album</span><div class="bg-white mt-2 mx-2 h-1 w-1 rounded-full"></div><span>Kang Daniel</span>
+            <span>{{release.releaseType}} • {{release.releaseArtist}}</span>
         </div>
     </div>
   </div>
@@ -17,6 +17,8 @@
 
 <script>
     export default {
+
+        props: ['release'],
 
         data(){
             return {

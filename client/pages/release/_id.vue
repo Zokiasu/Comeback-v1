@@ -11,7 +11,7 @@
         <div class="relative px-5 py-5">
             <div id="button" class="my-5 md:my-0 md:absolute right-5 top-5">
                 <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
-                <button class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</button>
+                <NuxtLink :to="`/edit/release/${this.$route.params.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
             </div>
             <div id="tilte-artist" class="mb-10">
                 <h1 class="text-white text-xl">Streaming Platforms</h1>

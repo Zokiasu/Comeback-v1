@@ -25,6 +25,7 @@ module.exports = {
      'second-gray': '#E1E1E1',
      'leftbar': '#3B3B3B',
      'mainbg': '#1F1D1D',
+     'gray-310': '#E0E0E0',
     }),
   },
   variants: {

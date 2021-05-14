@@ -1,8 +1,8 @@
 <template>
   <div>
-    <button class="fixed top-5 right-5 z-10 bg-gray-500 px-5 py-2 text-white flex space-x-5"><span>My Releases</span><img class="w-4 h-4 mt-1" src="../assets/image/arrow-down.png"/></button>
+    <button id="calendar-option" class="fixed top-5 right-5 z-10 bg-gray-500 px-5 py-2 text-white flex space-x-5"><span class="text-xs md:text-base">My Releases</span><img class="w-2 md:w-4 h-2 md:h-4 mt-1" src="../assets/image/arrow-down.png"/></button>
     <CalendarDay
-      v-for="(date, index) in this.releaseDateList"
+      v-for="(date, index) in this.releaseDateList.slice(0, maxDisplay)"
       :key="index"
       :date="date"
       :width="width"/>
@@ -10,17 +10,14 @@
 </template>
 
 <script>
-  import CalendarDay from '../components/CalendarDay.vue';
 
   export default {
-    components: { 
-      CalendarDay,
-    },
 
     data(){
         return {
-            width: true,
-            releaseDateList:['May 8, 12:30:00 GMT+07:00', 'May 18, 12:30:00 GMT+07:00', 'May 28, 12:30:00 GMT+07:00', 'June 8, 12:30:00 GMT+07:00', 'June 12, 12:30:00 GMT+07:00', 'June 30, 12:30:00 GMT+07:00', 'July 8, 12:30:00 GMT+07:00'],
+          maxDisplay:3,
+          width:false,
+          releaseDateList:['May 8, 12:30:00 GMT+07:00', 'May 18, 12:30:00 GMT+07:00', 'May 28, 12:30:00 GMT+07:00', 'June 8, 12:30:00 GMT+07:00', 'June 12, 12:30:00 GMT+07:00', 'June 30, 12:30:00 GMT+07:00', 'July 8, 12:30:00 GMT+07:00'],
         }
     },
 
@@ -30,11 +27,14 @@
     },
 
     methods: {
+
       handleResize() {
         if(window.innerWidth > 768) {
           this.width = true
+          this.test = true
         } else {
           this.width = false
+          this.test = false
         }
       },
     }

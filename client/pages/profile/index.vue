@@ -1,11 +1,13 @@
 <template>
-  <div class="p-6">
-      <div id="top" class="flex text-white mb-6" >
-        <div id="profile-picture">
-            <img class="h-48 w-48 object-cover" :src="img" alt="Artist Picture"/>
+  <div>
+      <div id="top" class="flex mb-10 relative text-white" >
+        <img class="h-80 w-full object-cover absolute border-b border-gray-500" :src="img" alt="Artist Picture"/>
+
+        <div id="profile-picture" class="z-10 flex flex-col justify-center mt-44 ml-5">
+            <img class="h-48 w-48 rounded-full object-cover border border-gray-500" :src="img" alt="Artist Picture"/>
+            <span class="font-semibold text-2xl text-center">Zokiasu</span>
         </div>
-        <div id="general" class="flex flex-col px-3 justify-between">
-            <span class="text-6xl">Profile Name</span>
+        <div id="general" class="z-10 flex flex-col px-3 justify-end mt-44 pb-10">
             <nav>
                 <ul class="flex space-x-5 list-none text-2xl">
                     <li>
@@ -27,7 +29,7 @@
             </nav>
         </div>
       </div>
-      <div id="middle">
+      <div id="middle" class="mx-5 xl:mx-20">
         <div id="artist-following" v-if="actualtab == 'artist'">
             <h1 class="text-white text-xl">Artist Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -42,10 +44,10 @@
         <div id="music-following" v-if="actualtab == 'music'">
             <h1 class="text-white text-xl">Releases Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <div class="grid grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
                 <ReleaseCard
-                    class="w-40"
                     v-for="(release, index) in this.releaseList"
+                    :width="true"
                     :release="release"
                     :key="index"/>
             </div>
@@ -62,6 +64,7 @@
             img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
             actualtab:'artist',
             artists: [],
+            width:false,
             releaseList: [
                 {
                     releaseID:2,
@@ -279,9 +282,24 @@
       this.artists = JSON.parse(JSON.stringify(this.$store.state.artistList))
     },
 
+    mounted() {
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize();
+    },
+
     methods:{
         changetab(newtab){
             this.actualtab = newtab
+        },
+        
+        handleResize() {
+            if(window.innerWidth > 768) {
+            this.width = true
+            this.test = true
+            } else {
+            this.width = false
+            this.test = false
+            }
         },
     },
 

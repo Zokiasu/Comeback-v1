@@ -6,7 +6,7 @@
         <div id="divider" class="border-b border-gray-500 mr-40"></div>
         <div id="button" class="my-5 md:my-0 md:absolute right-5 top-2">
             <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
-            <button class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</button>
+            <NuxtLink :to="`/edit/artist/${this.$route.params.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
         </div>
       </div>
       <div id="artist-info" class="xl:grid xl:grid-cols-6 xl:gap-5">
