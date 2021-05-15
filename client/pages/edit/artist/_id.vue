@@ -11,7 +11,7 @@
         <div id="image-area" class="relative">
             <img class="w-80" :src="this.$store.state.artistList[this.$route.params.id].picture" alt="">
             <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
-                <button class="px-5 py-1 bg-red-700 text-white rounded-xl">Upload</button>
+                <button class="px-5 py-1 bg-red-700 text-white">Upload</button>
             </div>
         </div>
         <div class="space-y-10 w-full">
