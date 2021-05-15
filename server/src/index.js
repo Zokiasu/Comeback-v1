@@ -41,8 +41,10 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
     createSeeds();
   }
 
-  app.listen(process.env.PORT, () =>
-    console.log(`Example app listening on port ${process.env.PORT}!`),
+  app.listen(process.env.PORT || 3002, () =>
+    console.log(
+      `Example app listening on port ${process.env.PORT || 3002}!`,
+    ),
   );
 });
 
