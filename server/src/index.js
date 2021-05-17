@@ -91,7 +91,7 @@ const createSeeds = async () => {
       description:
         'Rihanna est la plus grande artiste de sa génération voire de la génération humaine',
       socials: ['facebooklol'],
-      platforms: ['spotift.com'],
+      platforms: ['sotift.com'],
       followers: [
         { id: '3', username: 'nom', email: 'email@test.fr' },
       ],
