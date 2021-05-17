@@ -10,26 +10,30 @@
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 px-10 gap-y-10 w-full justify-center">
       <ArtistCard 
-      v-for="(artist, index) in this.artists"
-      :key="index"
-      :artist="artist"
-      :index="index"/>
+        v-for="(artist, index) in this.artists"
+        :key="index"
+        :id="artist.id"
+        :name="artist.name"
+        :image="artist.image"/>
     </div>
   </div>
 </template>
 
 <script>
   export default {
+    name:"ArtistList",
+
     data(){
         return {
             width: true,
             search: '',
-            artists: [],
+            artists: null,
         }
-    }, 
+    },
 
-    created(){
-      this.artists = JSON.parse(JSON.stringify(this.$store.state.artistList))
+    async asyncData({ $axios }){
+      const artists = await $axios.$get('https://comeback-api.herokuapp.com/artists')
+      return {artists}
     },
   }
 </script>

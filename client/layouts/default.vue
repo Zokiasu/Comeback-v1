@@ -1,8 +1,8 @@
 <template>
-  <div class="grid grid-cols-7">
+  <div id="bod" class="grid grid-cols-7">
     <SideBar v-if="width" class="leftbar col-start-1 col-end-3 xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
-    <div class="leftbar xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen"  :class="width == true ? 'col-start-3' : 'col-start-1'">
-      <Nuxt :width="width"/>
+    <div id="test2" class="leftbar xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen"  :class="width == true ? 'col-start-3' : 'col-start-1'">
+      <Nuxt id="exist" :width="width"/>
     </div>
   </div>
 </template>
@@ -12,15 +12,26 @@
       data(){
         return {
           width:false,
+          actualHeight:0,
         }
       },
 
       mounted() {
-          window.addEventListener('resize', this.handleResize);
-          this.handleResize();
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize();
+        document.getElementById("test2").addEventListener('scroll', this.scroll, {passive: true});
+        this.scroll();
+        this.actualHeight = window.innerHeight
       },
 
-      methods: {
+      methods: {      
+        scroll(){
+          var b = document.getElementById("test2").scrollTop
+          if((b === this.actualHeight || b > this.actualHeight) && this.actualHeight != 0) {
+            this.actualHeight = this.actualHeight + window.innerHeight/**Math.round(document.getElementById("test2").scrollTop/window.innerHeight)*/
+          }
+
+        },
         handleResize() {
           if(window.innerWidth > 768) {
             this.width = true

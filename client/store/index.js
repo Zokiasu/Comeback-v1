@@ -1,8 +1,8 @@
 // your-project/store/index.js
 
 export const state = () => ({
-    var1: null,
-    var2: null,
+    imageReleaseDefault: 'https://i.pinimg.com/736x/77/f3/cb/77f3cb81ede5dcedcfb125af845d2ae5.jpg',
+    imageArtistDefault: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
     loremipsum: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac lectus urna. Aliquam lobortis vulputate risus, quis tempor arcu pharetra vel. Sed semper vel magna vel pulvinar. Duis et lacus augue. Duis eget diam urna. Pellentesque convallis nisl vel justo auctor commodo. Maecenas id luctus ante, et aliquam mauris. Donec auctor turpis sed odio facilisis sollicitudin. Morbi cursus mattis lorem quis dapibus. Proin tellus orci, pretium a lorem at, porta porta neque. Donec mi justo, scelerisque eget semper quis, aliquam id neque. Phasellus imperdiet id felis in volutpat.",
     artistList:[
       {

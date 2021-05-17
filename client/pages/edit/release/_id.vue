@@ -108,11 +108,9 @@
 
       newObjectToApi(key, value){
         this.sendToApi[key] = value
-        console.log(this.sendToApi)
       },
 
       sendToApiS(){
-        console.log(this.sendToApi)
       }
     },
   }

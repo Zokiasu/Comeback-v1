@@ -1,10 +1,7 @@
-const test = {
-    name: 'Test',
-    ping() {
-        console.log('Ping')
-    }
-}
+/*import Vue from 'vue';
+import VCalendar from 'v-calendar';
 
-export default ({ app }, inject) => {
-    inject('test', test)
-}
+// Use v-calendar & v-date-picker components
+Vue.use(VCalendar, {
+    componentPrefix: 'vc',  // Use <vc-calendar /> instead of <v-calendar />
+});*/

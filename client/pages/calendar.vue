@@ -5,7 +5,7 @@
       <option class="bg-gray-500 px-5 py-2 text-white text-xs md:text-base flex space-x-5">All Comebacks</option>
     </select>
     <CalendarDay
-      v-for="(date, index) in this.releaseDateList.slice(0, maxDisplay)"
+      v-for="(date, index) in this.releaseDateList"
       :key="index"
       :date="date"
       :width="width"/>
@@ -15,6 +15,8 @@
 <script>
 
   export default {
+
+    scrollToTop: true,
 
     data(){
         return {
@@ -26,12 +28,11 @@
     },
 
     mounted() {
-        window.addEventListener('resize', this.handleResize);
-        this.handleResize();
+      window.addEventListener('resize', this.handleResize);
+      this.handleResize();
     },
 
     methods: {
-
       handleResize() {
         if(window.innerWidth > 768) {
           this.width = true
