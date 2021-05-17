@@ -17,7 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(async (req, res, next) => {
   req.context = {
     models,
-    me: await models.User.findByLogin('rwieruch'),
   };
   next();
 });
@@ -90,8 +89,12 @@ const createSeeds = async () => {
         'https://cdn.radiofrance.fr/s3/cruiser-production/2021/01/9046b609-68b8-494a-9dfd-53ca91a599a4/1200x680_rihanna.jpg',
       description:
         'Rihanna est la plus grande artiste de sa génération voire de la génération humaine',
-      socials: ['facebooklol'],
-      platforms: ['sotift.com'],
+      socials: ['https://www.facebook.com/Pnlmusic/'],
+      platforms: [
+        'https://music.youtube.com/channel/UCfl6U7tDZNDYF3KwSrnTgpw',
+        'https://open.spotify.com/artist/3NH8t45zOTqzlZgBvZRjvB',
+        'https://www.deezer.com/en/artist/1519461',
+      ],
       followers: [
         { id: '3', username: 'nom', email: 'email@test.fr' },
       ],
