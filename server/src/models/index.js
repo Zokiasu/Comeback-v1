@@ -3,10 +3,12 @@ import Sequelize from 'sequelize';
 let sequelize;
 
 if (process.env.DATABASE_URL) {
+  console.log('ici ?');
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
   });
 } else {
+  console.log('la ?');
   sequelize = new Sequelize(
     process.env.DATABASE,
     process.env.DATABASE_USER,
