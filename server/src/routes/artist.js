@@ -7,8 +7,14 @@ router.get('/', async (req, res) => {
     'createdAt',
     'DESC',
   ];
+  const limit = req.query.limit;
+  const offset = req.query.offset;
   delete req.query['sortby'];
+  delete req.query['limit'];
+  delete req.query['offset'];
   const artists = await req.context.models.Artist.findAll({
+    limit,
+    offset,
     where: req.query,
     order: [sortby],
   });
