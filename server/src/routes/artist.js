@@ -1,23 +1,12 @@
 import { Router } from 'express';
+import { queriesToDict } from '../helpers/routes';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const sortby = req.query.sortby?.split(':') || [
-    'createdAt',
-    'DESC',
-  ];
-  const limit = req.query.limit;
-  const offset = req.query.offset;
-  delete req.query['sortby'];
-  delete req.query['limit'];
-  delete req.query['offset'];
-  const artists = await req.context.models.Artist.findAll({
-    limit,
-    offset,
-    where: req.query,
-    order: [sortby],
-  });
+  const artists = await req.context.models.Artist.findAll(
+    queriesToDict(req.query),
+  );
   return res.send(artists);
 });
 

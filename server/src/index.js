@@ -95,6 +95,9 @@ const createSeeds = async () => {
         'https://open.spotify.com/artist/3NH8t45zOTqzlZgBvZRjvB',
         'https://www.deezer.com/en/artist/1519461',
       ],
+      type: 'GROUP',
+      styles: ['pop', 'rock', 'KPOP'],
+
       followers: [
         { id: '3', username: 'nom', email: 'email@test.fr' },
       ],
@@ -120,6 +123,7 @@ const createSeeds = async () => {
       socials: ['facebooklol'],
       platforms: ['spotift.com'],
       events: [{ name: 'Concert incroyable' }],
+      type: 'SOLO',
     },
     { include: [{ model: models.Happening, as: 'events' }] },
   );

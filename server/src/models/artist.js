@@ -1,3 +1,5 @@
+import { ARTIST_TYPE } from '../constants';
+
 const artist = (sequelize, DataTypes) => {
   const Artist = sequelize.define('artist', {
     name: {
@@ -7,6 +9,11 @@ const artist = (sequelize, DataTypes) => {
     },
     image: {
       type: DataTypes.STRING,
+      unique: false,
+      allowNull: true,
+    },
+    type: {
+      type: DataTypes.ENUM(ARTIST_TYPE.GROUP, ARTIST_TYPE.SOLO),
       unique: false,
       allowNull: true,
     },
@@ -25,6 +32,10 @@ const artist = (sequelize, DataTypes) => {
       allowNull: true,
     },
     platforms: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+    styles: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },

@@ -16,4 +16,9 @@ const METHODS = {
   DELETE: 'DELETE',
 };
 
-export { ROLES, REQUESTS, METHODS };
+const ARTIST_TYPE = {
+  GROUP: 'GROUP',
+  SOLO: 'SOLO',
+};
+
+export { ROLES, REQUESTS, METHODS, ARTIST_TYPE };
