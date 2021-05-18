@@ -35,9 +35,13 @@ router.post('/', async (req, res) => {
 
   // adding artist at creation
   if (req.body.artists) {
+    const artistIds = [];
+    for (const tmpArtist of req.body.artists) {
+      artistIds.push(tmpArtist['id']);
+    }
     // must receive array of ids
     const artists = await req.context.models.Artist.findAll({
-      where: { id: req.body.artists },
+      where: { id: artistIds },
     });
     release.setArtists(artists);
   }
@@ -61,8 +65,12 @@ router.put('/:releaseId', async (req, res) => {
   // adding artist at update
   if (req.body.artists) {
     // must receive array of ids
+    const artistIds = [];
+    for (const tmpArtist of req.body.artists) {
+      artistIds.push(tmpArtist['id']);
+    }
     const artists = await req.context.models.Artist.findAll({
-      where: { id: req.body.artists },
+      where: { id: artistIds },
     });
     release.addArtists(artists);
   }
