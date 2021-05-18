@@ -34,13 +34,19 @@ router.post('/', async (req, res) => {
   );
 
   // adding artist at creation
-  if (req.body.artistId) {
-    const artist = await req.context.models.Artist.findByPk(
-      req.body.artistId,
-    );
-    release.addArtist(artist);
-  } else if (req.body.artistName) {
-    release.createArtist({ name: req.body.artistName });
+  if (req.body.artists) {
+    // must receive array of ids
+    const artists = await req.context.models.Artist.findAll({
+      where: { id: req.body.artists },
+    });
+    release.setArtists(artists);
+  }
+
+  if (req.body.newArtists) {
+    // must receive array as [{name: "nom"}, {name: "nom2"}]
+    for (const newArtist of req.body.newArtists) {
+      release.createArtist(newArtist);
+    }
   }
 
   return res.send(release);
@@ -51,6 +57,23 @@ router.put('/:releaseId', async (req, res) => {
     req.params.releaseId,
   );
   release.update(req.body);
+
+  // adding artist at update
+  if (req.body.artists) {
+    // must receive array of ids
+    const artists = await req.context.models.Artist.findAll({
+      where: { id: req.body.artists },
+    });
+    release.addArtists(artists);
+  }
+
+  if (req.body.newArtists) {
+    // must receive array as [{name: "nom"}, {name: "nom2"}]
+    for (const newArtist of req.body.newArtists) {
+      release.createArtist(newArtist);
+    }
+  }
+
   return res.send(release);
 });
 
@@ -63,22 +86,6 @@ router.delete('/:releaseId', async (req, res) => {
 });
 
 // handling artists
-
-router.put('/:releaseId/artists', async (req, res) => {
-  const release = await req.context.models.Release.findByPk(
-    req.params.releaseId,
-  );
-  if (req.body.artistId) {
-    const artist = await req.context.models.Artist.findByPk(
-      req.body.artistId,
-    );
-    release.addArtist(artist);
-  } else if (req.body.artistName) {
-    release.createArtist({ name: req.body.artistName });
-  }
-
-  return res.send(release);
-});
 
 router.delete('/:releaseId/artists/:artistId', async (req, res) => {
   const release = await req.context.models.Release.findByPk(
