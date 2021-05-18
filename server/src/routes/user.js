@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import { queriesToDict } from '../helpers/routes';
 import { createUser } from '../firebase/user';
+import { checkIfAdmin } from '../firebase/authorization';
 
 const router = Router();
 
 router.post('/auth/signup', createUser);
 
-router.get('/', async (req, res) => {
+router.get('/', checkIfAdmin, async (req, res) => {
   const users = await req.context.models.User.findAll({
     ...queriesToDict(req.query),
     include: [

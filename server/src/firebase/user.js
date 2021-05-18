@@ -12,5 +12,9 @@ export const createUser = async (req, res) => {
 
   const user_data = await req.context.models.User.create(data);
 
+  req.context = {
+    me: user_data,
+  };
+
   return res.send(user_data);
 };
