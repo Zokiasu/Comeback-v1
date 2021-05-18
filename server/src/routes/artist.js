@@ -7,8 +7,9 @@ router.get('/', async (req, res) => {
     'createdAt',
     'DESC',
   ];
-  console.log('sortbey', sortby);
+  delete req.query['sortby'];
   const artists = await req.context.models.Artist.findAll({
+    where: req.query,
     order: [sortby],
   });
   return res.send(artists);
