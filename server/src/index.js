@@ -47,6 +47,16 @@ sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   );
 });
 
+const today = new Date();
+const tomorrow = new Date();
+const nextMonth = new Date(
+  today.getFullYear(),
+  today.getMonth() + 1,
+  1,
+);
+
+tomorrow.setDate(today.getDate() + 1);
+
 const createSeeds = async () => {
   await models.User.create(
     {
@@ -102,7 +112,10 @@ const createSeeds = async () => {
         { id: '3', username: 'nom', email: 'email@test.fr' },
       ],
       groups: [{ name: 'group1' }],
-      releases: [{ name: 'nomalbum', type: 'SINGLE' }],
+      releases: [
+        { name: 'nomalbum', type: 'SINGLE', date: today },
+        { name: 'nomalm', type: 'SINGLE', date: nextMonth },
+      ],
     },
     {
       include: [
@@ -132,6 +145,7 @@ const createSeeds = async () => {
     {
       name: 'Release1',
       type: 'SINGLE',
+      date: tomorrow,
       musics: [{ name: 'titre music' }],
     },
     {
