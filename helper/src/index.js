@@ -19,8 +19,8 @@ export const loginUser = (email, password) => {
 };
 
 const CheckAuthentication = async () => {
-  const username = 'imji';
-  const email = 'zjimmm@makus.com';
+  const username = 'izeekjzlji';
+  const email = 'zazj@azzekus.com';
   const password = 'password';
   await createUserAccount({
     username,
@@ -30,6 +30,7 @@ const CheckAuthentication = async () => {
 
   await loginUser(email, password);
   const token = await firebase.auth().currentUser.getIdToken();
+  console.log('token', token);
 
   axios
     .get('http://localhost:3000/users', {
