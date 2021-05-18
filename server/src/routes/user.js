@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { queriesToDict } from '../helpers/routes';
 import { createUser } from '../firebase/user';
 
 const router = Router();
@@ -7,6 +8,7 @@ router.post('/auth/signup', createUser);
 
 router.get('/', async (req, res) => {
   const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
     include: [
       { model: req.context.models.Artist, as: 'artists' },
       req.context.models.Request,

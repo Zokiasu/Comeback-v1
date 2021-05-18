@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import { queriesToDict } from '../helpers/routes';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
   const requets = await req.context.models.Request.findAll({
+    ...queriesToDict(req.query),
     include: [req.context.models.User],
   });
   return res.send(requets);

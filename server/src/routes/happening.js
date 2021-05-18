@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import { queriesToDict } from '../helpers/routes';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
   const happenings = await req.context.models.Happening.findAll({
+    ...queriesToDict(req.query),
     include: [req.context.models.Artist],
   });
   return res.send(happenings);

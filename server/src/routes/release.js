@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import { queriesToDict } from '../helpers/routes';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
   const releases = await req.context.models.Release.findAll({
+    ...queriesToDict(req.query),
     include: [
       req.context.models.Artist,
       { model: req.context.models.Music, as: 'musics' },
