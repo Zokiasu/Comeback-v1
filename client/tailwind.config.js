@@ -6,7 +6,9 @@ module.exports = {
     './plugins/**/*.{js,ts}',
     './nuxt.config.{js,ts}',
   ],
+
   darkMode: false, // or 'media' or 'class'
+
   theme: {
     extend: {
     },
@@ -28,13 +30,10 @@ module.exports = {
      'gray-310': '#E0E0E0',
     }),
   },
+
   variants: {
     extend: {
       backgroundColor: ['active'],
-      opacity: ['disabled'],
-      cursor: ['disabled'],
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),],
 }

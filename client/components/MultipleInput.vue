@@ -1,5 +1,7 @@
 <template>
-    <input @change="updateInput" v-model="input" :placeholder="elem" class="w-full xl:w-96 focus:outline-none p-2 text-black focus:text-white bg-gray-100 border focus:bg-gray-400 focus:border-white transition-colors duration-500" type="text">
+    <div>
+        <t-input type="text" @change="updateInput" v-model="input" :placeholder="placehol"/>
+    </div>
 </template>
 
 <script>
@@ -7,12 +9,17 @@
 
         props:{
             elem: String,
+            placehol: String,
         },
 
         data(){
             return{
                 input:'',
             }
+        },
+
+        created(){
+            this.input = JSON.parse(JSON.stringify(this.elem))
         },
 
         methods:{

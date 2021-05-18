@@ -38,8 +38,6 @@
             if(this.release.date) this.date = new Date(this.release.date).toLocaleDateString()
             if(this.release.image) {this.image = this.release.image} else {this.image = this.imageDefault}
             if(this.release.platforms) this.link = this.release.platforms
-            console.log(this.release.createdAt)
-            console.log(new Date(this.release.createdAt).toLocaleDateString())
         },
     }
 </script>

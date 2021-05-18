@@ -5,3 +5,7 @@ import VCalendar from 'v-calendar';
 Vue.use(VCalendar, {
     componentPrefix: 'vc',  // Use <vc-calendar /> instead of <v-calendar />
 });*/
+import Vue from 'vue';
+import Multiselect from 'vue-multiselect'
+
+Vue.component('multiselect', Multiselect)

@@ -8,42 +8,53 @@
       </div>
     </div>
 
-    <div id="body-area" class="xl:space-y-24">
-      <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-10 my-5">
+    <div id="body-area" class="xl:space-y-24 rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
+      <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 my-5 justify-between">
+        
         <div id="image-area" class="relative">
             <img class="w-80" :src="release.image" alt="">
             <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                 <button class="px-5 py-1 bg-red-700 text-white rounded">Upload</button>
             </div>
         </div>
-        <div class="flex flex-col justify-between space-y-5">
+
+        <div class="flex flex-col space-y-5">
           <div id="artist-name">
               <h1 class="text-white text-xl">Release Type*</h1>
               <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-              <select v-model="release.type" id="artist-type-selector" class="w-full xl:w-96 focus:outline-none p-2 bg-gray-100 border focus:border-white transition-colors duration-500">
-                  <option value="SINGLE">Single</option>
-                  <option value="ALBUM">Album</option>
-                  <option value="EP">EP</option>
-              </select>
+              <t-select v-model="release.type" id="artist-type-selector" :options="[
+                { value: 'SINGLE', text: 'Single' },
+                { value: 'ALBUM', text: 'Album' },
+                { value: 'EP', text: 'EP'}
+              ]" ></t-select>
           </div>
-          <div id="artist-name">
+
+          <div id="release-name">
               <h1 class="text-white text-xl">Release Name*</h1>
               <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-              <input v-model="release.name" placeholder="Release Name" class="w-full xl:w-96 focus:outline-none p-2 focus:text-white bg-gray-100 border focus:bg-gray-400 focus:border-white transition-colors duration-500" type="text">
-          </div>
-          <div id="artist-name">
-              <h1 class="text-white text-xl">Release Date*</h1>
-              <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-              <input type="date" v-model="release.date" placeholder="Release Date" class="w-full xl:w-96 focus:outline-none p-2 focus:text-white bg-gray-100 border focus:bg-gray-400 focus:border-white transition-colors duration-500">
+              <t-input autocomplete="false" type="text" v-model="release.name" placeholder="Release Name" name="release-name" />
           </div>
         </div>
+
+        <div id="release-date">
+            <h1 class="text-white text-xl">Release Date*</h1>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+            <t-datepicker
+              v-model="release.date"
+              placeholder="Release Date"
+              initial-view="month"
+              inline>
+            </t-datepicker>
+        </div>
       </div>
-      <div id="middle" class="flex flex-col xl:flex-row">
+
+      <div id="middle" class="flex flex-col xl:flex-row justify-between">
         <div id="social-media" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Artists*</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.release.artists" :key="index" :elem="elem" @updateinput="updateList(release.artists, $event, index)"/>
-            <button @click="newInput(release.artists)" class="text-left focus:outline-none">Add more</button>
+            <multiselect v-model="release.artists" tag-placeholder="Add this as new artist" placeholder="Search or add a artist" label="name" track-by="id" 
+                        :options="artistList" :multiple="true" :taggable="true" @tag="addArtist"></multiselect>
+
         </div>
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Tracklist*</h1>
@@ -51,7 +62,7 @@
             <MultipleInput class="mb-1" v-for="(elem, index) in this.release.musics" :key="index" :elem="elem" @updateinput="updateList(release.musics, $event, index)"/>
             <button @click="newInput(release.musics)" class="text-left focus:outline-none">Add more</button>
         </div>
-        <div id="streaming-platform" class="flex flex-col text-white">
+        <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Streaming Platforms Link</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" @updateinput="updateList(release.platforms, $event, index)"/>
@@ -66,21 +77,45 @@
   export default {
     
     data() {
-        return {
-            release:{
-              name: '',
-              type:'SINGLE',
-              image:'https://cdn.icon-icons.com/icons2/390/PNG/512/compact-disc_38539.png',
-              date: Date,
-              platforms: ['New'],
-              artists:['New'],
-              musics:['New'],
-            }
+      return {
+        artistList:[],
+        release:{
+          name: '',
+          type:'SINGLE',
+          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwiCr-h4VvKmCUqzPpcau559rrw0XdEhl9qyLs15JTdqkMe8vbmU08mKTV2j2D-mBbUbI&usqp=CAU',
+          date: '',
+          platforms: ['New'],
+          artists:[],
+          newArtists:[],
+          musics:['New'],
         }
+      }
+    },
+
+    async asyncData({ $axios }){
+      const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
+      return {artistList}
     },
 
     methods:{
+      addArtist (newTag) {
+        const tag = {
+          name: newTag,
+          image: null,
+          website: null,
+          description: null,
+          socials: null,
+          platforms: null,
+        }
+        this.artistList.push(tag)
+        this.release.artists.push(tag)
+        this.release.newArtists.push(tag)
+
+        console.log(this.release.artists)
+      },
+
       updateList(list, newElem, index){
+
         list[index] = newElem
       },
 
@@ -89,16 +124,19 @@
       },
 
       async creates() {
-          if (this.release.name === '' || this.release.date === '' || (this.release.artists.length === 1 && this.release.artists[0] === 'New') || (this.release.musics.length === 1 && this.release.musics[0] === 'New')) {
+          if (this.release.name === '' || this.release.date === '' || (this.release.artists?.length === 1 && this.release.artists[0] === 'New') || (this.release.musics?.length === 1 && this.release.musics[0] === 'New')) {
               console.log("Failed")
               return
           }
 
-          if(this.release.platforms.length === 1) {
+          if(this.release.platforms?.length === 1) {
             if (this.release.platforms[0] === 'New') {
               this.release.platforms = null
             }
           }
+
+          /*console.log(this.release.artists)*/
+          console.log(this.release.newArtists)
 
           const {data: response} = await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
             "name": this.release.name,
@@ -106,7 +144,8 @@
             "image": this.release.image,
             "date": this.release.date,
             "platforms": this.release.platforms,
-            "artists": this.release.artists,
+            /*"artists": this.release.artists,*/
+            "newArtists": this.release.newArtists,
             "musics": this.release.musics,
           })
 
@@ -117,5 +156,402 @@
 </script>
 
 <style>
-
+fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+.multiselect__spinner {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 48px;
+  height: 35px;
+  background: #fff;
+  display: block;
+}
+.multiselect__spinner:before,
+.multiselect__spinner:after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-color: #b91c1c transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0 0 1px transparent;
+}
+.multiselect__spinner:before {
+  animation: spinning 2.4s cubic-bezier(0.41, 0.26, 0.2, 0.62);
+  animation-iteration-count: infinite;
+}
+.multiselect__spinner:after {
+  animation: spinning 2.4s cubic-bezier(0.51, 0.09, 0.21, 0.8);
+  animation-iteration-count: infinite;
+}
+.multiselect__loading-enter-active,
+.multiselect__loading-leave-active {
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1;
+}
+.multiselect__loading-enter,
+.multiselect__loading-leave-active {
+  opacity: 0;
+}
+.multiselect,
+.multiselect__input,
+.multiselect__single {
+  font-family: inherit;
+  font-size: 16px;
+  touch-action: manipulation;
+}
+.multiselect {
+  box-sizing: content-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  text-align: left;
+  color: #35495e;
+}
+.multiselect * {
+  box-sizing: border-box;
+}
+.multiselect:focus {
+  outline: none;
+}
+.multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.multiselect--active {
+  z-index: 50;
+}
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.multiselect--active .multiselect__select {
+  transform: rotateZ(180deg);
+}
+.multiselect--above.multiselect--active .multiselect__current,
+.multiselect--above.multiselect--active .multiselect__input,
+.multiselect--above.multiselect--active .multiselect__tags {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.multiselect__input,
+.multiselect__single {
+  position: relative;
+  display: inline-block;
+  min-height: 20px;
+  line-height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0 0 0 5px;
+  width: calc(100%);
+  transition: border 0.1s ease;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  vertical-align: top;
+}
+.multiselect__input::placeholder {
+  color: #35495e;
+}
+.multiselect__tag ~ .multiselect__input,
+.multiselect__tag ~ .multiselect__single {
+  width: auto;
+}
+.multiselect__input:hover,
+.multiselect__single:hover {
+  border-color: #cfcfcf;
+}
+.multiselect__input:focus,
+.multiselect__single:focus {
+  border-color: #a8a8a8;
+  outline: none;
+}
+.multiselect__single {
+  padding-left: 5px;
+  margin-bottom: 8px;
+}
+.multiselect__tags-wrap {
+  display: inline;
+}
+.multiselect__tags {
+  min-height: 40px;
+  display: block;
+  padding: 8px 40px 0 8px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+  font-size: 14px;
+}
+.multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 26px 4px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1;
+  background: #b91c1c;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+.multiselect__tag-icon {
+  cursor: pointer;
+  margin-left: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: 700;
+  font-style: initial;
+  width: 22px;
+  text-align: center;
+  line-height: 22px;
+  transition: all 0.2s ease;
+  border-radius: 5px;
+}
+.multiselect__tag-icon:after {
+  content: "×";
+  color: #ffffff;
+  font-size: 14px;
+}
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #b91c1c;
+}
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: white;
+}
+.multiselect__current {
+  line-height: 16px;
+  min-height: 40px;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  padding: 8px 12px 0;
+  padding-right: 30px;
+  white-space: nowrap;
+  margin: 0;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  cursor: pointer;
+}
+.multiselect__select {
+  line-height: 16px;
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  width: 40px;
+  height: 38px;
+  right: 1px;
+  top: 1px;
+  padding: 4px 8px;
+  margin: 0;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.multiselect__select:before {
+  position: relative;
+  right: 0;
+  top: 65%;
+  color: #999;
+  margin-top: 4px;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #999999 transparent transparent transparent;
+  content: "";
+}
+.multiselect__placeholder {
+  color: #adadad;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-top: 2px;
+}
+.multiselect--active .multiselect__placeholder {
+  display: none;
+}
+.multiselect__content-wrapper {
+  position: absolute;
+  display: block;
+  background: #fff;
+  width: 100%;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid #e8e8e8;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 50;
+  -webkit-overflow-scrolling: touch;
+}
+.multiselect__content {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  vertical-align: top;
+}
+.multiselect--above .multiselect__content-wrapper {
+  bottom: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-top: 1px solid #e8e8e8;
+}
+.multiselect__content::webkit-scrollbar {
+  display: none;
+}
+.multiselect__element {
+  display: block;
+}
+.multiselect__option {
+  display: block;
+  padding: 12px;
+  min-height: 40px;
+  line-height: 16px;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.multiselect__option:after {
+  top: 0;
+  right: 0;
+  position: absolute;
+  line-height: 40px;
+  padding-right: 12px;
+  padding-left: 20px;
+  font-size: 13px;
+}
+.multiselect__option--highlight {
+  background: #b91c1c;
+  outline: none;
+  color: white;
+}
+.multiselect__option--highlight:after {
+  content: attr(data-select);
+  background: #b91c1c;
+  color: white;
+}
+.multiselect__option--selected {
+  background: #f3f3f3;
+  color: #35495e;
+  font-weight: bold;
+}
+.multiselect__option--selected:after {
+  content: attr(data-selected);
+  color: silver;
+}
+.multiselect__option--selected.multiselect__option--highlight {
+  background: #ff6a6a;
+  color: #fff;
+}
+.multiselect__option--selected.multiselect__option--highlight:after {
+  background: #ff6a6a;
+  content: attr(data-deselect);
+  color: #fff;
+}
+.multiselect--disabled .multiselect__current,
+.multiselect--disabled .multiselect__select {
+  background: #ededed;
+  color: #a6a6a6;
+}
+.multiselect__option--disabled {
+  background: #ededed !important;
+  color: #a6a6a6 !important;
+  cursor: text;
+  pointer-events: none;
+}
+.multiselect__option--group {
+  background: #ededed;
+  color: #35495e;
+}
+.multiselect__option--group.multiselect__option--highlight {
+  background: #35495e;
+  color: #fff;
+}
+.multiselect__option--group.multiselect__option--highlight:after {
+  background: #35495e;
+}
+.multiselect__option--disabled.multiselect__option--highlight {
+  background: #dedede;
+}
+.multiselect__option--group-selected.multiselect__option--highlight {
+  background: #ff6a6a;
+  color: #fff;
+}
+.multiselect__option--group-selected.multiselect__option--highlight:after {
+  background: #ff6a6a;
+  content: attr(data-deselect);
+  color: #fff;
+}
+.multiselect-enter-active,
+.multiselect-leave-active {
+  transition: all 0.15s ease;
+}
+.multiselect-enter,
+.multiselect-leave-active {
+  opacity: 0;
+}
+.multiselect__strong {
+  margin-bottom: 8px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+*[dir="rtl"] .multiselect {
+  text-align: right;
+}
+*[dir="rtl"] .multiselect__select {
+  right: auto;
+  left: 1px;
+}
+*[dir="rtl"] .multiselect__tags {
+  padding: 8px 8px 0px 40px;
+}
+*[dir="rtl"] .multiselect__content {
+  text-align: right;
+}
+*[dir="rtl"] .multiselect__option:after {
+  right: auto;
+  left: 0;
+}
+*[dir="rtl"] .multiselect__clear {
+  right: auto;
+  left: 12px;
+}
+*[dir="rtl"] .multiselect__spinner {
+  right: auto;
+  left: 1px;
+}
+@keyframes spinning {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(2turn);
+  }
+}
 </style>

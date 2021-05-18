@@ -1,7 +1,7 @@
 <template>
   <div class="p-10 justify-center texts text-white">
     <div class="col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
-        <h1 class="font-semibold text-4xl"> {{dates}} </h1>
+        <h1 class="font-semibold text-4xl"> {{date}} </h1>
     </div>
     <div class="grid gap-3 py-10 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
         <ReleaseCard
@@ -27,13 +27,13 @@
 
         mounted(){
             this.findDay(this.date)
-            this.dates = (new Date(this.date)).toLocaleDateString('en-US', { day:'numeric', month: 'long' })
         },
 
         methods: {
-            findDay(day){
-                var days = (new Date(day)).toLocaleDateString('en-US', { day:'numeric', month: 'long' })
-                switch(days){
+            async findDay(day){
+                const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?date=${day}*`)
+                console.log(response)
+                /*switch(days){
                     case 'May 8':
                         this.releaseList = [
                             {
@@ -627,7 +627,7 @@
                             },
                         ]
                         break;                                       
-                }
+                }*/
             },
         },
     }

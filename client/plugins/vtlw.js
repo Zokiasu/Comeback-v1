@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
+
 import {
   TInput,
   TTextarea,
@@ -25,8 +26,8 @@ const settings = {
   't-input': {
     component: TInput,
     props: {
-      fixedClasses: 'block w-full px-3 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: 'text-black placeholder-gray-400 bg-white border-gray-300 focus:border-blue-500 ',
+      fixedClasses: 'block w-full px-3 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:ring-1 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: 'text-black placeholder-gray-400 bg-gray-100 border-gray-300 focus:border-red-700',
       variants: {
         danger: 'border-red-300 bg-red-50 placeholder-red-200 text-red-900',
         success: 'border-green-300 bg-green-50 placeholder-gray-400 text-green-900'
@@ -36,8 +37,8 @@ const settings = {
   't-textarea': {
     component: TTextarea,
     props: {
-      fixedClasses: 'block w-full px-3 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: 'text-black placeholder-gray-400 bg-white border-gray-300 focus:border-blue-500 ',
+      fixedClasses: 'block w-full px-3 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: 'text-black placeholder-gray-400 bg-white border-gray-300 focus:border-red-500 ',
       variants: {
         danger: 'border-red-300 bg-red-50 placeholder-red-200 text-red-900',
         success: 'border-green-300 bg-green-50 placeholder-gray-400 text-green-900'
@@ -47,8 +48,8 @@ const settings = {
   't-select': {
     component: TSelect,
     props: {
-      fixedClasses: 'block w-full pl-3 pr-10 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: 'text-black placeholder-gray-400 bg-white border-gray-300 focus:border-blue-500 ',
+      fixedClasses: 'block w-full pl-3 pr-10 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: 'text-black placeholder-gray-400 bg-white border-gray-300 focus:border-red-500 ',
       variants: {
         danger: 'border-red-300 bg-red-50 placeholder-red-200 text-red-900',
         success: 'border-green-300 bg-green-50 placeholder-gray-400 text-green-900'
@@ -58,8 +59,8 @@ const settings = {
   't-radio': {
     component: TRadio,
     props: {
-      fixedClasses: 'transition duration-100 ease-in-out shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: 'text-blue-500 border-gray-300',
+      fixedClasses: 'transition duration-100 ease-in-out shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: 'text-red-500 border-gray-300',
       variants: {
         error: 'text-red-500 border-red-300',
         success: 'text-green-500 border-green-300'
@@ -69,8 +70,8 @@ const settings = {
   't-checkbox': {
     component: TCheckbox,
     props: {
-      fixedClasses: 'transition duration-100 ease-in-out rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: 'text-blue-500 border-gray-300 ',
+      fixedClasses: 'transition duration-100 ease-in-out rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: 'text-red-500 border-gray-300 ',
       variants: {
         error: 'text-red-500 border-red-300',
         success: 'text-green-500 border-green-300'
@@ -80,13 +81,13 @@ const settings = {
   't-button': {
     component: TButton,
     props: {
-      fixedClasses: 'block px-4 py-2 transition duration-100 ease-in-out focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
-      classes: 'text-white bg-blue-500 border border-transparent shadow-sm rounded hover:bg-blue-600',
+      fixedClasses: 'block px-4 py-2 transition duration-100 ease-in-out focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+      classes: 'text-white bg-red-500 border border-transparent shadow-sm rounded hover:bg-red-600',
       variants: {
         secondary: 'text-gray-800 bg-white border border-gray-300 shadow-sm hover:text-gray-600',
         error: 'text-white bg-red-500 border border-transparent rounded shadow-sm hover:bg-red-600',
         success: 'text-white bg-green-500 border border-transparent rounded shadow-sm hover:bg-green-600',
-        link: 'text-blue-500 underline hover:text-blue-600'
+        link: 'text-red-500 underline hover:text-red-600'
       }
     }
   },
@@ -125,7 +126,7 @@ const settings = {
       fixedClasses: {
         wrapper: 'relative',
         buttonWrapper: 'inline-block relative w-full',
-        selectButton: 'w-full flex text-left justify-between items-center px-3 py-2 text-black transition duration-100 ease-in-out border rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+        selectButton: 'w-full flex text-left justify-between items-center px-3 py-2 text-black transition duration-100 ease-in-out border rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
         selectButtonLabel: 'block truncate',
         selectButtonPlaceholder: 'block truncate',
         selectButtonIcon: 'fill-current flex-shrink-0 ml-1 h-4 w-4',
@@ -160,7 +161,7 @@ const settings = {
         selectButtonLabel: '',
         selectButtonPlaceholder: 'text-gray-400',
         selectButtonIcon: 'text-gray-600',
-        selectButtonClearButton: 'hover:bg-blue-100 text-gray-600',
+        selectButtonClearButton: 'hover:bg-red-100 text-gray-600',
         selectButtonClearIcon: '',
         dropdown: 'bg-white border-gray-300',
         dropdownFeedback: 'pb-2 px-3 text-gray-400 text-sm',
@@ -171,9 +172,9 @@ const settings = {
         optgroup: 'text-gray-400 uppercase text-xs py-1 px-2 font-semibold',
         option: '',
         disabledOption: '',
-        highlightedOption: 'bg-blue-100',
-        selectedOption: 'font-semibold bg-gray-100 bg-blue-500 font-semibold text-white',
-        selectedHighlightedOption: 'font-semibold bg-gray-100 bg-blue-600 font-semibold text-white',
+        highlightedOption: 'bg-red-100',
+        selectedOption: 'font-semibold bg-gray-100 bg-red-500 font-semibold text-white',
+        selectedHighlightedOption: 'font-semibold bg-gray-100 bg-red-600 font-semibold text-white',
         optionContent: 'flex justify-between items-center px-3 py-2',
         optionLabel: '',
         selectedIcon: '',
@@ -219,14 +220,14 @@ const settings = {
         calendarHeaderWrapper: 'grid grid-cols-7',
         monthWrapper: 'grid grid-cols-4',
         yearWrapper: 'grid grid-cols-4',
-        input: 'block w-full px-3 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+        input: 'bg-gray-100 block w-full px-3 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
         clearButton: 'flex flex-shrink-0 items-center justify-center absolute right-0 top-0 m-2 h-6 w-6',
         clearButtonIcon: 'fill-current h-3 w-3'
       },
       classes: {
         wrapper: 'flex flex-col',
         dropdownWrapper: 'relative z-10',
-        dropdown: 'origin-top-left absolute rounded shadow bg-white overflow-hidden mt-1',
+        dropdown: 'origin-top-left absolute rounded shadow bg-gray-100 overflow-hidden mt-1',
         enterClass: 'opacity-0 scale-95',
         enterActiveClass: 'transition transform ease-out duration-100',
         enterToClass: 'opacity-100 scale-100',
@@ -234,7 +235,7 @@ const settings = {
         leaveActiveClass: 'transition transform ease-in duration-75',
         leaveToClass: 'opacity-0 scale-95',
         inlineWrapper: '',
-        inlineViews: 'rounded bg-white border mt-1 inline-flex',
+        inlineViews: 'rounded bg-gray-100 border mt-1 inline-flex',
         inputWrapper: '',
         input: 'text-black placeholder-gray-400 border-gray-300',
         clearButton: 'hover:bg-gray-100 rounded transition duration-100 ease-in-out text-gray-600',
@@ -260,24 +261,24 @@ const settings = {
         calendarHeaderWeekDay: 'uppercase text-xs text-gray-500 w-8 h-8 flex items-center justify-center',
         calendarDaysWrapper: '',
         calendarDaysDayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
-        otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed',
+        otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-red-100 text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed',
         emptyDay: '',
-        inRangeFirstDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-l-full',
-        inRangeLastDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-r-full',
-        inRangeDay: 'text-sm bg-blue-200 w-full h-8 disabled:opacity-50 disabled:cursor-not-allowed',
-        selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-blue-500 text-white disabled:opacity-50 disabled:cursor-not-allowed',
-        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto disabled:opacity-50 disabled:cursor-not-allowed',
-        highlightedDay: 'text-sm rounded-full bg-blue-200 w-8 h-8 mx-auto disabled:opacity-50 disabled:cursor-not-allowed',
-        day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed',
-        today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500',
+        inRangeFirstDay: 'text-sm bg-red-500 text-white w-full h-8 rounded-l-full',
+        inRangeLastDay: 'text-sm bg-red-500 text-white w-full h-8 rounded-r-full',
+        inRangeDay: 'text-sm bg-red-200 w-full h-8 disabled:opacity-50 disabled:cursor-not-allowed',
+        selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-red-500 text-white disabled:opacity-50 disabled:cursor-not-allowed',
+        activeDay: 'text-sm rounded-full bg-red-100 w-8 h-8 mx-auto disabled:opacity-50 disabled:cursor-not-allowed',
+        highlightedDay: 'text-sm rounded-full bg-red-200 w-8 h-8 mx-auto disabled:opacity-50 disabled:cursor-not-allowed',
+        day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed',
+        today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed border border-red-500',
         monthWrapper: 'px-3 pt-2',
-        selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
-        activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
-        month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
+        selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-red-500 text-white',
+        activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-red-100',
+        month: 'text-sm rounded w-full h-12 mx-auto hover:bg-red-100',
         yearWrapper: 'px-3 pt-2',
-        year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
-        selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
-        activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100'
+        year: 'text-sm rounded w-full h-12 mx-auto hover:bg-red-100',
+        selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-red-500 text-white',
+        activeYear: 'text-sm rounded w-full h-12 mx-auto bg-red-100'
       },
       variants: {
         danger: {
@@ -306,21 +307,21 @@ const settings = {
     props: {
       fixedClasses: {
         wrapper: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
-        wrapperChecked: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200  border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        wrapperChecked: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200  border-2 border-transparent focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
         wrapperDisabled: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200 opacity-50 cursor-not-allowed',
-        wrapperCheckedDisabled: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200 opacity-50 cursor-not-allowed border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        wrapperCheckedDisabled: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200 opacity-50 cursor-not-allowed border-2 border-transparent focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
         button: 'inline-block absolute transform translate-x-0 transition ease-in-out duration-200',
         buttonChecked: 'inline-block absolute transform translate-x-full transition ease-in-out duration-200',
         checkedPlaceholder: 'inline-block',
         uncheckedPlaceholder: 'inline-block'
       },
       classes: {
-        wrapper: 'bg-gray-100 rounded-full border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
-        wrapperChecked: 'bg-blue-500 rounded-full',
-        wrapperDisabled: 'bg-gray-100 rounded-full border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
-        wrapperCheckedDisabled: 'bg-blue-500',
+        wrapper: 'bg-gray-100 rounded-full border-2 border-transparent focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
+        wrapperChecked: 'bg-red-500 rounded-full',
+        wrapperDisabled: 'bg-gray-100 rounded-full border-2 border-transparent focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
+        wrapperCheckedDisabled: 'bg-red-500',
         button: 'h-5 w-5 rounded-full bg-white shadow flex items-center justify-center text-gray-400 text-xs',
-        buttonChecked: 'h-5 w-5 rounded-full bg-white shadow flex items-center justify-center text-blue-500 text-xs',
+        buttonChecked: 'h-5 w-5 rounded-full bg-white shadow flex items-center justify-center text-red-500 text-xs',
         checkedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-400 text-xs',
         uncheckedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-400 text-xs'
       },
@@ -334,11 +335,11 @@ const settings = {
           wrapperCheckedDisabled: 'bg-green-500 rounded-full'
         },
         box: {
-          wrapper: 'bg-gray-100 rounded-sm border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
-          wrapperChecked: 'bg-blue-500 rounded-sm',
-          wrapperCheckedDisabled: 'bg-blue-500 rounded-sm',
+          wrapper: 'bg-gray-100 rounded-sm border-2 border-transparent focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
+          wrapperChecked: 'bg-red-500 rounded-sm',
+          wrapperCheckedDisabled: 'bg-red-500 rounded-sm',
           button: 'h-6 w-6 rounded-sm bg-white shadow flex items-center justify-center text-gray-400 text-xs',
-          buttonChecked: 'h-6 w-6 rounded-sm  bg-white shadow flex items-center justify-center text-blue-500 text-xs',
+          buttonChecked: 'h-6 w-6 rounded-sm  bg-white shadow flex items-center justify-center text-red-500 text-xs',
           checkedPlaceholder: 'rounded-sm w-6 h-6 flex items-center justify-center text-gray-400 text-xs',
           uncheckedPlaceholder: 'rounded-sm w-6 h-6 flex items-center justify-center text-gray-400 text-xs'
         }
@@ -351,13 +352,13 @@ const settings = {
       fixedClasses: {
         wrapper: 'relative flex items-center p-4 border-l-4  rounded shadow-sm',
         body: 'flex-grow',
-        close: 'absolute relative flex items-center justify-center ml-4 flex-shrink-0 w-6 h-6 transition duration-100 ease-in-out rounded  focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        close: 'absolute relative flex items-center justify-center ml-4 flex-shrink-0 w-6 h-6 transition duration-100 ease-in-out rounded  focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
         closeIcon: 'fill-current h-4 w-4'
       },
       classes: {
-        wrapper: 'bg-blue-50 border-blue-500',
-        body: 'text-blue-700',
-        close: 'text-blue-500 hover:bg-blue-200'
+        wrapper: 'bg-red-50 border-red-500',
+        body: 'text-red-700',
+        close: 'text-red-500 hover:bg-red-200'
       },
       variants: {
         danger: {
@@ -407,7 +408,7 @@ const settings = {
         body: 'p-3',
         header: 'border-b p-3 rounded-t',
         footer: ' p-3 rounded-b',
-        close: 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50'
+        close: 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50'
       },
       classes: {
         overlay: 'bg-black',
@@ -449,11 +450,11 @@ const settings = {
         overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed z-40 bg-opacity-50',
         wrapper: 'relative mx-auto',
         modal: 'overflow-visible relative ',
-        close: 'flex items-center justify-center  rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        close: 'flex items-center justify-center  rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
         dialog: 'overflow-visible relative',
         iconWrapper: 'flex flex-shrink-0 h-12 items-center justify-center rounded-full w-12 mx-auto',
         icon: 'w-6 h-6',
-        okButton: 'block px-4 py-2 text-white transition duration-100 ease-in-out border border-transparent rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-xs',
+        okButton: 'block px-4 py-2 text-white transition duration-100 ease-in-out border border-transparent rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-xs',
         buttons: 'p-3 flex space-x-4 justify-center bg-gray-100 rounded-b'
       },
       classes: {
@@ -471,16 +472,16 @@ const settings = {
         title: 'text-lg font-semibold text-center',
         textWrapper: 'text-left w-full',
         text: '',
-        cancelButton: 'block px-4 py-2 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-100 focus:border-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-xs',
-        okButton: 'bg-blue-500 hover:bg-blue-600',
+        cancelButton: 'block px-4 py-2 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-100 focus:border-gray-100 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-xs',
+        okButton: 'bg-red-500 hover:bg-red-600',
         inputWrapper: 'mt-3 flex items-center space-x-3',
-        input: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full',
-        select: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50  disabled:opacity-50 disabled:cursor-not-allowed w-full',
+        input: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full',
+        select: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50  disabled:opacity-50 disabled:cursor-not-allowed w-full',
         radioWrapper: 'flex items-center space-x-2',
-        radio: 'text-blue-500 transition duration-100 ease-in-out border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
+        radio: 'text-red-500 transition duration-100 ease-in-out border-gray-300 shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
         radioText: '',
         checkboxWrapper: 'flex items-center space-x-2',
-        checkbox: 'text-blue-500 transition duration-100 ease-in-out border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
+        checkbox: 'text-red-500 transition duration-100 ease-in-out border-gray-300 rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
         checkboxText: '',
         errorMessage: 'text-red-500 block text-sm',
         busyWrapper: 'absolute bg-opacity-50 bg-white flex h-full items-center justify-center left-0 top-0 w-full',
@@ -541,13 +542,13 @@ const settings = {
     props: {
       classes: {
         wrapper: 'table border-collapse text-center bg-white mx-auto shadow-sm',
-        element: 'w-8 h-8 border border-gray-200 table-cell hover:border-blue-100',
-        activeElement: 'w-8 h-8 border border-gray-200 border-blue-500 table-cell hover:border-blue-600',
+        element: 'w-8 h-8 border border-gray-200 table-cell hover:border-red-100',
+        activeElement: 'w-8 h-8 border border-gray-200 border-red-500 table-cell hover:border-red-600',
         disabledElement: 'w-8 h-8 border border-gray-200 table-cell',
         ellipsisElement: 'w-8 h-8 border border-gray-200 hidden md:table-cell',
-        activeButton: 'bg-blue-500 w-full h-full text-white hover:bg-blue-600 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        activeButton: 'bg-red-500 w-full h-full text-white hover:bg-red-600 transition duration-100 ease-in-out focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
         disabledButton: 'opacity-25 w-full h-full cursor-not-allowed transition duration-100 ease-in-out',
-        button: 'hover:bg-blue-100 w-full h-full transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        button: 'hover:bg-red-100 w-full h-full transition duration-100 ease-in-out focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
         ellipsis: ''
       },
       variants: {
@@ -557,9 +558,9 @@ const settings = {
           activeElement: 'w-8 h-8 rounded-full',
           disabledElement: 'w-8 h-8 rounded-full',
           ellipsisElement: 'w-8 h-8 rounded-full hidden md:inline',
-          activeButton: 'border border-blue-500 bg-blue-500 w-full h-full rounded-full text-white hover:bg-blue-600 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          activeButton: 'border border-red-500 bg-red-500 w-full h-full rounded-full text-white hover:bg-red-600 transition duration-100 ease-in-out focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
           disabledButton: 'border border-gray-200  opacity-25 w-full h-full rounded-full cursor-not-allowed transition duration-100 ease-in-out',
-          button: 'border border-gray-200 hover:bg-blue-100 hover:border-blue-100 rounded-full w-full h-full transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          button: 'border border-gray-200 hover:bg-red-100 hover:border-red-100 rounded-full w-full h-full transition duration-100 ease-in-out focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50',
           ellipsis: ''
         }
       }
@@ -569,7 +570,7 @@ const settings = {
     component: TDropdown,
     props: {
       fixedClasses: {
-        button: 'flex items-center text-white block px-4 py-2 transition duration-100 ease-in-out border border-transparent rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+        button: 'flex items-center text-white block px-4 py-2 transition duration-100 ease-in-out border border-transparent rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
         wrapper: 'inline-flex flex-col',
         dropdownWrapper: 'relative z-10',
         dropdown: 'origin-top-left absolute left-0 w-56 rounded shadow mt-1',
@@ -581,7 +582,7 @@ const settings = {
         leaveToClass: 'opacity-0 scale-95'
       },
       classes: {
-        button: 'bg-blue-500 hover:bg-blue-600',
+        button: 'bg-red-500 hover:bg-red-600',
         dropdown: 'bg-white'
       },
       variants: {

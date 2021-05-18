@@ -1,9 +1,9 @@
 <template>
   <div>
-    <select v-model="releaseDisplay" class="fixed top-5 right-5 z-10 bg-gray-500 px-5 py-2 text-white text-xs md:text-base flex space-x-5 focus:outline-none">
+    <!--<select v-model="releaseDisplay" class="fixed top-5 right-5 z-10 bg-gray-500 px-5 py-2 text-white text-xs md:text-base flex space-x-5 focus:outline-none">
       <option class="bg-gray-500 px-5 py-2 text-white text-xs md:text-base flex space-x-5">My Comebacks</option>
       <option class="bg-gray-500 px-5 py-2 text-white text-xs md:text-base flex space-x-5">All Comebacks</option>
-    </select>
+    </select>-->
     <CalendarDay
       v-for="(date, index) in this.releaseDateList"
       :key="index"
@@ -23,8 +23,16 @@
           releaseDisplay:'My Comebacks',
           maxDisplay:3,
           width:false,
-          releaseDateList:['May 8, 12:30:00 GMT+07:00', 'May 18, 12:30:00 GMT+07:00', 'May 28, 12:30:00 GMT+07:00', 'June 8, 12:30:00 GMT+07:00', 'June 12, 12:30:00 GMT+07:00', 'June 30, 12:30:00 GMT+07:00', 'July 8, 12:30:00 GMT+07:00'],
+          releaseDateList:[],
         }
+    },
+
+    created(){
+      for (let index = -1; index < 30; index++) {
+        var date = new Date
+        date.setDate(date.getDate() + index)
+        this.releaseDateList.push(date.toISOString().slice(0, 10).replace('T', ''))
+      }
     },
 
     mounted() {
@@ -36,10 +44,8 @@
       handleResize() {
         if(window.innerWidth > 768) {
           this.width = true
-          this.test = true
         } else {
           this.width = false
-          this.test = false
         }
       },
     }
