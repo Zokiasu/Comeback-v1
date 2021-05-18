@@ -30,3 +30,12 @@ npm start
 ```
 
 Server is now running at http://localhost:3000/
+
+- Queries
+
+You can sort by fields and use :asc or :desc for ascending or descending data like so
+https://comeback-api.herokuapp.com/artists?sortby=name:desc
+
+Also you can use limit and offset to set up some pagination in your application
+https://comeback-api.herokuapp.com/artists?limit=1&offset=2
+
