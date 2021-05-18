@@ -3,14 +3,13 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
+  const sortby = req.query.sortby?.split(':') || [
+    'createdAt',
+    'DESC',
+  ];
+  console.log('sortbey', sortby);
   const artists = await req.context.models.Artist.findAll({
-    include: [
-      { model: req.context.models.User, as: 'followers' },
-      { model: req.context.models.Artist, as: 'groups' },
-      { model: req.context.models.Artist, as: 'members' },
-      { model: req.context.models.Happening, as: 'events' },
-      req.context.models.Release,
-    ],
+    order: [sortby],
   });
   return res.send(artists);
 });
