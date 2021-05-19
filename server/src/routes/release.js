@@ -58,8 +58,8 @@ router.post('/', async (req, res) => {
   );
 
   await addAssociationItems(
+    null,
     req.body.musics,
-    req.body.newMusics,
     req.context.models.Music,
     (array) => release.addMusics(array),
     (array) => release.createMusic(array),
@@ -85,8 +85,8 @@ router.put('/:releaseId', async (req, res) => {
   );
 
   await addAssociationItems(
+    null,
     req.body.musics,
-    req.body.newMusics,
     req.context.models.Music,
     (array) => release.addMusics(array),
     (array) => release.createMusic(array),
