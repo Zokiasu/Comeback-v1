@@ -1,10 +1,20 @@
+import { Op } from 'sequelize';
+
 export const queriesToDict = (queries) => {
   const order = queries.sortby?.split(':') || ['createdAt', 'DESC'];
   const limit = queries.limit;
   const offset = queries.offset;
+  const op = queries.op;
   delete queries['sortby'];
   delete queries['limit'];
   delete queries['offset'];
+  delete queries['op'];
+
+  if (op === 'like') {
+    for (const [key, value] of Object.entries(queries)) {
+      queries[key] = { [Op.substring]: value };
+    }
+  }
 
   return { order: [order], limit, offset, where: queries };
 };
