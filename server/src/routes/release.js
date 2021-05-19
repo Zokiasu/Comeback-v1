@@ -1,12 +1,27 @@
 import { Router } from 'express';
+import { Op } from 'sequelize';
 import { queriesToDict } from '../helpers/routes';
 import { addAssociationItems } from '../helpers/routes';
-
+import moment from 'moment';
 const router = Router();
 
 router.get('/', async (req, res) => {
+  const date = req.query.date;
+  delete req.query['date'];
+  let whereOptions = {};
+  if (date) {
+    const day = new Date(date);
+    const momentDay = moment(day).startOf('day');
+    const startDate = momentDay.format();
+    const endDate = momentDay.endOf('day').format();
+    whereOptions = {
+      date: {
+        [Op.between]: [startDate, endDate],
+      },
+    };
+  }
   const releases = await req.context.models.Release.findAll({
-    ...queriesToDict(req.query),
+    ...queriesToDict(req.query, whereOptions),
     include: [
       req.context.models.Artist,
       { model: req.context.models.Music, as: 'musics' },
