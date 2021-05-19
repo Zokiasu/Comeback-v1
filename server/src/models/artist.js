@@ -8,7 +8,7 @@ const artist = (sequelize, DataTypes) => {
       allowNull: false,
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       unique: false,
       allowNull: true,
     },
