@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-export const queriesToDict = (queries) => {
+export const queriesToDict = (queries, whereOptions = {}) => {
   const order = queries.sortby?.split(':') || ['createdAt', 'DESC'];
   const limit = queries.limit;
   const offset = queries.offset;
@@ -16,7 +16,12 @@ export const queriesToDict = (queries) => {
     }
   }
 
-  return { order: [order], limit, offset, where: queries };
+  return {
+    order: [order],
+    limit,
+    offset,
+    where: { ...queries, ...whereOptions },
+  };
 };
 
 export const addAssociationItems = async (
