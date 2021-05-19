@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { queriesToDict } from '../helpers/routes';
+import { addAssociationItems } from '../helpers/routes';
 
 const router = Router();
 
@@ -33,25 +34,21 @@ router.post('/', async (req, res) => {
     {},
   );
 
-  // adding artist at creation
-  if (req.body.artists) {
-    const artistIds = [];
-    for (const tmpArtist of req.body.artists) {
-      artistIds.push(tmpArtist['id']);
-    }
-    // must receive array of ids
-    const artists = await req.context.models.Artist.findAll({
-      where: { id: artistIds },
-    });
-    release.setArtists(artists);
-  }
+  await addAssociationItems(
+    req.body.artists,
+    req.body.newArtists,
+    req.context.models.Artist,
+    (array) => release.addArtists(array),
+    (array) => release.createArtist(array),
+  );
 
-  if (req.body.newArtists) {
-    // must receive array as [{name: "nom"}, {name: "nom2"}]
-    for (const newArtist of req.body.newArtists) {
-      release.createArtist(newArtist);
-    }
-  }
+  await addAssociationItems(
+    req.body.musics,
+    req.body.newMusics,
+    req.context.models.Music,
+    (array) => release.addMusics(array),
+    (array) => release.createMusics(array),
+  );
 
   return res.send(release);
 });
@@ -62,25 +59,21 @@ router.put('/:releaseId', async (req, res) => {
   );
   release.update(req.body);
 
-  // adding artist at update
-  if (req.body.artists) {
-    // must receive array of ids
-    const artistIds = [];
-    for (const tmpArtist of req.body.artists) {
-      artistIds.push(tmpArtist['id']);
-    }
-    const artists = await req.context.models.Artist.findAll({
-      where: { id: artistIds },
-    });
-    release.addArtists(artists);
-  }
+  await addAssociationItems(
+    req.body.artists,
+    req.body.newArtists,
+    req.context.models.Artist,
+    (array) => release.addArtists(array),
+    (array) => release.createArtist(array),
+  );
 
-  if (req.body.newArtists) {
-    // must receive array as [{name: "nom"}, {name: "nom2"}]
-    for (const newArtist of req.body.newArtists) {
-      release.createArtist(newArtist);
-    }
-  }
+  await addAssociationItems(
+    req.body.musics,
+    req.body.newMusics,
+    req.context.models.Music,
+    (array) => release.addMusics(array),
+    (array) => release.createMusics(array),
+  );
 
   return res.send(release);
 });
