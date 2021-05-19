@@ -87,7 +87,7 @@ router.put('/:releaseId', async (req, res) => {
     req.body.newMusics,
     req.context.models.Music,
     (array) => release.addMusics(array),
-    (array) => release.createMusics(array),
+    (array) => release.createMusic(array),
   );
 
   return res.send(release);
