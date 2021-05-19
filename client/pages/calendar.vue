@@ -33,6 +33,7 @@
         date.setDate(date.getDate() + index)
         this.releaseDateList.push(date.toISOString().slice(0, 10).replace('T', ''))
       }
+      console.log(new Date("2021-05-19T00:00:00+02:00").toLocaleDateString())
     },
 
     mounted() {

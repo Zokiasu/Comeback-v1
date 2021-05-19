@@ -42,25 +42,32 @@
             <t-datepicker
               v-model="release.date"
               placeholder="Release Date"
-              initial-view="month"
-              inline>
+              initial-view="month" dateFormat='Y-m-d' clearable timepicker amPm>
             </t-datepicker>
         </div>
       </div>
 
       <div id="middle" class="flex flex-col xl:flex-row justify-between">
-        <div id="social-media" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
+        <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Artists*</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <multiselect v-model="release.artists" tag-placeholder="Add this as new artist" placeholder="Search or add a artist" label="name" track-by="id" 
-                        :options="artistList" :multiple="true" :taggable="true" @tag="addArtist"></multiselect>
-
+            <multiselect 
+              v-model="release.artists" 
+              tag-placeholder="Add this as new artist" 
+              placeholder="Search or add a artist" 
+              label="name" 
+              track-by="id" 
+              :options="artistList" 
+              :multiple="true" 
+              :taggable="true" 
+              @tag="addArtist">
+            </multiselect>
         </div>
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Tracklist*</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.release.musics" :key="index" :elem="elem" @updateinput="updateList(release.musics, $event, index)"/>
-            <button @click="newInput(release.musics)" class="text-left focus:outline-none">Add more</button>
+            <t-input v-for="(music, index) in this.release.newMusics" :key="index" type="text" v-model="music.name" placeholder="Track name"/>
+            <button @click="addMusic()" class="text-left focus:outline-none">Add more</button>
         </div>
         <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Streaming Platforms Link</h1>
@@ -84,10 +91,10 @@
           type:'SINGLE',
           image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwiCr-h4VvKmCUqzPpcau559rrw0XdEhl9qyLs15JTdqkMe8vbmU08mKTV2j2D-mBbUbI&usqp=CAU',
           date: '',
-          platforms: ['New'],
+          platforms: [],
           artists:[],
           newArtists:[],
-          musics:['New'],
+          newMusics:[],
         }
       }
     },
@@ -114,6 +121,14 @@
         console.log(this.release.artists)
       },
 
+      addMusic(){
+        this.release.newMusics.push({
+          name: null,
+          clip: null,
+          platforms: null,
+        })
+      },
+
       updateList(list, newElem, index){
 
         list[index] = newElem
@@ -124,7 +139,7 @@
       },
 
       async creates() {
-          if (this.release.name === '' || this.release.date === '' || (this.release.artists?.length === 1 && this.release.artists[0] === 'New') || (this.release.musics?.length === 1 && this.release.musics[0] === 'New')) {
+          if (this.release.name === '' || this.release.date === '' || (this.release.artists?.length === 1 && this.release.artists[0] === 'New') || (this.release.newMusics?.length === 1 && this.release.newMusics[0] === 'New')) {
               console.log("Failed")
               return
           }
@@ -136,7 +151,7 @@
           }
 
           /*console.log(this.release.artists)*/
-          console.log(this.release.newArtists)
+          console.log(this.release.newMusics)
 
           const {data: response} = await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
             "name": this.release.name,
@@ -144,9 +159,9 @@
             "image": this.release.image,
             "date": this.release.date,
             "platforms": this.release.platforms,
-            /*"artists": this.release.artists,*/
+            "artists": this.release.artists,
             "newArtists": this.release.newArtists,
-            "musics": this.release.musics,
+            "newMusics": this.release.newMusics,
           })
 
           console.log(response)

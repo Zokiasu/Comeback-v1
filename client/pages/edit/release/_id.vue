@@ -42,14 +42,12 @@
             <t-datepicker @change="newObjectToApi(`date`,release.date)"
               v-model="release.date"
               placeholder="Release Date"
-              initial-view="month"
-              inline>
+              initial-view="month" clearable timepicker amPm>
             </t-datepicker>
         </div>
       </div>
-
       <div id="middle" class="flex flex-col xl:flex-row justify-between">
-        <div id="social-media" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
+        <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Artists*</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <multiselect @change="newObjectToApi(`artists`, release.artists)" v-model="release.artists" tag-placeholder="Add this as new artist" placeholder="Search or add a artist" label="name" track-by="id" 
@@ -75,6 +73,7 @@
 
 <script>
   export default {
+
     data() {
         return {
             release:{},
@@ -85,9 +84,12 @@
 
     async asyncData({ $axios, params }){
       const release = await $axios.$get(`https://comeback-api.herokuapp.com/releases/${params.id}`)
-      release[newArtists] = []
-      optionArtist = release.artists.concat(release.newArtists)
+      release["newArtists"] = []
       return {release}
+    },
+
+    mounted(){
+      this.optionArtist = this.release.artists.concat(this.release.newArtists)
     },
 
     methods:{
@@ -138,7 +140,3 @@
     },
   }
 </script>
-
-<style>
-
-</style>
