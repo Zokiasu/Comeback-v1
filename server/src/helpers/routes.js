@@ -1,5 +1,9 @@
 import { Op } from 'sequelize';
 
+function removeDuplicates(data, key) {
+  return [...new Map(data.map((item) => [key(item), item])).values()];
+}
+
 export const queriesToDict = (queries, whereOptions = {}) => {
   const order = queries.sortby?.split(':') || ['createdAt', 'DESC'];
   const limit = queries.limit;
@@ -30,6 +34,8 @@ export const addAssociationItems = async (
   model,
   addItems,
   createItem,
+  createIfNotExists = false,
+  key = 'name',
 ) => {
   // setting exisiting
   if (items) {
@@ -41,13 +47,27 @@ export const addAssociationItems = async (
       where: { id: ids },
     });
 
-    addItems(requestedItems);
+    await addItems(requestedItems);
   }
 
+  const findOrCreateItems = [];
   if (newItems) {
     // creating new item and addig them
     for (const newItem of newItems) {
-      createItem(newItem);
+      if (createIfNotExists) {
+        const [item, created] = await model.findOrCreate({
+          where: { [key]: newItem[key] },
+        });
+        findOrCreateItems.push(item);
+      } else {
+        await createItem(newItem);
+      }
     }
+  }
+
+  if (findOrCreateItems.length) {
+    await addItems(
+      removeDuplicates(findOrCreateItems, (item) => item.id),
+    );
   }
 };
