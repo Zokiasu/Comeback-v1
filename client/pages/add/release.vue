@@ -66,7 +66,7 @@
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Tracklist*</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <t-input v-for="(music, index) in this.release.newMusics" :key="index" type="text" v-model="music.name" placeholder="Track name"/>
+            <t-input class="mb-1" v-for="(music, index) in this.release.musics" :key="index" type="text" v-model="music.name" placeholder="Track name"/>
             <button @click="addMusic()" class="text-left focus:outline-none">Add more</button>
         </div>
         <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
@@ -94,7 +94,7 @@
           platforms: [],
           artists:[],
           newArtists:[],
-          newMusics:[],
+          musics:[],
         }
       }
     },
@@ -117,12 +117,10 @@
         this.artistList.push(tag)
         this.release.artists.push(tag)
         this.release.newArtists.push(tag)
-
-        console.log(this.release.artists)
       },
 
       addMusic(){
-        this.release.newMusics.push({
+        this.release.musics.push({
           name: null,
           clip: null,
           platforms: null,
@@ -139,7 +137,7 @@
       },
 
       async creates() {
-          if (this.release.name === '' || this.release.date === '' || (this.release.artists?.length === 1 && this.release.artists[0] === 'New') || (this.release.newMusics?.length === 1 && this.release.newMusics[0] === 'New')) {
+          if (this.release.name === '' || this.release.date === '' || (this.release.artists?.length === 1 && this.release.artists[0] === 'New') || (this.release.musics?.length === 1 && this.release.musics[0] === 'New')) {
               console.log("Failed")
               return
           }
@@ -150,9 +148,6 @@
             }
           }
 
-          /*console.log(this.release.artists)*/
-          console.log(this.release.newMusics)
-
           const {data: response} = await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
             "name": this.release.name,
             "type": this.release.type,
@@ -161,10 +156,10 @@
             "platforms": this.release.platforms,
             "artists": this.release.artists,
             "newArtists": this.release.newArtists,
-            "newMusics": this.release.newMusics,
+            "musics": this.release.musics,
           })
-
           console.log(response)
+          this.$router.push({ path: `/add/release`})
       },
     },
   }

@@ -1,10 +1,10 @@
 <template>
-  <div v-if="width" class="texts flex flex-col text-white">
+  <NuxtLink :to="`/release/${release.id}`" v-if="width" class="texts flex flex-col text-white rounded">
     <div class="relative">
-        <NuxtLink :to="`/release/${release.id}`"><img class="rounded-md object-cover" :src="release.image" alt="Artist Picture"/></NuxtLink>
+        <img class="rounded-md object-cover" :src="release.image" alt="Artist Picture"/>
         <div class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl">
             <!--<p class="text-center"> {{release.releaseDate.toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>-->
-            <p class="text-center"> {{release.date}} </p>
+            <p class="text-center"> {{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>
         </div>
     </div>
     <div>
@@ -13,9 +13,9 @@
             <span> {{release.type}} </span><div class="bg-white mt-2 mx-2 h-1 w-1 rounded-full"></div><span v-for="(artist, index) in release.artists" :key="index"> {{artist.name}} </span>
         </div>
     </div>
-  </div>
+  </NuxtLink>
 
-  <div v-else-if="!width" style="background-color: #3B3B3B" class="texts text-white flex rounded relative">
+  <NuxtLink :to="`/release/${release.id}`" v-else-if="!width" style="background-color: #3B3B3B" class="texts text-white flex rounded relative">
     <div>
         <img class="h-full w-16 rounded-l object-cover" :src="release.image" alt="Artist Picture"/>
     </div>
@@ -29,13 +29,17 @@
             <span>{{release.type}} • {{release.artists[0].name}}</span>
         </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script>
     export default {
 
         props: ['release', 'width'],
+
+        created(){
+            console.log(this.release)
+        },
 
         data(){
             return {

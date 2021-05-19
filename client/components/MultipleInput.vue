@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <t-input type="text" @change="updateInput" v-model="input" :placeholder="placehol"/>
-    </div>
+    <t-input class="w-full" type="text" @change="updateInput" v-model="input" :placeholder="placehol"/>
 </template>
 
 <script>

@@ -13,13 +13,6 @@
                 <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
                 <NuxtLink :to="`/edit/release/${this.release.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
             </div>
-            <div v-if="this.release.platforms" id="tilte-artist" class="mb-10">
-                <h1 class="text-white text-xl">Streaming Platforms</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <div id="link-social" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10">
-                    <LinkImg v-for="(platforms, index) in this.release.platforms" :key="index" :url="platforms" :name="platforms"/>
-                </div>
-            </div>
             <div v-if="this.release.musics.length != 0" id="tracklist" class="mb-10">
                 <h1 class="text-white text-xl">Tracklist</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -27,11 +20,18 @@
                     <div v-for="(title, index) in this.release.musics" :key="index"><span> {{title.name}} </span></div>
                 </div>
             </div>
+            <div v-if="this.release.platforms" id="tilte-artist" class="mb-10">
+                <h1 class="text-white text-xl">Streaming Platforms</h1>
+                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                <div id="link-social" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10">
+                    <LinkImg v-for="(platforms, index) in this.release.platforms" :key="index" :url="platforms" :name="platforms"/>
+                </div>
+            </div>
             <div id="player-section" class="mb-10">
                 <h1 class="text-white text-xl">Music Video</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-96"></div>
                 <div id="video" class="flex justify-center">
-                    <PlayerYoutube :videoid="'HL1UzIK-flA'"/>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/q2WvTaqe9zU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
@@ -50,8 +50,6 @@
 
         async asyncData({ $axios, params }){
             const release = await $axios.$get(`https://comeback-api.herokuapp.com/releases/${params.id}`)
-            console.log(release)
-            console.log(release.musics)
             return {release}
         },
     }

@@ -1,12 +1,13 @@
 <template>
     <div class="bg-leftbar flex flex-col relative text-white texts min-h-screen">
         <header class="mx-5">
+            <NuxtLink to="/calendar"></NuxtLink>
             <img class=" w-60" src="../assets/image/comeback-logo.png"/>
         </header>
-        <section class="border-t-2 border-gray-400 mx-5 pt-5 h-full">
+        <section class="border-t-2 border-gray-400 mx-5 py-5">
             <nav>
-                <ul>
-                    <li class="mb-5">
+                <ul class="space-y-5">
+                    <li>
                         <div class="flex text-white bg-gray-500 rounded">
                             <button class="pr-1 pl-2 rounded-none rounded-l py-1.5">
                                 <div class="">
@@ -16,31 +17,31 @@
                             <input type="text" placeholder="Search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-transparent">
                         </div>
                     </li>
-                    <li class="mb-5">
+                    <li>
                         <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'calendar' ? 'bg-transparent' : 'bg-gray-500'" to="/calendar">
                             <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
                             <span>Calendar</span>
                         </NuxtLink>
                     </li>
-                    <li class="mb-5">
+                    <li>
                         <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'artist' ? 'bg-transparent' : 'bg-gray-500'" to="/artist">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Artists</span>
                         </NuxtLink>
                     </li>
-                    <li class="mb-5">
+                    <li>
                         <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'profile' ? 'bg-transparent' : 'bg-gray-500'" to="/profile">
                             <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
                             <span>Profile</span>
                         </NuxtLink>
                     </li>
-                    <!--<li class="mb-5">
+                    <!--<li>
                         <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'discover' ? 'bg-transparent' : 'bg-gray-500'" to="/discover">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Discover</span>
                         </NuxtLink>
                     </li>-->
-                    <li class="mb-5">
+                    <li>
                         <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'setting' ? 'bg-transparent' : 'bg-gray-500'" to="/setting">
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                             <span>Setting</span>
@@ -52,7 +53,7 @@
         <section class="border-t-2 border-gray-400 mx-5 py-5 h-full">
             <nav>
                 <ul>
-                    <li class="mb-5">
+                    <li>
                         <NuxtLink :to="`/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                             <span>New Comeback</span>
                         </NuxtLink>

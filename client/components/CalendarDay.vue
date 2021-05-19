@@ -32,7 +32,6 @@
         methods: {
             async findDay(day){
                 const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?date=${day}`)
-                console.log(response)
                 this.releaseList = response
             },
         },

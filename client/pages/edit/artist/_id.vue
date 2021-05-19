@@ -1,69 +1,92 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
     <div id="title-area">
+        <NuxtLink :to="`/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
       <div id="tilte-artist" class="relative">
-        <h1 class="text-white text-2xl xl:text-4xl mt-5 mb-2">Artist Edition</h1>
+        <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
-        <!--<NuxtLink :to="`/artist/${this.artist.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</NuxtLink>-->
-        <button :to="`/artist/${this.artist.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+        <button :to="`/artist/${this.$route.params.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
       </div>
     </div>
 
-    <div id="top" class="flex flex-col xl:flex-row xl:space-x-10 my-5 xl:mb-20">
-        <div id="image-area" class="relative">
-            <img class="w-80" :src="this.artist.image ? this.artist.image : this.$store.state.imageArtistDefault" alt="">
-            <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
-                <button class="px-5 py-1 bg-red-700 text-white">Upload</button>
-            </div>
-        </div>
-        <div class="space-y-10 w-full">
-            <div class="flex flex-col xl:flex-row xl:space-x-10 space-y-10 xl:space-y-0">
-                <div id="artist-name">
-                    <h1 class="text-white text-xl">Artist Name*</h1>
-                    <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                    <t-input @change="newObjectToApi('name', artist.name)" autocomplete="false" type="text" v-model="artist.name" :value="artist.name" placeholder="Artist Name" name="artist-name" />
-                </div>
-                <div id="artist-name">
-                    <h1 class="text-white text-xl">Artist Type</h1>
-                    <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                    <t-select @change="newObjectToApi('type', artist.type)" v-model="artist.type" id="artist-type-selector" :options="[
-                        { value: 'SOLOIST', text: 'Soloist' },
-                        { value: 'GROUP', text: 'Group' },
-                    ]" ></t-select>
+    <div class="rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
+        <div class="flex flex-col xl:flex-row xl:space-x-10 my-5 xl:mb-10">
+            <div id="image-area" class="relative h-full">
+                <img style="width:60rem;" :src="this.artists.image ? this.artists.image : this.$store.state.imageArtistDefault" alt="">
+                <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
+                    <button class="px-5 py-1 bg-red-700 text-white">Upload</button>
                 </div>
             </div>
-            <div id="description">
-                <h1 class="text-white text-xl">Description</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <t-textarea @change="newObjectToApi('description', artist.description)" id="desc" placeholder="Description" v-model="artist.description" :value="artist.description" name="my-textarea" class="resize w-full xl:w-4/5 h-44"/>
+            <div class="space-y-10 w-full">
+                <div class="flex flex-col xl:flex-row xl:space-x-10 space-y-10 xl:space-y-0">
+                    <div id="artists-name">
+                        <h1 class="text-white text-xl">Artist Name*</h1>
+                        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                        <t-input @change="newObjectToApi('name', artists.name)" autocomplete="false" type="text" v-model="artists.name" :value="artists.name" placeholder="Artist Name" name="artists-name" />
+                    </div>
+                    <div id="artists-name">
+                        <h1 class="text-white text-xl">Artist Type</h1>
+                        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                        <t-select @change="newObjectToApi('type', artists.type)" v-model="artists.type" id="artists-type-selector" :options="[
+                            { value: 'SOLOIST', text: 'Soloist' },
+                            { value: 'GROUP', text: 'Group' },
+                        ]" ></t-select>
+                    </div>
+                </div>
+                <div id="description">
+                    <h1 class="text-white text-xl">Description</h1>
+                    <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                    <t-textarea @change="newObjectToApi('description', artists.description)" id="desc" placeholder="Description" v-model="artists.description" :value="artists.description" name="my-textarea" class="resize w-full xl:w-4/5 h-44"/>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="middle" class="flex flex-col xl:flex-row">
-        <div id="social-media" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
-            <h1 class="text-xl">Social Media Link</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.artist.socials" :key="index" :elem="elem" @updateinput="updateList(artist.socials, $event, index, 'socials')"/>
-            <button @click="newInput(artist.socials)" class="text-left focus:outline-none">Add more</button>
-        </div>
-        <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
-            <h1 class="text-xl">Streaming Platforms Link</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.artist.platforms" :key="index" :elem="elem" @updateinput="updateList(artist.platforms, $event, index, 'platforms')"/>
-            <button @click="newInput(artist.platforms)" class="text-left focus:outline-none">Add more</button>
-        </div>
-        <div id="member-group" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
-            <h1 class="text-xl">Belong To The Groups</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.artist.groups" :key="index" :elem="elem.name" @updateinput="updateList(artist.groups, $event, index, 'groups')"/>
-            <button @click="newInput(artist.groups)" class="text-left focus:outline-none">Add more</button>
-        </div>
-        <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
+        <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-10" v-if="artists.type == 'GROUP'">
             <h1 class="text-xl">Members</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.artist.members" :key="index" :elem="elem" @updateinput="updateList(artist.members, $event, index, 'members')"/>
-            <button @click="newInput(artist.members)" class="text-left focus:outline-none">Add more</button>
+            <multiselect
+                v-model="artists.members" 
+                tag-placeholder="Add this as new artists" 
+                placeholder="Search or add a artists" 
+                label="name" 
+                track-by="id" 
+                :options="artistList" 
+                :multiple="true" 
+                :taggable="true"
+                @input="newObjectToApi('members', artists.members)" 
+                @tag="addMember">
+            </multiselect>
+        </div>
+        
+        <div id="member-group" class="flex flex-col text-white mb-5 xl:mb-10">
+            <h1 class="text-xl">Belong To The Groups</h1>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div><multiselect
+                v-model="artists.groups" 
+                tag-placeholder="Add this as new artists" 
+                placeholder="Search or add a artists" 
+                label="name" 
+                track-by="id" 
+                :options="artistList" 
+                :multiple="true" 
+                :taggable="true"
+                @input="newObjectToApi('groups', artists.groups)" 
+                @tag="addGroup">
+            </multiselect>
+        </div>
+
+        <div class="flex flex-col xl:flex-row xl:justify-between">
+            <div id="social-media" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
+                <h1 class="text-xl">Social Media Link</h1>
+                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.socials" :key="index" :elem="elem" @updateinput="updateList(artists.socials, $event, index, 'socials')"/>
+                <button @click="newInput(artists.socials)" class="text-left focus:outline-none">Add more</button>
+            </div>
+            <div id="streaming-platform" class="flex flex-col w-full xl:ml-5 text-white mb-5 xl:mb-0">
+                <h1 class="text-xl">Streaming Platforms Link</h1>
+                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.platforms" :key="index" :elem="elem" @updateinput="updateList(artists.platforms, $event, index, 'platforms')"/>
+                <button @click="newInput(artists.platforms)" class="text-left focus:outline-none">Add more</button>
+            </div>
         </div>
     </div>
   </div>
@@ -74,49 +97,47 @@
 
         data() {
             return {
-                artists:null,
-
-                artist:{
-                    id:'',
-                    type:'',
-                    name:'',
-                    image:'',
-                    website:'',
-                    description:'',
-                    socials:[],
-                    platforms:[],
-                    followers:[],
-                    groups:[],
-                    members:[],
-                    events:[],
-                    releases:[],
-                },
-
+                artists:{},
+                artistList:[],
                 sendToApi:{},
             }
         },
 
         async asyncData({ $axios, params }){
             const artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
-            return {artists}
-        },
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
 
-        mounted(){
-            this.artist.id = this.artists.id
-            this.artist.name = this.artists.name
-            this.artist.image = this.artists.image
-            this.artist.website = this.artists.website
-            this.artist.description = this.artists.description
-            this.artist.socials = this.artists.socials
-            this.artist.platforms = this.artists.platforms
-            this.artist.followers = this.artists.followers
-            this.artist.groups = this.artists.groups
-            this.artist.members = this.artists.members
-            this.artist.events = this.artists.events
-            this.artist.releases = this.artists.releases
+            artists["newGroups"] = []
+            artists["newMembers"] = []
+
+            return {artists, artistList}
         },
 
         methods:{
+            addGroup (newTag) {
+                const tag = {
+                    name: newTag,
+                    image: null,
+                    website: null,
+                    description: null,
+                    socials: null,
+                    platforms: null,
+                }
+                this.release.newGroups.push(tag)
+            },
+
+            addMember (newTag) {
+                const tag = {
+                name: newTag,
+                image: null,
+                website: null,
+                description: null,
+                socials: null,
+                platforms: null,
+                }
+                this.release.newMembers.push(tag)
+            },
+
             updateList(list, newElem, index, key){
                 list[index] = newElem
                 this.newObjectToApi(key, list)
@@ -131,9 +152,9 @@
             },
 
             async editArtist() {
-                const {data: response} = await this.$axios.put(`https://comeback-api.herokuapp.com/artists/${this.artist.id}`, this.sendToApi)
+                const {data: response} = await this.$axios.put(`https://comeback-api.herokuapp.com/artists/${this.$route.params.id}`, this.sendToApi)
                 
-                this.$router.push({ path: `/artist/${this.artist.id}`})
+                this.$router.push({ path: `/artist/${this.$route.params.id}`})
             }
         },
     }

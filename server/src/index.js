@@ -214,7 +214,9 @@ const createSeeds = async () => {
       musics: [{ name: 'Turn Back Time' }],
     },
     {
-      include: [{ model: models.Music, as: 'musics' }],
+      include: [
+        { model: models.Music, as: 'musics' }
+    ],
     },
   );
 };
