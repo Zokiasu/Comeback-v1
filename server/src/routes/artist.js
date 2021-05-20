@@ -6,6 +6,30 @@ import {
 
 const router = Router();
 
+const getSoloMembers = async (members, model) => {
+  const ids = [];
+  for (const member of members) {
+    ids.push(member['id']);
+  }
+  let soloMembers = await model.findAll({
+    where: { id: ids, type: 'SOLO' },
+  });
+
+  const groups = await model.findAll({
+    where: { id: ids, type: 'GROUP' },
+
+    include: [{ model: model, as: 'members' }],
+  });
+
+  for (const group of groups) {
+    if (group.members.length) {
+      const groupMembers = await getSoloMembers(group.members, model);
+      soloMembers = soloMembers.concat(groupMembers);
+    }
+  }
+  return soloMembers;
+};
+
 router.get('/', async (req, res) => {
   const artists = await req.context.models.Artist.findAll(
     queriesToDict(req.query),
@@ -32,6 +56,21 @@ router.get('/:artistId', async (req, res) => {
     },
   );
   return res.send(artist);
+});
+
+router.get('/:artistId/members', async (req, res) => {
+  const artist = await req.context.models.Artist.findByPk(
+    req.params.artistId,
+    {
+      include: [{ model: req.context.models.Artist, as: 'members' }],
+    },
+  );
+
+  const members = await getSoloMembers(
+    artist.members,
+    req.context.models.Artist,
+  );
+  return res.send(members);
 });
 
 router.post('/', async (req, res) => {
