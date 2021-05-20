@@ -269,4 +269,9 @@ const createSeeds = async () => {
     ],
     },
   );
+  const release = await models.Release.findOne({
+    where: { name: 'Turn Back Time' },
+  });
+
+  artist.addRelease(release);
 };
