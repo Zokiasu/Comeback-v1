@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { queriesToDict } from '../helpers/routes';
+import {
+  addAssociationItems,
+  queriesToDict,
+} from '../helpers/routes';
 
 const router = Router();
 
@@ -33,6 +36,22 @@ router.get('/:artistId', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const artist = await req.context.models.Artist.create(req.body);
+
+  await addAssociationItems(
+    req.body.groups,
+    req.body.newGroups,
+    req.context.models.Artist,
+    (array) => artist.addGroups(array),
+    (array) => artist.createGroup(array),
+  );
+
+  await addAssociationItems(
+    req.body.members,
+    req.body.newMembers,
+    req.context.models.Artist,
+    (array) => artist.addMembers(array),
+    (array) => artist.createMember(array),
+  );
   return res.send(artist);
 });
 
@@ -41,6 +60,22 @@ router.put('/:artistId', async (req, res) => {
     req.params.artistId,
   );
   artist.update(req.body);
+
+  await addAssociationItems(
+    req.body.groups,
+    req.body.newGroups,
+    req.context.models.Artist,
+    (array) => artist.addGroups(array),
+    (array) => artist.createGroup(array),
+  );
+
+  await addAssociationItems(
+    req.body.members,
+    req.body.newMembers,
+    req.context.models.Artist,
+    (array) => artist.addMembers(array),
+    (array) => artist.createMember(array),
+  );
   return res.send(artist);
 });
 
