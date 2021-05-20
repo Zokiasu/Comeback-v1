@@ -19,7 +19,12 @@ router.get('/:artistId', async (req, res) => {
         { model: req.context.models.Artist, as: 'groups' },
         { model: req.context.models.Artist, as: 'members' },
         { model: req.context.models.Happening, as: 'events' },
-        req.context.models.Release,
+        {
+          model: req.context.models.Release,
+          include: [
+            { model: req.context.models.Music, as: 'musics' },
+          ],
+        },
       ],
     },
   );
