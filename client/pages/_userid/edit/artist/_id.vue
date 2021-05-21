@@ -1,11 +1,11 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
     <div id="title-area">
-        <NuxtLink :to="`/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
+        <NuxtLink :to="`/_userid/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
       <div id="tilte-artist" class="relative">
         <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
-        <button :to="`/artist/${this.$route.params.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+        <button :to="`/_userid/artist/${this.$route.params.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
       </div>
     </div>
 
@@ -14,7 +14,19 @@
             <div id="image-area" class="relative h-full">
                 <img style="width:60rem;" :src="this.artists.image ? this.artists.image : this.$store.state.imageArtistDefault" alt="">
                 <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
-                    <button class="px-5 py-1 bg-red-700 text-white">Upload</button>
+                    <button 
+                        class="px-5 py-1 bg-red-700 text-white"
+                        @click="launchImageFile"
+                        :disabled="isUploadingImage"
+                        type="button">
+                        {{ isUploadingImage ? 'Uploading...' : 'Upload' }}
+                    </button>
+                    <input
+                        ref="imageFile"
+                        @change.prevent="uploadImageFile($event.target.files)"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        class="hidden">
                 </div>
             </div>
             <div class="space-y-10 w-full">
@@ -28,7 +40,7 @@
                         <h1 class="text-white text-xl">Artist Type</h1>
                         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                         <t-select @change="newObjectToApi('type', artists.type)" v-model="artists.type" id="artists-type-selector" :options="[
-                            { value: 'SOLOIST', text: 'Soloist' },
+                            { value: 'SOLO', text: 'Soloist' },
                             { value: 'GROUP', text: 'Group' },
                         ]" ></t-select>
                     </div>
@@ -60,7 +72,8 @@
         
         <div id="member-group" class="flex flex-col text-white mb-5 xl:mb-10">
             <h1 class="text-xl">Belong To The Groups</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div><multiselect
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+            <multiselect
                 v-model="artists.groups" 
                 tag-placeholder="Add this as new artists" 
                 placeholder="Search or add a artists" 
@@ -79,13 +92,13 @@
                 <h1 class="text-xl">Social Media Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.socials" :key="index" :elem="elem" @updateinput="updateList(artists.socials, $event, index, 'socials')"/>
-                <button @click="newInput(artists.socials)" class="text-left focus:outline-none">Add more</button>
+                <button @click="addSocials()" class="text-left focus:outline-none">Add more</button>
             </div>
             <div id="streaming-platform" class="flex flex-col w-full xl:ml-5 text-white mb-5 xl:mb-0">
                 <h1 class="text-xl">Streaming Platforms Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.platforms" :key="index" :elem="elem" @updateinput="updateList(artists.platforms, $event, index, 'platforms')"/>
-                <button @click="newInput(artists.platforms)" class="text-left focus:outline-none">Add more</button>
+                <button @click="addStreamingLink()" class="text-left focus:outline-none">Add more</button>
             </div>
         </div>
     </div>
@@ -100,6 +113,7 @@
                 artists:{},
                 artistList:[],
                 sendToApi:{},
+                isUploadingImage: false,
             }
         },
 
@@ -117,25 +131,33 @@
             addGroup (newTag) {
                 const tag = {
                     name: newTag,
-                    image: null,
+                    image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
+                    type: 'SOLO',
                     website: null,
                     description: null,
                     socials: null,
                     platforms: null,
                 }
-                this.release.newGroups.push(tag)
+                this.artistList.push(tag)
+                this.artists.groups.push(tag)
+                this.artists.newGroups.push(tag)
+                this.newObjectToApi('newGroups', this.artists.newGroups)
             },
 
             addMember (newTag) {
                 const tag = {
-                name: newTag,
-                image: null,
-                website: null,
-                description: null,
-                socials: null,
-                platforms: null,
+                    name: newTag,
+                    image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
+                    type: 'SOLO',
+                    website: null,
+                    description: null,
+                    socials: null,
+                    platforms: null,
                 }
-                this.release.newMembers.push(tag)
+                this.artistList.push(tag)
+                this.artists.members.push(tag)
+                this.artists.newMembers.push(tag)
+                this.newObjectToApi('newMembers', this.artists.newMembers)
             },
 
             updateList(list, newElem, index, key){
@@ -143,19 +165,69 @@
                 this.newObjectToApi(key, list)
             },
 
-            newInput(listToUpdate){
-                listToUpdate.push('New')
+            addStreamingLink(){
+                if(this.artists.platforms == null) {
+                    this.artists.platforms = [""]
+                } else {
+                    this.artists.platforms.push("")
+                }
+            },
+
+            addSocials(){
+                if(this.artists.socials == null) {
+                    this.artists.socials = [""]
+                } else {
+                    this.artists.socials.push("")
+                }
             },
 
             newObjectToApi(key, value){
                 this.sendToApi[key] = value
+                console.log(this.sendToApi)
             },
 
             async editArtist() {
-                const {data: response} = await this.$axios.put(`https://comeback-api.herokuapp.com/artists/${this.$route.params.id}`, this.sendToApi)
-                
-                this.$router.push({ path: `/artist/${this.$route.params.id}`})
-            }
+                await this.$axios.put(`https://comeback-api.herokuapp.com/artists/${this.$route.params.id}`, this.sendToApi).then(response=>{
+                    console.log(response)
+                    this.$router.push({ path: `/_userid/artist/${this.$route.params.id}`})
+                })
+            },
+
+            launchImageFile () {
+                this.$refs.imageFile.click()
+            },
+
+            uploadImageFile (files) {
+                if (!files.length) {
+                    return
+                }
+                let file = files[0]
+
+                if (!file.type.match('image.*')) {
+                    alert('Please upload an image.')
+                    return
+                }
+
+                let metadata = {
+                    contentType: file.type
+                }
+
+                this.isUploadingImage = true
+                let imageRef = this.$fire.storage.ref(`images/${Date.now()}`)
+
+                let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+                    return snapshot.ref.getDownloadURL().then((url) => {
+                        return url
+                    })
+                }).catch((error) => {
+                    console.error('Error uploading image', error)
+                })
+                uploadTask.then((url) => {
+                    this.newObjectToApi("image", url)
+                    this.artists.image = url
+                    this.isUploadingImage = false
+                })
+            },
         },
     }
 </script>

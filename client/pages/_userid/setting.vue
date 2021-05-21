@@ -1,6 +1,5 @@
 <template>
-  <div class="flex justify-center align-middle h-screen">
-    <div class="text-white text-lg space-y-7 p-20 my-auto bg-gray-600 rounded">
+    <div class="text-white text-lg space-y-7 p-10 m-10 bg-gray-500 bg-opacity-20 rounded">
       <div class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
         <span class="font-semibold">Profile Picture</span>
         <img class="w-20 h-20 object-cover" :src="img"/>
@@ -8,11 +7,11 @@
       </div>
       <div class="flex flex-col">
         <span class="font-semibold">Display Name</span>
-        <input type="text" v-model="displayName" class="w-full text-black xl:w-96 focus:outline-none p-2 focus:text-white bg-gray-100 border focus:bg-gray-400 focus:border-white transition-colors duration-500">
+        <t-input @change="newObjectToApi('name', displayName)" autocomplete="false" type="text" v-model="displayName" :value="displayName"/>
       </div>
       <div class="flex flex-col">
         <span class="font-semibold">Email</span>
-        <input type="email" v-model="email" class="w-full text-black xl:w-96 focus:outline-none p-2 focus:text-white bg-gray-100 border focus:bg-gray-400 focus:border-white transition-colors duration-500">
+        <t-input @change="newObjectToApi('email', email)" autocomplete="false" type="text" v-model="email" :value="email"/>
       </div>
       <div class="flex flex-col">
         <span class="font-semibold">User ID</span>
@@ -20,18 +19,22 @@
       </div>
       <div class="flex flex-col">
         <span class="font-semibold">Country</span>
-        <input type="text" v-model="country" class="w-full text-black xl:w-96 focus:outline-none p-2 focus:text-white bg-gray-100 border focus:bg-gray-400 focus:border-white transition-colors duration-500">
+        <t-input @change="newObjectToApi('country', country)" autocomplete="false" type="text" v-model="country" :value="country"/>
       </div>
       <div class="flex flex-col">
         <span class="font-semibold">Date of Birth</span>
-        <span>{{dateOfBirth}}</span>
+        <t-datepicker
+          v-model="dateOfBirth"
+          @change="newObjectToApi('dateOfBirth', dateOfBirth)"
+          placeholder="Release Date"
+          initial-view="month" dateFormat='Y-m-d' clearable timepicker amPm>
+        </t-datepicker>
       </div>
       <div class="flex flex-col">
         <span class="font-semibold">Desactive your account ?</span>
         <button class="bg-red-700 px-5 py-1">Yes, desactive my account</button>
       </div>
     </div>
-  </div>
 </template>
 
 <script>

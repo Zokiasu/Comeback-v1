@@ -8,13 +8,24 @@
       </div>
     </div>
 
-    <div id="body-area" class="xl:space-y-24 rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
-      <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 my-5 justify-between">
-        
-        <div id="image-area" class="relative">
-            <img class="w-80" :src="release.image" alt="">
+    <div id="body-area" class="xl:space-y-14 rounded bg-gray-500 bg-opacity-20 p-5 px-10 pb-10 mt-10">
+      <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 my-5 xl:space-x-20">
+        <div id="image-area" class="relative h-full">
+            <img class="w-80" :src="this.release.image ? this.release.image : this.$store.state.imageArtistDefault" alt="">
             <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
-                <button class="px-5 py-1 bg-red-700 text-white rounded">Upload</button>
+                <button 
+                    class="px-5 py-1 bg-red-700 text-white rounded"
+                    @click="launchImageFile"
+                    :disabled="this.isUploadingImage"
+                    type="button">
+                    {{ this.isUploadingImage ? 'Uploading...' : 'Upload' }}
+                </button>
+                <input
+                    ref="imageFile"
+                    @change.prevent="uploadImageFile($event.target.files)"
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    class="hidden">
             </div>
         </div>
 
@@ -47,22 +58,23 @@
         </div>
       </div>
 
-      <div id="middle" class="flex flex-col xl:flex-row justify-between">
-        <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
-            <h1 class="text-xl">Artists*</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <multiselect 
-              v-model="release.artists" 
-              tag-placeholder="Add this as new artist" 
-              placeholder="Search or add a artist" 
-              label="name" 
-              track-by="id" 
-              :options="artistList" 
-              :multiple="true" 
-              :taggable="true" 
-              @tag="addArtist">
-            </multiselect>
-        </div>
+      <div id="artists" class="flex flex-col text-white">
+          <h1 class="text-xl">Artists*</h1>
+          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+          <multiselect 
+            v-model="release.artists" 
+            tag-placeholder="Add this as new artist" 
+            placeholder="Search or add a artist" 
+            label="name" 
+            track-by="id" 
+            :options="artistList" 
+            :multiple="true" 
+            :taggable="true" 
+            @tag="addArtist">
+          </multiselect>
+      </div>
+
+      <div id="middle" class="flex flex-col xl:flex-row mx-auto">
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Tracklist*</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -72,7 +84,7 @@
         <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h1 class="text-xl">Streaming Platforms Link</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" @updateinput="updateList(release.platforms, $event, index)"/>
+            <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Platform'" @updateinput="updateList(release.platforms, $event, index)"/>
             <button @click="newInput(release.platforms)" class="text-left focus:outline-none">Add more</button>
         </div>
       </div>
@@ -86,10 +98,11 @@
     data() {
       return {
         artistList:[],
+        isUploadingImage: false,
         release:{
           name: '',
           type:'SINGLE',
-          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwiCr-h4VvKmCUqzPpcau559rrw0XdEhl9qyLs15JTdqkMe8vbmU08mKTV2j2D-mBbUbI&usqp=CAU',
+          image:'https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Freleases.png?alt=media&token=e4b0ae0c-3a5d-4ecd-a745-c4439811dcce',
           date: '',
           platforms: [],
           artists:[],
@@ -108,7 +121,8 @@
       addArtist (newTag) {
         const tag = {
           name: newTag,
-          image: null,
+          image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
+          type: 'SOLO',
           website: null,
           description: null,
           socials: null,
@@ -133,7 +147,7 @@
       },
 
       newInput(listToUpdate){
-        listToUpdate.push('New')
+        listToUpdate.push('')
       },
 
       async creates() {
@@ -148,7 +162,7 @@
             }
           }
 
-          const {data: response} = await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
+          await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
             "name": this.release.name,
             "type": this.release.type,
             "image": this.release.image,
@@ -157,9 +171,44 @@
             "artists": this.release.artists,
             "newArtists": this.release.newArtists,
             "musics": this.release.musics,
+          }).then(response => {
+            this.$router.push({ path: `/_userid/release/${response.data.id}`})
           })
-          console.log(response)
-          this.$router.push({ path: `/add/release`})
+      },
+
+      launchImageFile () {
+          this.$refs.imageFile.click()
+      },
+
+      uploadImageFile (files) {
+          if (!files.length) {
+              return
+          }
+          let file = files[0]
+
+          if (!file.type.match('image.*')) {
+              alert('Please upload an image.')
+              return
+          }
+
+          let metadata = {
+              contentType: file.type
+          }
+
+          this.isUploadingImage = true
+          let imageRef = this.$fire.storage.ref(`images/${Date.now()}`)
+
+          let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+              return snapshot.ref.getDownloadURL().then((url) => {
+                  return url
+              })
+          }).catch((error) => {
+              console.error('Error uploading image', error)
+          })
+          uploadTask.then((url) => {
+              this.release.image = url
+              this.isUploadingImage = false
+          })
       },
     },
   }

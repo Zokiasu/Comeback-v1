@@ -1,7 +1,7 @@
 <template>
   <div v-if="this.releaseList.length != 0" class="p-10 justify-center texts text-white">
     <div class="col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
-        <h1 class="font-semibold text-4xl"> {{date}} </h1>
+        <h1 class="font-semibold text-4xl"> {{new Date(date).toLocaleDateString('en-US', {  month: 'long', day: 'numeric' })}} </h1>
     </div>
     <div class="grid gap-3 py-10 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
         <ReleaseCard

@@ -33,8 +33,6 @@
         date.setDate(date.getDate() + index)
         this.releaseDateList.push(date.toISOString().slice(0, 10).replace('T', ''))
       }
-
-      console.log(process.env.FIREBASE_API_KEY)
     },
 
     mounted() {
