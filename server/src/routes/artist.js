@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   addAssociationItems,
   queriesToDict,
+  removeDuplicates,
 } from '../helpers/routes';
 
 const router = Router();
@@ -27,7 +28,7 @@ const getSoloMembers = async (members, model) => {
       soloMembers = soloMembers.concat(groupMembers);
     }
   }
-  return soloMembers;
+  return removeDuplicates(soloMembers, (item) => item.id);
 };
 
 router.get('/', async (req, res) => {

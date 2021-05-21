@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-function removeDuplicates(data, key) {
+export function removeDuplicates(data, key) {
   return [...new Map(data.map((item) => [key(item), item])).values()];
 }
 
