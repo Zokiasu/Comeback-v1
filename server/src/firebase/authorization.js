@@ -1,7 +1,7 @@
 import admin from './admin';
 import { getAuthToken } from './authentication';
 
-export const checkIfAdmin = (req, res, next) => {
+export const hasRoles = (req, res, next, roles) => {
   getAuthToken(req, res, async () => {
     try {
       const { authToken } = req;
@@ -10,11 +10,7 @@ export const checkIfAdmin = (req, res, next) => {
         userInfo.uid,
       );
 
-      console.log('ici user', user, 'user');
-      return next();
-
-      if (userInfo.admin === true) {
-        req.authId = userInfo.uid;
+      if (roles.includes(user.role)) {
         return next();
       }
 

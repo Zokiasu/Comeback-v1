@@ -1,22 +1,29 @@
 import { Router } from 'express';
 import { queriesToDict } from '../helpers/routes';
 import { createUser } from '../firebase/user';
-import { checkIfAdmin } from '../firebase/authorization';
+import { hasRoles } from '../firebase/authorization';
+import { ROLES } from '../constants';
 
 const router = Router();
 
 router.post('/auth/signup', createUser);
 
-router.get('/', checkIfAdmin, async (req, res) => {
-  const users = await req.context.models.User.findAll({
-    ...queriesToDict(req.query),
-    include: [
-      { model: req.context.models.Artist, as: 'artists' },
-      req.context.models.Request,
-    ],
-  });
-  return res.send(users);
-});
+router.get(
+  '/',
+  (req, res, next) => {
+    hasRoles(req, res, next, [ROLES.ADMIN]);
+  },
+  async (req, res) => {
+    const users = await req.context.models.User.findAll({
+      ...queriesToDict(req.query),
+      include: [
+        { model: req.context.models.Artist, as: 'artists' },
+        req.context.models.Request,
+      ],
+    });
+    return res.send(users);
+  },
+);
 
 router.get('/:userId', async (req, res) => {
   const user = await req.context.models.User.findByPk(
