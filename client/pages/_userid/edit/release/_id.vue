@@ -11,49 +11,31 @@
 
     <div id="body-area" class="rounded bg-gray-500 bg-opacity-20 mt-10 p-20">
       <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5 mb-5 xl:mb-20">
-        <div id="image-area" class="relative h-full">
-            <img class="w-80" :src="this.release.image ? this.release.image : this.$store.state.imageArtistDefault" alt="">
-            <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
-                <button 
-                    class="px-5 py-1 bg-red-700 text-white rounded"
-                    @click="launchImageFile"
-                    :disabled="isUploadingImage"
-                    type="button">
-                    {{ isUploadingImage ? 'Uploading...' : 'Upload' }}
-                </button>
-                <input
-                    ref="imageFile"
-                    @change.prevent="uploadImageFile($event.target.files)"
-                    type="file"
-                    accept="image/png, image/jpeg"
-                    class="hidden">
-            </div>
-        </div>
         <div class="w-full flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
-          <div class="flex flex-col space-y-10 w-full">
+          <div class="flex flex-col space-y-10 w-full justify-center">
+            <div id="image-area" class="relative h-full flex justify-center">
+                <img class="h-80 object-cover" :src="this.release.image ? this.release.image : this.$store.state.imageArtistDefault" alt="">
+                <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
+                    <button 
+                        class="px-5 py-1 bg-red-700 text-white rounded"
+                        @click="launchImageFile"
+                        :disabled="isUploadingImage"
+                        type="button">
+                        {{ isUploadingImage ? 'Uploading...' : 'Upload' }}
+                    </button>
+                    <input
+                        ref="imageFile"
+                        @change.prevent="uploadImageFile($event.target.files)"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        class="hidden">
+                </div>
+            </div>
             <div id="release-name">
                 <h1 class="text-white text-xl">Release Name*</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <t-input @change="newObjectToApi('name', release.name)" autocomplete="false" type="text" v-model="release.name" placeholder="Release Name" name="release-name" />
             </div>
-            <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0">
-                <h1 class="text-xl">Artists*</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <multiselect
-                  v-model="release.artists" 
-                  tag-placeholder="Add this as new artist" 
-                  placeholder="Search or add a artist" 
-                  label="name" 
-                  track-by="id" 
-                  :options="artistList" 
-                  :multiple="true" 
-                  :taggable="true"
-                  @input="newObjectToApi('artists', release.artists)" 
-                  @tag="addArtist">
-                </multiselect>
-            </div>
-          </div>
-          <div class="flex flex-col space-y-10 w-full">
             <div id="artist-name">
                 <h1 class="text-white text-xl">Release Type*</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -63,18 +45,65 @@
                   { value: 'EP', text: 'EP'}
                 ]" ></t-select>
             </div>
-            <div id="release-date">
-                <h1 class="text-white text-xl">Release Date*</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <t-datepicker
-                  v-model="release.date"
-                  @change="newObjectToApi('date', release.date)"
-                  placeholder="Release Date"
-                  initial-view="month" dateFormat='Y-m-d' clearable timepicker amPm>
-                </t-datepicker>
+          </div>
+          <div class="flex flex-col space-y-10 w-full xl:p-10">
+            <div id="release-date w-full">
+              <h2 class="text-white text-xl">Release Date*</h2>
+              <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+              <div>
+                <v-date-picker
+                    mode="dateTime"
+                    v-model="dates"
+                    :timezone="timezone"
+                    color="red"
+                    is-expanded/>
+                <div class="w-full mt-4">
+                    <div class="flex justify-between w-full">
+                    <span class="text-sm font-bold text-white">-11:00</span>
+                    <span class="text-sm font-bold text-white">UTC</span>
+                    <span class="text-sm font-bold text-white">+11:00</span>
+                    </div>
+                    <input
+                    class="w-full"
+                    type="range"
+                    min="0"
+                    :max="timezones.length - 1"
+                    v-model="timezoneIndex"
+                    />
+                    <div class="flex">
+                      <span class="font-semibold text-gray-400 mr-2">Timezone:</span>
+                      <span class="text-white">{{ timezone }}</span>
+                    </div>
+                    <div class="flex">
+                      <span class="font-semibold text-gray-400 mr-2">Namezone:</span>
+                      <span class="text-white">{{ namezone }}</span>
+                    </div>
+                    <div class="flex">
+                      <span class="font-semibold text-gray-400 mr-2">GMT Zone:</span>
+                      <span class="text-white">GMT{{ gmtzone }}</span>
+                    </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <div id="artists" class="flex flex-col text-white mb-10">
+          <h1 class="text-xl">Artists*</h1>
+          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+          <multiselect
+            v-model="release.artists" 
+            tag-placeholder="Add this as new artist" 
+            placeholder="Search or add a artist" 
+            label="name" 
+            track-by="id" 
+            :options="artistList" 
+            :multiple="true" 
+            :taggable="true"
+            @input="newObjectToApi('artists', release.artists)" 
+            @tag="addArtist">
+          </multiselect>
       </div>
       
       <div id="streaming-platform" class="flex flex-col w-full text-white mb-10">
@@ -105,13 +134,65 @@
 
     data() {
         return {
-            release:{},
-            sendToApi:{},
-            artistList:[],
-            updateRelease:false,
-            updateMusic:false,
-            sendToApiMusics:[],
-            isUploadingImage: false,
+          dates: new Date(),
+          timezoneIndex: 11,
+          timezones: [
+            'Pacific/Niue', // -11
+            'Pacific/Honolulu', // -10
+            'America/Anchorage', // -9
+            'America/Los_Angeles', // -8
+            'America/Denver', // -7
+            'America/Chicago', // -6
+            'America/New_York', // -5
+            'America/Puerto_Rico', // -4
+            'America/Buenos_Aires', // -3
+            'America/Sao_Paulo', // -2,
+            'Atlantic/Azores', // -1
+            'UTC', // 0
+            'Europe/Amsterdam', // +1
+            'Europe/Athens', // +2
+            'Europe/Moscow', // +3
+            'Indian/Mahe', // +4
+            'Asia/Ashgabat', // +5
+            'Asia/Dhaka', // +6
+            'Asia/Bangkok', // +7
+            'Asia/Hong_Kong', // +8
+            'Asia/Seoul', // +9
+            'Australia/Sydney', // +10
+            'Asia/Magadan', // +11
+          ],
+          nameZones: [
+            'Niue, Pago Pago', // -11
+            'Hawaii, Rarotonga, Tahiti', // -10
+            'Alaska Gambier', // -9
+            'Tijuana, Vancouver, Whitehorse', // -8
+            'Arizona, Mazatlan, Dawnson Creek, +3', // -7
+            'Mexico City, Costa Rica, Guatemala, +8', // -6
+            'Toronto, Jamaica, Panama, +11', // -5
+            'Guyana, Puerto Rico, Curacoa, +13', // -4
+            'Buenos Aires, Cayenne, Salvador, +17', // -3
+            'Noronha, Sao Paulo, South Georgia', // -2,
+            'Azores, Cape Verde, Scoresbysund', // -1
+            'Dublin, Lisbon, London, +11', // 0
+            'Amsterdam, Berlin, Oslo, +23', // +1
+            'Bucharest, Jerusalem, Johannesburg, +19', // +2
+            'Baghdad, Istanbul, Qatar, +5', // +3
+            'Dubai, Reunion, Yerevan, +5', // +4
+            'Maldives, Mawson, Karachi, +7', // +5
+            'Almaty, Vostok, Chagos, +4', // +6
+            'Hanoi, Jakarta, Davis, +4', // +7
+            'Taipei, Kuala Lumpur, Singapore, +10', // +8
+            'Tokyo, Palau, Dili, +3', // +9
+            'Guam, Vladivostok, Port Moresby, +3', // +10
+            'Noumea, Casey, Sydney, +7', // +11
+          ],
+          release:{},
+          sendToApi:{},
+          artistList:[],
+          updateRelease:false,
+          updateMusic:false,
+          sendToApiMusics:[],
+          isUploadingImage: false,
         }
     },
 
@@ -122,6 +203,36 @@
       release["newArtists"] = []
 
       return {release, artistList}
+    },
+
+    mounted(){
+      console.log(this.release)
+      this.dates = new Date(this.release.date)
+    },
+
+    watch:{
+      dates: function(val) {
+        this.newObjectToApi('date', val)
+        console.log(this.sendToApi)
+      }
+    },
+
+    computed: {
+      timezone() {
+        return this.timezones[this.timezoneIndex];
+      },
+      namezone() {
+        return this.nameZones[this.timezoneIndex];
+      },
+      gmtzone() {
+        var moment = require('moment-timezone')
+        let zone = moment().tz(this.timezones[this.timezoneIndex]).format().toString().slice(19,25)
+        if(zone == 'Z') {
+          return '+00:00'
+        } else {
+          return zone
+        }
+      },
     },
 
     methods:{
@@ -190,6 +301,7 @@
       },
 
       newObjectToApi(key, value){
+        console.log("newObjectToApi")
         this.sendToApi[key] = value
         this.updateRelease = true
       },
@@ -223,7 +335,7 @@
           }
 
           this.isUploadingImage = true
-          let imageRef = this.$fire.storage.ref(`images/${Date.now()}`)
+          let imageRef = this.$fire.storage.ref(`images/release-${this.release.id.replace(/\s/g, '')}`)
 
           let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
               return snapshot.ref.getDownloadURL().then((url) => {

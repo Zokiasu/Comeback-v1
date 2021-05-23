@@ -17,8 +17,11 @@
     "dgram": "^1.0.1",
     "firebase": "^8.6.1",
     "metascraper": "^5.21.7",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "nuxt": "^2.15.3",
     "tailwindcss": "^2.1.2",
+    "v-calendar": "^2.3.0",
     "vue-multiselect": "^2.1.6",
     "vue-tailwind": "^2.2.1"
   },

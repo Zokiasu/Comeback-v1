@@ -40,6 +40,7 @@ export default {
   plugins: [
     '~/plugins/inject.js',
     '~/plugins/vtlw.js',
+    { src: '~/plugins/v-calendar.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -90,7 +91,10 @@ export default {
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },
-    extends(config, ctx) {
+    extends(config, { isClient }) {
+      if (isClient) {
+        config.optimization.splitChunks.maxSize = 200000
+      }
       config.node = {
         fs: "empty"
       };
