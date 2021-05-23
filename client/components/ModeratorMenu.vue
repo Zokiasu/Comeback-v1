@@ -1,8 +1,8 @@
 <template>
     <section id="menu">
         <ul class="flex space-x-2 text-white">
-            <NuxtLink to="/_userid/moderator/tovalidated" class="px-3 py-1.5" :class="$route.name !== 'userid-moderator-tovalidated' ? '' : 'bg-gray-500 bg-opacity-30 rounded-t border-b-2 border-red-700'">
-                <span>To Validated</span>
+            <NuxtLink to="/_userid/moderator/pending" class="px-3 py-1.5" :class="$route.name !== 'userid-moderator-pending' ? '' : 'bg-gray-500 bg-opacity-30 rounded-t border-b-2 border-red-700'">
+                <span>Pending</span>
             </NuxtLink>
             <NuxtLink to="/_userid/moderator/releaseslist" class="px-3 py-1.5" :class="$route.name !== 'userid-moderator-releaseslist' ? '' : 'bg-gray-500 bg-opacity-30 rounded-t border-b-2 border-red-700'">
                 <span>Releases</span>

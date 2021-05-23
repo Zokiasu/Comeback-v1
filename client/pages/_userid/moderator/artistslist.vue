@@ -2,25 +2,36 @@
     <div class="m-5">
         <ModeratorMenu/>
         <section id="page-body" class="bg-gray-500 bg-opacity-20 p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            <div v-for="(artist, index) in this.artists" :key="index" class="flex bg-white relative p-2 rounded-xl overflow-hidden">
-                <span class="absolute text-white bottom-0 right-0 bg-gray-500 px-2">{{index}}</span>
-                <div class="mr-2">
-                    <img :src="artist.releases ? artist.releases[0].image : artist.image" class="w-20 h-20 object-cover rounded-xl" alt="">
+            <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
+                <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
+                <div class="flex absolute right-2 top-3 space-x-2">
+                    <NuxtLink :to="`/_userid/edit/artist/${artist.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
+                    <img @click="removeArtist(artist.id, releases[artist.place], index)" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
                 </div>
-                <div class="flex flex-col justify-between">
-                    <div class="flex space-x-2 absolute right-2">
-                        <NuxtLink :to="`/_userid/edit/artist/${artist.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/24/000000/edit--v1.png"/></NuxtLink>
-                        <img @click="removeArtist(artist.id, releases[artist.place], index)" src="https://img.icons8.com/material-rounded/24/000000/delete-trash.png"/>
+                <div class="flex space-x-2 mb-2">
+                    <img :src="artist.releases ? artist.releases[0].image : artist.image" class="w-20 h-20 object-cover" alt="">
+                    <div class="flex flex-col justify-between">
+                        <div class="flex space-x-2">
+                            <span class="font-semibold text-xl"><NuxtLink :to="`/_userid/artist/${artist.id}`" target="_blank" class="hover:underline">{{artist.name}}</NuxtLink> -</span>
+                            <span class="text-base mt-1">{{((artist.type).charAt(0).toUpperCase() + (artist.type).slice(1))}} </span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <a v-for="(social, index) in artist.socials" :key="index" :href="social" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${social}`"/></a>
+                            <span v-if="!artist.socials" class="text-red-500"> No Social Media </span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <a v-for="(platforms, index) in artist.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>
+                            <span v-if="!artist.platforms" class="text-red-500"> No Streaming Platforms </span>
+                        </div>
                     </div>
-                    <span class="font-semibold text-xl"><NuxtLink :to="`/_userid/artist/${artist.id}`" target="_blank" class="hover:underline">{{artist.name}}</NuxtLink></span>
-                    
-                    <div class="flex space-x-2 my-1" v-if="artist.platforms">
-                        <a v-for="(social, index) in artist.socials" :key="index" :href="social" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${social}`"/></a>
-                    </div>
-                    <div class="flex space-x-2 my-1" v-if="artist.platforms">
-                        <a v-for="(platforms, index) in artist.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>
-                    </div>
-                    <span><span>{{(new Date(artist.createdAt)).toLocaleDateString({ day:'numeric', month: 'numeric', year:'numeric' })}} </span> - <span>{{(new Date(artist.createdAt)).toLocaleTimeString({ hour:'numeric', minute: 'numeric' })}}</span></span>
+                </div>
+                <div>
+                    <span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style}} </span>
+                    <span v-if="!artist.styles" class="text-red-500"> No styles </span>
+                </div>
+                <div>
+                    <span v-if="artist.description" class="truncate break-words overflow-wrap block"> {{artist.description}} </span>
+                    <span v-if="!artist.description" class="text-red-500"> No description </span>
                 </div>
             </div>
         </section>
