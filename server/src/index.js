@@ -76,6 +76,7 @@ const createSeeds = async () => {
           endpoint: '/artists',
           body: { name: 'Amir' },
           current_data: { name: 'John' },
+          source: 'ça se fait pas',
         },
       ],
     },

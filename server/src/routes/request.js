@@ -22,16 +22,9 @@ router.get('/:requestId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const definitiveBody = {
-    method: req.body.method,
-    endpoint: req.body.endpoint,
-    body: req.body.body,
-    current_data: req.body.current_data,
-    userId: req.body.userId,
-  };
-  const request = await req.context.models.Request.create(
-    definitiveBody,
-  );
+  // we don't want anyone to manipulate the state
+  delete req.body['state'];
+  const request = await req.context.models.Request.create(req.body);
   return res.send(request);
 });
 

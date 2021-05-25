@@ -17,8 +17,8 @@ const request = (sequelize, DataTypes) => {
       allowNull: false,
     },
 
-    endpoint: {
-      type: DataTypes.STRING,
+    source: {
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
 
@@ -27,10 +27,16 @@ const request = (sequelize, DataTypes) => {
       allowNull: true,
     },
 
+    endpoint: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
     body: {
       type: DataTypes.JSON,
       allowNull: true,
     },
+
     current_data: {
       type: DataTypes.JSON,
       allowNull: true,
