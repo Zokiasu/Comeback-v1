@@ -21,7 +21,10 @@ router.get('/:userId', async (req, res) => {
   const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
-      include: [{ model: req.context.models.Artist, as: 'artists' }],
+      include: [
+        { model: req.context.models.Artist, as: 'artists' },
+        req.context.models.Notification,
+      ],
     },
   );
   return res.send(user);
@@ -30,6 +33,14 @@ router.get('/:userId', async (req, res) => {
 router.post('/', async (req, res) => {
   const user = await req.context.models.User.create(req.body);
   return res.send(user);
+});
+
+router.post('/:userId/notifications', async (req, res) => {
+  const notification = await req.context.models.Notification.create({
+    userId: req.params.userId,
+    ...req.body,
+  });
+  return res.send(notification);
 });
 
 router.put('/:userId', async (req, res) => {
