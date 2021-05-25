@@ -1,5 +1,4 @@
 'use strict';
-import { NOTIFICATION_TYPE } from '../constants';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
