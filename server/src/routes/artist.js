@@ -38,6 +38,18 @@ router.get('/', async (req, res) => {
   return res.send(artists);
 });
 
+router.get('/full', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.User, as: 'followers' },
+      { model: req.context.models.Artist, as: 'groups' },
+      { model: req.context.models.Artist, as: 'members' },
+    ],
+  });
+  return res.send(artists);
+});
+
 router.get('/:artistId', async (req, res) => {
   const artist = await req.context.models.Artist.findByPk(
     req.params.artistId,
