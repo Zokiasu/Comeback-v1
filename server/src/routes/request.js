@@ -22,7 +22,15 @@ router.get('/:requestId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const request = await req.context.models.Request.create(req.body);
+  const definitiveBody = {
+    method: req.body.method,
+    endpoint: req.body.endpoint,
+    body: req.body.body,
+    userId: req.body.userId,
+  };
+  const request = await req.context.models.Request.create(
+    definitiveBody,
+  );
   return res.send(request);
 });
 

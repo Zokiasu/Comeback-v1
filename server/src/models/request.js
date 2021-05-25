@@ -9,6 +9,7 @@ const request = (sequelize, DataTypes) => {
         REQUESTS.PENDING,
       ),
       allowNull: false,
+      defaultValue: REQUESTS.PENDING,
     },
 
     method: {
@@ -27,6 +28,10 @@ const request = (sequelize, DataTypes) => {
     },
 
     body: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
+    current_data: {
       type: DataTypes.JSON,
       allowNull: true,
     },
