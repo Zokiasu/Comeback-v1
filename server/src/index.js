@@ -75,6 +75,7 @@ const createSeeds = async () => {
           checked_by: 2,
           endpoint: '/artists',
           body: { name: 'Amir' },
+          current_data: { name: 'John' },
         },
       ],
     },
@@ -266,9 +267,7 @@ const createSeeds = async () => {
       ],
     },
     {
-      include: [
-        { model: models.Music, as: 'musics' }
-    ],
+      include: [{ model: models.Music, as: 'musics' }],
     },
   );
   const release = await models.Release.findOne({

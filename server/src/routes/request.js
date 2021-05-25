@@ -26,6 +26,7 @@ router.post('/', async (req, res) => {
     method: req.body.method,
     endpoint: req.body.endpoint,
     body: req.body.body,
+    current_data: req.body.current_data,
     userId: req.body.userId,
   };
   const request = await req.context.models.Request.create(
