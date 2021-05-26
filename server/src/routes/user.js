@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import { queriesToDict } from '../helpers/routes';
 import { createUser } from '../firebase/user';
+import { hasRoles } from '../firebase/authorization';
+import { ROLES } from '../constants';
+import { checkIfAuthenticated } from '../firebase/authentication';
 
 const router = Router();
 
@@ -16,6 +19,38 @@ router.get('/', async (req, res) => {
   });
   return res.send(users);
 });
+
+// test auth and admin
+
+router.get('/testauth', checkIfAuthenticated, async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Artist, as: 'artists' },
+      req.context.models.Request,
+    ],
+  });
+  return res.send(users);
+});
+
+router.get(
+  '/testadmin',
+  (req, res, next) => {
+    hasRoles(req, res, next, [ROLES.ADMIN]);
+  },
+  async (req, res) => {
+    const users = await req.context.models.User.findAll({
+      ...queriesToDict(req.query),
+      include: [
+        { model: req.context.models.Artist, as: 'artists' },
+        req.context.models.Request,
+      ],
+    });
+    return res.send(users);
+  },
+);
+
+// end of test
 
 router.get('/:userId', async (req, res) => {
   const user = await req.context.models.User.findByPk(
