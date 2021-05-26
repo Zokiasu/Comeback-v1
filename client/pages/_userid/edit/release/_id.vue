@@ -125,7 +125,7 @@
           <h1 class="text-xl">Streaming Platforms Link</h1>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
           <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Platforms'" @updateinput="updateList(release.platforms, $event, index, 'platforms')"/>
-          <button @click="addStreamingLink()" class="text-left focus:outline-none">Add more</button>
+          <button @click="addStreamingLink()" class="text-left focus:outline-none">Add</button>
       </div>
 
       <div id="middle" class="flex flex-col xl:flex-row">
@@ -137,7 +137,7 @@
               <t-input @change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.name" placeholder="Track Name"/>
               <t-input @change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.clip" placeholder="Track Clip"/>
             </div>
-            <button @click="addMusic()" class="text-left focus:outline-none">Add more</button>
+            <button @click="addMusic()" class="text-left focus:outline-none">Add</button>
         </div>
       </div>
     </div>

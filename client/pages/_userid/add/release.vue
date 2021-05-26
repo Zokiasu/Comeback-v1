@@ -1,18 +1,20 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
-    <div id="title-area">
+
+    <section id="title-area">
       <div id="tilte-artist" class="relative">
         <h2 class="text-white text-2xl xl:text-4xl mt-5 mb-2">New Comeback</h2>
         <div id="divider" class="border-b-2 border-gray-100"></div>
         <button @click="creates()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
       </div>
-    </div>
+    </section>
 
-    <div id="body-area" class="xl:space-y-14 rounded bg-gray-500 bg-opacity-20 p-5 px-10 pb-10 mt-10">
-      <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 my-5 xl:space-x-20 justify-between xl:pr-40">
-        <div class="flex flex-col 2xl:flex-row space-y-5 2xl:space-y-0 my-5 2xl:space-x-10 justify-center h-full">
-          <div id="image-area" class="relative h-full">
-              <img class="w-80" :src="this.release.image ? this.release.image : this.$store.state.imageArtistDefault" alt="">
+    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 p-5 px-10 pb-10 mt-10 pt-10">
+      <div id="release-info" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 justify-between">
+        <div class="flex flex-col 2xl:flex-row space-y-5 2xl:space-y-0 my-5 2xl:space-x-20 2xl:px-10 justify-center h-full w-full">
+
+          <div id="image-area" class="relative h-full bg-red-500">
+              <img class="w-96" :src="this.release.image ? this.release.image : this.$store.state.imageArtistDefault" alt="">
               <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                 <button 
                   class="px-5 py-1 bg-red-700 text-white rounded"
@@ -30,7 +32,12 @@
               </div>
           </div>
 
-          <div class="flex flex-col space-y-5">
+          <div id="basic-info" class="flex flex-col space-y-5 w-full">
+            <div id="release-name">
+                <h2 class="text-white text-xl">Release Name*</h2>
+                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                <t-input autocomplete="false" type="text" v-model="release.name" placeholder="Release Name" name="release-name" />
+            </div>
             <div id="artist-name">
                 <h2 class="text-white text-xl">Release Type*</h2>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -40,16 +47,38 @@
                   { value: 'EP', text: 'EP'}]">
                 </t-select>
             </div>
-
-            <div id="release-name">
-                <h2 class="text-white text-xl">Release Name*</h2>
+            <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0">
+                <h2 class="text-xl">Styles*</h2>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <t-input autocomplete="false" type="text" v-model="release.name" placeholder="Release Name" name="release-name" />
+                <multiselect
+                  v-model="release.styles" 
+                  tag-placeholder="Add this as new style" 
+                  placeholder="Search or add a style"
+                  :options="styleList" 
+                  :multiple="true" 
+                  :taggable="true" 
+                  @tag="addStyle">
+                </multiselect>
+            </div>
+            <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0">
+              <h2 class="text-xl">Artists*</h2>
+              <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+              <multiselect 
+                v-model="release.artists" 
+                tag-placeholder="Add this as new artist" 
+                placeholder="Search or add a artist" 
+                label="name" 
+                track-by="id" 
+                :options="artistList" 
+                :multiple="true" 
+                :taggable="true" 
+                @tag="addArtist">
+              </multiselect>
             </div>
           </div>
-        </div>
 
-        <div id="release-date w-full">
+        </div>
+        <div id="release-date">
           <h2 class="text-white text-xl">Release Date*</h2>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
           <div>
@@ -89,38 +118,22 @@
           </div>
         </div>
       </div>
-
-      <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0">
-          <h2 class="text-xl">Artists*</h2>
-          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-          <multiselect 
-            v-model="release.artists" 
-            tag-placeholder="Add this as new artist" 
-            placeholder="Search or add a artist" 
-            label="name" 
-            track-by="id" 
-            :options="artistList" 
-            :multiple="true" 
-            :taggable="true" 
-            @tag="addArtist">
-          </multiselect>
-      </div>
-
-      <div id="middle" class="flex flex-col xl:flex-row mx-auto">
+      <div id="release-contents" class="flex flex-col xl:flex-row mx-auto">
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h2 class="text-xl">Tracklist*</h2>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <t-input class="mb-1" v-for="(music, index) in this.release.musics" :key="index" type="text" v-model="music.name" placeholder="Track name"/>
-            <button @click="addMusic()" class="text-left focus:outline-none">Add more</button>
+            <button @click="addMusic()" class="text-left focus:outline-none">Add</button>
         </div>
         <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h2 class="text-xl">Streaming Platforms Link</h2>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Platform'" @updateinput="updateList(release.platforms, $event, index)"/>
-            <button @click="newInput(release.platforms)" class="text-left focus:outline-none">Add more</button>
+            <button @click="newInput(release.platforms)" class="text-left focus:outline-none">Add</button>
         </div>
       </div>
-    </div>
+    </section>
+
   </div>
 </template>
 
@@ -183,6 +196,7 @@
           'Noumea, Casey, Sydney, +7', // +11
         ],
         artistList:[],
+        styleList:[],
         isUploadingImage: false,
         release:{
           name: '',
@@ -191,6 +205,7 @@
           date: '',
           platforms: [],
           artists:[],
+          styles:[],
           newArtists:[],
           musics:[],
         },
@@ -221,6 +236,16 @@
     },
 
     methods:{
+
+      addStyle (newTag) {
+        if(this.release.styles == null) {
+          this.release.styles = [newTag]
+        } else {
+          this.release.styles.push(newTag)
+        }
+        this.styleList.push(newTag)
+      },
+
       addArtist (newTag) {
         const tag = {
           name: newTag,

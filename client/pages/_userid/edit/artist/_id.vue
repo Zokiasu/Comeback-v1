@@ -106,13 +106,13 @@
                 <h1 class="text-xl">Social Media Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.socials" :key="index" :elem="elem" @updateinput="updateList(artists.socials, $event, index, 'socials')"/>
-                <button @click="addSocials()" class="text-left focus:outline-none">Add more</button>
+                <button @click="addSocials()" class="text-left focus:outline-none">Add</button>
             </div>
             <div id="streaming-platform" class="flex flex-col w-full xl:ml-5 text-white mb-5 xl:mb-0">
                 <h1 class="text-xl">Streaming Platforms Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.platforms" :key="index" :elem="elem" @updateinput="updateList(artists.platforms, $event, index, 'platforms')"/>
-                <button @click="addStreamingLink()" class="text-left focus:outline-none">Add more</button>
+                <button @click="addStreamingLink()" class="text-left focus:outline-none">Add</button>
             </div>
         </div>
 

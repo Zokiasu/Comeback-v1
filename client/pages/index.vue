@@ -34,9 +34,9 @@
     <div class="w-full mt-20 px-10">
       <div class="w-full flex flex-col space-y-5 justify-center border-t-2 border-gray-500 py-5">
         <ul class="flex space-x-1.5 text-white justify-center text-xl">
-          <li>
+          <!--<li>
             <span>©</span>
-          </li>
+          </li>-->
           <li>
             <span>Studeler Dev.</span>
           </li>

@@ -1,8 +1,8 @@
 <template>
     <div class="bg-leftbar flex flex-col relative text-white texts min-h-screen">
         <header class="mx-5">
-            <NuxtLink to="/_userid/calendar"></NuxtLink>
-            <img class=" w-60" src="../assets/image/comeback-logo.png"/>
+            <NuxtLink to="/_userid/calendar">
+            <img class="w-60 my-5" src="../assets/image/comeback-logo.png"/></NuxtLink>
         </header>
         <section class="border-t-2 border-gray-400 mx-5 py-5">
             <nav>
@@ -78,7 +78,7 @@
             </section>
             <section class="border-t-2 border-gray-400 space-y-2 mx-3 pt-2 text-sm">
                 <p class="text-center"><a href="#">Contact</a> - <a href="#">About</a> - <a href="#">Terms</a> - <a href="#">Privacy Policy</a></p>
-                <p class="text-center">©2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
+                <p class="text-center">2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
             </section>
         </footer>
     </div>

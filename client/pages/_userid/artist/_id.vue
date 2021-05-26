@@ -11,7 +11,7 @@
     <section class="space-y-8">
       <section id="artist-info" class="flex xl:space-x-10 space-y-5 xl:space-y-0">
         <div class="h-full flex justify-center col-span-1">
-          <img id="artist-picture" style="width:40rem;" class="h-96 object-cover" :src="this.artist.image ? this.artist.image : this.$store.state.imageArtistDefault" alt="Artist Picture"/>
+          <img id="artist-picture" style="width:30rem;" class="object-cover" :src="this.artist.image ? this.artist.image : this.$store.state.imageArtistDefault" alt="Artist Picture"/>
         </div>
         <div class="space-y-5 col-span-2">
           <div id="description" v-if="this.artist.description" :class="[ this.artist.description ? 'col-start-2 col-end-4' : '' ]">
