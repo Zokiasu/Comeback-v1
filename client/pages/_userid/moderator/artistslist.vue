@@ -1,7 +1,7 @@
 <template>
     <div class="m-5">
         <ModeratorMenu/>
-        <section id="page-body" class="bg-gray-500 bg-opacity-20 p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+        <section id="page-body" class="p-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
             <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
@@ -30,7 +30,7 @@
                     <span v-if="!artist.styles" class="text-red-500"> No styles </span>
                 </div>
                 <div>
-                    <span v-if="artist.description" class="truncate break-words overflow-wrap block"> {{artist.description}} </span>
+                    <span v-if="artist.description" class="truncate hover:overflow-ellipsis break-words overflow-wrap block"> {{artist.description}} </span>
                     <span v-if="!artist.description" class="text-red-500"> No description </span>
                 </div>
             </div>
@@ -50,7 +50,6 @@
 
         async asyncData({ $axios }){
             let artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=id:asc`)
-            console.log(artists)
             return {artists}
         },
 

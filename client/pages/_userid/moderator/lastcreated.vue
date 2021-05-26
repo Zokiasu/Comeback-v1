@@ -1,7 +1,7 @@
 <template>
     <div class="m-5">
         <ModeratorMenu/>
-        <section id="page-body" class="bg-gray-500 bg-opacity-20 p-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+        <section id="page-body" class="p-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
             <div v-for="(update, index) in this.lastUpdate" :key="index" style="background-color: #6B728033" class="flex text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="mr-2">

@@ -1,37 +1,69 @@
 <template>
     <div class="m-5">
         <ModeratorMenu/>
-        <section id="page-body" class="bg-gray-500 bg-opacity-20 p-5 space-y-3">
-            <div></div>
+        <section id="releases-body" class="p-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+            <div v-for="(release, index) in this.releases" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
+                <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
+                <div class="flex absolute right-2 top-3 space-x-2">
+                    <NuxtLink :to="`/_userid/edit/release/${release.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
+                    <img @click="removeRelease(release.id, releases[release.place], index)" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
+                </div>
+                <div class="flex space-x-2">
+                    <img :src="release.releases ? release.releases[0].image : release.image" class="w-20 h-20 object-cover" alt="">
+                    <div class="flex flex-col -mt-1">
+                        <div class="flex space-x-2 mb-1.5">
+                            <span class="font-semibold text-lg"><NuxtLink :to="`/_userid/release/${release.id}`" target="_blank" class="hover:underline">{{release.name}}</NuxtLink></span>
+                        </div>
+                        <div class="mb-1.5">
+                            <span>{{((release.type).charAt(0).toUpperCase() + (release.type).slice(1))}} </span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <a v-for="(platforms, index) in release.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>
+                            <span v-if="release.platforms.length < 1" class="text-red-500"> No Streaming Platforms </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span v-for="(style, index) in release.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style}} </span>
+                    <span v-if="!release.styles" class="text-red-500"> No styles </span>
+                </div>
+                <span class="font-semibold text-gray-400">Artists :</span>
+                <div class="mb-5">
+                    <span v-for="(artist, index) in release.artists" :key="index" class="rounded">{{artist.name}}<span v-if="index < release.artists.length-1">, </span></span>
+                    <span v-if="!release.artists" class="text-red-500"> No Artists </span>
+                </div>
+                <span class="font-semibold text-gray-400">Tracklist :</span>
+                <div class="grid grid-cols-2">
+                    <span v-for="(music, index) in release.musics" :key="index" class="rounded">{{music.name}}</span>
+                    <span v-if="release.musics.length < 1" class="text-red-500"> No Musics </span>
+                </div>
+            </div>
         </section>
     </div>
 </template>
 
 <script>
     export default {
-        name:'LastUpdate',
+        name:'ReleaseList',
 
         data() {
             return {
-                artists: [],
                 releases: [],
-                lastUpdate: [],
             }
         },
 
         async asyncData({ $axios }){
-            let artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists`)
-            let releases = await $axios.$get(`https://comeback-api.herokuapp.com/releases`)
-            return {artists, releases}
+            let releases = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=id:asc`)
+            return {releases}
         },
 
-        mounted(){
-            this.lastUpdate = this.artists.concat(this.releases)
-            this.lastUpdate.sort(function(a,b){
-                if(a.updatedAt.toLowerCase() > b.updatedAt.toLowerCase()) {return -1}
-                if(a.updatedAt.toLowerCase() < b.updatedAt.toLowerCase()) {return 1}
-                return 0;
-            })
+        methods:{
+            async removeRelease(id, object, index){
+                await this.$axios.delete(`https://comeback-api.herokuapp.com/releases/${id}`, object).then(response=>{
+                    console.log(response)
+                    this.releases.splice(index, 1)
+                })
+            },
         },
     }
 </script>

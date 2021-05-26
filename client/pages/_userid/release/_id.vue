@@ -49,6 +49,12 @@
             }
         },
 
+        head() {
+            return {
+                title: this.release.name,
+            }
+        },
+
         async asyncData({ $axios, params }){
             const release = await $axios.$get(`https://comeback-api.herokuapp.com/releases/${params.id}`)
             console.log(release)

@@ -1,7 +1,7 @@
 <template>
     <div class="m-5">
         <ModeratorMenu/>
-        <section id="page-body" class="bg-gray-500 bg-opacity-20 p-5 space-y-3">
+        <section id="page-body" class="p-5 space-y-3">
             <div></div>
         </section>
     </div>

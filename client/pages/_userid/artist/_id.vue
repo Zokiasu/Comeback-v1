@@ -9,9 +9,9 @@
       </div>
     </div>
     <section class="space-y-8">
-      <section id="artist-info" class="xl:grid xl:grid-cols-3 xl:gap-5 space-y-5 xl:space-y-0">
-        <div class="h-full w-full flex justify-center col-span-1">
-          <img id="artist-picture" class="w-96 object-cover" :src="this.artist.image ? this.artist.image : this.$store.state.imageArtistDefault" alt="Artist Picture"/>
+      <section id="artist-info" class="flex xl:space-x-10 space-y-5 xl:space-y-0">
+        <div class="h-full flex justify-center col-span-1">
+          <img id="artist-picture" style="width:40rem;" class="h-96 object-cover" :src="this.artist.image ? this.artist.image : this.$store.state.imageArtistDefault" alt="Artist Picture"/>
         </div>
         <div class="space-y-5 col-span-2">
           <div id="description" v-if="this.artist.description" :class="[ this.artist.description ? 'col-start-2 col-end-4' : '' ]">
@@ -103,6 +103,19 @@
         artist: [],
         memberslist: [],
         subunitlist: [],
+      }
+    },
+
+    head() {
+      return {
+        title: this.artist.name,
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content: this.artist.description
+          }
+        ]
       }
     },
 

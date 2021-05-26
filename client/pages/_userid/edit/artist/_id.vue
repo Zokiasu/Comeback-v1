@@ -12,7 +12,7 @@
     <div class="rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
         <div class="flex flex-col xl:flex-row xl:space-x-10 my-5 xl:mb-10">
             <div id="image-area" class="relative h-full">
-                <img style="width:60rem;" :src="this.artists.image ? this.artists.image : this.$store.state.imageArtistDefault" alt="">
+                <img class="w-40" :src="this.artists.image ? this.artists.image : this.$store.state.imageArtistDefault">
                 <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                     <button 
                         class="px-5 py-1 bg-red-700 text-white"
@@ -86,8 +86,22 @@
                 @tag="addGroup">
             </multiselect>
         </div>
+        
+        <div id="styles" class="flex flex-col text-white mb-5 xl:mb-10">
+            <h1 class="text-xl">Styles</h1>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+            <multiselect
+                v-model="artists.styles" 
+                tag-placeholder="Add this as new style" 
+                placeholder="Search or add a style"
+                :options="styleList" 
+                :multiple="true" 
+                :taggable="true"
+                @tag="addStyle">
+            </multiselect>
+        </div>
 
-        <div class="flex flex-col xl:flex-row xl:justify-between">
+        <div class="flex flex-col xl:flex-row xl:justify-between mb-5 xl:mb-10">
             <div id="social-media" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
                 <h1 class="text-xl">Social Media Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -101,6 +115,12 @@
                 <button @click="addStreamingLink()" class="text-left focus:outline-none">Add more</button>
             </div>
         </div>
+
+        <div id="source" class="flex flex-col w-full text-white mb-5 xl:mb-0">
+            <h1 class="text-white text-xl">Source*</h1>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+            <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
+        </div>
     </div>
   </div>
 </template>
@@ -111,8 +131,12 @@
         data() {
             return {
                 artists:{},
+                oldArtistData:{},
                 artistList:[],
-                sendToApi:{},
+                styleList:[],
+                editToApi:{},
+                oldDataToApi:{},
+                source:'',
                 isUploadingImage: false,
             }
         },
@@ -127,7 +151,38 @@
             return {artists, artistList}
         },
 
+        mounted(){
+            this.oldArtistData = JSON.parse(JSON.stringify(this.artists))
+        },
+
         methods:{
+            async editArtist() {
+                console.log(this.editToApi)
+                this.oldDataToApi['name'] = this.oldArtistData['name']
+                this.oldDataToApi['image'] = this.oldArtistData['image']
+                await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
+                    state:'PENDING',
+                    method:'PUT',
+                    endpoint:`/artists/${this.$route.params.id}`,
+                    body: this.editToApi,
+                    currentData: this.oldArtistData,
+                    userId: 1,
+                    source: this.source
+                }).then(response=>{
+                    console.log(response)
+                    this.$router.push({ path: `/_userid/artist/${this.$route.params.id}`})
+                })
+            },
+
+            addStyle (newTag) {
+                if(this.artists.styles == null) {
+                    this.artists.styles = [newTag]
+                } else {
+                    this.artists.styles.push(newTag)
+                }
+                this.newObjectToApi('styles', this.artists.styles)
+            },
+            
             addGroup (newTag) {
                 const tag = {
                     name: newTag,
@@ -182,15 +237,9 @@
             },
 
             newObjectToApi(key, value){
-                this.sendToApi[key] = value
-                console.log(this.sendToApi)
-            },
-
-            async editArtist() {
-                await this.$axios.put(`https://comeback-api.herokuapp.com/artists/${this.$route.params.id}`, this.sendToApi).then(response=>{
-                    console.log(response)
-                    this.$router.push({ path: `/_userid/artist/${this.$route.params.id}`})
-                })
+                console.log(key, value)
+                this.editToApi[key] = value
+                this.oldDataToApi[key] = this.oldArtistData[key]
             },
 
             launchImageFile () {
@@ -214,7 +263,8 @@
 
                 this.isUploadingImage = true
 
-                let imageRef = this.$fire.storage.ref(`images/artist-${this.artists.id.replace(/\s/g, '')}`)
+                //let imageRef = this.$fire.storage.ref(`images/artist-${this.artists.id.replace(/\s/g, '')}`)
+                let imageRef = this.$fire.storage.ref(`images/artist-${this.artists.id}`)
 
                 let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
                     return snapshot.ref.getDownloadURL().then((url) => {

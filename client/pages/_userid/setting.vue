@@ -1,5 +1,5 @@
 <template>
-    <div class="text-white text-lg space-y-7 p-10 m-10 bg-gray-500 bg-opacity-20 rounded">
+    <div class="text-white text-lg space-y-7 p-10 m-10 bg-gray-500 bg-opacity-20">
       <div class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
         <span class="font-semibold">Profile Picture</span>
         <img class="w-20 h-20 object-cover" :src="img"/>
@@ -24,6 +24,7 @@
       <div class="flex flex-col">
         <span class="font-semibold">Date of Birth</span>
         <t-datepicker
+          class="text-black"
           v-model="dateOfBirth"
           @change="newObjectToApi('dateOfBirth', dateOfBirth)"
           placeholder="Release Date"

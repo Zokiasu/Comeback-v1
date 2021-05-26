@@ -105,6 +105,21 @@
             @tag="addArtist">
           </multiselect>
       </div>
+        
+      <div id="release-style" class="flex flex-col text-white mb-5 xl:mb-10">
+          <h1 class="text-xl">Styles</h1>
+          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+          <multiselect
+              v-model="release.styles" 
+              tag-placeholder="Add this as new style" 
+              placeholder="Search or add a style"
+              :options="styleList" 
+              :multiple="true" 
+              :taggable="true"
+              @input="newObjectToApi('styles', release.styles)" 
+              @tag="addStyle">
+          </multiselect>
+      </div>
       
       <div id="streaming-platform" class="flex flex-col w-full text-white mb-10">
           <h1 class="text-xl">Streaming Platforms Link</h1>
@@ -189,6 +204,7 @@
           release:{},
           sendToApi:{},
           artistList:[],
+          styleList:[],
           updateRelease:false,
           updateMusic:false,
           sendToApiMusics:[],
@@ -218,6 +234,13 @@
     },
 
     computed: {
+      addStyle (newTag) {
+        /*if(this.release.styles == null) {
+          this.release.styles = [newTag]
+        } else {
+          this.release.styles.push(newTag)
+        }*/
+      },
       timezone() {
         return this.timezones[this.timezoneIndex];
       },

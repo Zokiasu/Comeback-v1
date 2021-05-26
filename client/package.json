@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@kouts/vue-modal": "^2.0.10",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/firebase": "^7.5.0",
     "@nuxtjs/tailwindcss": "^4.1.0",
