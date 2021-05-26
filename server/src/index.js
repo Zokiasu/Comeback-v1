@@ -75,7 +75,7 @@ const createSeeds = async () => {
           checked_by: 2,
           endpoint: '/artists',
           body: { name: 'Amir' },
-          current_data: { name: 'John' },
+          currentData: { name: 'John' },
           source: 'ça se fait pas',
         },
       ],

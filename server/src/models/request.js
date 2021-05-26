@@ -37,7 +37,7 @@ const request = (sequelize, DataTypes) => {
       allowNull: true,
     },
 
-    current_data: {
+    currentData: {
       type: DataTypes.JSON,
       allowNull: true,
     },
