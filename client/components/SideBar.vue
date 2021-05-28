@@ -1,7 +1,7 @@
 <template>
     <div class="bg-leftbar flex flex-col relative text-white texts min-h-screen">
         <header class="mx-5">
-            <NuxtLink to="/_userid/calendar">
+            <NuxtLink to="/">
             <img class="w-60 my-5" src="../assets/image/comeback-logo.png"/></NuxtLink>
         </header>
         <section class="border-t-2 border-gray-400 mx-5 py-5">
@@ -18,31 +18,31 @@
                         </div>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" to="/_userid/calendar">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/calendar`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
                             <span>Calendar</span>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" to="/_userid/artist">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/artist`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Artists</span>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" to="/_userid/profile">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/profile`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
                             <span>Profile</span>
                         </NuxtLink>
                     </li>
                     <!--<li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-discover' ? 'bg-transparent' : 'bg-select-leftbar'" to="/_userid/discover">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/discover`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Discover</span>
                         </NuxtLink>
                     </li>-->
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" to="/_userid/setting">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/setting`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                             <span>Setting</span>
                         </NuxtLink>
@@ -54,12 +54,12 @@
             <nav>
                 <ul class="space-y-5">
                     <li>
-                        <NuxtLink :to="`/_userid/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                        <NuxtLink :to="`/${this.$fire.auth.currentUser.uid}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                             <span>New Comeback</span>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink to="/_userid/moderator/lastupdated" class="px-3 py-1 rounded flex space-x-2" >
+                        <NuxtLink :to="`/${this.$fire.auth.currentUser.uid}/moderator/lastupdated`" class="px-3 py-1 rounded flex space-x-2" >
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                             <span>Moderator Panel</span>
                         </NuxtLink>
@@ -69,7 +69,7 @@
         </section>
         <footer class="w-full bottom-0 left-0 space-y-3 my-5 justify-center">
             <section class=" border-t-2 border-gray-400 mx-3 pt-2">
-                <p class="text-center font-semibold"><a href="#">Sign Out</a></p>
+                <p class="text-center font-semibold"><button class="focus:outline-none" @click="logout()" href="#">Sign Out</button></p>
             </section>
             <section class="border-t-2 border-gray-400 mx-3 pt-2 flex space-x-6 justify-center">
                 <a href="#"><img class="w-5" src="../assets/image/facebook.png"/></a>
@@ -83,6 +83,20 @@
         </footer>
     </div>
 </template>
+
+<script>
+    export default {
+        methods:{
+            logout(){
+                this.$fire.auth.signOut().then(() => {
+                    //console.log('Signed Out');
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
+        }
+    }
+</script>
 
 <style>
 .texts {

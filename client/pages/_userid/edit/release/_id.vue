@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
     <div id="title-area">
-      <NuxtLink :to="`/_userid/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
+      <NuxtLink :to="`/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
       <div id="tilte-artist" class="relative">
         <h1 class="text-white text-2xl xl:text-4xl mt-10 mb-2">Edit Release</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
@@ -14,7 +14,7 @@
         <div class="w-full flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
           <div class="flex flex-col space-y-10 w-full justify-center">
             <div id="image-area" class="relative h-full flex justify-center">
-                <img class="h-80 object-cover" :src="this.release.image ? this.release.image : this.$store.state.imageArtistDefault" alt="">
+                <img class="h-80 object-cover" :src="this.release.image ? this.release.image : defaultImage" alt="">
                 <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                     <button 
                         class="px-5 py-1 bg-red-700 text-white rounded"
@@ -222,18 +222,19 @@
     },
 
     mounted(){
-      console.log(this.release)
       this.dates = new Date(this.release.date)
     },
 
     watch:{
       dates: function(val) {
         this.newObjectToApi('date', val)
-        console.log(this.sendToApi)
       }
     },
 
     computed: {
+      defaultImage(){
+          return this.$store.state.imageArtistDefault
+      },
       addStyle (newTag) {
         /*if(this.release.styles == null) {
           this.release.styles = [newTag]
@@ -264,7 +265,7 @@
         if(this.updateRelease) {
           await this.$axios.put(`https://comeback-api.herokuapp.com/releases/${this.$route.params.id}`, this.sendToApi).then(response => {
             if(!this.updateMusic) {
-              this.$router.push({ path: `/_userid/release/${this.$route.params.id}`})
+              this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`})
             }
           }).catch(function (error) {
             console.log(error);
@@ -275,7 +276,7 @@
           this.sendToApiMusics.forEach(async element => {
             await this.$axios.put(`https://comeback-api.herokuapp.com/musics/${element.id}`, element).then(response => {
 
-              this.$router.push({ path: `/_userid/release/${this.$route.params.id}`})
+              this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`})
               
             }).catch(function (error) {
               console.log(error);
@@ -283,7 +284,7 @@
           });
         }
 
-        //this.$router.push({ path: `/_userid/release/${this.$route.params.id}`})
+        //this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`})
       },
 
       addArtist (newTag) {
@@ -324,7 +325,6 @@
       },
 
       newObjectToApi(key, value){
-        console.log("newObjectToApi")
         this.sendToApi[key] = value
         this.updateRelease = true
       },

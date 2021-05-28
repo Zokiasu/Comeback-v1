@@ -1,11 +1,11 @@
 <template>
     <div class="bg-red-700 flex px-3 py-2 space-x-3 text-white rounded">
         <div>
-            <img class="mt-1.5 w-16 h-16 object-cover rounded" :src="this.release.image ? this.release.image : this.$store.state.imageReleaseDefault">
+            <img class="mt-1.5 w-16 h-16 object-cover rounded" :src="this.release.image ? this.release.image : defaultImage">
         </div>
         <div class="space-y-3">
             <div class="flex flex-col">
-            <NuxtLink :to="`/_userid/release/${this.release.id}`"><span class="text-base font-semibold hover:text-black">{{this.release.name}}</span></NuxtLink>
+            <NuxtLink :to="`/${userId}/release/${this.release.id}`"><span class="text-base font-semibold hover:text-black">{{this.release.name}}</span></NuxtLink>
             <span class="text-xs">{{new Date(this.release.date).toLocaleDateString()}}</span>
             </div>
             <div class="flex space-x-3">
@@ -37,5 +37,15 @@
             if(this.release.image) {this.image = this.release.image} else {this.image = this.imageDefault}
             if(this.release.platforms) this.link = this.release.platforms
         },
+    
+        computed: {
+            userId(){
+                return this.$fire.auth.currentUser.uid
+            },
+            
+            defaultImage(){
+                return this.$store.state.imageReleaseDefault
+            },
+        }
     }
 </script>

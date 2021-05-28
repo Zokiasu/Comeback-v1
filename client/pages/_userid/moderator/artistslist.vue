@@ -5,14 +5,14 @@
             <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
-                    <NuxtLink :to="`/_userid/edit/artist/${artist.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
+                    <NuxtLink :to="`/${userId}/edit/artist/${artist.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
                     <img @click="removeArtist(artist.id, releases[artist.place], index)" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
                 </div>
                 <div class="flex space-x-2 mb-2">
                     <img :src="artist.releases ? artist.releases[0].image : artist.image" class="w-20 h-20 object-cover" alt="">
                     <div class="flex flex-col justify-between">
                         <div class="flex space-x-2">
-                            <span class="font-semibold text-xl"><NuxtLink :to="`/_userid/artist/${artist.id}`" target="_blank" class="hover:underline">{{artist.name}}</NuxtLink> -</span>
+                            <span class="font-semibold text-xl"><NuxtLink :to="`/${userId}/artist/${artist.id}`" target="_blank" class="hover:underline">{{artist.name}}</NuxtLink> -</span>
                             <span class="text-base mt-1">{{((artist.type).charAt(0).toUpperCase() + (artist.type).slice(1))}} </span>
                         </div>
                         <div class="flex space-x-2">
@@ -51,6 +51,12 @@
         async asyncData({ $axios }){
             let artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=id:asc`)
             return {artists}
+        },
+    
+        computed: {
+            userId(){
+                return this.$fire.auth.currentUser.uid
+            },
         },
 
         methods:{

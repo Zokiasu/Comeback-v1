@@ -42,14 +42,14 @@
   export default {
 
     data(){
-        return {
-            img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
-            displayName:'Guest',
-            email:'guest@gmail.com',
-            userId:'000000',
-            country:'France',
-            dateOfBirth:'01/01/2010',
-        }
+      return {
+          img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
+          displayName:'Guest',
+          email:'guest@gmail.com',
+          userId:'000000',
+          country:'France',
+          dateOfBirth:'01/01/2010',
+      }
     },
 
   }

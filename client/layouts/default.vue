@@ -16,6 +16,22 @@
         }
       },
 
+      beforeCreate(){
+        let that = this
+        this.$fire.auth.onAuthStateChanged(function (user) {
+          console.log(user)
+          if (user != null) {
+            console.log("user")
+            that.$router.push({ path: `/${user.uid}/calendar`})
+            that.$store.commit('addUserID', user.uid)
+            //console.log(that.$store.state.userUID)
+          } else {
+            console.log("not user")
+            this.$router.push('/')
+          }
+        })
+      },
+
       mounted() {
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
@@ -24,7 +40,7 @@
         this.actualHeight = window.innerHeight
       },
 
-      methods: {      
+      methods: {
         scroll(){
           var b = document.getElementById("test2").scrollTop
           if((b === this.actualHeight || b > this.actualHeight) && this.actualHeight != 0) {
@@ -32,6 +48,7 @@
           }
 
         },
+
         handleResize() {
           if(window.innerWidth > 768) {
             this.width = true

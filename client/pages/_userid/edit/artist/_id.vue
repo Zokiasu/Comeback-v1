@@ -1,18 +1,18 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
     <div id="title-area">
-        <NuxtLink :to="`/_userid/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
+        <!--<NuxtLink :to="`/${this.$fire.auth.currentUser.uid}/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>-->
       <div id="tilte-artist" class="relative">
         <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
-        <button :to="`/_userid/artist/${this.$route.params.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+        <!--<button :to="`/${this.$fire.auth.currentUser.uid}/artist/${this.$route.params.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>-->
       </div>
     </div>
 
     <div class="rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
         <div class="flex flex-col xl:flex-row xl:space-x-10 my-5 xl:mb-10">
             <div id="image-area" class="relative h-full">
-                <img class="w-40" :src="this.artists.image ? this.artists.image : this.$store.state.imageArtistDefault">
+                <img class="w-40" :src="this.artists.image ? this.artists.image : defaultImage">
                 <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                     <button 
                         class="px-5 py-1 bg-red-700 text-white"
@@ -154,10 +154,15 @@
         mounted(){
             this.oldArtistData = JSON.parse(JSON.stringify(this.artists))
         },
+    
+        computed: {            
+            defaultImage(){
+                return this.$store.state.imageArtistDefault
+            },
+        },
 
         methods:{
             async editArtist() {
-                console.log(this.editToApi)
                 this.oldDataToApi['name'] = this.oldArtistData['name']
                 this.oldDataToApi['image'] = this.oldArtistData['image']
                 await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
@@ -169,8 +174,8 @@
                     userId: 1,
                     source: this.source
                 }).then(response=>{
-                    console.log(response)
-                    this.$router.push({ path: `/_userid/artist/${this.$route.params.id}`})
+                    //console.log(response)
+                    //this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/artist/${this.$route.params.id}`})
                 })
             },
 
@@ -237,7 +242,6 @@
             },
 
             newObjectToApi(key, value){
-                console.log(key, value)
                 this.editToApi[key] = value
                 this.oldDataToApi[key] = this.oldArtistData[key]
             },

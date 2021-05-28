@@ -5,13 +5,13 @@
       <div id="divider" class="border-b border-gray-500"></div>
       <div id="button" class="my-5 md:my-0 md:absolute right-5 top-2">
           <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
-          <NuxtLink :to="`/_userid/edit/artist/${this.$route.params.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
+          <NuxtLink :to="`/${userId}/edit/artist/${this.$route.params.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
       </div>
     </div>
     <section class="space-y-8">
       <section id="artist-info" class="flex xl:space-x-10 space-y-5 xl:space-y-0">
         <div class="h-full flex justify-center col-span-1">
-          <img id="artist-picture" style="width:30rem;" class="object-cover" :src="this.artist.image ? this.artist.image : this.$store.state.imageArtistDefault" alt="Artist Picture"/>
+          <img id="artist-picture" style="width:30rem;" class="object-cover" :src="this.artist.image ? this.artist.image : defaultImage" alt="Artist Picture"/>
         </div>
         <div class="space-y-5 col-span-2">
           <div id="description" v-if="this.artist.description" :class="[ this.artist.description ? 'col-start-2 col-end-4' : '' ]">
@@ -25,7 +25,7 @@
             <h1 class="text-white text-xl">Part of the groups</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="text-white flex" id="link-social">
-              <NuxtLink :to="`/_userid/artist/${group.id}`" class="rounded m-2 bg-opacity-20 flex flex-col justify-center" v-for="(group, index) in this.artist.groups" :key="index">
+              <NuxtLink :to="`/${userId}/artist/${group.id}`" class="rounded m-2 bg-opacity-20 flex flex-col justify-center" v-for="(group, index) in this.artist.groups" :key="index">
                 <div>
                   <img class="w-20 h-20 object-cover mx-auto my-auto rounded mb-1" :src="group.image" alt="">
                 </div>
@@ -54,7 +54,7 @@
         <h1 class="text-white text-xl">Members ({{this.memberslist.length}})</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
         <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-5" id="link-social">
-          <NuxtLink :to="`/_userid/artist/${members.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(members, index) in this.memberslist" :key="index">
+          <NuxtLink :to="`/${userId}/artist/${members.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(members, index) in this.memberslist" :key="index">
             <div class="mb-0.5">
               <img class="rounded-full h-10 md:h-20 w-10 md:w-20 object-cover mx-auto" :src="members.image" alt="">
             </div>
@@ -66,7 +66,7 @@
         <h1 class="text-white text-xl">Subunit ({{this.subunitlist.length}})</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
         <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-5" id="link-social">
-          <NuxtLink :to="`/_userid/artist/${member.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(member, index) in this.subunitlist" :key="index">
+          <NuxtLink :to="`/${userId}/artist/${member.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(member, index) in this.subunitlist" :key="index">
             <div class="mb-0.5">
               <img class="rounded md:w-36 object-cover mx-auto" :src="member.image" alt="">
             </div>
@@ -131,6 +131,16 @@
           this.subunitlist.push(element)
         }
       });
+    },
+    
+    computed: {
+        userId(){
+            return this.$fire.auth.currentUser.uid
+        },
+        
+        defaultImage(){
+            return this.$store.state.imageArtistDefault
+        },
     },
 
     methods:{

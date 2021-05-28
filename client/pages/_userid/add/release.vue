@@ -14,7 +14,7 @@
         <div class="flex flex-col 2xl:flex-row space-y-5 2xl:space-y-0 my-5 2xl:space-x-20 2xl:px-10 justify-center h-full w-full">
 
           <div id="image-area" class="relative h-full bg-red-500">
-              <img class="w-96" :src="this.release.image ? this.release.image : this.$store.state.imageArtistDefault" alt="">
+              <img class="w-96" :src="this.release.image ? this.release.image : defaultImage" alt="">
               <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                 <button 
                   class="px-5 py-1 bg-red-700 text-white rounded"
@@ -213,6 +213,11 @@
     },
 
     computed: {
+            
+      defaultImage(){
+          return this.$store.state.imageArtistDefault
+      },
+
       timezone() {
         return this.timezones[this.timezoneIndex];
       },
@@ -279,7 +284,7 @@
 
       async creates() {
           if (this.release.name === '' || this.release.date === '' || (this.release.artists?.length === 1 && this.release.artists[0] === 'New') || (this.release.musics?.length === 1 && this.release.musics[0] === 'New')) {
-              console.log("Failed")
+              //console.log("Failed")
               return
           }
 
@@ -299,7 +304,7 @@
             "newArtists": this.release.newArtists,
             "musics": this.release.musics,
           }).then(response => {
-            this.$router.push({ path: `/_userid/release/${response.data.id}`})
+            this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${response.data.id}`})
           })
       },
 

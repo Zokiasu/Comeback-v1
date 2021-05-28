@@ -20,9 +20,8 @@
         },
 
         async asyncData({ $axios }){
-            let artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists`)
-            let releases = await $axios.$get(`https://comeback-api.herokuapp.com/releases`)
-            return {artists, releases}
+            let artists = await $axios.$get(`https://comeback-api.herokuapp.com/users`)
+            return {artists}
         },
 
         mounted(){
@@ -33,5 +32,11 @@
                 return 0;
             })
         },
+    
+        computed: {
+            userId(){
+                return this.$fire.auth.currentUser.uid
+            },
+        }
     }
 </script>

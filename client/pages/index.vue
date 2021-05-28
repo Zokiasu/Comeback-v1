@@ -1,24 +1,5 @@
 <template>
   <div>
-    <div class="text-white flex space-x-5 justify-end m-5">
-      <button @click="login=true" class="focus:outline-none hover:text-red-700">Login</button>
-      <button @click="signup=true" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Sign Up</button>
-    </div>
-    <Modal v-model="login" title="Login">
-      <div class="flex flex-col justify-center">
-        <t-input type="email" v-model="log.email" placeholder="Email" name="email" class="my-2"></t-input>
-        <t-input type="password" v-model="log.password" placeholder="Password" name="password" class="my-2"></t-input>
-        <button class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Login</button>
-      </div>
-    </Modal>
-    <Modal v-model="signup" title="Signup">
-      <div class="flex flex-col justify-center">
-        <t-input id="email" type="email" v-model="sign.email" placeholder="Email" name="email" class="my-2"></t-input>
-        <t-input id="password" type="password" v-model="sign.password" placeholder="Password" name="password" class="my-2"></t-input>
-        <t-input id="confirm_password" type="password" v-model="sign.passwordCheck" placeholder="Confirm Password" name="confirm_password" class="my-2"></t-input>
-        <button class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Sign Up</button>
-      </div>
-    </Modal>
     <div class="flex justify-center mx-auto">
       <Logo class="justify-self-center mx-auto"/>
     </div>
@@ -34,21 +15,6 @@
     <div class="w-full mt-20 px-10">
       <div class="w-full flex flex-col space-y-5 justify-center border-t-2 border-gray-500 py-5">
         <ul class="flex space-x-1.5 text-white justify-center text-xl">
-          <!--<li>
-            <span>©</span>
-          </li>-->
-          <li>
-            <span>Studeler Dev.</span>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <span>Cozy Codeur</span>
-          </li>
-          <li>
-            <span>|</span>
-          </li>
           <li>
             <a href="#" class="hover:text-red-700">About</a>
           </li>
@@ -82,6 +48,20 @@
             <a href="#"><img class="w-5" src="../assets/image/instagram.png"/></a>
           </li>
         </ul>
+        <ul class="flex space-x-1.5 text-white justify-center text-xl">
+          <!--<li>
+            <span>©</span>
+          </li>-->
+          <li>
+            <span>Studeler Dev.</span>
+          </li>
+          <li>
+            <span>-</span>
+          </li>
+          <li>
+            <span>Cozy Codeur</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -90,21 +70,6 @@
 <script>
   export default {
     layout: 'presentation',
-    data(){
-      return{
-        login: false,
-        signup: false,
-        log: {
-          email: null,
-          password: null,
-        },
-        sign: {
-          email: null,
-          password: null,
-          passwordCheck: null,
-        }
-      }
-    },
 
     head() {
       return {
@@ -122,11 +87,6 @@
 </script>
 
 <style>
-  /* Sample `apply` at-rules with Tailwind CSS
-  .container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-  }
-  */
   .container {
     margin: 0 auto;
     min-height: 100vh;

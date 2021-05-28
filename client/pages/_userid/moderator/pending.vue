@@ -75,9 +75,5 @@
 
             return {pendings}
         },
-
-        async mounted(){
-            console.log(this.pendings[0].currentData)
-        },
     }
 </script>
