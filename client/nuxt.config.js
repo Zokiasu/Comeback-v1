@@ -11,16 +11,6 @@ export default {
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   },
   
-  router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'custom',
-        path: '*',
-        component: resolve(__dirname, 'pages/404.vue')
-      })
-    }
-  },
-  
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Comeback',
@@ -64,6 +54,25 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    ['nuxt-lazy-load', {
+      // These are the default values
+      images: true,
+      videos: true,
+      audios: true,
+      iframes: true,
+      native: false,
+      polyfill: true,
+      directiveOnly: false,
+  
+      // To remove class set value to false
+      loadingClass: 'isLoading',
+      loadedClass: 'isLoaded',
+      appendClass: 'lazyLoad',
+      
+      observerConfig: {
+        // See IntersectionObserver documentation
+      }
+    }],
     '@nuxtjs/axios',
     ['@nuxtjs/pwa',
       {
