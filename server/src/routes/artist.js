@@ -7,13 +7,13 @@ import {
 
 const router = Router();
 
-const getSoloMembers = async (members, model) => {
+const getSoloMembers = async (members, model, req) => {
   const ids = [];
   for (const member of members) {
     ids.push(member['id']);
   }
   let soloMembers = await model.findAll({
-    where: { id: ids, type: 'SOLO' },
+    ...queriesToDict(req.query, { id: ids, type: 'SOLO' }),
   });
 
   const groups = await model.findAll({
@@ -24,7 +24,11 @@ const getSoloMembers = async (members, model) => {
 
   for (const group of groups) {
     if (group.members.length) {
-      const groupMembers = await getSoloMembers(group.members, model);
+      const groupMembers = await getSoloMembers(
+        group.members,
+        model,
+        req,
+      );
       soloMembers = soloMembers.concat(groupMembers);
     }
   }
@@ -82,6 +86,7 @@ router.get('/:artistId/members', async (req, res) => {
   const members = await getSoloMembers(
     artist.members,
     req.context.models.Artist,
+    req,
   );
   return res.send(members);
 });

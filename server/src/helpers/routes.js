@@ -18,6 +18,10 @@ export const queriesToDict = (queries, whereOptions = {}) => {
     for (const [key, value] of Object.entries(queries)) {
       queries[key] = { [Op.substring]: value };
     }
+  } else if (op === 'ilike') {
+    for (const [key, value] of Object.entries(queries)) {
+      queries[key] = { [Op.iLike]: value };
+    }
   }
 
   return {
