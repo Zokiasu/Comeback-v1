@@ -1,11 +1,11 @@
 <template>
   <div>
       <div id="top" class="flex mb-10 relative text-white" >
-        <img class="h-80 w-full object-cover absolute border-b border-gray-500" :src="img" alt="Artist Picture"/>
+        <img class="h-80 w-full object-cover absolute border-b border-gray-500" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)" alt="Profile Picture"/>
 
         <div id="profile-picture" class="z-10 flex flex-col justify-center mt-44 ml-5">
-            <img class="h-48 w-48 rounded-full object-cover border border-gray-500" :src="img" alt="Artist Picture"/>
-            <span class="font-semibold text-2xl text-center">Zokiasu</span>
+            <img class="h-48 w-48 rounded-full object-cover border border-gray-500" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)" alt="Profile Picture"/>
+            <span class="font-semibold text-2xl text-center">{{user.username}}</span>
         </div>
         <div id="general" class="z-10 flex flex-col px-3 justify-end mt-44 pb-10">
             <nav>
@@ -35,7 +35,7 @@
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-y-5 mt-10 my-5 w-full justify-center">
                 <ArtistCard 
-                    v-for="(artist, index) in this.artists"
+                    v-for="(artist, index) in user.artists"
                     :key="index"
                     :artist="artist"
                     :index="index"/>
@@ -64,8 +64,15 @@
             img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
             actualtab:'artist',
             artists: [],
+            releaseList:[],
             width:false,
+            user:{},
         }
+    },
+
+    async asyncData({ $axios, params }){
+      let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.userid}`)
+      return {user}
     },
 
     mounted() {

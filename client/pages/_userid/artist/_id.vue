@@ -9,7 +9,7 @@
       </div>
     </div>
     <section class="space-y-8">
-      <section id="artist-info" class="flex xl:space-x-10 space-y-5 xl:space-y-0">
+      <section id="artist-info" class="flex flex-col xl:flex-row xl:space-x-10 space-y-5 xl:space-y-0">
         <div class="h-full flex justify-center col-span-1">
           <img id="artist-picture" style="width:30rem;" class="object-cover" :src="this.artist.image ? this.artist.image : defaultImage" alt="Artist Picture"/>
         </div>

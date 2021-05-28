@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
     <div id="title-area">
-      <NuxtLink :to="`/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
+      <NuxtLink :to="`/${userId}/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
       <div id="tilte-artist" class="relative">
         <h1 class="text-white text-2xl xl:text-4xl mt-10 mb-2">Edit Release</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
@@ -232,6 +232,9 @@
     },
 
     computed: {
+      userId(){
+          return this.$fire.auth.currentUser.uid
+      },
       defaultImage(){
           return this.$store.state.imageArtistDefault
       },

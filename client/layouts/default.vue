@@ -2,6 +2,7 @@
   <div id="bod" class="grid grid-cols-7">
     <SideBar v-if="width" class="leftbar col-start-1 col-end-3 xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
     <div id="test2" class="leftbar xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen"  :class="width == true ? 'col-start-3' : 'col-start-1'">
+      <ModeratorMenu class="m-5 mb-0" v-if="(this.$route.path).includes('moderator')"/>
       <Nuxt id="exist" :width="width"/>
     </div>
   </div>
@@ -139,5 +140,24 @@ html {
 ::-webkit-scrollbar-thumb {
   background-color: #E1E1E1; /* color of the scroll thumb */
   border-radius: 50px; /* roundness of the scroll thumb */
+}
+
+/* Page Transitions - 0.4s Slide/Fade */
+.page-enter-active,
+.page-leave-active {
+  transition-duration: 0.4s;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+
+.page-enter {
+  opacity: 0;
+  transform: translate(2em, 0);
+}
+
+.page-leave-active {
+  opacity: 0;
+  transform: translate(-2em, 0);
 }
 </style>
