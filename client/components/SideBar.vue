@@ -18,31 +18,31 @@
                         </div>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/calendar`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/calendar`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
                             <span>Calendar</span>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/artist`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/artist`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Artists</span>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/profile`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/profile`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
                             <span>Profile</span>
                         </NuxtLink>
                     </li>
                     <!--<li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/discover`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/discover`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                             <span>Discover</span>
                         </NuxtLink>
                     </li>-->
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${this.$fire.auth.currentUser.uid}/setting`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/setting`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                             <span>Setting</span>
                         </NuxtLink>
@@ -54,12 +54,12 @@
             <nav>
                 <ul class="space-y-5">
                     <li>
-                        <NuxtLink :to="`/${this.$fire.auth.currentUser.uid}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                        <NuxtLink :to="`/${userId}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                             <span>New Comeback</span>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink :to="`/${this.$fire.auth.currentUser.uid}/moderator/lastupdated`" class="px-3 py-1 rounded flex space-x-2" >
+                        <NuxtLink :to="`/${userId}/moderator/lastupdated`" class="px-3 py-1 rounded flex space-x-2" >
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                             <span>Moderator Panel</span>
                         </NuxtLink>
@@ -86,10 +86,18 @@
 
 <script>
     export default {
+    
+        computed: {
+            userId(){
+                return this.$fire.auth.currentUser.uid
+            },
+        },
+
         methods:{
             logout(){
                 this.$fire.auth.signOut().then(() => {
-                    //console.log('Signed Out');
+                    console.log('Signed Out');
+                    this.$router.push('/')
                 }).catch((error) => {
                     console.log(error)
                 })

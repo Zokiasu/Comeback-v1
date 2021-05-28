@@ -11,6 +11,16 @@ export default {
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   },
   
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        component: resolve(__dirname, 'pages/404.vue')
+      })
+    }
+  },
+  
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Comeback',
@@ -89,7 +99,7 @@ export default {
           auth: {
             persistence: 'local', // default
             initialize: {
-              onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+              /*onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',*/
               onAuthStateChangedAction: 'onAuthStateChangedAction',
               subscribeManually: false
             },

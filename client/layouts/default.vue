@@ -9,6 +9,7 @@
 
 <script>
     export default {
+
       data(){
         return {
           width:false,
@@ -16,18 +17,20 @@
         }
       },
 
-      beforeCreate(){
+      created(){
         let that = this
         this.$fire.auth.onAuthStateChanged(function (user) {
-          console.log(user)
           if (user != null) {
-            console.log("user")
-            that.$router.push({ path: `/${user.uid}/calendar`})
-            that.$store.commit('addUserID', user.uid)
-            //console.log(that.$store.state.userUID)
+            console.log(user.uid)
+            if(that.$route.path === '/') {
+              console.log("default", that.$route.path)
+              that.$router.push(`/${user.uid}/calendar`)
+            }
           } else {
-            console.log("not user")
-            this.$router.push('/')
+            if(that.$route.path !== '/') {
+              console.log("default", that.$route.path)
+              that.$router.push('/')
+            }
           }
         })
       },

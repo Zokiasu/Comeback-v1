@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="text-white flex space-x-5 justify-end m-5">
-      <button @click="login=true" class="focus:outline-none hover:text-red-700">Login</button>
-      <button @click="signup=true" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Sign Up</button>
+    <div class="text-white flex space-x-3 justify-end m-5">
+      <button @click="login=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-gray-600 hover:bg-gray-500 transform hover:font-bold">Login</button>
+      <button @click="signup=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-900 hover:bg-red-700 transform hover:font-bold">Sign Up</button>
     </div>
     <Modal v-model="login" title="Login">
       <div class="flex flex-col justify-center">
@@ -48,19 +48,23 @@
         data: null,
       }
     },
-    
+
     beforeCreate(){
       let that = this
       this.$fire.auth.onAuthStateChanged(function (user) {
         if (user != null) {
-          console.log("user")
-          that.$router.push({ path: `/${user.uid}/calendar`})
-          that.$store.commit('addUserID', user.uid)
+          console.log(user.uid)
+          if(that.$route.path === '/') {
+            console.log("default", that.$route.path)
+            that.$router.push(`/${user.uid}/calendar`)
+          }
         } else {
-          console.log("not user")
-          that.$router.push({ path: `/`})
+          if(that.$route.path !== '/') {
+            console.log("default", that.$route.path)
+            that.$router.push('/')
+          }
         }
-      });
+      })
     },
 
     methods: {
