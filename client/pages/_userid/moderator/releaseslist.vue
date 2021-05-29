@@ -18,7 +18,7 @@
                         </div>
                         <div class="flex space-x-2">
                             <a v-for="(platforms, index) in release.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>
-                            <span v-if="release.platforms.length < 1" class="text-red-500"> No Streaming Platforms </span>
+                            <span v-if="release.platforms" class="text-red-500"> No Streaming Platforms </span>
                         </div>
                     </div>
                 </div>

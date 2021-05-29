@@ -51,14 +51,7 @@
     
         computed: {
             userId(){
-                let that = this
-                this.$fire.auth.onAuthStateChanged(function (user) {
-                    if (user != null) {
-                        return user.uid
-                    } else {
-                        that.$router.push('/')
-                    }
-                })                
+                return this.$fire.auth.currentUser.uid
             },
         
             defaultImage(){

@@ -37,7 +37,7 @@
             <a href="#" class="hover:text-red-700">Privacy Policy</a>
           </li>
         </ul>
-        <ul class="flex space-x-7 justify-center">
+        <!--<ul class="flex space-x-7 justify-center">
           <li>
             <a href="#"><img class="w-5" src="../assets/image/facebook.png"/></a>
           </li>
@@ -47,7 +47,7 @@
           <li>
             <a href="#"><img class="w-5" src="../assets/image/instagram.png"/></a>
           </li>
-        </ul>
+        </ul>-->
         <ul class="flex space-x-1.5 text-white justify-center text-xl">
           <!--<li>
             <span>©</span>
@@ -62,6 +62,8 @@
             <span>Cozy Codeur</span>
           </li>
         </ul>
+        
+        <span class="w-full text-center text-white pt-5">This website is currently under development, so you may encounter some bugs while using it.</span>
       </div>
     </div>
   </div>

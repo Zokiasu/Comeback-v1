@@ -72,9 +72,10 @@
                 <p class="text-center font-semibold"><button class="focus:outline-none" @click="logout()" href="#">Sign Out</button></p>
             </section>
             <section class="border-t-2 border-gray-400 mx-3 pt-2 flex space-x-6 justify-center">
-                <a href="#"><img class="w-5" src="../assets/image/facebook.png"/></a>
+                <!--<a href="#"><img class="w-5" src="../assets/image/facebook.png"/></a>
                 <a href="#"><img class="w-5" src="../assets/image/twitter.png"/></a>
-                <a href="#"><img class="w-5" src="../assets/image/instagram.png"/></a>
+                <a href="#"><img class="w-5" src="../assets/image/instagram.png"/></a>-->
+                <span class="text-center">This website is currently under development, so you may encounter some bugs while using it.</span>
             </section>
             <section class="border-t-2 border-gray-400 space-y-2 mx-3 pt-2 text-sm">
                 <p class="text-center"><a href="#">Contact</a> - <a href="#">About</a> - <a href="#">Terms</a> - <a href="#">Privacy Policy</a></p>
@@ -89,7 +90,8 @@
     
         computed: {
             userId(){
-                return this.$fire.auth.currentUser.uid
+                //return this.$fire.auth.currentUser.uid
+                return this.$route.params.userId
             },
         },
 
@@ -101,7 +103,7 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            }
+            },
         }
     }
 </script>

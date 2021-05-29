@@ -1,23 +1,24 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
-
+    
     <section id="title-area">
       <div id="tilte-artist" class="relative">
         <h2 class="text-white text-2xl xl:text-4xl mt-5 mb-2">New Comeback</h2>
         <div id="divider" class="border-b-2 border-gray-100"></div>
-        <button @click="creates()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 text-white rounded">Confirm</button>
+        <button @click="creates()" class="bg-red-700 hover:bg-red-900 absolute right-0 xl:right-5 top-0 px-5 py-1 text-white rounded">Confirm</button>
       </div>
     </section>
 
     <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 p-5 px-10 pb-10 mt-10 pt-10">
+      
       <div id="release-info" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 justify-between">
         <div class="flex flex-col 2xl:flex-row space-y-5 2xl:space-y-0 my-5 2xl:space-x-20 2xl:px-10 justify-center h-full w-full">
 
-          <div id="image-area" class="relative h-full bg-red-500">
+          <div id="image-area" class="relative h-full">
               <img class="w-96" :src="this.release.image ? this.release.image : defaultImage" alt="">
               <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                 <button 
-                  class="px-5 py-1 bg-red-700 text-white rounded"
+                  class="px-5 py-1 bg-red-700 hover:bg-red-900 text-white rounded"
                   @click="launchImageFile"
                   :disabled="this.isUploadingImage"
                   type="button">
@@ -76,32 +77,32 @@
               </multiselect>
             </div>
           </div>
-
         </div>
-        <div id="release-date">
+
+        <section id="release-date">
           <h2 class="text-white text-xl">Release Date*</h2>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-          <div>
+          <div id="date-picker">
+            
             <v-date-picker
               mode="dateTime"
               v-model="dates"
               :timezone="timezone"
-              :min-date="new Date()"
               color="red"
               is-expanded/>
+
             <div class="w-full mt-4">
               <div class="flex justify-between w-full">
-              <span class="text-sm font-bold text-white">-11:00</span>
-              <span class="text-sm font-bold text-white">UTC</span>
-              <span class="text-sm font-bold text-white">+11:00</span>
+                <span class="text-sm font-bold text-white">-11:00</span>
+                <span class="text-sm font-bold text-white">UTC</span>
+                <span class="text-sm font-bold text-white">+11:00</span>
               </div>
               <input
-              class="w-full"
-              type="range"
-              min="0"
-              :max="timezones.length - 1"
-              v-model="timezoneIndex"
-              />
+                class="w-full"
+                type="range"
+                min="0"
+                :max="timezones.length - 1"
+                v-model="timezoneIndex"/>
               <div class="flex">
                 <span class="font-semibold text-gray-400 mr-2">Timezone:</span>
                 <span class="text-white">{{ timezone }}</span>
@@ -115,9 +116,11 @@
                 <span class="text-white">GMT{{ gmtzone }}</span>
               </div>
             </div>
+
           </div>
-        </div>
+        </section>
       </div>
+
       <div id="release-contents" class="flex flex-col xl:flex-row mx-auto">
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
             <h2 class="text-xl">Tracklist*</h2>
@@ -132,6 +135,7 @@
             <button @click="newInput(release.platforms)" class="text-left focus:outline-none">Add</button>
         </div>
       </div>
+
     </section>
 
   </div>
@@ -221,9 +225,11 @@
       timezone() {
         return this.timezones[this.timezoneIndex];
       },
+
       namezone() {
         return this.nameZones[this.timezoneIndex];
       },
+      
       gmtzone() {
         var moment = require('moment-timezone')
         let zone = moment().tz(this.timezones[this.timezoneIndex]).format().toString().slice(19,25)
@@ -241,6 +247,45 @@
     },
 
     methods:{
+
+      async creates() {
+        console.log(this.dates)
+        this.release.date = this.dates
+        if (this.release.name === '') {
+            console.log("Failed", "Invalid Name")
+            return
+        } else if (this.release.date === '') {
+            console.log("Failed", "Invalid Date")
+            return
+        } else if (this.release.artists?.length === 0) {
+            console.log("Failed", "Invalid Artist List")
+            return
+        } else if (this.release.musics?.length === 0) {
+            console.log("Failed", "Invalid Musics List")
+            return
+        }
+
+        if(this.release.platforms?.length === 1) {
+          if (this.release.platforms[0] === 'New') {
+            this.release.platforms = null
+          }
+        }
+
+        await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
+          "name": this.release.name,
+          "type": this.release.type,
+          "image": this.release.image,
+          "date": this.release.date,
+          "platforms": this.release.platforms,
+          "artists": this.release.artists,
+          "styles": this.release.styles,
+          "newArtists": this.release.newArtists,
+          "musics": this.release.musics,
+        }).then(response => {
+          console.log(response)
+          this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${response.data.id}`})
+        })
+      },
 
       addStyle (newTag) {
         if(this.release.styles == null) {
@@ -280,32 +325,6 @@
 
       newInput(listToUpdate){
         listToUpdate.push('')
-      },
-
-      async creates() {
-          if (this.release.name === '' || this.release.date === '' || (this.release.artists?.length === 1 && this.release.artists[0] === 'New') || (this.release.musics?.length === 1 && this.release.musics[0] === 'New')) {
-              //console.log("Failed")
-              return
-          }
-
-          if(this.release.platforms?.length === 1) {
-            if (this.release.platforms[0] === 'New') {
-              this.release.platforms = null
-            }
-          }
-
-          await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
-            "name": this.release.name,
-            "type": this.release.type,
-            "image": this.release.image,
-            "date": this.release.date,
-            "platforms": this.release.platforms,
-            "artists": this.release.artists,
-            "newArtists": this.release.newArtists,
-            "musics": this.release.musics,
-          }).then(response => {
-            this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${response.data.id}`})
-          })
       },
 
       launchImageFile () {

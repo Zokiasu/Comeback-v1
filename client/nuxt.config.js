@@ -28,8 +28,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   loading: {
     color: 'red',
@@ -127,9 +126,7 @@ export default {
     ]
   ],
 
-  axios: [
-    // proxy: true
-  ],
+  axios: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

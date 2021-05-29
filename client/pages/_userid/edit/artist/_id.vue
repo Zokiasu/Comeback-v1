@@ -36,7 +36,7 @@
                         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                         <t-input @change="newObjectToApi('name', artists.name)" autocomplete="false" type="text" v-model="artists.name" :value="artists.name" placeholder="Artist Name" name="artists-name" />
                     </div>
-                    <div id="artists-name">
+                    <div id="artists-type">
                         <h1 class="text-white text-xl">Artist Type</h1>
                         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                         <t-select @change="newObjectToApi('type', artists.type)" v-model="artists.type" id="artists-type-selector" :options="[

@@ -232,7 +232,7 @@
 
     computed: {
       userId(){
-          return this.$fire.auth.currentUser.uid
+        return this.$fire.auth.currentUser.uid
       },
       defaultImage(){
           return this.$store.state.imageArtistDefault
