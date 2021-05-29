@@ -20,6 +20,9 @@ const music = (sequelize, DataTypes) => {
     Music.belongsToMany(models.Release, {
       through: 'Music_Release',
     });
+    Music.belongsToMany(models.Artist, {
+      through: 'Music_Artist',
+    });
   };
 
   return Music;

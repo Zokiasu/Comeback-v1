@@ -49,6 +49,7 @@ router.get('/full', async (req, res) => {
       { model: req.context.models.User, as: 'followers' },
       { model: req.context.models.Artist, as: 'groups' },
       { model: req.context.models.Artist, as: 'members' },
+      { model: req.context.models.Music, as: 'musics' },
     ],
   });
   return res.send(artists);
@@ -63,6 +64,7 @@ router.get('/:artistId', async (req, res) => {
         { model: req.context.models.Artist, as: 'groups' },
         { model: req.context.models.Artist, as: 'members' },
         { model: req.context.models.Happening, as: 'events' },
+        { model: req.context.models.Music, as: 'musics' },
         {
           model: req.context.models.Release,
           include: [
