@@ -13,6 +13,13 @@
                 <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
                 <NuxtLink :to="`/${userId}/edit/release/${this.release.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
             </div>
+            <div v-if="this.release.styles" id="tilte-artist" class="mb-10">
+                <h1 class="text-white text-xl">Styles</h1>
+                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                <div class="space-x-1.5">
+                    <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span>
+                </div>
+            </div>
             <div v-if="this.release.platforms && this.release.platforms.length > 0" id="tilte-artist" class="mb-10">
                 <h1 class="text-white text-xl">Streaming Platforms</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>

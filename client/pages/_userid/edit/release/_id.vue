@@ -116,7 +116,6 @@
               :options="styleList" 
               :multiple="true" 
               :taggable="true"
-              @input="newObjectToApi('styles', release.styles)" 
               @tag="addStyle">
           </multiselect>
       </div>
@@ -238,13 +237,6 @@
       defaultImage(){
           return this.$store.state.imageArtistDefault
       },
-      addStyle (newTag) {
-        /*if(this.release.styles == null) {
-          this.release.styles = [newTag]
-        } else {
-          this.release.styles.push(newTag)
-        }*/
-      },
       timezone() {
         return this.timezones[this.timezoneIndex];
       },
@@ -303,6 +295,15 @@
         this.artistList.push(tag)
         this.release.artists.push(tag)
         this.release.newArtists.push(tag)
+      },
+
+      addStyle (newTag) {
+        if(this.release.styles == null) {
+            this.release.styles = [newTag]
+        } else {
+            this.release.styles.push(newTag)
+        }
+        this.newObjectToApi('styles', this.release.styles)
       },
 
       addMusic(){

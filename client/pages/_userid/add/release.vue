@@ -5,7 +5,7 @@
       <div id="tilte-artist" class="relative">
         <h2 class="text-white text-2xl xl:text-4xl mt-5 mb-2">New Comeback</h2>
         <div id="divider" class="border-b-2 border-gray-100"></div>
-        <button @click="creates()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+        <button @click="creates()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 text-white rounded">Confirm</button>
       </div>
     </section>
 

@@ -5,7 +5,7 @@
       <div id="tilte-artist" class="relative">
         <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
-        <button :to="`/${userId}/artist/${this.$route.params.id}`" @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+        <button @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
       </div>
     </div>
 
@@ -87,7 +87,7 @@
             </multiselect>
         </div>
         
-        <div id="styles" class="flex flex-col text-white mb-5 xl:mb-10">
+        <div id="artist-styles" class="flex flex-col text-white mb-5 xl:mb-10">
             <h1 class="text-xl">Styles</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <multiselect
@@ -175,10 +175,10 @@
                     endpoint:`/artists/${this.$route.params.id}`,
                     body: this.editToApi,
                     currentData: this.oldArtistData,
-                    userId: 1,
+                    userId: this.$route.params.userid,
                     source: this.source
                 }).then(response=>{
-                    //console.log(response)
+                    console.log(response)
                     //this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/artist/${this.$route.params.id}`})
                 })
             },
@@ -246,6 +246,7 @@
             },
 
             newObjectToApi(key, value){
+                console.log(this.editToApi)
                 this.editToApi[key] = value
                 this.oldDataToApi[key] = this.oldArtistData[key]
             },

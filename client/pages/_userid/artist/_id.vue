@@ -4,16 +4,16 @@
       <h1 class="text-white text-4xl mt-5 mb-2">{{this.artist.name}}</h1>
       <div id="divider" class="border-b border-gray-500"></div>
       <div id="button" class="my-5 md:my-0 md:absolute right-5 top-2">
-          <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
+          <button @click="editRelease" class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
           <NuxtLink :to="`/${userId}/edit/artist/${this.$route.params.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
       </div>
     </div>
     <section class="space-y-8">
-      <section id="artist-info" class="flex flex-col xl:flex-row xl:space-x-10 space-y-5 xl:space-y-0">
-        <div class="h-full flex justify-center col-span-1">
+      <section id="artist-info" class="grid grid-cols-1 lg:grid-cols-3 lg:gap-10 space-y-5 lg:space-y-0">
+        <div class="h-full flex justify-center lg:col-span-1">
           <img id="artist-picture" style="width:30rem;" class="object-cover" :src="this.artist.image ? this.artist.image : defaultImage" alt="Artist Picture"/>
         </div>
-        <div class="space-y-5 col-span-2">
+        <div class="space-y-5 lg:col-span-2">
           <div id="description" v-if="this.artist.description" :class="[ this.artist.description ? 'col-start-2 col-end-4' : '' ]">
             <h1 class="text-white text-xl">Description</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -35,7 +35,11 @@
           </div>
         </div>
       </section>
-      
+      <div id="social-media" v-if="this.artist.styles">
+        <h1 class="text-white text-xl">Styles</h1>
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+        <div class="space-x-1"><span v-for="(style, index) in this.artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span></div>
+      </div>
       <div id="social-media" v-if="this.artist.socials">
         <h1 class="text-white text-xl">Social Media</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -150,6 +154,18 @@
           id = url.split(".be/")[1]
         }
         return id
+      },
+
+      async editRelease() {
+        let test = [this.artist]
+        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, {
+          artists: test,
+          username: "Zokiasu"
+        }).then(response => {
+          console.log(response)
+        }).catch(function (error) {
+          console.log(error);
+        });
       },
     }
   }

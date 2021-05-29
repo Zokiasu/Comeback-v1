@@ -5,11 +5,16 @@ export const state = () => ({
     authUser: '',
     tokenUser: '',
     userUID: '',
+    userData: '',
 })
 
 export const getters = {
     GET_USER: (state) => {
         return state.authUser
+    },
+
+    GET_USER_DATA: (state) => {
+        return state.userData
     },
 }
 
@@ -53,6 +58,10 @@ export const actions = {
 export const mutations = {
     SET_USER: (state, payload) => {
         state.authUser = payload;
+    },
+
+    SET_USER_DATA: (state, payload) => {
+        state.userData = payload;
     },
 
     ON_AUTH_STATE_CHANGED_MUTATION (state, { authUser, claims }) {
