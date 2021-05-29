@@ -41,6 +41,12 @@ const request = (sequelize, DataTypes) => {
       type: DataTypes.JSON,
       allowNull: true,
     },
+
+    editedByModerator: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
   });
 
   Request.associate = (models) => {

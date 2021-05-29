@@ -63,8 +63,6 @@ router.post('/', async (req, res) => {
     req.context.models.Music,
     (array) => release.addMusics(array),
     (array) => release.createMusic(array),
-    true,
-    'name',
   );
 
   return res.send(release);
@@ -90,8 +88,6 @@ router.put('/:releaseId', async (req, res) => {
     req.context.models.Music,
     (array) => release.addMusics(array),
     (array) => release.createMusic(array),
-    true,
-    'name',
   );
 
   return res.send(release);
