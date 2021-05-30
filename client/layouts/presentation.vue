@@ -26,7 +26,8 @@
 
 <script>
   import 'firebase/auth'
-  
+  import { mapActions } from 'vuex'
+
   export default {
     data(){
       return{
@@ -53,7 +54,6 @@
       let that = this
       this.$fire.auth.onAuthStateChanged(function (user) {
         if (user != null) {
-          console.log(user.uid)
           if(that.$route.path === '/') {
             that.$router.push(`/${user.uid}/calendar`)
           }
@@ -66,13 +66,20 @@
     },
 
     methods: {
+      ...mapActions([ // spread operator so that other methods can still be added.
+        'updateToken',
+        'updateUserId',
+      ]),
+
       async logIn(){
         let that = this
         await this.$fire.auth.signInWithEmailAndPassword(this.auth.email, this.auth.password).then((res)=>{
           const token = that.$fire.auth.currentUser.getIdToken();
-          that.$store.commit('addToken', token)
+          //that.updateToken(token)
+          //console.log(that.$store.state.tokenUser)
           that.$router.push({ path: `/${res.user.uid}/calendar`})
-          that.$store.commit('addUserID', res.user.uid)
+          //that.updateUserId(res.user.uid)
+          //console.log(that.$store.state.userUID)
         })
       },
 

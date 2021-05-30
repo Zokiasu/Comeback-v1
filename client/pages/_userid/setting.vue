@@ -69,6 +69,12 @@
 <script>
   export default {
 
+    head() {
+      return {
+        title: 'Comeback - Setting',
+      }
+    },
+
     data(){
       return {
           dateOfBirth:'01/01/2010',

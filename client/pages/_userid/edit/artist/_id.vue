@@ -246,7 +246,6 @@
             },
 
             newObjectToApi(key, value){
-                console.log(this.editToApi)
                 this.editToApi[key] = value
                 this.oldDataToApi[key] = this.oldArtistData[key]
             },

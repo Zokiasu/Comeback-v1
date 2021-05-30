@@ -18,6 +18,12 @@
 
     scrollToTop: true,
 
+    head() {
+      return {
+        title: 'Comeback - Calendar',
+      }
+    },
+
     data(){
         return {
           releaseDisplay:'My Comebacks',

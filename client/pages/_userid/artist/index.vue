@@ -23,6 +23,12 @@
   export default {
     name:"ArtistList",
 
+    head() {
+      return {
+        title: 'Comeback - Artists',
+      }
+    },
+
     data(){
       return {
         width: true,

@@ -18,12 +18,30 @@
         }
       },
 
+      methods: {
+
+        scroll(){
+          var b = document.getElementById("test2").scrollTop
+          if((b === this.actualHeight || b > this.actualHeight) && this.actualHeight != 0) {
+            this.actualHeight = this.actualHeight + window.innerHeight/**Math.round(document.getElementById("test2").scrollTop/window.innerHeight)*/
+          }
+
+        },
+
+        handleResize() {
+          if(window.innerWidth > 768) {
+            this.width = true
+          } else {
+            this.width = false
+          }
+        },
+      },
+
       created(){
         let that = this
         this.$fire.auth.onAuthStateChanged(function (user) {
           if (user != null) {
             if(that.$route.path === '/') {
-              console.log(user.uid)
               that.$router.push(`/${user.uid}/calendar`)
             }
           } else {
@@ -41,24 +59,6 @@
         this.scroll();
         this.actualHeight = window.innerHeight
       },
-
-      methods: {
-        scroll(){
-          var b = document.getElementById("test2").scrollTop
-          if((b === this.actualHeight || b > this.actualHeight) && this.actualHeight != 0) {
-            this.actualHeight = this.actualHeight + window.innerHeight/**Math.round(document.getElementById("test2").scrollTop/window.innerHeight)*/
-          }
-
-        },
-
-        handleResize() {
-          if(window.innerWidth > 768) {
-            this.width = true
-          } else {
-            this.width = false
-          }
-        },
-      }
     }
 </script>
 

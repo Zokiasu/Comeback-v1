@@ -59,6 +59,12 @@
 <script>
   export default {
 
+    head() {
+      return {
+        title: 'Comeback - Profile',
+      }
+    },
+
     data(){
         return {
             img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',

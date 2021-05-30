@@ -52,7 +52,15 @@ export const actions = {
         
             commit('ON_AUTH_STATE_CHANGED_MUTATION', { authUser, claims, token })
         }
-    }
+    },
+
+    updateToken: function({commit}, payload) {
+        commit('addToken', payload)
+    },
+
+    updateUserId: function({commit}, payload) {
+        commit('addUserID', payload)
+    },
 }
 
 export const mutations = {
@@ -78,16 +86,12 @@ export const mutations = {
         }
     },
 
-    addToken(state, value){
+    addToken: (state, value) => {
         state.tokenUser = value
     },
 
-    addUserID(state, value){
+    addUserID: (state, value) => {
         state.userUID = value
-    },
-
-    SET_VAR_2 (state, value) {
-        state.var2 = value
     },
 
     async addArtist(){

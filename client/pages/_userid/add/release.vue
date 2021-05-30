@@ -249,7 +249,6 @@
     methods:{
 
       async creates() {
-        console.log(this.dates)
         this.release.date = this.dates
         if (this.release.name === '') {
             console.log("Failed", "Invalid Name")
