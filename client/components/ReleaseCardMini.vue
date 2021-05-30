@@ -17,18 +17,7 @@
 
 <script>
     export default {
-
         props: ['release'],
-
-        data(){
-            return {
-                
-            }
-        },
-
-        methods: {
-            
-        },
     }
 </script>
 

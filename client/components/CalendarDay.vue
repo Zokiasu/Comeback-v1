@@ -19,21 +19,21 @@
         props: ['date', 'width'],
 
         data(){
-            return {
-              releaseList:[],
-              dates:'',
-            }
+          return {
+            releaseList:[],
+            dates:'',
+          }
         },
 
         mounted(){
-            this.findDay(this.date)
+          this.findDay(this.date)
         },
 
         methods: {
-            async findDay(day){
-                const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?date=${day}`)
-                this.releaseList = response
-            },
+          async findDay(day){
+            const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?date=${day}`)
+            this.releaseList = response
+          },
         },
     }
 </script>

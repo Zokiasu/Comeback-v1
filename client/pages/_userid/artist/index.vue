@@ -24,11 +24,11 @@
     name:"ArtistList",
 
     data(){
-        return {
-            width: true,
-            search: '',
-            artists: null,
-        }
+      return {
+        width: true,
+        search: '',
+        artists: null,
+      }
     },
 
     async asyncData({ $axios }){

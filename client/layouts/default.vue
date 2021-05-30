@@ -23,6 +23,7 @@
         this.$fire.auth.onAuthStateChanged(function (user) {
           if (user != null) {
             if(that.$route.path === '/') {
+              console.log(user.uid)
               that.$router.push(`/${user.uid}/calendar`)
             }
           } else {

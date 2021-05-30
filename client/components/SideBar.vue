@@ -90,8 +90,7 @@
     
         computed: {
             userId(){
-                //return this.$fire.auth.currentUser.uid
-                return this.$route.params.userId
+                return this.$route.params.userid
             },
         },
 

@@ -23,10 +23,10 @@
         <div class="flex justify-between w-full">
             <span class="font-semibold">{{release.name}}</span>
             <!--<span class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{release.releaseDate.toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}}</span>-->
-            <span class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{release.date}}</span>
+            <span class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}}</span>
         </div>
         <div class="flex text-sm">
-            <span>{{release.type}} • {{release.artists[0].name}}</span>
+            <span> {{release.type}} </span><div class="bg-white mt-2 mx-2 h-1 w-1 rounded-full"></div><span class="truncate"><span v-for="(artist, index) in release.artists" :key="index"> {{artist.name}} </span></span>
         </div>
     </div>
   </NuxtLink>
@@ -34,14 +34,7 @@
 
 <script>
     export default {
-
         props: ['release', 'width'],
-
-        data(){
-            return {
-              
-            }
-        },
     }
 </script>
 
