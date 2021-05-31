@@ -11,7 +11,17 @@ const user = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
+      allowNull: true,
+    },
+
+    country: {
+      type: DataTypes.STRING(1000),
+      allowNull: true,
+    },
+
+    birthday: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
 
     email: {
