@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { queriesToDict } from '../helpers/routes';
+import {
+  addAssociationItems,
+  queriesToDict,
+} from '../helpers/routes';
 import { createUser } from '../firebase/user';
 import { hasRoles } from '../firebase/authorization';
 import { ROLES } from '../constants';
@@ -115,6 +118,15 @@ router.put('/:userId', async (req, res) => {
     req.params.userId,
   );
   user.update(req.body);
+
+  await addAssociationItems(
+    req.body.artists,
+    req.body.newArtists,
+    req.context.models.Artist,
+    (array) => user.addArtists(array),
+    (array) => user.createArtist(array),
+  );
+
   return res.send(user);
 });
 
