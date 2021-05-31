@@ -5,9 +5,10 @@
                 <section id="pending-type">
                     <span v-if="pending.method == 'POST'">Creation</span>
                     <span v-if="pending.method == 'PUT'">Edition</span>
+                    <span v-if="pending.user">by {{pending.user.username}} </span>
                 </section>
 
-                <section id="pending-data" class="flex flex-col space-y-2 h-full">
+                <section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
                     <div class="flex space-x-5">
                         <img :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
                         <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
@@ -45,13 +46,60 @@
                     </div>
                 </section>
 
+                <section id="pending-release-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SINGLE' || pending.body.type === 'ALBUM' || pending.body.type === 'EP' || pending.currentData.type === 'SINGLE' || pending.currentData.type === 'ALBUM' || pending.currentData.type === 'EP'">
+                    <div class="flex space-x-5">
+                        <img v-if="pending.currentData.image" :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
+                        <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
+                    </div>
+                    <span>Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
+                    <span>Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
+                    <span>Date : <span :class="pending.body.date ? 'text-red-500':''">{{pending.currentData.date}}</span> <span v-if="pending.body.date" class="text-green-500">{{pending.body.date}}</span></span>
+                    <div>
+                        <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                        <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div>
+                    </div>
+                    <div>
+                        <div class="flex space-x-1"><span>Artists :</span><div :class="pending.body.artists ? 'text-red-500':''" class="space-x-1"><span v-for="(member, index) in pending.currentData.artists" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div></div>
+                        <div v-if="pending.body.artists" class="text-green-500 space-x-1"><span v-for="(member, index) in pending.body.artists" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div>
+                    </div>
+                    <div>
+                        <span>Musics :</span>
+                        <div v-for="(music, index) in pending.currentData.musics" :key="index" :class="pending.body.musics ? 'text-red-500':''" class="grid grid-cols-1 gap-1">
+                            <span class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.name}} </span>
+                            <span v-if="music.clip" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.clip}} </span>
+                        </div>
+                        <div v-for="(music, index) in pending.body.musics" :key="index" class="text-green-500 space-x-1">
+                            <span class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.name}} </span>
+                            <span v-if="music.clip" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.clip}} </span>
+                        </div>
+                    </div>
+                    <div>
+                        <span>Platforms :</span>
+                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div v-if="pending.body.platforms" class="text-green-500 space-x-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                    </div>
+                    <div>
+                        <span>Source :</span>
+                        <span> {{pending.source}} </span>
+                    </div>
+                </section>
+
+                <section id="pending-music-data" class="flex flex-col space-y-2 h-full" v-if="!pending.body.type && !pending.currentData.type">
+                    <span>Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
+                    <div>
+                        <span>Source :</span>
+                        <span> {{pending.source}} </span>
+                    </div>
+                </section>
+
                 <section id="pending-button" class="flex space-x-3 justify-end">
                     <button @click="editOpen(index)" class="bg-blue-500 px-2 py-1 focus:outline-none hover:bg-blue-700">Edit</button>
                     <button @click="accepted(pending)" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700">Accepted</button>
                     <button @click="refused(pending)" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700">Refused</button>
                 </section>
+
                 <Modal
-                    v-model="edit"
+                    v-model="editArtist"
                     wrapper-class="animate__animated"
                     in-class="animate__fadeInDown"
                     out-class="animate__zoomOut"
@@ -135,7 +183,7 @@
                             </li>
                         </ul>
                         <div class="absolute bottom-5 right-5 space-x-5 flex">
-                            <button @click="edit=false" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700 text-white">Closed</button>
+                            <button @click="editArtist=false" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700 text-white">Closed</button>
                             <button @click="editByModerator()" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700 text-white">Confirm Edition</button>
                         </div>
                     </div>
@@ -156,7 +204,7 @@
                 pendings: [],
 
                 //Edit ressource
-                edit:false,
+                editArtist:false,
                 indexEdit: 0,
                 artistList:[],
                 styleList:[],
@@ -195,7 +243,7 @@
             },
 
             editByModerator(){
-                this.edit = false
+                this.editArtist = false
                 this.pendings[this.indexEdit].editedByModerator = true
             },
 
@@ -252,7 +300,7 @@
             },
             
             editOpen(index){
-                this.edit = true
+                this.editArtist = true
                 this.indexEdit = index
 
                 this.pendings[this.indexEdit].body["newGroups"] = []
@@ -271,7 +319,6 @@
         async asyncData({ $axios }){
             const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-
             return {pendings, artistList}
         },
     }

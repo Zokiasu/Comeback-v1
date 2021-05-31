@@ -1,15 +1,15 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
-    <div id="title-area">
+    <section id="title-area">
       <NuxtLink :to="`/${userId}/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
       <div id="tilte-artist" class="relative">
         <h1 class="text-white text-2xl xl:text-4xl mt-10 mb-2">Edit Release</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
         <button @click="editRelease()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
       </div>
-    </div>
+    </section>
 
-    <div id="body-area" class="rounded bg-gray-500 bg-opacity-20 mt-10 p-20">
+    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 mt-10 p-20">
       <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5 mb-5 xl:mb-20">
         <div class="w-full flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
           <div class="flex flex-col space-y-10 w-full justify-center">
@@ -127,19 +127,23 @@
           <button @click="addStreamingLink()" class="text-left focus:outline-none">Add</button>
       </div>
 
-      <div id="middle" class="flex flex-col xl:flex-row">
-        <div id="tracklist" class="flex flex-col w-full text-white mb-5 xl:mb-0">
-            <h1 class="text-xl">Tracklist*</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <div class="mb-1 py-3 space-y-1 w-3/4" v-for="(music, index) in this.release.musics" :key="index">
-              <span>Track {{index+1}}</span>
-              <t-input @change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.name" placeholder="Track Name"/>
-              <t-input @change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.clip" placeholder="Track Clip"/>
-            </div>
-            <button @click="addMusic()" class="text-left focus:outline-none">Add</button>
-        </div>
+      <div id="tracklist" class="flex flex-col w-full text-white mb-5 xl:mb-10">
+          <h1 class="text-xl">Tracklist*</h1>
+          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+          <div class="mb-1 py-3 space-y-1 w-3/4" v-for="(music, index) in this.release.musics" :key="index">
+            <span>Track {{index+1}}</span>
+            <t-input v-on:change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.name" placeholder="Track Name"/>
+            <t-input @change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.clip" placeholder="Track Clip"/>
+          </div>
+          <button @click="addMusic()" class="text-left focus:outline-none">Add</button>
       </div>
-    </div>
+
+      <div id="source" class="flex flex-col w-full text-white mb-5 xl:mb-0">
+          <h1 class="text-white text-xl">Source*</h1>
+          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+          <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -202,12 +206,14 @@
           ],
           release:{},
           sendToApi:{},
+          oldDataToApi:{},
           artistList:[],
           styleList:[],
           updateRelease:false,
           updateMusic:false,
           sendToApiMusics:[],
           isUploadingImage: false,
+          source:'',
         }
     },
 
@@ -222,17 +228,20 @@
 
     mounted(){
       this.dates = new Date(this.release.date)
+      this.oldDataToApi = JSON.parse(JSON.stringify(this.release))
     },
 
     watch:{
       dates: function(val) {
-        this.newObjectToApi('date', val)
+        if(val.toString() != new Date(this.release.date).toString()) {
+          this.newObjectToApi('date', val)
+        }
       }
     },
 
     computed: {
       userId(){
-        return this.$fire.auth.currentUser.uid
+        return this.$route.params.userid
       },
       defaultImage(){
           return this.$store.state.imageArtistDefault
@@ -258,10 +267,19 @@
 
       async editRelease() {
         if(this.updateRelease) {
-          await this.$axios.put(`https://comeback-api.herokuapp.com/releases/${this.$route.params.id}`, this.sendToApi).then(response => {
-            if(!this.updateMusic) {
-              this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`})
-            }
+          await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
+              state:'PENDING',
+              method:'PUT',
+              endpoint:`/releases/${this.$route.params.id}`,
+              body: this.sendToApi,
+              currentData: this.oldDataToApi,
+              userId: this.$route.params.userid,
+              source: this.source
+           }).then(response=>{
+              console.log(response)
+              if(!this.updateMusic) {
+                this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
+              }
           }).catch(function (error) {
             console.log(error);
           });
@@ -269,17 +287,30 @@
 
         if(this.updateMusic){
           this.sendToApiMusics.forEach(async element => {
-            await this.$axios.put(`https://comeback-api.herokuapp.com/musics/${element.id}`, element).then(response => {
+            let oldData = {}
 
-              this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`})
-              
+            this.oldDataToApi.musics.forEach(el => {
+              if(el.id == element.id) {
+                oldData = el
+              }
+            })
+
+            await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
+                state:'PENDING',
+                method:'PUT',
+                endpoint:`/musics/${element.id}`,
+                body: element,
+                currentData: oldData,
+                userId: this.$route.params.userid,
+                source: this.source
+            }).then(response=>{
+                console.log(response)
+                this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
             }).catch(function (error) {
               console.log(error);
             });
           });
         }
-
-        //this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${this.$route.params.id}`})
       },
 
       addArtist (newTag) {
@@ -331,11 +362,20 @@
       newObjectToApi(key, value){
         this.sendToApi[key] = value
         this.updateRelease = true
+        console.log(this.sendToApi)
+        console.log(this.updateRelease)
       },
 
       newObjectToApiMusic(value, index){
         if(value[index].id) {
-          this.sendToApiMusics.push(value[index])
+          let elementExist = false
+          this.sendToApiMusics.forEach(async element => {
+            if(element.id == value[index].id) {
+              element = value[index]
+              elementExist = true
+            }
+          })
+          if(!elementExist) {this.sendToApiMusics.push(value[index])}
           this.updateMusic = true
         } else {
           this.newObjectToApi("music", value)

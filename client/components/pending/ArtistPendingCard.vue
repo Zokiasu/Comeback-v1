@@ -1,68 +1,311 @@
 <template>
-    <div style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden space-y-2">
-        <div>
+    <div>
+        <section id="pending-type">
             <span v-if="pending.method == 'POST'">Creation</span>
             <span v-if="pending.method == 'PUT'">Edition</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-            <div class="bg-gray-500 flex flex-col p-2 space-y-2">
-                <span class="text-lg font-semibold">New Data</span>
-                <div class="flex space-x-2">
-                    <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
-                    <div class="flex flex-col space-y-1.5 -mt-1">
-                        <span v-if="pending.body.name">Name : {{pending.body.name}} </span>
-                        <span v-if="pending.body.type">Type : {{pending.body.type}} </span>
-                        <div v-if="pending.body.styles">
-                            <span>Styles : </span><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style}} </span>
-                        </div>
-                    </div>
+        </section>
+
+        <section id="pending-data" class="flex flex-col space-y-2 h-full">
+            <div class="flex space-x-5">
+                <img :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
+                <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
+            </div>
+            <span>Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
+            <span>Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
+            
+            <div>
+                <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div>
+            </div>
+            <span>Description : <span :class="pending.body.description ? 'text-red-500':''">{{pending.currentData.description}}</span> </span>
+            <span class="text-green-500">{{pending.body.description}} </span>
+            <div>
+                <div class="flex space-x-1"><span>Groups :</span><div :class="pending.body.groups ? 'text-red-500':''" class="space-x-1"><span v-for="(group, index) in pending.currentData.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
+                <div v-if="pending.body.groups" class="text-green-500 space-x-1"><span v-for="(group, index) in pending.body.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{group.name}}</span></div>
+            </div>
+            <div>
+                <div class="flex space-x-1"><span>Members :</span><div :class="pending.body.members ? 'text-red-500':''" class="space-x-1"><span v-for="(member, index) in pending.currentData.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div></div>
+                <div v-if="pending.body.members" class="text-green-500 space-x-1"><span v-for="(member, index) in pending.body.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div>
+            </div>
+            <div>
+                <span>Social :</span>
+                <div :class="pending.body.socials ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(social, index) in pending.currentData.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
+                <div v-if="pending.body.socials" class="text-green-500 space-x-1"><span v-for="(social, index) in pending.body.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
+            </div>
+            <div>
+                <span>Platforms :</span>
+                <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                <div v-if="pending.body.platforms" class="text-green-500 space-x-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+            </div>
+            <div>
+                <span>Source :</span>
+                <span> {{pending.source}} </span>
+            </div>
+        </section>
+
+        <section id="pending-button" class="flex space-x-3 justify-end">
+            <button @click="editOpen(index)" class="bg-blue-500 px-2 py-1 focus:outline-none hover:bg-blue-700">Edit</button>
+            <button @click="accepted(pending)" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700">Accepted</button>
+            <button @click="refused(pending)" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700">Refused</button>
+        </section>
+        
+        <Modal
+            v-model="edit"
+            wrapper-class="animate__animated"
+            in-class="animate__fadeInDown"
+            out-class="animate__zoomOut"
+            modal-class="fullscreen-modal bg-gray-500 "
+            @before-open="beforeOpen"
+            @before-close="beforeClose">
+                
+            <div class="relative flex flex-col justify-center m-5 p-10 bg-opacity-50 rounded overflow-hidden overflow-y-scroll text-white bg-gray-500">
+                <div>
+                    <img :src="pending.currentData.image" :alt="pending.currentData.name" class="w-40 h-40 object-cover">
                 </div>
-                <div v-if="pending.body.description">
-                    <span>Description : {{pending.body.description}} </span>
-                </div>
-                <div v-if="pending.body.groups">
-                    <span>Groups : </span><span v-for="(group, index) in pending.body.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{group}} </span>
-                </div>
-                <div v-if="pending.body.members">
-                    <span>Members : </span><span v-for="(member, index) in pending.body.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{member}} </span>
-                </div>
-                <div v-if="pending.body.socials" class="flex flex-col">
-                    <span>Social :</span>
-                    <span v-for="(social, index) in pending.body.socials" :key="index"> {{social}} </span>
-                </div>
-                <div v-if="pending.body.platforms" class="flex flex-col">
-                    <span>Platforms :</span>
-                    <span v-for="(platform, index) in pending.body.platforms" :key="index"> {{platform}} </span>
+                <ul class="my-2 space-y-2 py-5">
+                    <li v-if="pending.currentData.name || pending.body.name" class="space-y-1">
+                        <span>Name : <span>{{pending.currentData.name}}</span></span>
+                        <t-input v-if="pending.body.name" v-model="pending.body.name" placeholder="Name" name="name" type="text"></t-input>
+                    </li>
+                    <li v-if="pending.currentData.type || pending.body.type" id="artists-type-selector" class="space-y-1">
+                        <span>Type : <span>{{pending.currentData.type}}</span></span>
+                        <t-select v-if="pending.body.type" v-model="pending.body.type" :options="[ { value: 'SOLO', text: 'Soloist' }, { value: 'GROUP', text: 'Group' }, ]" ></t-select>
+                    </li>
+                    <li v-if="pending.currentData.description || pending.body.description" class="space-y-1">
+                        <span>Description : <span>{{pending.currentData.description}}</span> </span>
+                        <t-textarea v-if="pending.body.description" v-model="pending.body.description" placeholder="Description" name="description" type="text"></t-textarea>
+                    </li>
+                    <li v-if="pending.currentData.website || pending.body.website" class="space-y-1">
+                        <span>Website : <span>{{pending.currentData.website}}</span> </span>
+                        <t-input v-if="pending.body.website" v-model="pending.body.website" placeholder="Website" name="website" type="text"></t-input>
+                    </li>
+                    <li v-if="pending.currentData.members || pending.body.members" class="space-y-1">
+                        <div class="flex space-x-1"><span>Members :</span><div class="space-x-1"><span v-for="(member, index) in pending.currentData.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white">{{member.name}}</span></div></div>
+                        <multiselect
+                            v-if="pending.body.members"
+                            v-model="pending.body.members" 
+                            tag-placeholder="Add this as new artists" 
+                            placeholder="Search or add a artists" 
+                            label="name" 
+                            track-by="id" 
+                            :options="artistList" 
+                            :multiple="true" 
+                            :taggable="true" 
+                            @tag="addMember">
+                        </multiselect>
+                    </li>
+                    <li v-if="pending.currentData.groups || pending.body.groups" class="space-y-1">
+                        <div class="flex space-x-1"><span>Belong To The Groups :</span><div class="space-x-1"><span v-for="(group, index) in pending.currentData.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white">{{group.name}}</span></div></div>
+                        <multiselect
+                            v-if="pending.body.groups"
+                            v-model="pending.body.groups" 
+                            tag-placeholder="Add this as new groups" 
+                            placeholder="Search or add a groups" 
+                            label="name" 
+                            track-by="id" 
+                            :options="artistList" 
+                            :multiple="true" 
+                            :taggable="true" 
+                            @tag="addGroup">
+                        </multiselect>
+                    </li>
+                    <li v-if="pending.currentData.styles || pending.body.styles" class="space-y-1">
+                        <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                        <multiselect
+                            v-if="pending.body.styles"
+                            v-model="pending.body.styles" 
+                            tag-placeholder="Add this as new style" 
+                            placeholder="Search or add a style"
+                            :options="styleList" 
+                            :multiple="true" 
+                            :taggable="true"
+                            @tag="addStyle">
+                        </multiselect>
+                    </li>
+                    <li v-if="pending.currentData.socials || pending.body.socials" class="space-y-1">
+                        <span>Social :</span>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(social, index) in pending.currentData.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white"> {{social}} </span></div>
+                        <MultipleInput class="mb-1 w-full" v-for="(elem, index) in pending.body.socials" :key="index" :elem="elem" @updateinput="updateList(pending.body.socials, $event, index)"/>
+                    </li>
+                    <li v-if="pending.currentData.platforms || pending.body.platforms" class="space-y-1">
+                        <span>Platforms :</span>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white"> {{platform}} </span></div>
+                        <MultipleInput class="mb-1 w-full" v-for="(elem, index) in pending.body.platforms" :key="index" :elem="elem" @updateinput="updateList(pending.body.platforms, $event, index)"/>
+                    </li>
+                </ul>
+                <div class="absolute bottom-5 right-5 space-x-5 flex">
+                    <button @click="edit=false" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700 text-white">Closed</button>
+                    <button @click="editByModerator()" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700 text-white">Confirm Edition</button>
                 </div>
             </div>
-            <div class="bg-gray-500 flex flex-col p-2 space-y-2">
-                <span class="text-lg font-semibold">Old Data</span>
-                <div class="flex space-x-2">
-                    <img :src="pending.body.image" class="w-20 h-20">
-                    <div class="flex flex-col space-y-1.5 -mt-1">
-                        <span>Name : {{pending.body.name}} </span>
-                        <span>Type : {{pending.body.type}} </span>
-                        <div>
-                            <span>Styles : </span><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style}} </span>
-                        </div>
-                    </div>
-                </div>
-                <span>Description : {{pending.body.description}} </span>
-                <span>Groups : </span><span v-for="(group, index) in pending.body.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{group}} </span>
-                <span>Members : </span><span v-for="(member, index) in pending.body.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{member}} </span>
-                <div class="flex flex-col">
-                    <span>Social :</span>
-                    <span v-for="(social, index) in pending.body.socials" :key="index"> {{social}} </span>
-                </div>
-                <div class="flex flex-col">
-                    <span>Platforms :</span>
-                    <span v-for="(platform, index) in pending.body.platforms" :key="index"> {{platform}} </span>
-                </div>
-            </div>
-        </div>
-        <div class="flex space-x-3 justify-end">
-            <button>Refused</button>
-            <button>Accepted</button>
-        </div>
+        </Modal>
     </div>
 </template>
+
+<script>
+    import bodyScroll from 'body-scroll-freezer'
+    
+    export default { 
+        name:'ArtistPendingCard',
+
+        props:['pending'],
+
+        data() {
+            return {
+                pendings: [],
+
+                //Edit ressource
+                edit:false,
+                indexEdit: 0,
+                artistList:[],
+                styleList:[],
+            }
+        },
+
+        mounted(){
+            bodyScroll.init()
+        },
+
+        methods: {
+
+            async accepted(object){
+                await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
+                    console.log(response)
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                object.state = "ACCEPTED"
+                object.checked_by = this.$route.params.userid
+                await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
+                    console.log(response)
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            async refused(object){
+                object.state = "DENIED"
+                object.checked_by = this.$route.params.userid
+                await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
+                    console.log(response)
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            editByModerator(){
+                this.edit = false
+                this.pendings[this.indexEdit].editedByModerator = true
+            },
+
+            updateList(list, newElem, index){
+                list[index] = newElem
+            },
+
+            addStyle (newTag) {
+                if(this.pendings[this.indexEdit].body.styles) {
+                    this.pendings[this.indexEdit].body["styles"] = [newTag]
+                } else {
+                    this.pendings[this.indexEdit].body.styles.push(newTag)
+                }
+            },
+
+            addMember (newTag) {
+                const tag = {
+                    name: newTag,
+                    image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
+                    type: 'SOLO',
+                    website: null,
+                    description: null,
+                    socials: null,
+                    platforms: null,
+                }
+
+                if(this.pendings[this.indexEdit].body.members) {
+                    this.pendings[this.indexEdit].body["members"] = [tag]
+                } else {
+                    this.pendings[this.indexEdit].body.members.push(tag)
+                }
+                
+                this.pendings[this.indexEdit].body.newMembers.push(tag)
+            },
+            
+            addGroup (newTag) {
+                const tag = {
+                    name: newTag,
+                    image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
+                    type: 'SOLO',
+                    website: null,
+                    description: null,
+                    socials: null,
+                    platforms: null,
+                }
+
+                if(this.pendings[this.indexEdit].body.groups) {
+                    this.pendings[this.indexEdit].body["groups"] = [tag]
+                } else {
+                    this.pendings[this.indexEdit].body.groups.push(tag)
+                }
+                
+                this.pendings[this.indexEdit].body.newGroups.push(tag)
+            },
+            
+            editOpen(index){
+                this.edit = true
+                this.indexEdit = index
+
+                this.pendings[this.indexEdit].body["newGroups"] = []
+                this.pendings[this.indexEdit].body["newMembers"] = []
+            },
+
+            beforeOpen() {
+                bodyScroll.freeze()
+            },
+
+            beforeClose() {
+                bodyScroll.unfreeze()
+            }
+        },
+
+        async asyncData({ $axios }){
+            const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
+
+            return {pendings, artistList}
+        },
+    }
+</script>
+
+<style>
+    .fullscreen-modal {
+    width: 100%;
+    max-width: 100%;
+    top: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #1F1D1D;
+    }
+    .fullscreen-modal .vm-titlebar {
+    flex-shrink: 0;
+    }
+    .fullscreen-modal .vm-content {
+    padding: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; 
+    }
+    .fullscreen-modal .vm-content .scrollable-content {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 15px 10px 15px;
+    flex-grow: 1;
+    }
+    .fullscreen-modal .fullscreen-modal-footer {
+    border-top: 1px solid #e5e5e5;
+    padding: 15px;
+    }
+</style>

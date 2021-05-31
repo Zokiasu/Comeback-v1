@@ -135,7 +135,12 @@
             <button @click="newInput(release.platforms)" class="text-left focus:outline-none">Add</button>
         </div>
       </div>
-
+      
+      <div id="source" class="flex flex-col w-full text-white mb-5 xl:mb-0 mt-5 xl:mt-10">
+          <h1 class="text-white text-xl">Source*</h1>
+          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+          <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
+      </div>
     </section>
 
   </div>
@@ -146,7 +151,7 @@
     
     data() {
       return {
-        testb:'',
+        source:'',
         dates: new Date(),
         timezoneIndex: 11,
         timezones: [
@@ -217,6 +222,9 @@
     },
 
     computed: {
+      userId(){
+        return this.$route.params.userid
+      },
             
       defaultImage(){
           return this.$store.state.imageArtistDefault
@@ -269,21 +277,31 @@
             this.release.platforms = null
           }
         }
-
-        await this.$axios.post('https://comeback-api.herokuapp.com/releases', {
-          "name": this.release.name,
-          "type": this.release.type,
-          "image": this.release.image,
-          "date": this.release.date,
-          "platforms": this.release.platforms,
-          "artists": this.release.artists,
-          "styles": this.release.styles,
-          "newArtists": this.release.newArtists,
-          "musics": this.release.musics,
-        }).then(response => {
+        
+        await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
+          state:'PENDING',
+          method:'POST',
+          endpoint:`/releases`,
+          body: {
+            "name": this.release.name,
+            "type": this.release.type,
+            "image": this.release.image,
+            "date": this.release.date,
+            "platforms": this.release.platforms,
+            "artists": this.release.artists,
+            "styles": this.release.styles,
+            "newArtists": this.release.newArtists,
+            "musics": this.release.musics,
+          },
+          currentData: {},
+          userId: this.userId,
+          source: this.source
+        }).then(response=>{
           console.log(response)
-          this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/release/${response.data.id}`})
-        })
+          this.$router.push({ path: `/${this.userId}/release/${response.data.id}`})
+        }).catch(function (error) {
+          console.log(error);
+        });
       },
 
       addStyle (newTag) {
