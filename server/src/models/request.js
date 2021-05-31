@@ -19,7 +19,7 @@ const request = (sequelize, DataTypes) => {
 
     source: {
       type: DataTypes.STRING(1000),
-      allowNull: false,
+      allowNull: true,
     },
 
     checked_by: {
