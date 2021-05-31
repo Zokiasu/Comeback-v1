@@ -157,7 +157,7 @@
     
         computed: {
             userId(){
-                return this.$fire.auth.currentUser.uid
+                return this.$params.userId
             },
 
             defaultImage(){
@@ -179,7 +179,7 @@
                     source: this.source
                 }).then(response=>{
                     console.log(response)
-                    //this.$router.push({ path: `/${this.$fire.auth.currentUser.uid}/artist/${this.$route.params.id}`})
+                    this.$router.push({ path: `/${this.userId}/artist/${this.$route.params.id}`})
                 })
             },
 
