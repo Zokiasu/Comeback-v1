@@ -23,7 +23,7 @@ const request = (sequelize, DataTypes) => {
     },
 
     checked_by: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
 
