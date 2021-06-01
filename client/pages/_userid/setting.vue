@@ -4,7 +4,7 @@
         <div class="flex flex-col justify-center space-y-3">
           <span>Are you sure you want to disable your account?</span>
           <div class="flex text-white space-x-5 justify-start">
-            <button class="px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 hover:border-white border border-transparent transform hover:-translate-y-0.5 hover:scale-100 hover:font-bold focus:outline-none max-h-10">Yes, disable</button>
+            <button @click="disableUser()" class="px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 hover:border-white border border-transparent transform hover:-translate-y-0.5 hover:scale-100 hover:font-bold focus:outline-none max-h-10">Yes, disable</button>
             <button @click="disableAccount=false" class="px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 hover:border-white border border-transparent transform hover:-translate-y-0.5 hover:scale-100 hover:font-bold focus:outline-none max-h-10">No, cancel</button>
           </div>
         </div>
@@ -40,7 +40,7 @@
         <span class="font-semibold">User ID</span>
         <span>{{user.id}}</span>
       </div>
-      <div v-if="user.country" class="flex flex-col">
+      <div class="flex flex-col">
         <span class="font-semibold">Country</span>
         <t-input @change="newObjectToApi('country', user.country)" autocomplete="false" type="text" v-model="user.country" :value="user.country"/>
       </div>
@@ -48,8 +48,8 @@
         <span class="font-semibold">Date of Birth</span>
         <t-datepicker
           class="text-black"
-          v-model="dateOfBirth"
-          @change="newObjectToApi('dateOfBirth', dateOfBirth)"
+          v-model="user.birthday"
+          @change="newObjectToApi('birthday', user.birthday)"
           placeholder="Release Date"
           initial-view="month" dateFormat='Y-m-d' clearable>
         </t-datepicker>
@@ -77,7 +77,6 @@
 
     data(){
       return {
-          dateOfBirth:'01/01/2010',
           user:{},
           editToApi:{},
           isUploadingImage: false,
@@ -87,6 +86,7 @@
 
     async asyncData({ $axios, params }){
       let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.userid}`)
+      
       return {user}
     },
 
@@ -103,9 +103,14 @@
       },
 
       async disableUser(){
-        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, {username: null, email: null,}).catch((error) => {console.log(error)}).then(response=>{
+        console.log("disableUser")
+        this.user.username = null
+        this.user.email = null
+        console.log(this.user)
+        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.user.id}`, this.user).catch((error) => {console.log(error)}).then(response=>{
             console.log(response)
             //Add Alert success
+            this.$fire.auth.currentUser.delete().then(console.log("disableUser2"))
         })
         
         this.$fire.auth.signOut().then(() => {

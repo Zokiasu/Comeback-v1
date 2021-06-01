@@ -33,7 +33,7 @@
         <t-input id="email" type="email" v-model="sign.email" placeholder="Email" name="email" class="my-2"></t-input>
         <t-input id="password" type="password" v-model="sign.password" placeholder="Password" name="password" class="my-2"></t-input>
         <t-input id="confirm_password" type="password" v-model="sign.passwordCheck" placeholder="Confirm Password" name="confirm_password" class="my-2"></t-input>
-        <button @click="signUp()" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Sign Up</button>
+        <button @click="signUpUser()" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Sign Up</button>
       </div>
     </Modal>
     <Nuxt class="animate__bounceIn" />
@@ -110,8 +110,17 @@
         
       },
 
-      async signUp(){
+      async signUpUser(){
         await this.$axios.post('http://comeback-api.herokuapp.com/users/auth/signup', this.sign)
+        .catch(error => { 
+          console.error('Oops...connection error', error) 
+          this.$toast.global.my_error() //Using custom toast
+          this.$toast.error('Error while authenticating')
+          this.$toast.error('Email/Password incorrect')
+        })
+        .then((res)=>{
+          console.log(res)
+        })
         this.signup = false
         this.$toast.success('You can login with your account')
       }

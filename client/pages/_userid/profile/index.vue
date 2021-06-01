@@ -33,7 +33,7 @@
         <div id="artist-following" v-if="actualtab == 'artist'">
             <h1 class="text-white text-xl">Artist Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <div class="grid grid-cols-2 md:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-y-5 mt-10 my-5 w-full justify-center">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-y-5 mt-10 my-5 w-full justify-center">
                 <ArtistCard 
                     v-for="(artist, index) in user.artists"
                     :key="index"
@@ -44,7 +44,7 @@
         <div id="music-following" v-if="actualtab == 'music'">
             <h1 class="text-white text-xl">Releases Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <div class="grid grid-cols-2 md:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
                 <ReleaseCard
                     v-for="(release, index) in this.releaseList"
                     :width="true"
