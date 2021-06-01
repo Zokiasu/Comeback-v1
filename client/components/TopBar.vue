@@ -31,7 +31,7 @@
                         </NuxtLink>
                     </li>
                     <li>
-                        <button @click="backToHome()" class="focus:outline-none"><img class="h-6 w-6 cursor-pointer absolute right-5 top-1" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flogout.png?alt=media&token=6e8430d0-a180-4492-9249-6714142b2f94" alt="logout-logo"></button>
+                        <button @click="logout()" class="focus:outline-none"><img class="h-6 w-6 cursor-pointer absolute right-5 top-1" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flogout.png?alt=media&token=6e8430d0-a180-4492-9249-6714142b2f94" alt="logout-logo"></button>
                     </li>
                 </ul>
         </section>
