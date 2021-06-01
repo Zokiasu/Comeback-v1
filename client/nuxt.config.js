@@ -11,6 +11,10 @@ export default {
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   },
   
+  generate: {
+    fallback: true
+  },
+  
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Comeback',

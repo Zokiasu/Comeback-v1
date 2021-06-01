@@ -9,7 +9,7 @@
       </div>
     </section>
 
-    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 mt-10 p-20">
+    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 mt-10 p-5 lg:p-20">
       <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5 mb-5 xl:mb-20">
         <div class="w-full flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
           <div class="flex flex-col space-y-10 w-full justify-center">
@@ -142,6 +142,9 @@
           <h1 class="text-white text-xl">Source*</h1>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
           <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
+      </div>
+      <div class="flex justify-end">
+        <button @click="editRelease()" class="px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
       </div>
     </section>
   </div>

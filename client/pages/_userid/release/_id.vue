@@ -13,9 +13,7 @@
                 <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
                 <NuxtLink :to="`/${userId}/edit/release/${this.release.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
             </div>
-            <div v-if="this.release.styles" id="tilte-artist" class="mb-10">
-                <h1 class="text-white text-xl">Styles</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+            <div v-if="this.release.styles" id="tilte-artist" class="mb-10 -mt-5">
                 <div class="space-x-1.5">
                     <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span>
                 </div>
@@ -30,7 +28,7 @@
             <div v-if="this.release.musics && this.release.musics.length > 0" id="tracklist" class="mb-10">
                 <h1 class="text-white text-xl">Tracklist</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <div id="link-social" class="grid grid-cols-2 gap-3 text-gray-300 md:w-1/2">
+                <div id="link-social" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-300 md:w-1/2">
                     <div v-for="(title, index) in this.release.musics" :key="index"><span> {{title.name}} </span></div>
                 </div>
             </div>
