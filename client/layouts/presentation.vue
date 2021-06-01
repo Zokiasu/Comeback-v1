@@ -7,7 +7,7 @@
     <Modal 
       v-model="login" 
       title="Login"
-      wrapper-class="animate__animated"
+      wrapper-class="animate__animated modal-wrapper"
       :in-class="`animate__fadeInDown`"
       :out-class="`animate__bounceOut`"
       bg-class="animate__animated"
@@ -22,7 +22,7 @@
     <Modal 
       v-model="signup" 
       title="Signup"
-      wrapper-class="animate__animated"
+      wrapper-class="animate__animated modal-wrapper"
       :in-class="`animate__fadeInDown`"
       :out-class="`animate__bounceOut`"
       bg-class="animate__animated"
@@ -121,6 +121,13 @@
 
 <style>
   @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+  .modal-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .modal-wrapper .vm {
+    top: auto;
+  }
   .fullscreen-modal {
     width: 100%;
     max-width: 100%;
