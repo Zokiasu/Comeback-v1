@@ -120,6 +120,7 @@
                 this.$fire.auth.signOut().then(() => {
                     console.log('Signed Out');
                     this.$router.push('/')
+                    this.$toast.error('You are log out!', {duration:3000, position:'top-right'})
                 }).catch((error) => {
                     console.log(error)
                 })

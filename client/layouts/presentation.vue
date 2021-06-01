@@ -43,6 +43,7 @@
 <script>
   import 'firebase/auth'
   import { mapActions } from 'vuex'
+import { duration } from 'moment-timezone'
 
   export default {
     data(){
@@ -93,8 +94,8 @@
         .catch(error => { 
           console.error('Oops...connection error', error) 
           this.$toast.global.my_error() //Using custom toast
-          this.$toast.error('Error while authenticating')
-          this.$toast.error('Email/Password incorrect')
+          this.$toast.error('Error while authenticating', {duration:3000, position:'top-right'})
+          this.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
         })
         .then((res)=>{
           const token = that.$fire.auth.currentUser.getIdToken();
@@ -103,6 +104,7 @@
           that.$router.push({ path: `/${res.user.uid}/calendar`})
           //that.updateUserId(res.user.uid)
           //console.log(that.$store.state.userUID)
+          this.$toast.success('You are login', {duration:3000, position:'top-right'})
         })
       },
 
@@ -115,14 +117,14 @@
         .catch(error => { 
           console.error('Oops...connection error', error) 
           this.$toast.global.my_error() //Using custom toast
-          this.$toast.error('Error while authenticating')
-          this.$toast.error('Email/Password incorrect')
+          this.$toast.error('Error while authenticating', {duration:3000, position:'top-right'})
+          this.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
         })
         .then((res)=>{
           console.log(res)
         })
         this.signup = false
-        this.$toast.success('You can login with your account')
+        this.$toast.success('You can login with your account', {duration:3000, position:'top-right'})
       }
     },
   }

@@ -98,7 +98,7 @@
       async editUser() {
           await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, this.editToApi).catch((error) => {console.log(error)}).then(response=>{
               console.log(response)
-              //Add Alert success
+              this.$toast.success('Your account has been edited', {duration:3000, position:'top', fullWidth:true})
           })
       },
 
@@ -109,8 +109,9 @@
         console.log(this.user)
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.user.id}`, this.user).catch((error) => {console.log(error)}).then(response=>{
             console.log(response)
-            //Add Alert success
-            this.$fire.auth.currentUser.delete().then(console.log("disableUser2"))
+            this.$fire.auth.currentUser.delete().then(
+              this.$toast.success('Your account has been deleted', {duration:3000, position:'top', fullWidth:true})
+            )
         })
         
         this.$fire.auth.signOut().then(() => {
