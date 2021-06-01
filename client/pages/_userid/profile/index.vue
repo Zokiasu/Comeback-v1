@@ -3,13 +3,13 @@
       <div id="top" class="flex mb-10 relative text-white" >
         <img class="h-80 w-full object-cover absolute border-b border-gray-500" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)" alt="Profile Picture"/>
 
-        <div id="profile-picture" class="z-10 flex flex-col justify-center mt-44 ml-5">
-            <img class="h-48 w-48 rounded-full object-cover border border-gray-500" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)" alt="Profile Picture"/>
-            <span class="font-semibold text-2xl text-center">{{user.username}}</span>
+        <div id="profile-picture" class="z-10 flex flex-col justify-center mt-72 lg:mt-44 ml-5">
+            <img class="h-20 lg:h-48 w-20 lg:w-48 rounded-full object-cover border border-gray-500" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)" alt="Profile Picture"/>
+            <span class="font-semibold lg:text-2xl text-center">{{user.username}}</span>
         </div>
-        <div id="general" class="z-10 flex flex-col px-3 justify-end mt-44 pb-10">
+        <div id="general" class="z-10 flex flex-col px-3 justify-end lg:pb-10">
             <nav>
-                <ul class="flex space-x-5 list-none text-2xl">
+                <ul class="flex space-x-5 list-none text-lg lg:text-2xl">
                     <li>
                         <div @click="changetab('artist')" class="cursor-pointer" :class="actualtab == 'artist' ? 'border-red-700 border-b-2' : ''">
                             <span>Artist</span>
