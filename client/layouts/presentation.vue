@@ -1,5 +1,5 @@
 <template>
-  <div v-if="display">
+  <div>
     <div class="text-white flex space-x-3 justify-end m-5">
       <button @click="login=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-gray-600 hover:bg-gray-500 transform hover:font-bold">Login</button>
       <button @click="signup=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-900 hover:bg-red-700 transform hover:font-bold">Sign Up</button>
@@ -63,7 +63,6 @@
 
         passwordCheck: null,
         data: null,
-        display: false,
       }
     },
 
@@ -82,23 +81,11 @@
       })
     },
 
-    mounted() {
-      this.$nextTick(() => {
-        this.$nuxt.$loading.start()
-        setTimeout(() => this.displayPresentation(), 3500)
-      })
-    },
-
     methods: {
       ...mapActions([ // spread operator so that other methods can still be added.
         'updateToken',
         'updateUserId',
       ]),
-
-      displayPresentation(){
-        this.display = true
-        this.$nuxt.$loading.finish()
-      },
 
       async logIn(){
         let that = this
