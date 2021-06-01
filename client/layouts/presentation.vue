@@ -73,7 +73,14 @@
 
       async logIn(){
         let that = this
-        await this.$fire.auth.signInWithEmailAndPassword(this.auth.email, this.auth.password).then((res)=>{
+        await this.$fire.auth.signInWithEmailAndPassword(this.auth.email, this.auth.password)
+        .catch(error => { 
+          console.error('Oops...connection error', error) 
+          this.$toast.global.my_error() //Using custom toast
+          this.$toast.error('Error while authenticating')
+          this.$toast.error('Email/Password incorrect')
+        })
+        .then((res)=>{
           const token = that.$fire.auth.currentUser.getIdToken();
           //that.updateToken(token)
           //console.log(that.$store.state.tokenUser)

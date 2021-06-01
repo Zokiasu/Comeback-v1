@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.releaseList.length != 0" class="p-10 justify-center texts text-white">
+  <div v-if="this.releaseList.length != 0" class="p-5 md:p-10 justify-center texts text-white">
     <div class="col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
         <h1 class="font-semibold text-4xl"> {{new Date(date).toLocaleDateString('en-US', {  month: 'long', day: 'numeric' })}} </h1>
     </div>

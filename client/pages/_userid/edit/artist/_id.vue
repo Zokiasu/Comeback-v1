@@ -157,7 +157,7 @@
     
         computed: {
             userId(){
-                return this.$params.userId
+                return this.$route.params.userid
             },
 
             defaultImage(){

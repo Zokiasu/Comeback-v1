@@ -225,6 +225,7 @@
                 });
                 object.state = "ACCEPTED"
                 object.checked_by = this.$route.params.userid
+                console.log(object)
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
                     console.log(response)
                 }).catch(function (error) {

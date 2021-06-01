@@ -8,7 +8,7 @@
       </button>
       <input type="text" placeholder="Search" v-model="search" class="w-1/2 pl-2 focus:outline-none rounded-r rounded-none bg-select-leftbar text-white placeholder-white">
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 px-10 gap-y-10 w-full justify-center my-10">
+    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 px-10 gap-y-10 w-full justify-center my-10">
       <ArtistCard 
         v-for="(artist, index) in filteredList"
         :key="index"
