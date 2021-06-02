@@ -2,11 +2,11 @@
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
     <div id="title-area">
         <NuxtLink :to="`/${userId}/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
-      <div id="tilte-artist" class="relative">
-        <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
-        <div id="divider" class="border-b-2 border-gray-100"></div>
-        <button @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
-      </div>
+        <div id="tilte-artist" class="relative">
+            <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
+            <div id="divider" class="border-b-2 border-gray-100"></div>
+            <button @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+        </div>
     </div>
 
     <div class="rounded bg-gray-500 bg-opacity-20 p-10 mt-10">

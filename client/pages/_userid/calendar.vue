@@ -34,7 +34,7 @@
     },
 
     created(){
-      for (let index = -1; index < 30; index++) {
+      for (let index = -1; index < 10; index++) {
         var date = new Date
         date.setDate(date.getDate() + index)
         this.releaseDateList.push(date.toISOString().slice(0, 10).replace('T', ''))
@@ -57,56 +57,3 @@
     }
   }
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.Button {
-  border: none;
-  box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.4);
-  color: #fff;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: bold;
-  padding: 0.5em 1em;
-  transition-property: background-color, box-shadow, transform;
-  transition-timing-property: ease-out;
-  transition-duration: 0.3s;
-}
-
-.Button:hover,
-.Button:focus{
-  box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.4);
-  transform: translateY(-2px);
-}
-
-.Button:active {
-  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.4);
-  transform: translateY(0) scale(0.975);
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-</style>

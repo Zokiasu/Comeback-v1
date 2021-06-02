@@ -56,6 +56,7 @@
                         <NuxtLink :to="`/${userId}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                             <span>New Comeback</span>
                         </NuxtLink>
+                        <!--<button class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">New Comeback</button>-->
                     </li>
                     <li v-if="adminCheck">
                         <NuxtLink :to="`/${userId}/moderator/lastupdated`" class="px-3 py-1 rounded flex space-x-2" >
@@ -84,6 +85,19 @@
                 <p class="text-center">2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
             </section>
         </footer>
+        <Modal 
+            v-model="newComeback" 
+            title="New Comeback"
+            wrapper-class="animate__animated modal-wrapper"
+            :in-class="`animate__fadeInDown`"
+            :out-class="`animate__bounceOut`"
+            bg-class="animate__animated"
+            :bg-in-class="`animate__fadeInUp`"
+            :bg-out-class="`animate__fadeOutDown`">
+            <div class="flex flex-col justify-center">
+                <span>Hello Dear</span>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -93,6 +107,7 @@
         data(){
             return {
                 search:'',
+                newComeback: false,
             }
         },
     

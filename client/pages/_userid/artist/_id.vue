@@ -1,5 +1,6 @@
 <template>
   <div id="body-artist-file" class="px-5 md:px-14 mb-10 space-y-5">
+    <button @click="$router.go(-1)" class="absolute left-2 top-7 focus:outline-none"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></button>
     <div id="tilte-artist" class="relative">
       <h1 class="text-white text-4xl mt-5 mb-2">{{this.artist.name}}</h1>
       <div id="divider" class="border-b border-gray-500"></div>

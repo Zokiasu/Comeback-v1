@@ -91,14 +91,15 @@
       },
       
       async getDataFromApi(){
-        const {data: response}  = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?name=${this.$route.query.search}&op=like&sortby=id`)
+        const {data: response}  = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?name=%${this.$route.query.search}%&op=ilike&sortby=id`)
         this.bestArtistsList = response
       },
 
       checkReleaseArtist(release){
         let count = 0
         release.artists.forEach(element => {
-          console.log(element.name)
+          console.log(element.name.toLowerCase())
+          console.log((this.$route.query.search).toLowerCase())
           if(element.name.toLowerCase().includes((this.$route.query.search).toLowerCase())) {
             console.log("true")
             return true
@@ -119,8 +120,8 @@
         if(this.$route.query.search){
           return this.bestReleaseList.filter(release => {
             for (let index = 0; index < release.artists.length; index++) {
-              //if(release.artists[index].name.toLowerCase().includes((this.$route.query.search).toLowerCase())) return true
-              if(release.artists[index].name.toLowerCase() == (this.$route.query.search).toLowerCase()) return true
+              if(release.artists[index].name.toLowerCase().includes((this.$route.query.search).toLowerCase())) return true
+              //if(release.artists[index].name.toLowerCase() == (this.$route.query.search).toLowerCase()) return true
             }
           })
         }
