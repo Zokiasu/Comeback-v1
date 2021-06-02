@@ -260,20 +260,24 @@
         this.release.date = this.dates
         if (this.release.name === '') {
             console.log("Failed", "Invalid Name")
+            this.$toast.error('Invalid Name', {duration:3000, position:'top-right'})
             return
         } else if (this.release.date === '') {
             console.log("Failed", "Invalid Date")
+            this.$toast.error('Invalid Date', {duration:3000, position:'top-right'})
             return
         } else if (this.release.artists?.length === 0) {
             console.log("Failed", "Invalid Artist List")
+            this.$toast.error('Invalid Artist List', {duration:3000, position:'top-right'})
             return
         } else if (this.release.musics?.length === 0) {
             console.log("Failed", "Invalid Musics List")
+            this.$toast.error('Invalid Musics List', {duration:3000, position:'top-right'})
             return
         }
 
         if(this.release.platforms?.length === 1) {
-          if (this.release.platforms[0] === 'New') {
+          if (this.release.platforms[0] === '') {
             this.release.platforms = null
           }
         }
@@ -296,12 +300,17 @@
           currentData: {},
           userId: this.userId,
           source: this.source
-        }).then(response=>{
-          console.log(response)
-          this.$router.push({ path: `/${this.userId}/release/${response.data.id}`})
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           console.log(error);
-        });
+        })
+        .then(response=>{
+          console.log(response)
+          this.$toast.success('Thank you, Your new comeback has been added to pending list to validated', {duration:5000, position:'top-right'})
+          //this.$toast.info('Find all your modifications in Setting/Requests', {duration:5000, position:'top-right'})
+          //this.$router.push({ path: `/${this.userId}/release/${response.data.id}`})
+          this.$router.push({ path: `/${this.userId}/calendar`})
+        })
       },
 
       addStyle (newTag) {

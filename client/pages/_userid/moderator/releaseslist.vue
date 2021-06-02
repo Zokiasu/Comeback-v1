@@ -65,7 +65,7 @@
         methods:{
             async removeRelease(id, object, index){
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/releases/${id}`, object).then(response=>{
-                    console.log(response)
+                    //console.log(response)
                     this.releases.splice(index, 1)
                 })
             },

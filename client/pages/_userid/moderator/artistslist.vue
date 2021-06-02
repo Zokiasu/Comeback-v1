@@ -5,7 +5,7 @@
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
                     <NuxtLink :to="`/${userId}/edit/artist/${artist.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
-                    <img @click="removeArtist(artist.id, releases[artist.place], index)" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
+                    <button class="focus:outline-none"><img @click="removeArtist(artist, index)" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/></button>
                 </div>
                 <div class="flex space-x-2 mb-2">
                     <img :src="artist.releases ? artist.releases[0].image : artist.image" class="w-20 h-20 object-cover" alt="">
@@ -59,9 +59,10 @@
         },
 
         methods:{
-            async removeArtist(id, object, index){
-                await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${id}`, object).then(response=>{
-                    console.log(response)
+            async removeArtist(object, index){await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${object.id}`, object).then(response=>{
+                    //console.log(response)
+                    console.log("Artist has been deleted", "| Artist Name : ", this.artists[index].name)
+                    this.$toast.error(this.artists[index].name + ' has been deleted', {duration:2000, position:'top-right'})
                     this.artists.splice(index, 1)
                 })
             },

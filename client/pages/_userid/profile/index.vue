@@ -7,7 +7,7 @@
             <img class="h-20 md:h-40 w-20 md:w-40 rounded-full object-cover border border-gray-500" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)" alt="Profile Picture"/>
             <span class="font-semibold md:text-2xl text-center">{{user.username}}</span>
         </div>
-        <div id="general" class="z-10 flex flex-col px-3 justify-end md:pb-10">
+        <div id="general" class="z-10 flex flex-col px-3 justify-end">
             <nav>
                 <ul class="flex space-x-5 list-none text-lg md:text-2xl">
                     <li>

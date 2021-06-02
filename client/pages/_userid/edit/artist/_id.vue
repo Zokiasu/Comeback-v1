@@ -178,7 +178,7 @@
                     userId: this.$route.params.userid,
                     source: this.source
                 }).then(response=>{
-                    console.log(response)
+                    //console.log(response)
                     this.$router.push({ path: `/${this.userId}/artist/${this.$route.params.id}`})
                 })
             },

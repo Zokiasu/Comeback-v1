@@ -1,7 +1,7 @@
 <template>
     <div class="relative text-white texts w-full flex mt-2">
         <section class="w-full">
-                <ul class="flex space-x-3 w-full justify-center relative">
+                <ul class="flex md:space-x-3 w-full justify-center relative">
                     <li>
                         <button @click="backToHome()" class="focus:outline-none h-full ml-5"><img class="h-7 w-7 cursor-pointer absolute left-5 top-0" src="../assets/image/mini-logo.png"/></button>
                     </li>

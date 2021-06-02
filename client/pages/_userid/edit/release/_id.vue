@@ -279,7 +279,7 @@
               userId: this.$route.params.userid,
               source: this.source
            }).then(response=>{
-              console.log(response)
+              //console.log(response)
               if(!this.updateMusic) {
                 this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
               }
@@ -307,7 +307,7 @@
                 userId: this.$route.params.userid,
                 source: this.source
             }).then(response=>{
-                console.log(response)
+                //console.log(response)
                 this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
             }).catch(function (error) {
               console.log(error);

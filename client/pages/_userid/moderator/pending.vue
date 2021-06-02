@@ -94,8 +94,8 @@
 
                 <section id="pending-button" class="flex space-x-3 justify-end">
                     <button @click="editOpen(index)" class="bg-blue-500 px-2 py-1 focus:outline-none hover:bg-blue-700">Edit</button>
-                    <button @click="accepted(pending)" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700">Accepted</button>
-                    <button @click="refused(pending)" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700">Refused</button>
+                    <button @click="accepted(pending, index)" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700">Accepted</button>
+                    <button @click="refused(pending, index)" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700">Refused</button>
                 </section>
 
                 <Modal
@@ -189,6 +189,9 @@
                     </div>
                 </Modal>
             </div>
+            <div v-if="this.pendings.length < 1" style="background-color: #6B728033" class="w-full text-white lg:col-span-2 py-2 rounded-sm flex justify-center">
+                <span class="w-full text-center">No new pending</span>
+            </div>
         </section>
     </div>
 </template>
@@ -217,28 +220,42 @@
 
         methods: {
 
-            async accepted(object){
-                await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
-                    console.log(response)
-                }).catch(function (error) {
-                    console.log(error);
-                });
+            async accepted(object, index){
+                if(object.method == 'PUT'){
+                    await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
+                        //console.log(response)
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else if (object.method == 'POST'){
+                    await this.$axios.post(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
+                        //console.log(response)
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
                 object.state = "ACCEPTED"
                 object.checked_by = this.$route.params.userid
                 console.log(object)
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
-                    console.log(response)
+                    //console.log(response)
+                    this.pendings.splice(index, 1)
+                    this.$toast.success('The pending has been accepted', {duration:3000, position:'top-right'})
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
 
-            async refused(object){
+            async refused(object, index){
                 object.state = "DENIED"
                 object.checked_by = this.$route.params.userid
-                await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
-                    console.log(response)
-                }).catch(function (error) {
+                await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object)
+                .then(response => {
+                    //console.log(response)
+                    this.pendings.splice(index, 1)
+                    this.$toast.error('The pending has been refused', {duration:3000, position:'top-right'})
+                })
+                .catch(function (error) {
                     console.log(error);
                 });
             },
@@ -320,7 +337,7 @@
         async asyncData({ $axios }){
             const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-            return {pendings, artistList}
+            return { pendings, artistList }
         },
     }
 </script>
