@@ -15,7 +15,7 @@ export const createUser = async (req, res) => {
         id: user.uid,
         username,
         email,
-        role: ROLES.ADMIN,
+        role: ROLES.NONE,
       };
 
       const user_data = await req.context.models.User.create(data);
