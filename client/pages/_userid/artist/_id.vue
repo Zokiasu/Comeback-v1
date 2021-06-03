@@ -1,6 +1,5 @@
 <template>
   <div id="body-artist-file" class="px-5 md:px-14 mb-10 space-y-5">
-    <button @click="$router.go(-1)" class="absolute left-2 top-7 focus:outline-none"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></button>
     <div id="tilte-artist" class="relative">
       <h1 class="text-white text-4xl mt-5 mb-2">{{this.artist.name}}</h1>
       <div id="divider" class="border-b border-gray-500"></div>
@@ -12,7 +11,7 @@
     <section class="space-y-8">
       <section id="artist-info" class="grid grid-cols-1 lg:grid-cols-4 lg:gap-10 space-y-5 lg:space-y-0">
         <div class="h-full flex justify-center" :class="this.artist.type == 'GROUP' ? 'lg:col-span-2' : 'lg:col-span-1' ">
-          <img id="artist-picture" class="object-cover" :class="this.artist.type == 'GROUP' ? '' : 'lg:h-96 lg:w-72' " :src="this.artist.image ? this.artist.image : defaultImage" alt="Artist Picture"/>
+          <img id="artist-picture" class="object-cover" :class="this.artist.type == 'GROUP' ? ' max-w-xl' : 'lg:h-96 lg:w-72' " :src="this.artist.image ? this.artist.image : defaultImage" alt="Artist Picture"/>
         </div>
         <div class="space-y-5 lg:col-span-2">
           <div id="description" v-if="this.artist.description" :class="[ this.artist.description ? 'col-start-2 col-end-4' : '' ]">
@@ -158,12 +157,10 @@
       },
 
       async editRelease() {
-        let test = [this.artist]
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, {
-          artists: test,
-          username: "Zokiasu"
+          artists: [this.artist],
         }).then(response => {
-          //console.log(response)
+          console.log(response)
         }).catch(function (error) {
           console.log(error);
         });

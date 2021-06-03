@@ -46,8 +46,8 @@
                 ]" ></t-select>
             </div>
           </div>
-          <div class="flex flex-col space-y-10 w-full xl:p-10">
-            <div id="release-date w-full">
+          <div id="datepicker" class="flex flex-col space-y-10 w-full xl:p-10">
+            <div id="release-date">
               <h2 class="text-white text-xl">Release Date*</h2>
               <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
               <div>

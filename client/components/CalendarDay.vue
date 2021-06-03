@@ -1,40 +1,42 @@
 <template>
-  <div v-if="this.releaseList.length != 0" class="px-5 md:p-10 justify-center texts text-white">
+  <div v-if="this.releaseList.length != 0" class="justify-center texts text-white mx-10">
     <div class="col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
         <h1 class="font-semibold text-4xl"> {{new Date(date).toLocaleDateString('en-US', {  month: 'long', day: 'numeric' })}} </h1>
     </div>
-    <div class="grid gap-3 py-5 lg:py-10 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
+    <div v-if="this.releaseList.length != 0" class="grid gap-3 py-5 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
         <ReleaseCard
           v-for="(release, index) in this.releaseList"
           :width="width"
           :release="release"
           :key="index"/>
     </div>
+    <div v-if="this.releaseList.length == 0" style="background-color: #6B728033" class="w-full rounded-sm p-3 my-5 mr-10">
+      <span>No Releases Scheduled</span>
+    </div>
   </div>
 </template>
 
 <script>
-    export default {
+  export default {
+    props: ['date', 'width'],
 
-        props: ['date', 'width'],
+    data(){
+      return {
+        releaseList:[],
+      }
+    },
 
-        data(){
-          return {
-            releaseList:[],
-          }
-        },
+    mounted(){
+      this.findDay(this.date)
+    },
 
-        mounted(){
-          this.findDay(this.date)
-        },
-
-        methods: {
-          async findDay(day){
-            const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?date=${day}`)
-            this.releaseList = response
-          },
-        }
+    methods: {
+      async findDay(day){
+        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?date=${day}`)
+        this.releaseList = response
+      },
     }
+  }
 </script>
 
 <style>

@@ -62,25 +62,6 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/toast',
-    ['nuxt-lazy-load', {
-      // These are the default values
-      images: true,
-      videos: true,
-      audios: true,
-      iframes: true,
-      native: false,
-      polyfill: true,
-      directiveOnly: false,
-  
-      // To remove class set value to false
-      loadingClass: 'isLoading',
-      loadedClass: 'isLoaded',
-      appendClass: 'lazyLoad',
-      
-      observerConfig: {
-        // See IntersectionObserver documentation
-      }
-    }],
     '@nuxtjs/axios',
     ['@nuxtjs/pwa',
       {

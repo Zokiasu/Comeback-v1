@@ -43,10 +43,10 @@
         <div>
           <transition-group name="object" class="grid grid-cols-4 ld:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-5">
             <ReleaseCard
-              v-for="(release, index) in filteredReleasesList.slice(0, maxRelease)"
+              v-for="release in filteredReleasesList.slice(0, maxRelease)"
               :width="true"
               :release="release"
-              :key="index"/>
+              :key="release.id"/>
           </transition-group>
         </div>
       </div>
@@ -98,8 +98,6 @@
       checkReleaseArtist(release){
         let count = 0
         release.artists.forEach(element => {
-          console.log(element.name.toLowerCase())
-          console.log((this.$route.query.search).toLowerCase())
           if(element.name.toLowerCase().includes((this.$route.query.search).toLowerCase())) {
             console.log("true")
             return true
@@ -121,8 +119,8 @@
           return this.bestReleaseList.filter(release => {
             for (let index = 0; index < release.artists.length; index++) {
               if(release.artists[index].name.toLowerCase().includes((this.$route.query.search).toLowerCase())) return true
-              //if(release.artists[index].name.toLowerCase() == (this.$route.query.search).toLowerCase()) return true
             }
+            if(release.name.toLowerCase().includes((this.$route.query.search).toLowerCase())) return true
           })
         }
       }

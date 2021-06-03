@@ -9,7 +9,7 @@
                 <div class="flex flex-col justify-between" v-if="update.type === 'SINGLE' || update.type === 'ALBUM' || update.type === 'EP'">
                     <div class="flex absolute right-2 top-3 space-x-2">
                         <NuxtLink :to="`/${userId}/edit/release/${update.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
-                        <img @click="removeRelease(update.id, artists[update.place], index)" class="cursor-pointer" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
+                        <img v-if="adminCheck" @click="removeRelease(update.id, artists[update.place], index)" class="cursor-pointer" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
                     </div>
                     <span class="font-semibold">Releases (id: {{update.id}})</span>
                     <span><span><NuxtLink :to="`/${userId}/release/${update.id}`" target="_blank" class="hover:underline">{{update.name}}</NuxtLink></span> • <span v-for="(artist, index) in update.artists" :key="index"><NuxtLink :to="`/${userId}/artist/${artist.id}`" target="_blank" class="hover:underline">{{artist.name}}</NuxtLink><span v-if="index < update.artists.length-1">, </span></span></span>
@@ -26,11 +26,11 @@
                 </div>
                 <div class="flex flex-col justify-between" v-if="!update.type">
                     <div class="flex absolute right-2 top-3 space-x-2">
-                        <NuxtLink v-if="update.releases" :to="`/${userId}/edit/release/${update.releases[0].id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
+                        <NuxtLink v-for="(release, index) in update.releases" :key="index" :to="`/${userId}/release/${release.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
                         <img @click="removeMusic(update.id, musics[update.place], index)" class="cursor-pointer" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
                     </div>
                     <span class="font-semibold">Musics (id: {{update.id}})</span>
-                    <span v-if="update.releases"><NuxtLink :to="`/${userId}/release/${update.releases[0].id}`" target="_blank" class="hover:underline">{{update.name}}</NuxtLink></span>
+                    <span v-for="(release, index) in update.releases" :key="index" :to="`/${userId}/release/${release.id}`" target="_blank" class="hover:underline">{{update.name}}</NuxtLink></span>
                     <span><span>{{(new Date(update.createdAt)).toLocaleDateString({ day:'numeric', month: 'numeric', year:'numeric' })}} </span> - <span>{{(new Date(update.createdAt)).toLocaleTimeString({ hour:'numeric', minute: 'numeric' })}}</span></span>
                 </div>
             </div>
@@ -107,12 +107,13 @@
             userId(){
                 return this.$route.params.userid
             },
+
+            adminCheck(){
+                return this.adminChecker()
+            }
         },
 
         methods:{
-            getData(){
-
-            },
 
             async removeArtist(id, object, index){
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${id}`, object).then(response=>{
@@ -132,6 +133,22 @@
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/musics/${id}`, object).then(response=>{
                     //console.log(response)
                     this.lastUpdate.splice(index, 1)
+                })
+            },
+
+            async adminChecker(){
+                let that = this
+                await this.$fire.auth.onAuthStateChanged(async function (user) {
+                    if (user != null) {
+                        let userData = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
+                        if(userData.role != "NONE") {
+                            return true
+                        } else {
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
                 })
             },
         },

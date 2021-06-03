@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div id="top" class="flex mb-10 relative text-white" >
+      <section id="top" class="flex mb-10 relative text-white" >
         <img class="h-80 w-full object-cover absolute border-b border-gray-500" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)" alt="Profile Picture"/>
 
         <div id="profile-picture" class="z-10 flex flex-col justify-center mt-72 md:mt-44 ml-5">
@@ -28,9 +28,9 @@
                 </ul>
             </nav>
         </div>
-      </div>
-      <div id="middle" class="mx-5 xl:mx-20">
-        <div id="artist-following" v-if="actualtab == 'artist'">
+      </section>
+      <section id="middle" class="mx-5">
+        <section id="artist-following" v-if="actualtab == 'artist'">
             <h1 class="text-white text-xl">Artist Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-y-5 mt-10 my-5 w-full justify-center">
@@ -40,8 +40,8 @@
                     :artist="artist"
                     :index="index"/>
             </div>
-        </div>
-        <div id="music-following" v-if="actualtab == 'music'">
+        </section>
+        <section id="music-following" v-if="actualtab == 'music'">
             <h1 class="text-white text-xl">Releases Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
@@ -51,8 +51,8 @@
                     :release="release"
                     :key="index"/>
             </div>
-        </div>
-      </div>
+        </section>
+      </section>
   </div>
 </template>
 
@@ -78,7 +78,7 @@
 
     async asyncData({ $axios, params }){
       let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.userid}`)
-      return {user}
+      return { user }
     },
 
     mounted() {

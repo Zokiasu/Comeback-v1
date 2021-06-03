@@ -3,20 +3,22 @@
         <div class="h-96 relative">
             <img class="h-full relative w-full object-cover object-center " :src="this.release.image ? this.release.image : defaultImage" alt="Artist Picture"/>
             <div class="gradient w-full h-32 font-bold text-white absolute bottom-0"></div>
-            <div class="absolute bottom-5 px-5 md:flex md:justify-between text-white text-2xl w-full">
-                <span><span v-for="(artist, index) in this.release.artists" :key="index"><NuxtLink :to="`/${userId}/artist/${artist.id}`" class="hover:underline">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span> • {{this.release.name}}</span>
+            <div class="absolute bottom-5 px-5 lg:flex md:justify-between text-white text-2xl w-full">
+                <div class="flex space-x-2">
+                    <span><span v-for="(artist, index) in this.release.artists" :key="index"><NuxtLink :to="`/${userId}/artist/${artist.id}`" class="hover:underline">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span> • {{this.release.name}}</span>
+                    <div v-if="this.release.styles" class="space-x-1.5 text-sm mt-2.5">
+                        <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span>
+                    </div>
+                </div>
                 <span>{{(new Date(this.release.date)).toLocaleDateString({ day:'numeric', month: 'numeric', year:'numeric' })}} • {{this.release.type.charAt(0).toUpperCase() + this.release.type.slice(1).toLowerCase() }}</span>
             </div>
         </div>
         <div class="relative px-5 py-5">
-            <div id="button" class="my-5 md:my-0 md:absolute right-5 top-5">
-                <button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
-                <NuxtLink :to="`/${userId}/edit/release/${this.release.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
-            </div>
-            <div v-if="this.release.styles" id="tilte-artist" class="mb-10 -mt-5">
-                <div class="space-x-1.5">
-                    <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span>
-                </div>
+            <div id="button" class="my-5 md:my-0 md:absolute right-5 top-5 flex space-x-2">
+                <svg v-if="!like" @click="liked=true" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#b91c1c"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667zM106.1455,115.455c-1.2685,1.14667 -2.37217,2.14283 -3.268,2.98133c-5.38217,5.01667 -11.74617,10.7715 -16.8775,15.3725c-5.13133,-4.601 -11.5025,-10.363 -16.8775,-15.3725c-0.903,-0.8385 -2.00667,-1.84183 -3.268,-2.98133c-10.17667,-9.19483 -37.18783,-33.61883 -37.18783,-54.53833c0,-13.83167 11.25167,-25.08333 25.08333,-25.08333c13.0935,0 20.683,9.1375 20.88367,9.374l11.36633,12.126l11.36633,-12.126c0.07167,-0.09317 7.79017,-9.374 20.88367,-9.374c13.83167,0 25.08333,11.25167 25.08333,25.08333c0,20.9195 -27.01117,45.3435 -37.18783,54.53833z"></path></g></g></svg>
+                <svg v-if="like" @click="liked=false" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#b91c1c"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667z"></path></g></g></svg>
+                <NuxtLink :to="`/${userId}/edit/release/${this.release.id}`" class="text-white text-2xl hover:font-semibold hover:text-red-700">Edit</NuxtLink>
+                <!--<button class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>-->
             </div>
             <div v-if="this.release.platforms && this.release.platforms.length > 0" id="tilte-artist" class="mb-10">
                 <h1 class="text-white text-xl">Streaming Platforms</h1>
@@ -35,8 +37,8 @@
             <div v-if="this.videoId.length > 0" id="player-section" class="mb-10">
                 <h1 class="text-white text-xl">Music Video</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-96"></div>
-                <div id="video" class="flex justify-center">
-                    <iframe v-for="(clip, index) in this.videoId" :key="index" width="560" height="315" :src="clip" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div id="video" class="grid grid-cols-1 xl:grid-cols-2 gap-5 justify-center">
+                    <iframe class=" justify-self-center" v-for="(clip, index) in this.videoId" :key="index" width="560" height="315" :src="clip" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
@@ -50,6 +52,7 @@
             return {
                 release: null,
                 videoId: [],
+                liked:false,
             }
         },
 
@@ -79,6 +82,10 @@
             defaultImage(){
                 return this.$store.state.imageReleaseDefault
             },
+
+            like(){
+                return this.liked
+            }
         },
 
         methods:{

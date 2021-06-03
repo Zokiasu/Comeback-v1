@@ -2,9 +2,9 @@
   <div id="bod" :class="width ? 'grid grid-cols-7' : 'relative'">
     <SideBar v-if="width && this.$route.params.userid" class="leftbar col-start-1 col-end-3 xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
     <TopBar v-if="!width" class="w-full absolute top-0 z-10 my-2"/>
-    <div id="test2" class="leftbar xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen"  :class="width == true ? 'col-start-3' : 'col-start-1'">
+    <div class="leftbar xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen"  :class="width == true ? 'col-start-3' : 'col-start-1'">
       <ModeratorMenu class="m-5 mb-0" v-if="(this.$route.path).includes('moderator')"/>
-      <Nuxt id="exist" class=""/>
+      <Nuxt/>
     </div>
   </div>
 </template>
@@ -15,19 +15,10 @@
       data(){
         return {
           width:false,
-          actualHeight:0,
         }
       },
 
       methods: {
-
-        scroll(){
-          var b = document.getElementById("test2").scrollTop
-          if((b === this.actualHeight || b > this.actualHeight) && this.actualHeight != 0) {
-            this.actualHeight = this.actualHeight + window.innerHeight/**Math.round(document.getElementById("test2").scrollTop/window.innerHeight)*/
-          }
-
-        },
 
         handleResize() {
           if(window.innerWidth > 768) {
@@ -56,9 +47,6 @@
       mounted() {
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
-        document.getElementById("test2").addEventListener('scroll', this.scroll, {passive: true});
-        this.scroll();
-        this.actualHeight = window.innerHeight
       },
     }
 </script>

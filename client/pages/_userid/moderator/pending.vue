@@ -9,6 +9,7 @@
                 </section>
 
                 <section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
+                    <span class="font-semibold">Artist Pending</span>
                     <div class="flex space-x-5">
                         <img :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
                         <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
@@ -47,6 +48,7 @@
                 </section>
 
                 <section id="pending-release-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SINGLE' || pending.body.type === 'ALBUM' || pending.body.type === 'EP' || pending.currentData.type === 'SINGLE' || pending.currentData.type === 'ALBUM' || pending.currentData.type === 'EP'">
+                    <span class="font-semibold">Release Pending</span>
                     <div class="flex space-x-5">
                         <img v-if="pending.currentData.image" :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
                         <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
@@ -85,7 +87,9 @@
                 </section>
 
                 <section id="pending-music-data" class="flex flex-col space-y-2 h-full" v-if="!pending.body.type && !pending.currentData.type">
-                    <span>Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
+                    <span class="font-semibold">Music Pending</span>
+                    <span>Name : <span :class="pending.body.name != pending.currentData.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name != pending.currentData.name" class="text-green-500">{{pending.body.name}}</span></span>
+                    <span>Clip : <a :href="pending.currentData.clip" :class="pending.body.clip ? 'text-red-500':''">{{pending.currentData.clip}}</a> <a v-if="pending.body.clip" :href="pending.body.clip" class="text-green-500">{{pending.body.clip}}</a></span>
                     <div>
                         <span>Source :</span>
                         <span> {{pending.source}} </span>

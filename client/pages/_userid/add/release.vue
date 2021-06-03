@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
     
-    <section id="title-area">
+    <section id="title-area" class="mb-5">
       <div id="tilte-artist" class="relative">
         <h2 class="text-white text-2xl xl:text-4xl mt-5 mb-2">New Comeback</h2>
         <div id="divider" class="border-b-2 border-gray-100"></div>
@@ -9,19 +9,21 @@
       </div>
     </section>
 
-    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 p-5 px-10 pb-10 mt-10 pt-10">
-      
-      <div id="release-info" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 justify-between">
+    <span class="text-white font-semibold">Please fill all fields with a *</span>
+    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 p-5 px-10 pb-10 pt-10">
+      <div id="release-info" class=" flex flex-col xl:flex-row space-y-5 xl:space-y-0 justify-between">
+
         <div class="flex flex-col 2xl:flex-row space-y-5 2xl:space-y-0 my-5 2xl:space-x-20 2xl:px-10 justify-center h-full w-full">
 
           <div id="image-area" class="relative h-full">
               <img class="w-96" :src="this.release.image ? this.release.image : defaultImage" alt="">
               <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                 <button 
-                  class="px-5 py-1 bg-red-700 hover:bg-red-900 text-white rounded"
+                  class="px-5 py-1 bg-red-700 hover:bg-red-900 text-white rounded flex flex-col text-sm justify-center space-x-2"
                   @click="launchImageFile"
                   :disabled="this.isUploadingImage"
                   type="button">
+                  <svg class="w-full" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M85.79327,2.06731c-3.59195,0 -7.18389,3.66947 -14.47115,10.95673l-43.41346,43.62019c-7.98497,8.01082 -5.32331,9.50962 3.10096,9.50962h21.91346v52.92308c0,10.95673 8.88942,19.84615 19.84615,19.84615h26.46154c10.95673,0 19.84615,-8.88942 19.84615,-19.84615v-52.92308h21.5c9.32872,0 11.29267,-1.49879 3.30769,-9.50962l-43.62019,-43.62019c-7.28726,-7.28726 -10.87921,-10.95673 -14.47115,-10.95673zM0,125.69231v26.46154c0,10.95673 8.88942,19.84615 19.84615,19.84615h132.30769c10.95673,0 19.84615,-8.88942 19.84615,-19.84615v-26.46154h-13.23077v26.46154c0,3.64363 -2.97176,6.61538 -6.61538,6.61538h-132.30769c-3.64363,0 -6.61538,-2.97176 -6.61538,-6.61538v-26.46154z"></path></g></g></svg>
                   {{ this.isUploadingImage ? 'Uploading...' : 'Upload' }}
                 </button>
                 <input
@@ -49,19 +51,6 @@
                 </t-select>
             </div>
             <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0">
-                <h2 class="text-xl">Styles*</h2>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <multiselect
-                  v-model="release.styles" 
-                  tag-placeholder="Add this as new style" 
-                  placeholder="Search or add a style"
-                  :options="styleList" 
-                  :multiple="true" 
-                  :taggable="true" 
-                  @tag="addStyle">
-                </multiselect>
-            </div>
-            <div id="artists" class="flex flex-col text-white mb-5 xl:mb-0">
               <h2 class="text-xl">Artists*</h2>
               <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
               <multiselect 
@@ -76,7 +65,21 @@
                 @tag="addArtist">
               </multiselect>
             </div>
+            <div id="styles" class="flex flex-col text-white mb-5 xl:mb-0">
+                <h2 class="text-xl">Styles</h2>
+                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                <multiselect
+                  v-model="release.styles" 
+                  tag-placeholder="Add this as new style" 
+                  placeholder="Search or add a style"
+                  :options="styleList" 
+                  :multiple="true" 
+                  :taggable="true" 
+                  @tag="addStyle">
+                </multiselect>
+            </div>
           </div>
+
         </div>
 
         <section id="release-date">
@@ -121,28 +124,34 @@
         </section>
       </div>
 
-      <div id="release-contents" class="flex flex-col xl:flex-row mx-auto">
-        <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
-            <h2 class="text-xl">Tracklist*</h2>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+      <div id="release-contents" class="grid grid-cols-2 gap-5">
+        <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0">
+            <h2 class="text-xl">Tracklist</h2>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-full"></div>
             <t-input class="mb-1" v-for="(music, index) in this.release.musics" :key="index" type="text" v-model="music.name" placeholder="Track name"/>
-            <button @click="addMusic()" class="text-left focus:outline-none">Add</button>
+            <button @click="addMusic()" class="text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+              <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+            </button>
         </div>
-        <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0 xl:mr-5 2xl:mr-14">
+        <div id="streaming-platform" class="flex flex-col text-white mb-5 xl:mb-0">
             <h2 class="text-xl">Streaming Platforms Link</h2>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Platform'" @updateinput="updateList(release.platforms, $event, index)"/>
-            <button @click="newInput(release.platforms)" class="text-left focus:outline-none">Add</button>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-full"></div>
+            <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Link'" @updateinput="updateList(release.platforms, $event, index)"/>
+            <button @click="newInput(release.platforms)" class="text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+              <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+            </button>
         </div>
       </div>
       
       <div id="source" class="flex flex-col w-full text-white mb-5 xl:mb-0 mt-5 xl:mt-10">
           <h1 class="text-white text-xl">Source*</h1>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-          <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
+          <t-textarea id="source" placeholder="Send us all link where you find you're informations please." v-model="source" name="my-textarea" class="resize w-full h-20"/>
       </div>
     </section>
-
+    <div class="pt-5 flex justify-end">
+      <button @click="creates()" class="bg-red-700 hover:bg-red-900 px-5 py-1 text-white rounded">Confirm</button>
+    </div>
   </div>
 </template>
 
@@ -266,13 +275,13 @@
             console.log("Failed", "Invalid Date")
             this.$toast.error('Invalid Date', {duration:3000, position:'top-right'})
             return
+        } else if (this.source === '') {
+            console.log("Failed", "Source Missing")
+            this.$toast.error('Source Missing. Please put your sources.', {duration:3000, position:'top-right'})
+            return
         } else if (this.release.artists?.length === 0) {
             console.log("Failed", "Invalid Artist List")
             this.$toast.error('Invalid Artist List', {duration:3000, position:'top-right'})
-            return
-        } else if (this.release.musics?.length === 0) {
-            console.log("Failed", "Invalid Musics List")
-            this.$toast.error('Invalid Musics List', {duration:3000, position:'top-right'})
             return
         }
 

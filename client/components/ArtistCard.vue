@@ -1,11 +1,11 @@
 <template>
-  <div class="text-white">
-    <div class="h-20 md:h-40 w-20 md:w-40 mx-auto">
-    <NuxtLink :to="`/${userId}/artist/${this.id}`">
-      <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover bg-gray-500" :src="this.image ? this.image : defaultImage" alt="Artist Picture"/>
-    </NuxtLink>
+  <div id="artist-card" class="text-white">
+    <div id="artist-image" class="h-20 md:h-40 w-20 md:w-40 mx-auto">
+      <NuxtLink :to="`/${userId}/artist/${this.id}`">
+        <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover" v-lazy="this.image ? this.image : defaultArtistImage" :key="this.image ? this.image : defaultArtistImage" :alt="this.name"/>
+      </NuxtLink>
     </div>
-    <NuxtLink :to="`/${userId}/artist/${this.id}`"><h3 class="font-semibold text-center hover:underline"> {{this.name}} </h3></NuxtLink>
+    <NuxtLink id="artist-name" :to="`/${userId}/artist/${this.id}`"><h3 class="font-semibold text-center hover:underline">{{this.name}}</h3></NuxtLink>
   </div>
 </template>
 
@@ -24,7 +24,7 @@
         return this.$route.params.userid
       },
       
-      defaultImage(){
+      defaultArtistImage(){
         return this.$store.state.imageArtistDefault
       },
     }

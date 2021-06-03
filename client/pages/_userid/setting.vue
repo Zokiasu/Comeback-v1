@@ -86,7 +86,6 @@
 
     async asyncData({ $axios, params }){
       let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.userid}`)
-      
       return {user}
     },
 

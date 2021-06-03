@@ -3,16 +3,14 @@
         <header class="mx-5">
             <button @click="backToHome()" class="focus:outline-none"><img class="w-60 my-5 cursor-pointer" src="../assets/image/comeback-logo.png"/></button>
         </header>
-        <section class="border-t-2 border-gray-400 mx-5 py-5">
+        <section id="navigation" class="border-t-2 border-gray-400 mx-5 py-5">
             <nav>
                 <ul class="space-y-5">
                     <li>
                         <div class="flex bg-select-leftbar text-white rounded">
-                            <button class="pr-1 pl-2 rounded-none rounded-l py-1.5">
-                                <div class="">
-                                    <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
-                                </div>
-                            </button>
+                            <div class="pr-1 pl-2 rounded-none rounded-l py-1.5">
+                                <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
+                            </div>
                             <input v-model="search" @change="updateSearch()" type="text" placeholder="Search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-transparent">
                         </div>
                     </li>
@@ -49,17 +47,17 @@
                 </ul>
             </nav>
         </section>
-        <section class="border-t-2 border-gray-400 mx-5 py-5 h-full">
+        <section id="action-moderator-navigation" class="border-t-2 border-gray-400 mx-5 py-5 h-full">
             <nav>
                 <ul class="space-y-5">
                     <li>
                         <NuxtLink :to="`/${userId}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                             <span>New Comeback</span>
                         </NuxtLink>
-                        <!--<button class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">New Comeback</button>-->
+                        <!--<button @click="newComeback=true" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold w-full">New Comeback</button>-->
                     </li>
                     <li v-if="adminCheck">
-                        <NuxtLink :to="`/${userId}/moderator/lastupdated`" class="px-3 py-1 rounded flex space-x-2" >
+                        <NuxtLink :to="`/${userId}/moderator/pending`" class="px-3 py-1 rounded flex space-x-2" >
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                             <span>Moderator Panel</span>
                         </NuxtLink>
@@ -69,9 +67,11 @@
         </section>
         <footer class="w-full bottom-0 left-0 space-y-3 my-5 justify-center">
             <section class=" border-t-2 border-gray-400 mx-3 pt-2">
-                <div class="text-center font-semibold flex w-full justify-center space-x-1">
-                    <img class="h-5 w-5" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flogout.png?alt=media&token=6e8430d0-a180-4492-9249-6714142b2f94" alt="logout-logo">
-                    <button class="focus:outline-none -mt-0.5" @click="logout()" href="#">Sign Out</button>
+                <div class="w-full flex justify-center">
+                    <button @click="logout()" class="text-center font-semibold flex justify-center space-x-1 focus:outline-none">
+                        <img class="h-5 w-5" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flogout.png?alt=media&token=6e8430d0-a180-4492-9249-6714142b2f94" alt="logout-logo">
+                        <span class="focus:outline-none -mt-0.5">Sign Out</span>
+                    </button>
                 </div>
             </section>
             <section class="border-t-2 border-gray-400 mx-3 pt-2 flex space-x-6 justify-center">
@@ -85,19 +85,6 @@
                 <p class="text-center">2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
             </section>
         </footer>
-        <Modal 
-            v-model="newComeback" 
-            title="New Comeback"
-            wrapper-class="animate__animated modal-wrapper"
-            :in-class="`animate__fadeInDown`"
-            :out-class="`animate__bounceOut`"
-            bg-class="animate__animated"
-            :bg-in-class="`animate__fadeInUp`"
-            :bg-out-class="`animate__fadeOutDown`">
-            <div class="flex flex-col justify-center">
-                <span>Hello Dear</span>
-            </div>
-        </Modal>
     </div>
 </template>
 
