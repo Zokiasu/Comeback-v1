@@ -38,8 +38,7 @@ const release = (sequelize, DataTypes) => {
     Release.belongsToMany(models.Artist, {
       through: 'Release_Artist',
     });
-    Release.belongsToMany(models.Music, {
-      through: 'Music_Release',
+    Release.hasMany(models.Music, {
       as: 'musics',
     });
   };

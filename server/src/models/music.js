@@ -17,9 +17,7 @@ const music = (sequelize, DataTypes) => {
   });
 
   Music.associate = (models) => {
-    Music.belongsToMany(models.Release, {
-      through: 'Music_Release',
-    });
+    Music.belongsTo(models.Release);
     Music.belongsToMany(models.Artist, {
       through: 'Music_Artist',
     });
