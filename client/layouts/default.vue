@@ -1,10 +1,13 @@
 <template>
-  <div id="bod" :class="width ? 'grid grid-cols-7' : 'relative'">
-    <SideBar v-if="width && this.$route.params.userid" class="leftbar col-start-1 col-end-3 xl:col-end-2 relative min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
-    <TopBar v-if="!width" class="w-full absolute top-0 z-10 my-2"/>
-    <div class="leftbar xl:col-start-2 col-end-8 overflow-hidden overflow-y-visible relative max-h-screen"  :class="width == true ? 'col-start-3' : 'col-start-1'">
-      <ModeratorMenu class="m-5 mb-0" v-if="(this.$route.path).includes('moderator')"/>
-      <Nuxt/>
+  <div class="flex relative overscroll-hidden overflow-y-visible" :class="width ? 'flex-row':'flex-col'">
+    <div class="fixed max-w-xs max-h-screen">
+      <SideBar v-if="width && this.$route.params.userid" class="max-w-xs max-h-screen"/>
+    </div>
+    <span class="max-w-xs max-h-screen w-full"></span>
+    <TopBar v-if="!width"/>
+    <div class="w-full flex flex-col">
+      <ModeratorMenu class="p-5" v-if="(this.$route.path).includes('moderator')"/>
+      <Nuxt class="w-full"/>
     </div>
   </div>
 </template>

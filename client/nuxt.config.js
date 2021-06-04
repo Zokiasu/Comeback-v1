@@ -63,6 +63,7 @@ export default {
   modules: [
     '@nuxtjs/toast',
     '@nuxtjs/axios',
+    '@forked-prs/nuxt-infinite-scroll-module',
     ['@nuxtjs/pwa',
       {
         // disable the modules you don't need

@@ -1,6 +1,6 @@
 <template>
-    <div class="m-5 mt-0">
-        <section id="page-body" class="py-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+    <div class="px-5">
+        <section id="page-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
             <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">

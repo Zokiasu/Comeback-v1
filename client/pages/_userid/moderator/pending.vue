@@ -1,6 +1,6 @@
 <template>
-    <div class="m-5 mt-0">
-        <section id="pending-page" class="py-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
+    <div class="px-5">
+        <section id="pending-page" class="pb-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
             <div v-for="(pending, index) in this.pendings" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden space-y-2">
                 <section id="pending-type">
                     <span v-if="pending.method == 'POST'">Creation</span>
