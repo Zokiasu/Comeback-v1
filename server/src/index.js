@@ -79,9 +79,10 @@ const createSeeds = async () => {
           source: 'ça se fait pas',
         },
       ],
+      releases: [{ name: 'relasecool', type: 'ALBUM' }],
     },
     {
-      include: [models.Artist, models.Request],
+      include: [models.Artist, models.Request, models.Release],
     },
   );
 

@@ -25,6 +25,7 @@ router.get('/', async (req, res) => {
     include: [
       req.context.models.Artist,
       { model: req.context.models.Music, as: 'musics' },
+      { model: req.context.models.User, as: 'followers' },
     ],
   });
   return res.send(releases);
@@ -37,6 +38,7 @@ router.get('/:releaseId', async (req, res) => {
       include: [
         req.context.models.Artist,
         { model: req.context.models.Music, as: 'musics' },
+        { model: req.context.models.User, as: 'followers' },
       ],
     },
   );

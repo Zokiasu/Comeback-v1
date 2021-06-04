@@ -31,6 +31,10 @@ const release = (sequelize, DataTypes) => {
   });
 
   Release.associate = (models) => {
+    Release.belongsToMany(models.User, {
+      through: 'User_Release',
+      as: 'followers',
+    });
     Release.belongsToMany(models.Artist, {
       through: 'Release_Artist',
     });
