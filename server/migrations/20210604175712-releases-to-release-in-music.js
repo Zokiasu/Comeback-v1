@@ -5,7 +5,7 @@ module.exports = {
     // music belongsTo release
     return queryInterface
       .addColumn(
-        'musics', // name of Source model
+        'music', // name of Source model
         'releaseId', // name of the key we're adding
         {
           type: Sequelize.INTEGER,
@@ -20,7 +20,7 @@ module.exports = {
       .then(() => {
         // Release hasMany Music
         return queryInterface.addColumn(
-          'musics', // name of Target model
+          'music', // name of Target model
           'releaseId', // name of the key we're adding
           {
             type: Sequelize.INTEGER,
