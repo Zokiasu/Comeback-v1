@@ -11,7 +11,8 @@ firebase.auth().onAuthStateChanged((user) => {
 export const createUserAccount = (data) => {
   return axios
     .post('http://localhost:3000/users/auth/signup', data)
-    .then((res) => console.log(res.data));
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log(err, 'errororor'));
 };
 
 export const loginUser = (email, password) => {

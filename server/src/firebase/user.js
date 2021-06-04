@@ -27,6 +27,6 @@ export const createUser = async (req, res) => {
       return res.send(user_data);
     })
     .catch((error) => {
-      return res.send(error);
+      return res.status(500).send(error);
     });
 };
