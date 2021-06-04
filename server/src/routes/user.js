@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
     ...queriesToDict(req.query),
     include: [
       { model: req.context.models.Artist, as: 'artists' },
+      req.context.models.Release,
       req.context.models.Request,
     ],
   });
@@ -30,6 +31,7 @@ router.get('/testauth', checkIfAuthenticated, async (req, res) => {
     ...queriesToDict(req.query),
     include: [
       { model: req.context.models.Artist, as: 'artists' },
+      req.context.models.Release,
       req.context.models.Request,
     ],
   });
@@ -46,6 +48,7 @@ router.get(
       ...queriesToDict(req.query),
       include: [
         { model: req.context.models.Artist, as: 'artists' },
+        req.context.models.Release,
         req.context.models.Request,
       ],
     });
@@ -61,6 +64,7 @@ router.get('/:userId', async (req, res) => {
     {
       include: [
         { model: req.context.models.Artist, as: 'artists' },
+        req.context.models.Release,
         req.context.models.Notification,
       ],
     },
@@ -78,6 +82,7 @@ router.get('/:userId/artists', async (req, res) => {
           as: 'artists',
           ...queriesToDict(req.query),
         },
+        req.context.models.Release,
       ],
     },
   );
@@ -125,6 +130,14 @@ router.put('/:userId', async (req, res) => {
     req.context.models.Artist,
     (array) => user.addArtists(array),
     (array) => user.createArtist(array),
+  );
+
+  await addAssociationItems(
+    req.body.releases,
+    req.body.newReleases,
+    req.context.models.Release,
+    (array) => user.addReleases(array),
+    (array) => user.createRelease(array),
   );
 
   return res.send(user);
