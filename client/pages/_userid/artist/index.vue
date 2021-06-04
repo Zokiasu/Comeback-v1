@@ -8,7 +8,7 @@
     </section>
     <section id="artist-list" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-y-10 w-full justify-center my-10">
       <ArtistCard 
-        v-for="artist in filteredList.splice(0,25)"
+        v-for="artist in filteredList"
         :key="artist.id"
         :id="artist.id"
         :name="artist.name"
