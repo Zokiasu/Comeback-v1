@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // music belongsTo release
-    return queryInterface
+    /* return queryInterface
       .addColumn(
         'music', // name of Source model
         'releaseId', // name of the key we're adding
@@ -32,10 +32,10 @@ module.exports = {
             onDelete: 'SET NULL',
           },
         );
-      });
+      });*/
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Music_Release');
+    /*return queryInterface.dropTable('Music_Release'),*/
   },
 };
