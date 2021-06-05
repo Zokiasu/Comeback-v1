@@ -119,14 +119,14 @@ import { duration } from 'moment-timezone'
             console.error('Oops...connection error', error) 
             console.log(error.response)
             this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
-          })*/
+          })
           .then((res) => {
             console.log(res)
             if(res){
               this.signup = false
               this.$toast.success('You can login with your account', {duration:3000, position:'top-right'})
             }
-          })
+          })*/
         } else {
           this.$toast.error('Your passwords is not the same', {duration:3000, position:'top-right'})
         }
