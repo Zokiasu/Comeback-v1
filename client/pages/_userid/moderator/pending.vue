@@ -10,38 +10,43 @@
 
                 <section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
                     <span class="font-semibold">Artist Pending</span>
-                    <div class="flex space-x-5">
+                    <div id="image" class="flex space-x-5">
                         <img :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
                         <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
                     </div>
-                    <span>Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
-                    <span>Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
-                    
-                    <div>
+                    <div id="name">
+                        <span>Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
+                    </div>
+                    <div id="type">
+                        <span>Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
+                    </div>
+                    <div id="style">
                         <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
                         <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div>
                     </div>
-                    <span>Description : <span :class="pending.body.description ? 'text-red-500':''">{{pending.currentData.description}}</span> </span>
-                    <span class="text-green-500">{{pending.body.description}} </span>
-                    <div>
+                    <div id="description">
+                        <span>Description : <span :class="pending.body.description ? 'text-red-500':''">{{pending.currentData.description}}</span> </span>
+                        <span class="text-green-500">{{pending.body.description}} </span>
+                    </div>
+                    <div id="groups">
                         <div class="flex space-x-1"><span>Groups :</span><div :class="pending.body.groups ? 'text-red-500':''" class="space-x-1"><span v-for="(group, index) in pending.currentData.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
                         <div v-if="pending.body.groups" class="text-green-500 space-x-1"><span v-for="(group, index) in pending.body.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{group.name}}</span></div>
                     </div>
-                    <div>
+                    <div id="members">
                         <div class="flex space-x-1"><span>Members :</span><div :class="pending.body.members ? 'text-red-500':''" class="space-x-1"><span v-for="(member, index) in pending.currentData.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div></div>
                         <div v-if="pending.body.members" class="text-green-500 space-x-1"><span v-for="(member, index) in pending.body.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div>
                     </div>
-                    <div>
+                    <div id="socials">
                         <span>Social :</span>
-                        <div :class="pending.body.socials ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(social, index) in pending.currentData.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
-                        <div v-if="pending.body.socials" class="text-green-500 space-x-1"><span v-for="(social, index) in pending.body.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
+                        <div :class="pending.body.socials ? 'text-red-500':''" class="grid grid-cols-1 gap-1 mb-1"><span v-for="(social, index) in pending.currentData.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
+                        <div v-if="pending.body.socials" class="text-green-500 grid grid-cols-1 gap-1"><span v-for="(social, index) in pending.body.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
                     </div>
-                    <div>
+                    <div id="platforms">
                         <span>Platforms :</span>
-                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
-                        <div v-if="pending.body.platforms" class="text-green-500 space-x-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 gap-1 mb-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div v-if="pending.body.platforms" class="text-green-500 grid grid-cols-1 gap-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
                     </div>
-                    <div>
+                    <div id="source">
                         <span>Source :</span>
                         <span> {{pending.source}} </span>
                     </div>

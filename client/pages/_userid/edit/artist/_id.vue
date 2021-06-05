@@ -8,7 +8,6 @@
             <button @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
         </div>
     </div>
-
     <div class="rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
         <div class="flex flex-col xl:flex-row xl:space-x-10 my-5 xl:mb-10">
             <div id="image-area" class="relative h-full">
@@ -106,13 +105,17 @@
                 <h1 class="text-xl">Social Media Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.socials" :key="index" :elem="elem" @updateinput="updateList(artists.socials, $event, index, 'socials')"/>
-                <button @click="addSocials()" class="text-left focus:outline-none">Add</button>
+                <button @click="addSocials()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+                    <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                </button>
             </div>
             <div id="streaming-platform" class="flex flex-col w-full xl:ml-5 text-white mb-5 xl:mb-0">
                 <h1 class="text-xl">Streaming Platforms Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.platforms" :key="index" :elem="elem" @updateinput="updateList(artists.platforms, $event, index, 'platforms')"/>
-                <button @click="addStreamingLink()" class="text-left focus:outline-none">Add</button>
+                <button @click="addStreamingLink()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+                    <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                </button>
             </div>
         </div>
 

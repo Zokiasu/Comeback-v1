@@ -1,5 +1,5 @@
 <template>
-    <div class="text-white flex space-x-1.5">
+    <div v-if="url" class="text-white flex space-x-1.5">
         <div class="mt-1">
             <img :src="urls">
         </div>
@@ -44,7 +44,11 @@
                 domain = domain.substring(0, n != -1 ? n : domain.length);
                 //Uppercase first letter
                 var x = domain.charAt(0).toUpperCase() + domain.slice(1);
-
+                console.log(x)
+                if(x == "Qq") {
+                    console.log("Hello")
+                    x = domain.toUpperCase()
+                }
                 if(x === "Youtube" || x === "Apple" || x === "Huawei" || x === "Amazon" || x === "Line" || x === "QQ" || x === "Stingray") {
                     x = x + " Music"
                 }

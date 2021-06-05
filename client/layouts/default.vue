@@ -1,11 +1,11 @@
 <template>
   <div class="flex relative overscroll-hidden overflow-y-visible min-h-screen" :class="width ? 'flex-row':'flex-col'">
-    <div class="fixed max-w-xs min-h-screen">
+    <div class="fixed max-w-xs min-h-screen min-w-min">
       <SideBar v-if="width && this.$route.params.userid" class="max-w-xs min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
     </div>
-    <span class="max-w-xs max-h-screen w-full"></span>
+    <span v-if="width && this.$route.params.userid" class="max-w-xs min-w-min max-h-screen w-full"></span>
     <TopBar v-if="!width"/>
-    <div class="w-full flex flex-col">
+    <div class="w-full flex flex-col overflow-hidden">
       <ModeratorMenu class="p-5" v-if="(this.$route.path).includes('moderator')"/>
       <Nuxt class="w-full"/>
     </div>

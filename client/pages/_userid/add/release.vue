@@ -129,7 +129,7 @@
             <h2 class="text-xl">Tracklist</h2>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-full"></div>
             <t-input class="mb-1" v-for="(music, index) in this.release.musics" :key="index" type="text" v-model="music.name" placeholder="Track name"/>
-            <button @click="addMusic()" class="text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+            <button @click="addMusic()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
               <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
             </button>
         </div>
@@ -137,7 +137,7 @@
             <h2 class="text-xl">Streaming Platforms Link</h2>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-full"></div>
             <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Link'" @updateinput="updateList(release.platforms, $event, index)"/>
-            <button @click="newInput(release.platforms)" class="text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+            <button @click="newInput(release.platforms)" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
               <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
             </button>
         </div>

@@ -1,9 +1,9 @@
 <template>
-  <div id="body-artist-file" class="px-5 md:px-14 mb-10 space-y-5">
-    <div id="tilte-artist" class="relative">
+  <div id="body-artist-file" class="p-2 xl:px-5 2xl:px-10 xl:py-5">
+    <section id="tilte-artist" class="relative">
       <h1 class="text-white text-4xl mt-5 mb-2">{{this.artist.name}}</h1>
       <div id="divider" class="border-b border-gray-500"></div>
-      <div id="button" class="my-5 md:my-0 md:absolute right-5 top-2 flex space-x-2">
+      <div id="button" class="my-5 2xl:my-0 2xl:absolute right-5 top-2 flex space-x-2">
         <button @click="liked ? unfollowArtist() : followArtist()" :class="liked ? 'bg-red-500 text-white border-red-500 hover:border-white hover:bg-transparent':'text-red-500 border-red-500'" class="flex space-x-0.5 px-2 border focus:outline-none rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
           <svg v-if="!liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ef4444"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667zM106.1455,115.455c-1.2685,1.14667 -2.37217,2.14283 -3.268,2.98133c-5.38217,5.01667 -11.74617,10.7715 -16.8775,15.3725c-5.13133,-4.601 -11.5025,-10.363 -16.8775,-15.3725c-0.903,-0.8385 -2.00667,-1.84183 -3.268,-2.98133c-10.17667,-9.19483 -37.18783,-33.61883 -37.18783,-54.53833c0,-13.83167 11.25167,-25.08333 25.08333,-25.08333c13.0935,0 20.683,9.1375 20.88367,9.374l11.36633,12.126l11.36633,-12.126c0.07167,-0.09317 7.79017,-9.374 20.88367,-9.374c13.83167,0 25.08333,11.25167 25.08333,25.08333c0,20.9195 -27.01117,45.3435 -37.18783,54.53833z"></path></g></g></svg>
           <svg v-if="liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#fff"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667z"></path></g></g></svg>
@@ -11,92 +11,96 @@
         </button>
         <NuxtLink :to="`/${userId}/edit/artist/${this.$route.params.id}`" class="py-1 text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
       </div>
-    </div>
-    <section class="space-y-8">
-      <section id="artist-info" class="grid grid-cols-1 lg:grid-cols-4 lg:gap-10 space-y-5 lg:space-y-0">
-        <div class="h-full flex justify-center" :class="this.artist.type == 'GROUP' ? 'lg:col-span-2' : 'lg:col-span-1' ">
-          <img id="artist-picture" class="object-cover" :class="this.artist.type == 'GROUP' ? ' max-w-xl' : 'lg:h-96 lg:w-72' " :src="this.artist.image ? this.artist.image : defaultImage" alt="Artist Picture"/>
+    </section>
+
+    <section class="py-5 space-y-5">
+      
+      <section id="artist-info" class="grid grid-cols-1 gap-5 2xl:grid-cols-3" :class="this.artist.type == 'GROUP' ? 'xl:grid-cols-2' : 'md:grid-cols-2' ">
+        <div id="image" class="h-full w-full flex justify-center" :class="this.artist.type == 'GROUP' ? '' : '' ">
+          <img id="artist-picture" class="object-cover" :class="this.artist.type == 'GROUP' ? 'w-96 h-72 2xl:w-full 2xl:max-w-xl 2xl:h-full' : '' " :src="this.artist.image ? this.artist.image : defaultImage" alt="Artist Picture"/>
         </div>
-        <div class="space-y-5 lg:col-span-2">
-          <div id="description" v-if="this.artist.description" :class="[ this.artist.description ? 'col-start-2 col-end-4' : '' ]">
+        <div id="info" class="space-y-5 2xl:col-span-2">
+          <div id="description" v-if="this.artist.description">
             <h1 class="text-white text-xl">Description</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-full xl:w-96"></div>
             <div class="text-white">
               <span class="mt-2 text-base"> {{this.artist.description}} </span>
             </div>
           </div>
-          <div id="social-media" v-if="this.artist.styles">
-            <h1 class="text-white text-xl">Styles</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <div class="space-x-1"><span v-for="(style, index) in this.artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span></div>
-          </div>
-          <div id="social-media" v-if="this.artist.socials">
-            <h1 class="text-white text-xl">Social Media</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <div id="link-social" class="flex flex-col md:flex-row md:space-x-5 space-y-2 md:space-y-0">
-              <LinkImg v-for="(media, index) in this.artist.socials" :key="index" :url="media" :name="media"/>
+          <div class="space-y-5">
+            <div id="social-media" v-if="this.artist.styles">
+              <h1 class="text-white text-xl">Styles</h1>
+              <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full xl:w-96"></div>
+              <div class="space-x-1"><span v-for="(style, index) in this.artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span></div>
             </div>
           </div>
         </div>
       </section>
+
+      <div id="social-media" v-if="this.artist.socials">
+        <h1 class="text-white text-xl">Social Media</h1>
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
+        <div id="link-social" class="grid grid-cols-2 ms:grid-cols-3 gap-2 xl:flex xl:flex-row xl:space-x-5">
+          <LinkImg v-for="(media, index) in this.artist.socials" :key="index" :url="media" :name="media"/>
+        </div>
+      </div>
       <div id="streaming-section" v-if="this.artist.platforms">
         <h1 class="text-white text-xl">Streaming Platforms</h1>
-        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-        <div id="link-streaming" class="flex flex-col md:flex-row md:space-x-5 space-y-2 md:space-y-0">
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
+        <div id="link-streaming" class="grid grid-cols-2 ms:grid-cols-3 xl:grid-cols-none gap-2 xl:flex xl:flex-row xl:space-x-5">
           <LinkImg v-for="(stream, index) in this.artist.platforms" :key="index" :url="stream" :name="stream"/>
         </div>
       </div>
-      <div id="group-member" v-if="this.memberslist.length > 0">
+      <div id="member" v-if="this.memberslist.length > 0">
         <h1 class="text-white text-xl">Members ({{this.memberslist.length}})</h1>
-        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-        <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-5" id="link-social">
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
+        <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5" id="link-social">
           <NuxtLink :to="`/${userId}/artist/${members.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(members, index) in this.memberslist" :key="index">
             <div class="mb-0.5">
-              <img class="rounded-full h-10 md:h-20 w-10 md:w-20 object-cover mx-auto" :src="members.image" alt="">
+              <img class="rounded-full h-10 2xl:h-20 w-10 2xl:w-20 object-cover mx-auto" :src="members.image" alt="">
             </div>
             <span class="w-full h-full text-center xl:text-xl"> {{members.name}} </span>
           </NuxtLink>
         </div>
       </div>
-      <div id="subunit" v-if="this.subunitlist.length > 0">
-        <h1 class="text-white text-xl">Subunit ({{this.subunitlist.length}})</h1>
-        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-        <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-5">
-          <NuxtLink :to="`/${userId}/artist/${member.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(member, index) in this.subunitlist" :key="index">
-            <div class="mb-0.5">
-              <img class="rounded md:w-36 object-cover mx-auto" :src="member.image" alt="">
-            </div>
-            <span class="w-full h-full text-center xl:text-xl"> {{member.name}} </span>
-          </NuxtLink>
-        </div>
-      </div>
       <div id="group-member" v-if="this.artist.groups.length > 0">
         <h1 class="text-white text-xl">Part of the groups</h1>
-        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-        <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-5">
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
+        <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
           <NuxtLink :to="`/${userId}/artist/${group.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(group, index) in this.artist.groups" :key="index">
             <div class="mb-0.5">
-              <img class="rounded md:w-36 object-cover mx-auto" :src="group.image" alt="">
+              <img class="rounded 2xl:w-36 object-cover mx-auto" :src="group.image" alt="">
             </div>
             <span class="text-center text-xs hover:underline"> {{group.name}} </span>
           </NuxtLink>
         </div>
       </div>
+      <div id="subunit" v-if="this.subunitlist.length > 0">
+        <h1 class="text-white text-xl">Subunit ({{this.subunitlist.length}})</h1>
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
+        <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
+          <NuxtLink :to="`/${userId}/artist/${member.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(member, index) in this.subunitlist" :key="index">
+            <div class="mb-0.5">
+              <img class="rounded 2xl:w-36 object-cover mx-auto" :src="member.image" alt="">
+            </div>
+            <span class="w-full h-full text-center xl:text-xl"> {{member.name}} </span>
+          </NuxtLink>
+        </div>
+      </div>
       <div id="player-section" v-if="this.videoId">
         <h1 class="text-white text-xl">Last Music Video</h1>
-        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-96"></div>
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
         <div id="video" class="flex justify-center">
           <iframe width="560" height="315" :src="this.videoId" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
       <div id="release-section" v-if="this.artist.releases.length > 0">
         <h1 class="text-white text-xl">Lastest Releases</h1>
-        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-96"></div>
+        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
         <div id="release-list" class="grid grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4 gap-2">
           <ArtistReleaseCard v-for="(release, index) in this.artist.releases" :key="index" :release="release" :imageDefault="artist.image"/>
         </div>
-      </div>
-      
+      </div>      
     </section>
   </div>
 </template>
