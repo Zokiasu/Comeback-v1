@@ -104,7 +104,6 @@
       },
 
       async disableUser(){
-        console.log("disableUser")
         this.user.username = null
         this.user.email = null
         console.log(this.user)

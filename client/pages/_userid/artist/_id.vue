@@ -3,9 +3,13 @@
     <div id="tilte-artist" class="relative">
       <h1 class="text-white text-4xl mt-5 mb-2">{{this.artist.name}}</h1>
       <div id="divider" class="border-b border-gray-500"></div>
-      <div id="button" class="my-5 md:my-0 md:absolute right-5 top-2">
-          <button @click="editRelease" class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Follow</button>
-          <NuxtLink :to="`/${userId}/edit/artist/${this.$route.params.id}`" class="text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 py-0.5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
+      <div id="button" class="my-5 md:my-0 md:absolute right-5 top-2 flex space-x-2">
+        <button @click="liked ? unfollowArtist() : followArtist()" :class="liked ? 'bg-red-500 text-white border-red-500 hover:border-white hover:bg-transparent':'text-red-500 border-red-500'" class="flex space-x-0.5 px-2 border focus:outline-none rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+          <svg v-if="!liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ef4444"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667zM106.1455,115.455c-1.2685,1.14667 -2.37217,2.14283 -3.268,2.98133c-5.38217,5.01667 -11.74617,10.7715 -16.8775,15.3725c-5.13133,-4.601 -11.5025,-10.363 -16.8775,-15.3725c-0.903,-0.8385 -2.00667,-1.84183 -3.268,-2.98133c-10.17667,-9.19483 -37.18783,-33.61883 -37.18783,-54.53833c0,-13.83167 11.25167,-25.08333 25.08333,-25.08333c13.0935,0 20.683,9.1375 20.88367,9.374l11.36633,12.126l11.36633,-12.126c0.07167,-0.09317 7.79017,-9.374 20.88367,-9.374c13.83167,0 25.08333,11.25167 25.08333,25.08333c0,20.9195 -27.01117,45.3435 -37.18783,54.53833z"></path></g></g></svg>
+          <svg v-if="liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#fff"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667z"></path></g></g></svg>
+          <!--<span class="mt-1">{{liked ? 'Unlike':'Like'}}</span>-->
+        </button>
+        <NuxtLink :to="`/${userId}/edit/artist/${this.$route.params.id}`" class="py-1 text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
       </div>
     </div>
     <section class="space-y-8">
@@ -104,6 +108,7 @@
     data() {
       return {
         videoId: null,
+        liked:false,
         artist: [],
         memberslist: [],
         subunitlist: [],
@@ -125,16 +130,22 @@
 
     async asyncData({ $axios, params }){
       let artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
-      let memberslist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}/members`)
+      let memberslist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}/members?sortby=name`)
       return {artist,memberslist}
     },
 
-    mounted(){
+    async mounted(){
       this.artist.members.forEach(element => {
         if(element.type === "GROUP") {
           this.subunitlist.push(element)
         }
       });
+      let that = this
+      await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`).then(res => {
+        res.data.artists.forEach(element => {
+            if (element.id == that.artist.id) that.liked = true
+        });
+      })
     },
     
     computed: {
@@ -156,11 +167,22 @@
         return id
       },
 
-      async editRelease() {
+      async followArtist() {
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, {
           artists: [this.artist],
         }).then(response => {
+          //console.log(response)
+          this.$toast.info('You have been following ' + this.artist.name, {duration:2000, position:'bottom-left'})
+          this.liked = true
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+
+      async unfollowArtist() {
+        await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}/artists/${this.artist.id}`, this.artist).then(response => {
           console.log(response)
+          this.liked = false
         }).catch(function (error) {
           console.log(error);
         });

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
+  <div class="p-2 xl:px-5 2xl:px-10 xl:py-5 relative">
     <section id="title-area">
       <NuxtLink :to="`/${userId}/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
       <div id="tilte-artist" class="relative">
@@ -9,7 +9,7 @@
       </div>
     </section>
 
-    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 mt-10 p-5 lg:p-20">
+    <section id="body-area" class="rounded bg-gray-500 bg-opacity-20 mt-10 p-5 lg:p-10">
       <div id="top" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5 mb-5 xl:mb-20">
         <div class="w-full flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
           <div class="flex flex-col space-y-10 w-full justify-center">
@@ -48,7 +48,7 @@
           </div>
           <div id="datepicker" class="flex flex-col space-y-10 w-full xl:p-10">
             <div id="release-date">
-              <h2 class="text-white text-xl">Release Date*</h2>
+              <h2 class="text-white text-xl">Release Date* <span class="text-base">: {{dates.toLocaleDateString('fr-FR')}} at {{(dates.toLocaleTimeString('en-US')).toString().slice(0,4)}} in {{actualTimezone}}</span></h2>
               <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
               <div>
                 <v-date-picker
@@ -72,7 +72,7 @@
                     />
                     <div class="flex">
                       <span class="font-semibold text-gray-400 mr-2">Timezone:</span>
-                      <span class="text-white">{{ timezone }}</span>
+                      <span class="text-white">{{ timezone }} ({{ abbrTimezone }})</span>
                     </div>
                     <div class="flex">
                       <span class="font-semibold text-gray-400 mr-2">Namezone:</span>
@@ -143,19 +143,21 @@
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
           <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
       </div>
-      <div class="flex justify-end">
-        <button @click="editRelease()" class="px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
-      </div>
     </section>
+    <div class="flex justify-end mt-5">
+      <button @click="editRelease()" class="px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+    </div>
   </div>
 </template>
 
 <script>
+  import moment from 'moment-timezone'
   export default {
 
     data() {
         return {
           dates: new Date(),
+          actualTimezone:'',
           timezoneIndex: 11,
           timezones: [
             'Pacific/Niue', // -11
@@ -229,6 +231,14 @@
       return {release, artistList}
     },
 
+    created(){
+      var zone_name = moment.tz.guess();
+      this.actualTimezone = moment.tz.guess()
+      console.log(zone_name)
+      var timezone = moment.tz(zone_name).zoneAbbr() 
+      console.log(timezone);
+    },
+
     mounted(){
       this.dates = new Date(this.release.date)
       this.oldDataToApi = JSON.parse(JSON.stringify(this.release))
@@ -252,6 +262,9 @@
       timezone() {
         return this.timezones[this.timezoneIndex];
       },
+      abbrTimezone() {
+        return moment.tz(this.timezone).zoneAbbr();
+      },
       namezone() {
         return this.nameZones[this.timezoneIndex];
       },
@@ -269,7 +282,9 @@
     methods:{
 
       async editRelease() {
+        console.log('updateRelease', this.updateRelease)
         if(this.updateRelease) {
+          console.log('sendToApi',this.sendToApi)
           await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
               state:'PENDING',
               method:'PUT',
@@ -288,8 +303,9 @@
           });
         }
 
+        console.log('updateMusic', this.updateMusic)
         if(this.updateMusic){
-          console.log('SendMusic',this.sendToApiMusics)
+          console.log('sendToApiMusics',this.sendToApiMusics)
           this.sendToApiMusics.forEach(async element => {
             let oldData = {}
             oldData = this.oldDataToApi.musics
@@ -303,7 +319,7 @@
                 userId: this.$route.params.userid,
                 source: this.source
             }).then(response=>{
-                console.log(response)
+                //console.log(response)
                 this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
             }).catch(function (error) {
               console.log(error);
@@ -377,7 +393,7 @@
           if(!elementExist) {this.sendToApiMusics.push(value[index])}
           this.updateMusic = true
         } else {
-          this.newObjectToApi("music", value)
+          this.newObjectToApi("musics", value)
         }
       },
 

@@ -26,12 +26,12 @@
                 </div>
                 <div class="flex flex-col justify-between" v-if="!update.type">
                     <div class="flex absolute right-2 top-3 space-x-2">
-                        <NuxtLink v-for="(release, index) in update.releases" :key="index" :to="`/${userId}/release/${release.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
+                        <NuxtLink :to="`/${userId}/release/${update.release.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
                         <img @click="removeMusic(update.id, musics[update.place], index)" class="cursor-pointer" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
                     </div>
                     <span class="font-semibold">Musics</span>
-                    <NuxtLink v-for="(release, index) in update.releases" :key="index" :to="`/${userId}/release/${release.id}`" target="_blank" class="hover:underline">{{update.name}}</NuxtLink>
-                    <span><span>{{(new Date(update.updatedAt)).toLocaleDateString({ day:'numeric', month: 'numeric', year:'numeric' })}} </span> - <span>{{(new Date(update.updatedAt)).toLocaleTimeString({ hour:'numeric', minute: 'numeric' })}}</span></span>
+                    <NuxtLink :to="`/${userId}/release/${update.release.id}`" target="_blank" class="hover:underline">{{update.release.name}}</NuxtLink>
+                    <span><span>{{(new Date(update.release.updatedAt)).toLocaleDateString({ day:'numeric', month: 'numeric', year:'numeric' })}} </span> - <span>{{(new Date(update.release.updatedAt)).toLocaleTimeString({ hour:'numeric', minute: 'numeric' })}}</span></span>
                 </div>
             </div>
         </section>
@@ -90,7 +90,7 @@
                     image: element.image,
                     type: element.type,
                     artists: element.artists,
-                    releases: element.releases,
+                    release: element.release,
                     updatedAt: element.updatedAt,
                 })
                 this.lastUpdate['place'] = this.musics.indexOf(element)

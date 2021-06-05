@@ -9,7 +9,7 @@
       :key="index"
       :date="date"
       :width="width"/>
-    <InfiniteScroll :enough="enough" @load-more="updateDateList()" />
+    <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList()" />
   </div>
 </template>
 

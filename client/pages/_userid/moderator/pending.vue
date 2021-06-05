@@ -48,23 +48,23 @@
                 </section>
 
                 <section id="pending-release-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SINGLE' || pending.body.type === 'ALBUM' || pending.body.type === 'EP' || pending.currentData.type === 'SINGLE' || pending.currentData.type === 'ALBUM' || pending.currentData.type === 'EP'">
-                    <span class="font-semibold">Release Pending</span>
-                    <div class="flex space-x-5">
+                    <span id="title" class="font-semibold">Release Pending</span>
+                    <div id="image" class="flex space-x-5">
                         <img v-if="pending.currentData.image" :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
                         <img v-if="pending.body.image" :src="pending.body.image" class="w-20 h-20">
                     </div>
-                    <span>Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
-                    <span>Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
-                    <span>Date : <span :class="pending.body.date ? 'text-red-500':''">{{pending.currentData.date}}</span> <span v-if="pending.body.date" class="text-green-500">{{pending.body.date}}</span></span>
-                    <div>
+                    <span id="name">Name : <span :class="pending.body.name ? 'text-red-500':''">{{pending.currentData.name}}</span> <span v-if="pending.body.name" class="text-green-500">{{pending.body.name}}</span></span>
+                    <span id="type">Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
+                    <span id="date">Date : <span :class="pending.body.date ? 'text-red-500':''">{{pending.currentData.date}}</span> <span v-if="pending.body.date" class="text-green-500">{{pending.body.date}}</span></span>
+                    <div id="styles">
                         <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
                         <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div>
                     </div>
-                    <div>
+                    <div id="artist">
                         <div class="flex space-x-1"><span>Artists :</span><div :class="pending.body.artists ? 'text-red-500':''" class="space-x-1"><span v-for="(member, index) in pending.currentData.artists" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div></div>
                         <div v-if="pending.body.artists" class="text-green-500 space-x-1"><span v-for="(member, index) in pending.body.artists" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div>
                     </div>
-                    <div>
+                    <div id="musics">
                         <span>Musics :</span>
                         <div v-for="(music, index) in pending.currentData.musics" :key="index" :class="pending.body.musics ? 'text-red-500':''" class="grid grid-cols-1 gap-1">
                             <span class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.name}} </span>
@@ -75,12 +75,12 @@
                             <span v-if="music.clip" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.clip}} </span>
                         </div>
                     </div>
-                    <div>
+                    <div id="platforms">
                         <span>Platforms :</span>
                         <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
                         <div v-if="pending.body.platforms" class="text-green-500 space-x-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
                     </div>
-                    <div>
+                    <div id="source">
                         <span>Source :</span>
                         <span> {{pending.source}} </span>
                     </div>
@@ -340,6 +340,7 @@
 
         async asyncData({ $axios }){
             const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
+            //console.log(pendings)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
             return { pendings, artistList }
         },

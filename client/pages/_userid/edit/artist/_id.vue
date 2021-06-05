@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 xl:px-5 2xl:px-10 xl:py-5">
+  <div class="p-2 xl:px-5 2xl:px-10 xl:py-5 relative">
     <div id="title-area">
         <NuxtLink :to="`/${userId}/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
         <div id="tilte-artist" class="relative">
