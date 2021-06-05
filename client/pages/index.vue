@@ -4,8 +4,7 @@
       <Logo class="justify-self-center mx-auto"/>
     </div>
     <div class="w-full my-20 relative grid grid-flow-col auto-cols-col auto-rows-auto gap-2 max-w-full">
-      <img class="object-cover" style="min-height:15rem;" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flistartist.png?alt=media&token=02164587-06cf-4e06-845b-7f75261244b9" alt="">
-      <!--<img class="object-cover" style="min-height:15rem;" src="~/assets/image/listartist.jpg" alt="">-->
+      <img class="object-cover" style="min-height:15rem;" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flistartist.png?alt=media&token=02164587-06cf-4e06-845b-7f75261244b9" alt="artist_list">
       <div class="absolute bg-mainbg bg-opacity-80 top-20 md:top-20 lg:top-10 2xl:top-16 ms:left-10">
         <h2 class="text-white py-5 px-10 md:text-xl lg:text-2xl xl:text-3xl w-full" style="max-width:45rem;line-height: 2em;">Find your favorite artists and track all their single, album and EP in one place</h2>
       </div>
@@ -43,13 +42,13 @@
         </ul>
         <!--<ul class="flex space-x-7 justify-center">
           <li>
-            <a href="#"><img class="w-5" src="../assets/image/facebook.png"/></a>
+            <a href="#"><img alt="facebook_icon" class="w-5" src="../assets/image/facebook.png"/></a>
           </li>
           <li>
-            <a href="#"><img class="w-5" src="../assets/image/twitter.png"/></a>
+            <a href="#"><img alt="twitter_icon" class="w-5" src="../assets/image/twitter.png"/></a>
           </li>
           <li>
-            <a href="#"><img class="w-5" src="../assets/image/instagram.png"/></a>
+            <a href="#"><img alt="instagram_icon" class="w-5" src="../assets/image/instagram.png"/></a>
           </li>
         </ul>-->
         <ul class="flex space-x-1.5 text-white justify-center text-xl">

@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-1 justify-items-center w-full h-full text-white relative">
-    <img src="~/assets/image/comeback-logo.png" class="w-1/2 xl:w-1/4">
+    <img alt="logo" src="~/assets/image/comeback-logo.png" class="w-1/2 xl:w-1/4">
     <h1 class="text-base md:text-xl xl:text-2xl texts -mr-5">Track every next album, single, EP releases.</h1>
   </div>
 </template>
