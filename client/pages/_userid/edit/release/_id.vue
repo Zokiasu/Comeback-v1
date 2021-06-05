@@ -289,14 +289,10 @@
         }
 
         if(this.updateMusic){
+          console.log('SendMusic',this.sendToApiMusics)
           this.sendToApiMusics.forEach(async element => {
             let oldData = {}
-
-            this.oldDataToApi.musics.forEach(el => {
-              if(el.id == element.id) {
-                oldData = el
-              }
-            })
+            oldData = this.oldDataToApi.musics
 
             await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
                 state:'PENDING',
@@ -307,7 +303,7 @@
                 userId: this.$route.params.userid,
                 source: this.source
             }).then(response=>{
-                //console.log(response)
+                console.log(response)
                 this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
             }).catch(function (error) {
               console.log(error);
@@ -365,8 +361,8 @@
       newObjectToApi(key, value){
         this.sendToApi[key] = value
         this.updateRelease = true
-        console.log(this.sendToApi)
-        console.log(this.updateRelease)
+        console.log('sendToApi', this.sendToApi)
+        console.log('updateRelease', this.updateRelease)
       },
 
       newObjectToApiMusic(value, index){

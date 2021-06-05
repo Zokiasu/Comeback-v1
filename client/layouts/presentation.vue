@@ -113,18 +113,24 @@ import { duration } from 'moment-timezone'
       },
 
       async signUpUser(){
-        await this.$axios.post('http://comeback-api.herokuapp.com/users/auth/signup', this.sign)
-        .catch(error => { 
-          console.error('Oops...connection error', error) 
-          this.$toast.global.my_error() //Using custom toast
-          this.$toast.error('Error while authenticating', {duration:3000, position:'top-right'})
-          this.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
-        })
-        .then((res)=>{
-          console.log(res)
-        })
-        this.signup = false
-        this.$toast.success('You can login with your account', {duration:3000, position:'top-right'})
+        if(this.sign.password === this.passwordCheck){
+          await this.$axios.post('http://comeback-api.herokuapp.com/users/auth/signup', this.sign)
+          .catch((error) => { 
+            console.error('Oops...connection error', error) 
+            console.log(error.response.data.message)
+            //this.$toast.global.my_error() //Using custom toast
+            this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
+          })
+          .then((res) => {
+            console.log(res)
+            if(res){
+              this.signup = false
+              this.$toast.success('You can login with your account', {duration:3000, position:'top-right'})
+            }
+          })
+        } else {
+          this.$toast.error('Your passwords is not the same', {duration:3000, position:'top-right'})
+        }
       }
     },
   }

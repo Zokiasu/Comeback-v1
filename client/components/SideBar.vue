@@ -1,71 +1,73 @@
 <template>
-    <div class="bg-leftbar flex flex-col relative text-white texts min-h-screen">
-        <header class="mx-5">
-            <button @click="backToHome()" class="focus:outline-none"><img class="w-60 my-5 cursor-pointer" src="../assets/image/comeback-logo.png"/></button>
-        </header>
-        <section id="navigation" class="border-t-2 border-gray-400 mx-5 py-5">
-            <nav>
-                <ul class="space-y-5">
-                    <li>
-                        <div class="flex bg-select-leftbar text-white rounded">
-                            <div class="pr-1 pl-2 rounded-none rounded-l py-1.5">
-                                <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
+    <div class="bg-leftbar flex flex-col justify-between relative text-white texts min-h-screen">
+        <div class="w-full">
+            <header class="mx-5 flex justify-center">
+                <button @click="backToHome()" class="focus:outline-none"><img class="w-60 my-5 cursor-pointer" src="../assets/image/comeback-logo.png"/></button>
+            </header>
+            <section id="navigation" class="border-t-2 border-gray-400 mx-5 py-5">
+                <nav>
+                    <ul class="space-y-5">
+                        <li>
+                            <div class="flex bg-select-leftbar text-white rounded">
+                                <div class="pr-1 pl-2 rounded-none rounded-l py-1.5">
+                                    <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
+                                </div>
+                                <input v-model="search" @change="updateSearch()" type="text" placeholder="Search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-transparent">
                             </div>
-                            <input v-model="search" @change="updateSearch()" type="text" placeholder="Search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-transparent">
-                        </div>
-                    </li>
-                    <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/calendar`">
-                            <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
-                            <span>Calendar</span>
-                        </NuxtLink>
-                    </li>
-                    <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/artist`">
-                            <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
-                            <span>Artists</span>
-                        </NuxtLink>
-                    </li>
-                    <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/profile`">
-                            <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
-                            <span>Profile</span>
-                        </NuxtLink>
-                    </li>
-                    <!--<li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/discover`">
-                            <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
-                            <span>Discover</span>
-                        </NuxtLink>
-                    </li>-->
-                    <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/setting`">
-                            <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
-                            <span>Setting</span>
-                        </NuxtLink>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-        <section id="action-moderator-navigation" class="border-t-2 border-gray-400 mx-5 py-5 h-full">
-            <nav>
-                <ul class="space-y-5">
-                    <li>
-                        <NuxtLink :to="`/${userId}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
-                            <span>New Comeback</span>
-                        </NuxtLink>
-                        <!--<button @click="newComeback=true" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold w-full">New Comeback</button>-->
-                    </li>
-                    <li v-if="adminCheck">
-                        <NuxtLink :to="`/${userId}/moderator/pending`" class="px-3 py-1 rounded flex space-x-2" >
-                            <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
-                            <span>Moderator Panel</span>
-                        </NuxtLink>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-        <footer class="w-full bottom-0 left-0 space-y-3 my-5 justify-center">
+                        </li>
+                        <li>
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/calendar`">
+                                <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
+                                <span>Calendar</span>
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/artist`">
+                                <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
+                                <span>Artists</span>
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/profile`">
+                                <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
+                                <span>Profile</span>
+                            </NuxtLink>
+                        </li>
+                        <!--<li>
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/discover`">
+                                <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
+                                <span>Discover</span>
+                            </NuxtLink>
+                        </li>-->
+                        <li>
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/setting`">
+                                <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
+                                <span>Setting</span>
+                            </NuxtLink>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+            <section id="action-moderator-navigation" class="border-t-2 border-gray-400 mx-5 py-5 h-full">
+                <nav>
+                    <ul class="space-y-5">
+                        <li>
+                            <NuxtLink :to="`/${userId}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                                <span>New Comeback</span>
+                            </NuxtLink>
+                            <!--<button @click="newComeback=true" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold w-full">New Comeback</button>-->
+                        </li>
+                        <li v-if="adminCheck">
+                            <NuxtLink :to="`/${userId}/moderator/pending`" class="px-3 py-1 rounded flex space-x-2" >
+                                <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
+                                <span>Moderator Panel</span>
+                            </NuxtLink>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+        <footer class="space-y-3 my-5 justify-center">
             <section class=" border-t-2 border-gray-400 mx-3 pt-2">
                 <div class="w-full flex justify-center">
                     <button @click="logout()" class="text-center font-semibold flex justify-center space-x-1 focus:outline-none">
