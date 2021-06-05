@@ -114,12 +114,12 @@ import { duration } from 'moment-timezone'
       async signUpUser(){
         if(this.sign.password === this.passwordCheck){
           await this.$axios.post('http://comeback-api.herokuapp.com/users/auth/signup', this.sign)
-          /*.catch((error) => {
+          .catch((error) => {
             this.$toast.error('Oops...Something went wrong', {duration:3000, position:'top-right'})
             console.error('Oops...connection error', error) 
             console.log(error.response)
-            //this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
-          })*/
+            this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
+          })
           .then((res) => {
             console.log(res)
             if(res){

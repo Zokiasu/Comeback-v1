@@ -340,7 +340,7 @@
 
         async asyncData({ $axios }){
             const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
-            console.log(pendings)
+            //console.log(pendings)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
             return { pendings, artistList }
         },
