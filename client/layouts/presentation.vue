@@ -118,7 +118,6 @@ import { duration } from 'moment-timezone'
             this.$toast.error('Oops...Something went wrong', {duration:3000, position:'top-right'})
             console.error('Oops...connection error', error) 
             console.log(error.response)
-            //this.$toast.global.my_error() //Using custom toast
             this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
           })
           .then((res) => {
