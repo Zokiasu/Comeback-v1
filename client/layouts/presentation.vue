@@ -93,7 +93,6 @@ import { duration } from 'moment-timezone'
         await this.$fire.auth.signInWithEmailAndPassword(this.auth.email, this.auth.password)
         .catch(error => { 
           console.error('Oops...connection error', error) 
-          this.$toast.global.my_error() //Using custom toast
           this.$toast.error('Error while authenticating', {duration:3000, position:'top-right'})
           this.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
         })
@@ -115,9 +114,10 @@ import { duration } from 'moment-timezone'
       async signUpUser(){
         if(this.sign.password === this.passwordCheck){
           await this.$axios.post('http://comeback-api.herokuapp.com/users/auth/signup', this.sign)
-          .catch((error) => { 
+          .catch((error) => {
+            this.$toast.error('Oops...Something went wrong', {duration:3000, position:'top-right'})
             console.error('Oops...connection error', error) 
-            console.log(error.response.data.message)
+            console.log(error.response)
             //this.$toast.global.my_error() //Using custom toast
             this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
           })
