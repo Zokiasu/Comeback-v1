@@ -151,4 +151,30 @@ router.delete('/:userId', async (req, res) => {
   return res.send(user);
 });
 
+// handling artists and releases
+
+router.delete('/:userId/artists/:artistId', async (req, res) => {
+  const user = await req.context.models.User.findByPk(
+    req.params.userId,
+  );
+  const artist = await req.context.models.Artist.findByPk(
+    req.params.artistId,
+  );
+  user.removeArtist(artist);
+
+  return res.send(user);
+});
+
+router.delete('/:userId/releases/:releaseId', async (req, res) => {
+  const user = await req.context.models.User.findByPk(
+    req.params.userId,
+  );
+  const release = await req.context.models.Release.findByPk(
+    req.params.releaseId,
+  );
+  user.removeRelease(release);
+
+  return res.send(user);
+});
+
 export default router;
