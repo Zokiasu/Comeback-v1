@@ -40,6 +40,7 @@ const release = (sequelize, DataTypes) => {
     });
     Release.hasMany(models.Music, {
       as: 'musics',
+      onDelete: 'CASCADE',
     });
   };
 
