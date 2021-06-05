@@ -111,15 +111,12 @@
             },
 
             async unfollowRelease(){
-                console.log('Unfollow')
-                /*await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, {
-                releases: [this.release],
-                }).then(response => {
+                await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}/releases/${this.release.id}`, this.release).then(response => {
                     console.log(response)
-                    this.liked = true
+                    this.liked = false
                 }).catch(function (error) {
                     console.log(error);
-                });*/
+                });
             },
 
             getYoutubeId(url){

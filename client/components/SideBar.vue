@@ -97,17 +97,18 @@
             return {
                 search:'',
                 newComeback: false,
+                adminCheck: false,
             }
+        },
+
+        created(){
+            this.adminChecker()
         },
     
         computed: {
             userId(){
                 return this.$route.params.userid
             },
-
-            adminCheck(){
-                return this.adminChecker()
-            }
         },
 
         methods:{
@@ -135,13 +136,15 @@
                 await this.$fire.auth.onAuthStateChanged(async function (user) {
                     if (user != null) {
                         let userData = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
+                        //console.log(userData)
                         if(userData.role != "NONE") {
-                            return true
+                            console.log("test")
+                            that.adminCheck = true
                         } else {
-                            return false
+                            that.adminCheck =  false
                         }
                     } else {
-                        return false
+                        that.adminCheck =  false
                     }
                 })
             },
