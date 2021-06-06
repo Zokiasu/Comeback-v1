@@ -35,19 +35,17 @@ app.use('/musics', routes.music);
 
 const eraseDatabaseOnSync = true;
 
-sequelize
-  .sync({ force: eraseDatabaseOnSync && process.env.DEV })
-  .then(async () => {
-    if (eraseDatabaseOnSync) {
-      createSeeds();
-    }
+sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
+  if (eraseDatabaseOnSync) {
+    createSeeds();
+  }
 
-    app.listen(process.env.PORT || 3000, () =>
-      console.log(
-        `Example app listening on port ${process.env.PORT || 3000}!`,
-      ),
-    );
-  });
+  app.listen(process.env.PORT || 3000, () =>
+    console.log(
+      `Example app listening on port ${process.env.PORT || 3000}!`,
+    ),
+  );
+});
 
 const today = new Date();
 const tomorrow = new Date();
