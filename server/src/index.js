@@ -34,9 +34,10 @@ app.use('/musics', routes.music);
 // Start
 
 const eraseDatabaseOnSync = true;
+const doCreateSeeds = false;
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
-  if (eraseDatabaseOnSync) {
+  if (eraseDatabaseOnSync && doCreateSeeds) {
     createSeeds();
   }
 
