@@ -79,7 +79,10 @@ export const addAssociationItems = async (
 // destroys all entities with parents of a model
 export const destroyAssociationItems = async (items, parentItems) => {
   for (const item of items) {
-    if (!item[parentItems].length) {
+    console.log('here', item[parentItems]);
+    console.log(item[parentItems].length <= 1);
+    if (item[parentItems].length <= 1) {
+      console.log('ici', item);
       item.destroy({});
     }
   }
