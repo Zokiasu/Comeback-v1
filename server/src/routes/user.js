@@ -89,6 +89,23 @@ router.get('/:userId/artists', async (req, res) => {
   return res.send(user?.artists || []);
 });
 
+router.get('/:userId/releases', async (req, res) => {
+  const user = await req.context.models.User.findByPk(
+    req.params.userId,
+    {
+      include: [
+        {
+          model: req.context.models.Release,
+          as: 'releases',
+          ...queriesToDict(req.query),
+        },
+        req.context.models.Artist,
+      ],
+    },
+  );
+  return res.send(user?.releases || []);
+});
+
 router.get('/:userId/notifications', async (req, res) => {
   const user = await req.context.models.User.findByPk(
     req.params.userId,

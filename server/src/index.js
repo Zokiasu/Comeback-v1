@@ -81,6 +81,7 @@ const createSeeds = async () => {
         },
       ],
       releases: [{ name: 'relasecool', type: 'ALBUM' }],
+      artists: [{ name: 'JohnBoy' }],
     },
     {
       include: [models.Artist, models.Request, models.Release],
