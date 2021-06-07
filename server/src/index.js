@@ -33,7 +33,7 @@ app.use('/musics', routes.music);
 
 // Start
 
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 const doCreateSeeds = true;
 
 sequelize
