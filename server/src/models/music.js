@@ -10,17 +10,10 @@ const music = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
-    platforms: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
   });
 
   Music.associate = (models) => {
     Music.belongsTo(models.Release);
-    Music.belongsToMany(models.Artist, {
-      through: 'Music_Artist',
-    });
   };
 
   return Music;

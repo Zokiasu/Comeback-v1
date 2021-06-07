@@ -67,10 +67,6 @@ const artist = (sequelize, DataTypes) => {
       through: 'Happening_Artist',
       as: 'events',
     });
-    Artist.belongsToMany(models.Music, {
-      through: 'Music_Artist',
-      as: 'musics',
-    });
   };
 
   return Artist;

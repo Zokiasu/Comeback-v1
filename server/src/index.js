@@ -265,9 +265,6 @@ const createSeeds = async () => {
         {
           name: 'Turn Back Time (Korean Version)',
           clip: 'https://youtu.be/eUCVRF6hjSQ',
-          platfroms: [
-            'https://music.youtube.com/playlist?list=OLAK5uy_nyqTxh4oJ9MxIyjAd6byNsOcn2dnX4W_E',
-          ],
         },
       ],
     },
@@ -285,9 +282,6 @@ const createSeeds = async () => {
         {
           name: 'Turn Back Time (Korean Version)',
           clip: 'https://youtu.be/eUCVRF6hjSQ',
-          platfroms: [
-            'https://music.youtube.com/playlist?list=OLAK5uy_nyqTxh4oJ9MxIyjAd6byNsOcn2dnX4W_E',
-          ],
         },
       ],
     },
