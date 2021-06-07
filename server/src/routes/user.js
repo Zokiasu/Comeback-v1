@@ -65,6 +65,7 @@ router.get('/:userId', async (req, res) => {
       include: [
         { model: req.context.models.Artist, as: 'artists' },
         req.context.models.Release,
+        req.context.models.Request,
         req.context.models.Notification,
       ],
     },
