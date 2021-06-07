@@ -8,9 +8,12 @@
       v-for="(date, index) in this.releaseDateList"
       :key="index"
       :date="date"
-      :userArtistFollow="userArtistFollow"
+      :userArtistFollow="userData.artists"
       :width="width"/>
     <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList()" />
+    <div v-if="this.releaseDateList.length < 1" class="px-5">
+      <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No comeback planned</span>
+    </div>
   </div>
 </template>
 
@@ -35,26 +38,18 @@ import moment from 'moment-timezone'
           maxDate: 0,
           enough: false,
           startDate: new Date(),
-          userArtistFollow:[],
         }
     },
 
     async mounted() {
       this.handleResize();
       this.updateDateList()
-
-      let that = this
-      await this.$fire.auth.onAuthStateChanged(async function (user) {
-        if (user != null) {
-            let userData = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
-            that.userArtistFollow = userData.artists
-        }
-      })
     },
     
     computed: {
-      userId(){
-          return this.$route.params.userid
+      userData(){
+        let utmp = this.$store.state.dataUser
+        return utmp
       },
     },
 
@@ -81,7 +76,7 @@ import moment from 'moment-timezone'
           mostFutureRelease = false
         }
 
-        if(!mostFutureRelease) {
+        if(!mostFutureRelease && !this.enough) {
           this.maxDate = this.maxDate + 30
           for (let index = (this.maxDate-30); index < this.maxDate; index++) {
             var date = new Date(this.startDate)

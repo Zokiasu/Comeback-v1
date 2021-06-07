@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div class="flex justify-center mx-auto">
+    <section id="logo" class="flex justify-center mx-auto">
       <Logo class="justify-self-center mx-auto"/>
-    </div>
-    <div class="w-full my-20 relative grid grid-flow-col auto-cols-col auto-rows-auto gap-2 max-w-full">
+    </section>
+    <section id="description" class="w-full my-20 relative grid grid-flow-col auto-cols-col auto-rows-auto gap-2 max-w-full">
       <img class="object-cover" style="min-height:15rem;" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flistartist.png?alt=media&token=02164587-06cf-4e06-845b-7f75261244b9" alt="Artist List">
       <div class="absolute bg-mainbg bg-opacity-80 top-20 md:top-20 lg:top-10 2xl:top-16 ms:left-10">
         <h2 class="text-white py-5 px-10 md:text-xl lg:text-2xl xl:text-3xl w-full" style="max-width:45rem;line-height: 2em;">Find your favorite artists and track all their single, album and EP in one place</h2>
       </div>
-    </div>
-    <div class="flex justify-center text-white my-32">
+    </section>
+    <section id="help_us_message" class="flex justify-center text-white my-32">
       <span class="text-center text-xl md:text-3xl xl:text-4xl mx-10 2xl:mx-60">Create with us the best place where you can find and track all your favorite musicians.</span>
-    </div>
-    <div class="w-full px-10">
+    </section>
+    <footer id="footer" class="w-full px-10">
       <div class="w-full flex flex-col justify-center border-t-2 border-gray-500 py-5">
         <span class="w-full text-center text-white">This website is currently under development, so you may encounter some bugs while using it.</span>
       </div>
@@ -66,7 +66,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -80,8 +80,7 @@
         meta: [
           {
             hid: 'description',
-            name: 'description',
-            content: 'Find your favorite artists and track all their comeback in one place.'
+            content: 'Find your favorite artists and track all their next album, single, EP in one place.'
           }
         ]
       }

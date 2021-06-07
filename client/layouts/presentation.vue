@@ -16,7 +16,7 @@
       <div class="flex flex-col justify-center">
         <t-input type="email" v-model="auth.email" placeholder="Email" name="email" class="my-2"></t-input>
         <t-input type="password" v-model="auth.password" placeholder="Password" name="password" class="my-2"></t-input>
-        <button @click="logIn()" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Login</button>
+        <button @click="logIn(auth)" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Login</button>
       </div>
     </Modal>
     <Modal 
@@ -43,7 +43,7 @@
 <script>
   import 'firebase/auth'
   import { mapActions } from 'vuex'
-import { duration } from 'moment-timezone'
+  import { duration } from 'moment-timezone'
 
   export default {
     data(){
@@ -72,7 +72,7 @@ import { duration } from 'moment-timezone'
       this.$fire.auth.onAuthStateChanged(function (user) {
         if (user != null) {
           if(that.$route.path === '/') {
-            that.$router.push(`/${user.uid}/calendar`)
+            that.$router.push(`/calendar`)
           }
         } else {
           if(that.$route.path !== '/') {
@@ -83,27 +83,26 @@ import { duration } from 'moment-timezone'
     },
 
     methods: {
-      ...mapActions([ // spread operator so that other methods can still be added.
-        'updateToken',
-        'updateUserId',
-      ]),
-
-      async logIn(){
+      async logIn(user){
         let that = this
-        await this.$fire.auth.signInWithEmailAndPassword(this.auth.email, this.auth.password)
-        .catch(error => { 
+        await this.$fire.auth.signInWithEmailAndPassword(user.email, user.password)
+        .catch(error => {
           console.error('Oops...connection error', error) 
-          this.$toast.error('Error while authenticating', {duration:3000, position:'top-right'})
-          this.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
+          that.$toast.error('Error while authenticating', {duration:3000, position:'top-right'})
+          that.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
         })
-        .then((res)=>{
+        .then(async (res)=>{
           const token = that.$fire.auth.currentUser.getIdToken();
-          //that.updateToken(token)
-          //console.log(that.$store.state.tokenUser)
-          that.$router.push({ path: `/${res.user.uid}/calendar`})
-          //that.updateUserId(res.user.uid)
-          //console.log(that.$store.state.userUID)
-          this.$toast.success('You are login', {duration:3000, position:'top-right'})
+          const {data: response} = await that.$axios.get(`https://comeback-api.herokuapp.com/users/${res.user.uid}`)
+          that.$store.commit('SET_DATA_USER', response)
+          that.$store.commit('SET_TOKEN_USER', token.i)
+          /*let x = this.$store.state.dataUser
+          let y = this.$store.state.tokenUser
+          console.log(x)
+          console.log(y)*/
+          that.login = false
+          that.$router.push({ path: `/calendar`})
+          that.$toast.success('You are login', {duration:3000, position:'top-right'})
         })
       },
 
@@ -121,10 +120,9 @@ import { duration } from 'moment-timezone'
             this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
           })
           .then((res) => {
-            console.log(res)
             if(res){
               this.signup = false
-              this.$toast.success('You can login with your account', {duration:3000, position:'top-right'})
+              this.logIn(this.sign)
             }
           })
         } else {

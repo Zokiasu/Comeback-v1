@@ -5,7 +5,7 @@
         </div>
         <div class="space-y-3">
             <div class="flex flex-col">
-            <NuxtLink :to="`/${userId}/release/${this.release.id}`"><span class="text-base font-semibold hover:text-black">{{this.release.name}}</span></NuxtLink>
+            <NuxtLink :to="`/release/${this.release.id}`"><span class="text-base font-semibold hover:text-black">{{this.release.name}}</span></NuxtLink>
             <span class="text-xs">{{new Date(this.release.date).toLocaleDateString()}}</span>
             </div>
             <div class="flex space-x-3">
@@ -39,8 +39,9 @@
         },
     
         computed: {
-            userId(){
-                return this.$route.params.userid
+            userData(){
+                let utmp = this.$store.state.dataUser
+                return utmp
             },
             
             defaultImage(){

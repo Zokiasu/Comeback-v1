@@ -5,7 +5,7 @@
             <div class="gradient w-full h-32 font-bold text-white absolute bottom-0"></div>
             <div class="absolute bottom-5 px-5 lg:flex md:justify-between text-white text-2xl w-full">
                 <div class="flex space-x-2">
-                    <span><span v-for="(artist, index) in this.release.artists" :key="index"><NuxtLink :to="`/${userId}/artist/${artist.id}`" class="hover:underline">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span> • {{this.release.name}}</span>
+                    <span><span v-for="(artist, index) in this.release.artists" :key="index"><NuxtLink :to="`/artist/${artist.id}`" class="hover:underline">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span> • {{this.release.name}}</span>
                     <div v-if="this.release.styles" class="space-x-1.5 text-sm mt-2.5">
                         <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span>
                     </div>
@@ -20,7 +20,7 @@
                     <svg v-if="liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#fff"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667z"></path></g></g></svg>
                     <!--<span class="mt-1">{{liked ? 'Unlike':'Like'}}</span>-->
                 </button>
-                <NuxtLink :to="`/${userId}/edit/release/${this.release.id}`" class="py-1 text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
+                <NuxtLink :to="`/edit/release/${this.release.id}`" class="py-1 text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
             </div>
             <div v-if="this.release.platforms && this.release.platforms.length > 0" id="tilte-artist" class="mb-10">
                 <h1 class="text-white text-xl">Streaming Platforms</h1>
@@ -55,7 +55,6 @@
                 release: null,
                 videoId: [],
                 liked:false,
-
             }
         },
 
@@ -75,17 +74,22 @@
                 let x = this.getYoutubeId(this.release.musics[index].clip)
                 if(x != null) this.videoId.push(x)
             }
-            let that = this
-            await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`).then(res => {
+            /*let that = this
+            await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`).then(res => {
                 res.data.releases.forEach(element => {
                     if(element.id == that.release.id) that.liked = true
                 });
-            })
+            })*/
+            
+            this.userData.releases.forEach(element => {
+                if(element.id == that.release.id) that.liked = true
+            });
         },
     
         computed: {    
-            userId(){
-                return this.$route.params.userid
+            userData(){
+                let utmp = this.$store.state.dataUser
+                return utmp
             },
 
             defaultImage(){
@@ -99,7 +103,7 @@
 
         methods:{
             async followRelease(){
-                await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, {
+                await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, {
                     releases: [this.release],
                 }).then(response => {
                     //console.log(response)
@@ -111,7 +115,7 @@
             },
 
             async unfollowRelease(){
-                await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}/releases/${this.release.id}`, this.release).then(response => {
+                await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.userData.id}/releases/${this.release.id}`, this.release).then(response => {
                     //console.log(response)
                     this.liked = false
                 }).catch(function (error) {

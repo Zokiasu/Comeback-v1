@@ -9,7 +9,7 @@
           <svg v-if="liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#fff"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667z"></path></g></g></svg>
           <!--<span class="mt-1">{{liked ? 'Unlike':'Like'}}</span>-->
         </button>
-        <NuxtLink :to="`/${userId}/edit/artist/${this.$route.params.id}`" class="py-1 text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
+        <NuxtLink :to="`/edit/artist/${this.$route.params.id}`" class="py-1 text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
       </div>
     </section>
 
@@ -55,7 +55,7 @@
         <h1 class="text-white text-xl">Members ({{this.memberslist.length}})</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
         <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5" id="link-social">
-          <NuxtLink :to="`/${userId}/artist/${members.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(members, index) in this.memberslist" :key="index">
+          <NuxtLink :to="`/artist/${members.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(members, index) in this.memberslist" :key="index">
             <div class="mb-0.5">
               <img class="rounded-full h-10 2xl:h-20 w-10 2xl:w-20 object-cover mx-auto" :src="members.image" alt="">
             </div>
@@ -67,7 +67,7 @@
         <h1 class="text-white text-xl">Part of the groups</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
         <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
-          <NuxtLink :to="`/${userId}/artist/${group.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(group, index) in this.artist.groups" :key="index">
+          <NuxtLink :to="`/artist/${group.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(group, index) in this.artist.groups" :key="index">
             <div class="mb-0.5">
               <img class="rounded 2xl:w-36 object-cover mx-auto" :src="group.image" alt="">
             </div>
@@ -79,7 +79,7 @@
         <h1 class="text-white text-xl">Subunit ({{this.subunitlist.length}})</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
         <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
-          <NuxtLink :to="`/${userId}/artist/${member.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(member, index) in this.subunitlist" :key="index">
+          <NuxtLink :to="`/artist/${member.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(member, index) in this.subunitlist" :key="index">
             <div class="mb-0.5">
               <img class="rounded 2xl:w-36 object-cover mx-auto" :src="member.image" alt="">
             </div>
@@ -145,7 +145,7 @@
         }
       });
       let that = this
-      await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`).then(res => {
+      await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`).then(res => {
         res.data.artists.forEach(element => {
             if (element.id == that.artist.id) that.liked = true
         });
@@ -153,8 +153,9 @@
     },
     
     computed: {
-        userId(){
-          return this.$route.params.userid
+        userData(){
+          let utmp = this.$store.state.dataUser
+          return utmp
         },
         
         defaultImage(){
@@ -172,7 +173,7 @@
       },
 
       async followArtist() {
-        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, {
+        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, {
           artists: [this.artist],
         }).then(response => {
           //console.log(response)
@@ -184,7 +185,7 @@
       },
 
       async unfollowArtist() {
-        await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}/artists/${this.artist.id}`, this.artist).then(response => {
+        await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.userData.id}/artists/${this.artist.id}`, this.artist).then(response => {
           //console.log(response)
           this.liked = false
         }).catch(function (error) {

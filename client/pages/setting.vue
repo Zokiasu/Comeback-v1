@@ -12,7 +12,7 @@
         </Modal>
         <div id="image" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
           <span class="font-semibold">Profile Picture</span>
-          <img class="w-40 h-40 rounded-full object-cover" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)">
+          <img class="w-40 h-40 rounded-full object-cover" :src="userData.avatar ? userData.avatar : require(`~/assets/image/profile.png`)">
           <div>
               <button 
                   class="px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-900 hover:bg-red-700 hover:border-white border border-transparent transform hover:-translate-y-0.5 hover:scale-100 hover:font-bold focus:outline-none max-h-10"
@@ -31,29 +31,29 @@
         </div>
         <div id="user_id" class="flex flex-col">
           <span class="font-semibold">User ID</span>
-          <span>{{user.id}}</span>
+          <span>{{userData.id}}</span>
         </div>
         <div id="display_name" class="flex flex-col">
           <span class="font-semibold">Display Name</span>
-          <t-input @change="newObjectToApi('username', user.username)" autocomplete="false" type="text" v-model="user.username" :value="user.username"/>
+          <t-input @change="newObjectToApi('username', userData.username)" autocomplete="false" type="text" v-model="userData.username" :value="userData.username"/>
         </div>
         <div id="email" class="flex flex-col">
           <span class="font-semibold">Email</span>
-          <t-input @change="newObjectToApi('email', user.email)" autocomplete="false" type="text" v-model="user.email" :value="user.email"/>
+          <t-input @change="newObjectToApi('email', userData.email)" autocomplete="false" type="text" v-model="userData.email" :value="userData.email"/>
         </div>
         <div id="birthday" class="flex flex-col">
           <span class="font-semibold">Date of Birth</span>
           <t-datepicker
             class="text-black"
-            v-model="user.birthday"
-            @change="newObjectToApi('birthday', user.birthday)"
+            v-model="userData.birthday"
+            @change="newObjectToApi('birthday', userData.birthday)"
             placeholder="Release Date"
             initial-view="month" dateFormat='Y-m-d' clearable>
           </t-datepicker>
         </div>
         <div id="country" class="flex flex-col">
           <span class="font-semibold">Country</span>
-          <t-input @change="newObjectToApi('country', user.country)" autocomplete="false" type="text" v-model="user.country" :value="user.country"/>
+          <t-input @change="newObjectToApi('country', userData.country)" autocomplete="false" type="text" v-model="userData.country" :value="userData.country"/>
         </div>
         <div id="disabled_account" class="flex flex-row">
           <span class="font-semibold">Desactive your account ?</span>
@@ -79,85 +79,93 @@
 
     data(){
       return {
-          user:{},
-          editToApi:{},
-          isUploadingImage: false,
-          disableAccount: false,
+        user:{},
+        editToApi:{},
+        isUploadingImage: false,
+        disableAccount: false,
       }
     },
 
-    async asyncData({ $axios, params }){
-      let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.userid}`)
-      return {user}
+    computed: {
+      userData(){
+        let utmp = this.$store.state.dataUser
+        return utmp
+      },
     },
+
+    /*async asyncData({ $axios, params }){
+      let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`)
+      return {user}
+    },*/
 
     methods: {
       newObjectToApi(key, value){
-          this.editToApi[key] = value
+        this.editToApi[key] = value
       },
 
       async editUser() {
         let that = this;
-        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, this.editToApi)
+        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, this.editToApi)
         .then(response=>{
-            console.log(response)
-            that.$toast.success('Your account has been edited', {duration:3000, position:'top-center', fullWidth:true})
+          console.log(response)
+          that.$store.commit('SET_DATA_USER', that.user)
+          that.$toast.success('Your account has been edited', {duration:3000, position:'top-center', fullWidth:true})
         })
         .catch((error) => {console.log(error)})
       },
 
       async disableUser(){
-        this.user.username = null
-        this.user.email = null
-        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.user.id}`, this.user).catch((error) => {console.log(error)}).then(response=>{
-            //console.log(response)
-            this.$fire.auth.currentUser.delete().then(
-              this.$toast.success('Your account has been deleted', {duration:3000, position:'top', fullWidth:true})
-            )
+        this.userData.username = null
+        this.userData.email = null
+        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, this.user).catch((error) => {console.log(error)}).then(response=>{
+          //console.log(response)
+          this.$fire.auth.currentUser.delete().then(
+            this.$toast.success('Your account has been deleted', {duration:3000, position:'top', fullWidth:true})
+          )
         })
         
         this.$fire.auth.signOut().then(() => {
-            this.$router.push('/')
+          this.$router.push('/')
         }).catch((error) => {
-            console.log(error)
+          console.log(error)
         })
       },
 
       launchImageFile () {
-          this.$refs.imageFile.click()
+        this.$refs.imageFile.click()
       },
 
       uploadImageFile (files) {
-          if (!files.length) {
-              return
-          }
-          let file = files[0]
+        if (!files.length) {
+          return
+        }
+        let file = files[0]
 
-          if (!file.type.match('image.*')) {
-              alert('Please upload an image.')
-              return
-          }
+        if (!file.type.match('image.*')) {
+          alert('Please upload an image.')
+          return
+        }
 
-          let metadata = {
-              contentType: file.type
-          }
+        let metadata = {
+          contentType: file.type
+        }
 
-          this.isUploadingImage = true
+        this.isUploadingImage = true
 
-          let imageRef = this.$fire.storage.ref(`images/user-${this.user.id}`)
+        let imageRef = this.$fire.storage.ref(`images/user-${this.userData.id}`)
 
-          let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
-              return snapshot.ref.getDownloadURL().then((url) => {
-                  return url
-              })
-          }).catch((error) => {
-              console.error('Error uploading image', error)
+        let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+          return snapshot.ref.getDownloadURL().then((url) => {
+            return url
           })
-          uploadTask.then((url) => {
-              this.newObjectToApi("avatar", url)
-              this.user.avatar = url
-              this.isUploadingImage = false
-          })
+        }).catch((error) => {
+          console.error('Error uploading image', error)
+        })
+        uploadTask.then((url) => {
+          this.newObjectToApi("avatar", url)
+          this.userData.avatar = url
+          this.isUploadingImage = false
+        })
       },
     },
   }

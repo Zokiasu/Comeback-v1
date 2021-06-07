@@ -1,9 +1,9 @@
 <template>
-  <div class="flex relative overscroll-hidden overflow-y-visible min-h-screen" :class="width ? 'flex-row':'flex-col'">
+  <div v-if="start" class="flex relative overscroll-hidden overflow-y-visible min-h-screen" :class="width ? 'flex-row':'flex-col'">
     <div class="fixed max-w-xs min-h-screen min-w-min">
-      <SideBar v-if="width && this.$route.params.userid" class="max-w-xs min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
+      <SideBar v-if="width" class="max-w-xs min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
     </div>
-    <span v-if="width && this.$route.params.userid" class="max-w-xs min-w-min max-h-screen w-full"></span>
+    <span v-if="width" class="max-w-xs min-w-min max-h-screen w-full"></span>
     <TopBar v-if="!width"/>
     <div class="w-full flex flex-col overflow-hidden 2xl:overflow-visible">
       <ModeratorMenu class="p-5" v-if="(this.$route.path).includes('moderator')"/>
@@ -18,23 +18,31 @@
       data(){
         return {
           width:false,
+          start:false,
         }
       },
 
-      methods: {
-
-        handleResize() {
-          if(window.innerWidth > 768) {
-            this.width = true
-          } else {
-            this.width = false
+      beforeCreate(){
+        console.log("Default-beforeCreate")
+        let that = this
+        this.$fire.auth.onAuthStateChanged(async function (user) {
+          if (user != null) {
+            const token = that.$fire.auth.currentUser.getIdToken();
+            const {data: response} = await that.$axios.get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
+            that.$store.commit('SET_DATA_USER', response)
+            that.$store.commit('SET_TOKEN_USER', token.i)
+            if(response) {
+              that.start = true
+            }
+            console.log(that.$store.state.dataUser)
           }
-        },
+        })
       },
 
       created(){
+        console.log("Default-Created")
         let that = this
-        this.$fire.auth.onAuthStateChanged(function (user) {
+        this.$fire.auth.onAuthStateChanged(async function (user) {
           if (user != null) {
             if(that.$route.path === '/') {
               that.$router.push(`/${user.uid}/calendar`)
@@ -48,8 +56,20 @@
       },
 
       mounted() {
+        console.log("Default-Mounted")
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
+      },
+
+      methods: {
+
+        handleResize() {
+          if(window.innerWidth > 768) {
+            this.width = true
+          } else {
+            this.width = false
+          }
+        },
       },
     }
 </script>

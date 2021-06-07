@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5 relative">
     <section id="title-area">
-      <NuxtLink :to="`/${userId}/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
+      <NuxtLink :to="`/release/${this.$route.params.id}`" class="absolute left-1 top-1 flex hover:bg-white hover:bg-opacity-10 rounded py-1 px-2"><img class="w-8 h-8 mr-1" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
       <div id="tilte-artist" class="relative">
         <h1 class="text-white text-2xl xl:text-4xl mt-10 mb-2">Edit Release</h1>
         <div id="divider" class="border-b-2 border-gray-100"></div>
@@ -251,8 +251,9 @@
     },
 
     computed: {
-      userId(){
-        return this.$route.params.userid
+      userData(){
+        let utmp = this.$store.state.dataUser
+        return utmp
       },
       defaultImage(){
           return this.$store.state.imageArtistDefault
@@ -287,12 +288,12 @@
               endpoint:`/releases/${this.$route.params.id}`,
               body: this.sendToApi,
               currentData: this.oldDataToApi,
-              userId: this.$route.params.userid,
+              userId: this.userData.id,
               source: this.source
            }).then(response=>{
               //console.log(response)
               if(!this.updateMusic) {
-                this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
+                this.$router.push({ path: `/release/${this.$route.params.id}`})
               }
           }).catch(function (error) {
             console.log(error);
@@ -310,11 +311,11 @@
                 endpoint:`/musics/${element.id}`,
                 body: element,
                 currentData: oldData,
-                userId: this.$route.params.userid,
+                userId: this.userData.id,
                 source: this.source
             }).then(response=>{
                 //console.log(response)
-                this.$router.push({ path: `/${this.userId}/release/${this.$route.params.id}`})
+                this.$router.push({ path: `/release/${this.$route.params.id}`})
             }).catch(function (error) {
               console.log(error);
             });

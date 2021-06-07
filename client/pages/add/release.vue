@@ -232,7 +232,8 @@
 
     computed: {
       userId(){
-        return this.$route.params.userid
+        let utmp = this.$store.state.dataUser
+return utmp.id
       },
             
       defaultImage(){

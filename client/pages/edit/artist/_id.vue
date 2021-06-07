@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 xl:px-5 2xl:px-10 xl:py-5 relative">
     <div id="title-area">
-        <NuxtLink :to="`/${userId}/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
+        <NuxtLink :to="`/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
         <div id="tilte-artist" class="relative">
             <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
             <div id="divider" class="border-b-2 border-gray-100"></div>
@@ -159,8 +159,9 @@
         },
     
         computed: {
-            userId(){
-                return this.$route.params.userid
+            userData(){
+                let utmp = this.$store.state.dataUser
+                return utmp
             },
 
             defaultImage(){
@@ -178,11 +179,11 @@
                     endpoint:`/artists/${this.$route.params.id}`,
                     body: this.editToApi,
                     currentData: this.oldArtistData,
-                    userId: this.$route.params.userid,
+                    userId: this.userData.id,
                     source: this.source
                 }).then(response=>{
                     //console.log(response)
-                    this.$router.push({ path: `/${this.userId}/artist/${this.$route.params.id}`})
+                    this.$router.push({ path: `/artist/${this.$route.params.id}`})
                 })
             },
 

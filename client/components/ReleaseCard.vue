@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="`/${userId}/release/${release.id}`" v-if="width" class="texts flex flex-col text-white rounded">
+  <NuxtLink :to="`/release/${release.id}`" v-if="width" class="texts flex flex-col text-white rounded">
     <div class="relative">
         <img class="rounded-md object-cover" v-lazy="release.image" :key="release.image" alt="Artist Picture"/>
         <div class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl">
@@ -15,7 +15,7 @@
     </div>
   </NuxtLink>
 
-  <NuxtLink :to="`/${userId}/release/${release.id}`" v-else-if="!width" style="background-color: #3B3B3B" class="texts text-white flex rounded relative">
+  <NuxtLink :to="`/release/${release.id}`" v-else-if="!width" style="background-color: #3B3B3B" class="texts text-white flex rounded relative">
     <div>
         <img class="h-full w-16 rounded-l object-cover" v-lazy="release.image" :key="release.image" alt="Artist Picture"/>
     </div>
@@ -37,8 +37,9 @@
     props: ['release', 'width'],
 
     computed: {
-      userId(){
-        return this.$route.params.userid
+      userData(){
+        let utmp = this.$store.state.dataUser
+        return utmp
       },
     },
   }

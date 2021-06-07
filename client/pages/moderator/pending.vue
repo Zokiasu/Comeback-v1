@@ -226,6 +226,13 @@
         mounted(){
             bodyScroll.init()
         },
+    
+        computed: {
+            userData(){
+                let utmp = this.$store.state.dataUser
+                return utmp
+            },
+        },
 
         methods: {
 
@@ -247,7 +254,7 @@
                     });
                 }
                 object.state = "ACCEPTED"
-                object.checked_by = this.$route.params.userid
+                object.checked_by = this.userData.id
                 console.log(object)
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
                     //console.log(response)
@@ -260,7 +267,7 @@
 
             async refused(object, index){
                 object.state = "DENIED"
-                object.checked_by = this.$route.params.userid
+                object.checked_by = this.userData.id
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object)
                 .then(response => {
                     //console.log(response)
@@ -348,7 +355,6 @@
 
         async asyncData({ $axios }){
             const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
-            //console.log(pendings)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
             return { pendings, artistList }
         },

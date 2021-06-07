@@ -77,13 +77,23 @@
     },
 
     async asyncData({ $axios, params }){
-      let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.userid}`)
+      let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.id}`)
+      if(user == null) {
+          this.$router.push(`/calendar`)
+      }
       return { user }
     },
 
     mounted() {
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
+    },
+    
+    computed: {
+        userData(){
+            let utmp = this.$store.state.dataUser
+            return utmp
+        },
     },
 
     methods:{

@@ -6,27 +6,27 @@
                         <button @click="backToHome()" class="focus:outline-none h-full ml-5"><img class="h-7 w-7 cursor-pointer absolute left-5 top-0" src="../assets/image/mini-logo.png"/></button>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/calendar`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/calendar`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/artist`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/artist`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/profile`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/profile`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/setting`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/setting`">
                             <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                         </NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-search' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/search`">
+                        <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'search' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/search`">
                             <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
                         </NuxtLink>
                     </li>
@@ -48,8 +48,9 @@
         },
     
         computed: {
-            userId(){
-                return this.$route.params.userid
+            userData(){
+                let utmp = this.$store.state.dataUser
+                return utmp
             },
 
             adminCheck(){

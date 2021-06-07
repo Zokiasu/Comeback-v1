@@ -16,31 +16,31 @@
                             </div>
                         </li>
                         <li>
-                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/calendar`">
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/calendar`">
                                 <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
                                 <span>Calendar</span>
                             </NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/artist`">
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/artist`">
                                 <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                                 <span>Artists</span>
                             </NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-profile' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/profile`">
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'profile-id' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/profile/`">
                                 <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
                                 <span>Profile</span>
                             </NuxtLink>
                         </li>
                         <!--<li>
-                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/discover`">
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/discover`">
                                 <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
                                 <span>Discover</span>
                             </NuxtLink>
                         </li>-->
                         <li>
-                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'userid-setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/${userId}/setting`">
+                            <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/setting`">
                                 <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                                 <span>Setting</span>
                             </NuxtLink>
@@ -52,13 +52,13 @@
                 <nav>
                     <ul class="space-y-5">
                         <li>
-                            <NuxtLink :to="`/${userId}/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                            <NuxtLink :to="`/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                                 <span>New Comeback</span>
                             </NuxtLink>
                             <!--<button @click="newComeback=true" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold w-full">New Comeback</button>-->
                         </li>
                         <li v-if="adminCheck">
-                            <NuxtLink :to="`/${userId}/moderator/pending`" class="px-3 py-1 rounded flex space-x-2" >
+                            <NuxtLink :to="`/moderator/pending`" class="px-3 py-1 rounded flex space-x-2" >
                                 <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
                                 <span>Moderator Panel</span>
                             </NuxtLink>
@@ -98,17 +98,12 @@
                 search:'',
                 newComeback: false,
                 adminCheck: false,
+                userData: null,
             }
         },
-
+        
         created(){
             this.adminChecker()
-        },
-    
-        computed: {
-            userId(){
-                return this.$route.params.userid
-            },
         },
 
         methods:{
@@ -116,7 +111,7 @@
                 let that = this
                 this.$fire.auth.onAuthStateChanged(async function (user) {
                     if (user != null) {
-                        await that.$router.push(`/${user.uid}/search?search=${that.search}`)
+                        that.$router.push(`/search?search=${that.search}`)
                     }
                 })
             },
@@ -134,8 +129,8 @@
                 let that = this
                 await this.$fire.auth.onAuthStateChanged(async function (user) {
                     if (user != null) {
-                        let userData = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
-                        if(userData.role != "NONE") {
+                        let userDatas = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
+                        if(userDatas.role != "NONE") {
                             that.adminCheck = true
                         } else {
                             that.adminCheck =  false

@@ -166,6 +166,13 @@
             bodyScroll.init()
         },
 
+        computed: {
+            userData(){
+                let utmp = this.$store.state.dataUser
+                return utmp
+            },
+        },
+
         methods: {
 
             async accepted(object){
@@ -175,7 +182,7 @@
                     console.log(error);
                 });
                 object.state = "ACCEPTED"
-                object.checked_by = this.$route.params.userid
+                object.checked_by = this.userData.id
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
                     //console.log(response)
                 }).catch(function (error) {
@@ -185,7 +192,7 @@
 
             async refused(object){
                 object.state = "DENIED"
-                object.checked_by = this.$route.params.userid
+                object.checked_by = this.userData.id
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
                     //console.log(response)
                 }).catch(function (error) {
