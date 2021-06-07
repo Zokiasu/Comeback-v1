@@ -5,7 +5,7 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     return Promise.all([
-      queryInterface.removeColumn('musics', 'plateforms'),
+      queryInterface.removeColumn('music', 'platforms'),
     ]);
   },
 };
