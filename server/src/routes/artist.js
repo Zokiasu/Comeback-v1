@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   addAssociationItems,
+  destroyAssociationItems,
   queriesToDict,
   removeDuplicates,
 } from '../helpers/routes';
@@ -146,8 +147,18 @@ router.put('/:artistId', async (req, res) => {
 router.delete('/:artistId', async (req, res) => {
   const artist = await req.context.models.Artist.findByPk(
     req.params.artistId,
+    {
+      include: [
+        {
+          model: req.context.models.Release,
+          include: [req.context.models.Artist],
+        },
+      ],
+    },
   );
+
   artist.destroy(req.body);
+  destroyAssociationItems(artist.releases, 'artists');
   return res.send(artist);
 });
 

@@ -75,3 +75,12 @@ export const addAssociationItems = async (
     );
   }
 };
+
+// destroys all entities with parents of a model
+export const destroyAssociationItems = async (items, parentItems) => {
+  for (const item of items) {
+    if (!item[parentItems].length) {
+      item.destroy({});
+    }
+  }
+};

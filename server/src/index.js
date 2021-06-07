@@ -260,6 +260,7 @@ const createSeeds = async () => {
       name: 'Turn Back Time',
       type: 'SINGLE',
       date: tomorrow,
+      artists: [{ name: 'artist1' }, { name: 'artist2' }],
       musics: [
         {
           name: 'Turn Back Time (Korean Version)',
@@ -271,7 +272,27 @@ const createSeeds = async () => {
       ],
     },
     {
-      include: [{ model: models.Music, as: 'musics' }],
+      include: [{ model: models.Music, as: 'musics' }, models.Artist],
+    },
+  );
+  await models.Release.create(
+    {
+      name: 'TTime',
+      type: 'SINGLE',
+      date: tomorrow,
+      artists: [{ name: 'artist3' }],
+      musics: [
+        {
+          name: 'Turn Back Time (Korean Version)',
+          clip: 'https://youtu.be/eUCVRF6hjSQ',
+          platfroms: [
+            'https://music.youtube.com/playlist?list=OLAK5uy_nyqTxh4oJ9MxIyjAd6byNsOcn2dnX4W_E',
+          ],
+        },
+      ],
+    },
+    {
+      include: [{ model: models.Music, as: 'musics' }, models.Artist],
     },
   );
   const release = await models.Release.findOne({
