@@ -230,15 +230,18 @@
         methods: {
 
             async accepted(object, index){
+                console.log("accepted")
                 if(object.method == 'PUT'){
+                    console.log("PUT")
                     await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
-                        //console.log(response)
+                        console.log(response)
                     }).catch(function (error) {
                         console.log(error);
                     });
                 } else if (object.method == 'POST'){
+                    console.log("POST")
                     await this.$axios.post(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
-                        //console.log(response)
+                        console.log(response)
                     }).catch(function (error) {
                         console.log(error);
                     });

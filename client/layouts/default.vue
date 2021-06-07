@@ -5,7 +5,7 @@
     </div>
     <span v-if="width && this.$route.params.userid" class="max-w-xs min-w-min max-h-screen w-full"></span>
     <TopBar v-if="!width"/>
-    <div class="w-full flex flex-col overflow-hidden">
+    <div class="w-full flex flex-col overflow-hidden 2xl:overflow-visible">
       <ModeratorMenu class="p-5" v-if="(this.$route.path).includes('moderator')"/>
       <Nuxt class="w-full"/>
     </div>

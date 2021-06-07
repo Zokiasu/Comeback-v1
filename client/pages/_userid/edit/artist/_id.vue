@@ -104,7 +104,7 @@
             <div id="social-media" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
                 <h1 class="text-xl">Social Media Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.socials" :key="index" :elem="elem" @updateinput="updateList(artists.socials, $event, index, 'socials')"/>
+                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.socials" :key="index" :elem="elem" @updateinput="updateList(artists.socials, $event, index, 'socials')" @deleteinput="deleteList(artists.socials, index, 'socials')"/>
                 <button @click="addSocials()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
                     <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
                 </button>
@@ -112,7 +112,7 @@
             <div id="streaming-platform" class="flex flex-col w-full xl:ml-5 text-white mb-5 xl:mb-0">
                 <h1 class="text-xl">Streaming Platforms Link</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.platforms" :key="index" :elem="elem" @updateinput="updateList(artists.platforms, $event, index, 'platforms')"/>
+                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.platforms" :key="index" :elem="elem" @updateinput="updateList(artists.platforms, $event, index, 'platforms')" @deleteinput="deleteList(artists.platforms, index, 'platforms')"/>
                 <button @click="addStreamingLink()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
                     <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
                 </button>
@@ -229,6 +229,11 @@
 
             updateList(list, newElem, index, key){
                 list[index] = newElem
+                this.newObjectToApi(key, list)
+            },
+
+            deleteList(list, index, key){
+                list.splice(index, 1)
                 this.newObjectToApi(key, list)
             },
 

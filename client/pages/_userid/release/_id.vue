@@ -112,7 +112,7 @@
 
             async unfollowRelease(){
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}/releases/${this.release.id}`, this.release).then(response => {
-                    console.log(response)
+                    //console.log(response)
                     this.liked = false
                 }).catch(function (error) {
                     console.log(error);

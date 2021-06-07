@@ -185,7 +185,7 @@
 
       async unfollowArtist() {
         await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}/artists/${this.artist.id}`, this.artist).then(response => {
-          console.log(response)
+          //console.log(response)
           this.liked = false
         }).catch(function (error) {
           console.log(error);

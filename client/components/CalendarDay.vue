@@ -18,7 +18,7 @@
 
 <script>
   export default {
-    props: ['date', 'width'],
+    props: ['date', 'width', 'userArtistFollow'],
 
     data(){
       return {

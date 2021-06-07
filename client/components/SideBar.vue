@@ -123,7 +123,6 @@
 
             logout(){
                 this.$fire.auth.signOut().then(() => {
-                    console.log('Signed Out');
                     this.$router.push('/')
                     this.$toast.error('You are log out!', {duration:3000, position:'top-right'})
                 }).catch((error) => {
@@ -136,9 +135,7 @@
                 await this.$fire.auth.onAuthStateChanged(async function (user) {
                     if (user != null) {
                         let userData = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
-                        //console.log(userData)
                         if(userData.role != "NONE") {
-                            console.log("test")
                             that.adminCheck = true
                         } else {
                             that.adminCheck =  false

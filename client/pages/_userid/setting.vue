@@ -10,7 +10,7 @@
             </div>
           </div>
         </Modal>
-        <div class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
+        <div id="image" class="flex flex-col xl:flex-row space-y-5 xl:space-y-0 xl:space-x-5">
           <span class="font-semibold">Profile Picture</span>
           <img class="w-40 h-40 rounded-full object-cover" :src="user.avatar ? user.avatar : require(`~/assets/image/profile.png`)">
           <div>
@@ -29,23 +29,19 @@
                   class="hidden">
           </div>
         </div>
-        <div class="flex flex-col">
-          <span class="font-semibold">Display Name</span>
-          <t-input @change="newObjectToApi('username', user.username)" autocomplete="false" type="text" v-model="user.username" :value="user.username"/>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-semibold">Email</span>
-          <t-input @change="newObjectToApi('email', user.email)" autocomplete="false" type="text" v-model="user.email" :value="user.email"/>
-        </div>
-        <div class="flex flex-col">
+        <div id="user_id" class="flex flex-col">
           <span class="font-semibold">User ID</span>
           <span>{{user.id}}</span>
         </div>
-        <div class="flex flex-col">
-          <span class="font-semibold">Country</span>
-          <t-input @change="newObjectToApi('country', user.country)" autocomplete="false" type="text" v-model="user.country" :value="user.country"/>
+        <div id="display_name" class="flex flex-col">
+          <span class="font-semibold">Display Name</span>
+          <t-input @change="newObjectToApi('username', user.username)" autocomplete="false" type="text" v-model="user.username" :value="user.username"/>
         </div>
-        <div class="flex flex-col">
+        <div id="email" class="flex flex-col">
+          <span class="font-semibold">Email</span>
+          <t-input @change="newObjectToApi('email', user.email)" autocomplete="false" type="text" v-model="user.email" :value="user.email"/>
+        </div>
+        <div id="birthday" class="flex flex-col">
           <span class="font-semibold">Date of Birth</span>
           <t-datepicker
             class="text-black"
@@ -55,13 +51,17 @@
             initial-view="month" dateFormat='Y-m-d' clearable>
           </t-datepicker>
         </div>
-        <div class="flex flex-row">
+        <div id="country" class="flex flex-col">
+          <span class="font-semibold">Country</span>
+          <t-input @change="newObjectToApi('country', user.country)" autocomplete="false" type="text" v-model="user.country" :value="user.country"/>
+        </div>
+        <div id="disabled_account" class="flex flex-row">
           <span class="font-semibold">Desactive your account ?</span>
           <div class="mx-2">
             <button @click="disableAccount=true" class="rounded-sm flex justify-center transition duration-500 ease-in-out transform hover:font-bold text-red-900 hover:text-red-500">Yes, desactive my account</button>
           </div>
         </div>
-        <div class="w-full flex justify-end">
+        <div id="confirm_changes" class="w-full flex justify-end">
           <button @click="editUser()" class="px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold focus:outline-none">Save Changes</button>
         </div>
       </div>
@@ -97,16 +97,18 @@
       },
 
       async editUser() {
-          await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, this.editToApi).catch((error) => {console.log(error)}).then(response=>{
-              //console.log(response)
-              this.$toast.success('Your account has been edited', {duration:3000, position:'top', fullWidth:true})
-          })
+        let that = this;
+        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.$route.params.userid}`, this.editToApi)
+        .then(response=>{
+            console.log(response)
+            that.$toast.success('Your account has been edited', {duration:3000, position:'top-center', fullWidth:true})
+        })
+        .catch((error) => {console.log(error)})
       },
 
       async disableUser(){
         this.user.username = null
         this.user.email = null
-        console.log(this.user)
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.user.id}`, this.user).catch((error) => {console.log(error)}).then(response=>{
             //console.log(response)
             this.$fire.auth.currentUser.delete().then(

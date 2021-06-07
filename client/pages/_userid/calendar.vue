@@ -8,6 +8,7 @@
       v-for="(date, index) in this.releaseDateList"
       :key="index"
       :date="date"
+      :userArtistFollow="userArtistFollow"
       :width="width"/>
     <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList()" />
   </div>
@@ -33,19 +34,28 @@ import moment from 'moment-timezone'
           releaseDateList:[],
           maxDate: 0,
           enough: false,
-          startDate: new Date()
+          startDate: new Date(),
+          userArtistFollow:[],
         }
+    },
+
+    async mounted() {
+      this.handleResize();
+      this.updateDateList()
+
+      let that = this
+      await this.$fire.auth.onAuthStateChanged(async function (user) {
+        if (user != null) {
+            let userData = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
+            that.userArtistFollow = userData.artists
+        }
+      })
     },
     
     computed: {
       userId(){
           return this.$route.params.userid
       },
-    },
-
-    mounted() {
-      this.handleResize();
-      this.updateDateList()
     },
 
     methods: {
@@ -60,9 +70,13 @@ import moment from 'moment-timezone'
       async updateDateList(){
         const {data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/releases?sortby=date:desc&limit=1')
         let mostFutureRelease = false
-
-        if(this.releaseDateList.length > 0) {
+        if(response.length < 1 ) {
+          this.enough = true
+        } else if(this.releaseDateList.length > 0) {
           mostFutureRelease = moment(new Date(this.releaseDateList[this.releaseDateList.length-1])).isAfter(new Date(response[0].date))
+          if(this.releaseDateList.length == 1) {
+            this.enough = true
+          }
         } else {
           mostFutureRelease = false
         }

@@ -114,7 +114,7 @@ import { duration } from 'moment-timezone'
       async signUpUser(){
         if(this.sign.password === this.passwordCheck){
           await this.$axios.post('https://comeback-api.herokuapp.com/users/auth/signup', this.sign)
-          /*.catch((error) => {
+          .catch((error) => {
             this.$toast.error('Oops...Something went wrong', {duration:3000, position:'top-right'})
             console.error('Oops...connection error', error) 
             console.log(error.response)
@@ -126,7 +126,7 @@ import { duration } from 'moment-timezone'
               this.signup = false
               this.$toast.success('You can login with your account', {duration:3000, position:'top-right'})
             }
-          })*/
+          })
         } else {
           this.$toast.error('Your passwords is not the same', {duration:3000, position:'top-right'})
         }

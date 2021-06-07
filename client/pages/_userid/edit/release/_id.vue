@@ -234,9 +234,7 @@
     created(){
       var zone_name = moment.tz.guess();
       this.actualTimezone = moment.tz.guess()
-      console.log(zone_name)
-      var timezone = moment.tz(zone_name).zoneAbbr() 
-      console.log(timezone);
+      var timezone = moment.tz(zone_name).zoneAbbr()
     },
 
     mounted(){
@@ -282,9 +280,7 @@
     methods:{
 
       async editRelease() {
-        console.log('updateRelease', this.updateRelease)
         if(this.updateRelease) {
-          console.log('sendToApi',this.sendToApi)
           await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
               state:'PENDING',
               method:'PUT',
@@ -303,9 +299,7 @@
           });
         }
 
-        console.log('updateMusic', this.updateMusic)
         if(this.updateMusic){
-          console.log('sendToApiMusics',this.sendToApiMusics)
           this.sendToApiMusics.forEach(async element => {
             let oldData = {}
             oldData = this.oldDataToApi.musics
@@ -377,8 +371,6 @@
       newObjectToApi(key, value){
         this.sendToApi[key] = value
         this.updateRelease = true
-        console.log('sendToApi', this.sendToApi)
-        console.log('updateRelease', this.updateRelease)
       },
 
       newObjectToApiMusic(value, index){

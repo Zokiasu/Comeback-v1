@@ -99,7 +99,6 @@
         let count = 0
         release.artists.forEach(element => {
           if(element.name.toLowerCase().includes((this.$route.query.search).toLowerCase())) {
-            console.log("true")
             return true
           } else {
             count++

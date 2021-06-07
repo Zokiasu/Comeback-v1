@@ -118,6 +118,7 @@
             async removeArtist(id, object, index){
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${id}`, object).then(response=>{
                     //console.log(response)
+                    this.$toast.error(this.lastUpdate[index].name + ' has been deleted', {duration:2000, position:'top-right'})
                     this.lastUpdate.splice(index, 1)
                 })
             },
@@ -125,6 +126,7 @@
             async removeRelease(id, object, index){
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/releases/${id}`, object).then(response=>{
                     //console.log(response)
+                    this.$toast.error(this.lastUpdate[index].name + ' has been deleted', {duration:2000, position:'top-right'})
                     this.lastUpdate.splice(index, 1)
                 })
             },
@@ -132,6 +134,7 @@
             async removeMusic(id, object, index){
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/musics/${id}`, object).then(response=>{
                     //console.log(response)
+                    this.$toast.error(this.lastUpdate[index].name + ' has been deleted', {duration:2000, position:'top-right'})
                     this.lastUpdate.splice(index, 1)
                 })
             },
