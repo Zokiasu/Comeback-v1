@@ -37,6 +37,7 @@ router.get('/:releaseId', async (req, res) => {
     {
       include: [
         req.context.models.Artist,
+        { model: req.context.models.Happening, as: 'events' },
         { model: req.context.models.Music, as: 'musics' },
         { model: req.context.models.User, as: 'followers' },
       ],

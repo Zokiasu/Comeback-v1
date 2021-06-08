@@ -4,6 +4,7 @@ import {
   destroyAssociationItems,
   queriesToDict,
   removeDuplicates,
+  sortArrayBy,
 } from '../helpers/routes';
 
 const router = Router();
@@ -89,11 +90,21 @@ router.get('/:artistId/members', async (req, res) => {
     },
   );
 
+  // we need this because we can't sort by with classic queries
+  const sortBy = req.query.sortby?.split(':') || [
+    'createdAt',
+    'DESC',
+  ];
+
   const members = await getSoloMembers(
     artist.members,
     req.context.models.Artist,
     req,
   );
+
+  // we need this because we can't sort by with classic queries
+  sortArrayBy(members, sortBy);
+
   return res.send(members);
 });
 

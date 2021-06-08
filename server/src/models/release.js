@@ -42,6 +42,11 @@ const release = (sequelize, DataTypes) => {
       as: 'musics',
       onDelete: 'CASCADE',
     });
+
+    Release.belongsToMany(models.Happening, {
+      through: 'Happening_Release',
+      as: 'events',
+    });
   };
 
   return Release;
