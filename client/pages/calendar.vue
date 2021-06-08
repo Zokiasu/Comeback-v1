@@ -12,7 +12,7 @@
       :width="width"/>
     <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList()" />
     <div v-if="this.releaseDateList.length < 1" class="px-5">
-      <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No comeback planned</span>
+      <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">Nothing is planned</span>
     </div>
   </div>
 </template>

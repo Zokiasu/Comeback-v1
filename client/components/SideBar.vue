@@ -48,15 +48,30 @@
                     </ul>
                 </nav>
             </section>
-            <section id="action-moderator-navigation" class="border-t-2 border-gray-400 mx-5 py-5 h-full">
+            <section id="action-navigation" class="border-t-2 border-gray-400 mx-5 py-5 h-full">
                 <nav>
                     <ul class="space-y-5">
                         <li>
                             <NuxtLink :to="`/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
-                                <span>New Comeback</span>
+                                <span>New Release</span>
                             </NuxtLink>
-                            <!--<button @click="newComeback=true" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold w-full">New Comeback</button>-->
                         </li>
+                        <!--<li>
+                            <NuxtLink :to="`/add/artist`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                                <span>New Artist</span>
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink :to="`/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                                <span>New Event</span>
+                            </NuxtLink>
+                        </li>-->
+                    </ul>
+                </nav>
+            </section>
+            <section id="moderator-navigation" class="border-t-2 border-gray-400 mx-5 py-5 h-full">
+                <nav>
+                    <ul class="space-y-5">
                         <li v-if="adminCheck">
                             <NuxtLink :to="`/moderator/pending`" class="px-3 py-1 rounded flex space-x-2" >
                                 <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
