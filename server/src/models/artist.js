@@ -23,7 +23,7 @@ const artist = (sequelize, DataTypes) => {
       allowNull: true,
     },
     description: {
-      type: DataTypes.STRING(1000),
+      type: DataTypes.TEXT,
       unique: false,
       allowNull: true,
     },

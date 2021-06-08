@@ -13,7 +13,7 @@ const notification = (sequelize, DataTypes) => {
       allowNull: true,
     },
     message: {
-      type: DataTypes.STRING(1000),
+      type: DataTypes.TEXT,
       unique: false,
       allowNull: true,
     },
