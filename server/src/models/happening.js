@@ -20,7 +20,12 @@ const happening = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
-    date: {
+    startDate: {
+      type: DataTypes.DATE,
+      unique: false,
+      allowNull: true,
+    },
+    endDate: {
       type: DataTypes.DATE,
       unique: false,
       allowNull: true,
@@ -30,6 +35,9 @@ const happening = (sequelize, DataTypes) => {
   Happening.associate = (models) => {
     Happening.belongsToMany(models.Artist, {
       through: 'Happening_Artist',
+    });
+    Happening.belongsToMany(models.Release, {
+      through: 'Happening_Release',
     });
   };
 
