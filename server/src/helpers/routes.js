@@ -32,6 +32,40 @@ export const queriesToDict = (queries, whereOptions = {}) => {
   };
 };
 
+//used when we just want to sortby a js array
+export const sortArrayBy = (array, sortBy, type = 'string') => {
+  const [key, order] = sortBy;
+  if (['updatedAt', 'createdAt'].includes(key)) type = 'date';
+
+  if (type === 'string') {
+    array.sort((a, b) => {
+      const nameA = a[key].toLowerCase(),
+        nameB = b[key].toLowerCase();
+
+      if (order === 'desc') {
+        if (nameA > nameB)
+          //sort string descending
+          return -1;
+        if (nameA < nameB) return 1;
+        return 0; //default return value (no sorting)
+      } else {
+        if (nameA < nameB)
+          //sort string ascending
+          return -1;
+        if (nameA > nameB) return 1;
+        return 0; //default return value (no sorting)
+      }
+    });
+  } else if (type === 'date') {
+    array.sort((a, b) => {
+      var dateA = new Date(a[key]),
+        dateB = new Date(b[key]);
+      if (order === 'desc') return dateB - dateA; //sort by date descending
+      return dateA - dateB; //sort by date ascending
+    });
+  }
+};
+
 export const addAssociationItems = async (
   items,
   newItems,
