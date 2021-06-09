@@ -1,12 +1,12 @@
 <template>
   <div class="mt-5">
-    <div class="w-full flex justify-end">
+    <!--<div class="w-full flex justify-end">
       <t-select v-model="userPreference" id="artists-type-selector" class="w-40"
       :options="[
           { value: true, text: 'My Comeback' },
           { value: false, text: 'All Comeback' },
       ]" ></t-select>
-    </div>
+    </div>-->
     <CalendarDay
       class=" z-0"
       v-for="(date, index) in this.releaseDateList"
