@@ -62,7 +62,7 @@
                 :options="artistList" 
                 :close-on-select="false"
                 :clear-on-select="false"
-                :preserve-search="true"
+                :preserve-search="false"
                 :multiple="true" 
                 :taggable="true" 
                 @tag="addArtist">
@@ -78,7 +78,7 @@
                   :options="styleList" 
                   :close-on-select="false"
                   :clear-on-select="false"
-                  :preserve-search="true"
+                  :preserve-search="false"
                   :multiple="true" 
                   :taggable="true" 
                   @tag="addStyle">

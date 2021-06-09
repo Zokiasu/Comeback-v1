@@ -75,10 +75,6 @@ import moment from 'moment-timezone'
           this.enough = false
         }
         const {data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/releases?sortby=date:desc&limit=1')
-        
-        console.log('Start Date', start)
-        console.log('End Date',new Date(response[0].date))
-        console.log('Max Display', this.maxDateListDisplay)
 
         if(!this.enough) {
           this.maxDateListDisplay = this.maxDateListDisplay + 10
@@ -88,10 +84,6 @@ import moment from 'moment-timezone'
             this.releaseDateList.push(date.toISOString().slice(0, 10).replace('T', ''))
           }
         }
-        
-        console.log('Actual Date', this.releaseDateList[this.releaseDateList.length-1])
-        console.log('Max Date', new Date(response[0].date).toISOString().slice(0, 10).replace('T', ''))
-        console.log('test', moment(new Date(this.releaseDateList[this.releaseDateList.length-1])).isAfter(new Date(response[0].date)) || this.releaseDateList[this.releaseDateList.length-1] == new Date(response[0].date).toISOString().slice(0, 10).replace('T', ''))
 
         if(moment(new Date(this.releaseDateList[this.releaseDateList.length-1])).isAfter(new Date(response[0].date)) || this.releaseDateList[this.releaseDateList.length-1] == new Date(response[0].date).toISOString().slice(0, 10).replace('T', '')) {
           this.enough = true
