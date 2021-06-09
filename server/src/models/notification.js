@@ -18,7 +18,7 @@ const notification = (sequelize, DataTypes) => {
       allowNull: true,
     },
     url: {
-      type: DataTypes.STRING(1000),
+      type: DataTypes.STRING(2000),
       unique: false,
       allowNull: true,
     },

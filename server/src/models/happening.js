@@ -11,7 +11,7 @@ const happening = (sequelize, DataTypes) => {
       allowNull: true,
     },
     url: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(2000),
       unique: false,
       allowNull: true,
     },

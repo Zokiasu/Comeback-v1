@@ -21,7 +21,7 @@ const release = (sequelize, DataTypes) => {
       allowNull: true,
     },
     platforms: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.STRING(2000)),
       allowNull: true,
     },
     styles: {

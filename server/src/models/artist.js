@@ -28,11 +28,11 @@ const artist = (sequelize, DataTypes) => {
       allowNull: true,
     },
     socials: {
-      type: DataTypes.ARRAY(DataTypes.STRING(500)),
+      type: DataTypes.ARRAY(DataTypes.STRING(2000)),
       allowNull: true,
     },
     platforms: {
-      type: DataTypes.ARRAY(DataTypes.STRING(500)),
+      type: DataTypes.ARRAY(DataTypes.STRING(2000)),
       allowNull: true,
     },
     styles: {
