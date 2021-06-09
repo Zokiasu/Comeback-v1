@@ -28,7 +28,7 @@
                 </div>
             </div>
             
-            <div class="space-y-10 w-full">
+            <div class="space-y-5 xl:space-y-10 w-full">
                 <div class="flex flex-col xl:flex-row xl:justify-between">
                     <div id="artists-name" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
                         <h1 class="text-white text-xl">Artist Name*</h1>

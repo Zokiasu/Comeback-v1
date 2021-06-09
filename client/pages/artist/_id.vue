@@ -65,7 +65,7 @@
           </NuxtLink>
         </div>
       </div>
-      <div id="group-member" v-if="artist.groups">
+      <div id="group-member" v-if="artist.groups.length > 0">
         <h1 class="text-white text-xl">Part of the groups</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
         <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
@@ -83,7 +83,7 @@
         <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
           <NuxtLink :to="`/artist/${member.id}`" class="rounded hover:bg-red-900 p-3 bg-opacity-20 flex flex-col" v-for="(member, index) in subunitlist" :key="index">
             <div class="mb-0.5">
-              <img class="rounded 2xl:w-36 object-cover mx-auto" :src="member.image" alt="">
+              <img class="rounded h-20 object-cover mx-auto" :src="member.image" alt="">
             </div>
             <span class="w-full h-full text-center xl:text-xl"> {{member.name}} </span>
           </NuxtLink>

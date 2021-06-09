@@ -19,6 +19,9 @@
             <NuxtLink :to="`/moderator/users`" class="px-3 py-1.5" :class="$route.name !== 'moderator-users' ? '' : 'border-b-2 border-red-700'">
                 <span>Users</span>
             </NuxtLink>
+            <NuxtLink :to="`/moderator/oldpending`" class="px-3 py-1.5" :class="$route.name !== 'moderator-oldpending' ? '' : 'border-b-2 border-red-700'">
+                <span>Old Pending</span>
+            </NuxtLink>
         </ul>
     </section>
 </template>

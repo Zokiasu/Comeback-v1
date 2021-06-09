@@ -11,7 +11,7 @@
     <div class="rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
         <div class="flex flex-col xl:flex-row xl:space-x-10 my-5 xl:mb-10">
             <div id="image-area" class="relative h-full">
-                <img class="w-40" :src="this.artists.image ? this.artists.image : defaultImage">
+                <img class="w-96" :src="this.artists.image ? this.artists.image : defaultImage">
                 <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                     <button 
                         class="px-5 py-1 bg-red-700 text-white"
@@ -28,14 +28,15 @@
                         class="hidden">
                 </div>
             </div>
+
             <div class="space-y-10 w-full">
-                <div class="flex flex-col xl:flex-row xl:space-x-10 space-y-10 xl:space-y-0">
-                    <div id="artists-name">
+                <div class="flex flex-col xl:flex-row xl:justify-between">
+                    <div id="artists-name" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
                         <h1 class="text-white text-xl">Artist Name*</h1>
                         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                         <t-input @change="newObjectToApi('name', artists.name)" autocomplete="false" type="text" v-model="artists.name" :value="artists.name" placeholder="Artist Name" name="artists-name" />
                     </div>
-                    <div id="artists-type">
+                    <div id="artists-type" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
                         <h1 class="text-white text-xl">Artist Type</h1>
                         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                         <t-select @change="newObjectToApi('type', artists.type)" v-model="artists.type" id="artists-type-selector" :options="[
@@ -47,7 +48,7 @@
                 <div id="description">
                     <h1 class="text-white text-xl">Description</h1>
                     <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                    <t-textarea @change="newObjectToApi('description', artists.description)" id="desc" placeholder="Description" v-model="artists.description" :value="artists.description" name="my-textarea" class="resize w-full xl:w-4/5 h-44"/>
+                    <t-textarea @change="newObjectToApi('description', artists.description)" id="desc" placeholder="Description" v-model="artists.description" :value="artists.description" name="my-textarea" class="resize w-full h-44"/>
                 </div>
             </div>
         </div>

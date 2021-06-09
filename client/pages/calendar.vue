@@ -16,7 +16,7 @@
       :userArtistFollow="userData.artists"
       :width="width"/>
     <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList(startDate, false)" />
-    <div v-if="this.releaseDateList.length < 1" class="px-5">
+    <div v-if="this.releaseDateList.length < 1 && enough" class="px-5">
       <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">Nothing is planned</span>
     </div>
   </div>
