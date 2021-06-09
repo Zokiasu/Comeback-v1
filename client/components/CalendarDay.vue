@@ -4,11 +4,11 @@
         <h1 class="font-semibold text-4xl"> {{new Date(date).toLocaleDateString('en-US', {  month: 'long', day: 'numeric' })}} </h1>
     </div>
     <div v-if="this.releaseList.length != 0" class="grid gap-3 py-5 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
-        <ReleaseCard
-          v-for="(release, index) in this.releaseList"
-          :width="width"
-          :release="release"
-          :key="index"/>
+      <ReleaseCard
+        v-for="release in this.releaseList"
+        :width="width"
+        :release="release"
+        :key="release.id"/>
     </div>
     <div v-if="this.releaseList.length == 0" style="background-color: #6B728033" class="w-full rounded-sm p-3 my-5 mr-10">
       <span>No Releases Scheduled</span>
@@ -32,26 +32,43 @@
 
     methods: {
       async findDay(day){
-        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?date=${day}`)
+        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=date:asc&date=${day}`)
         this.releaseList = response
       },
     }
   }
 </script>
 
-<style>
-.texts {
-  font-family:
-    'Sarala'
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  letter-spacing: 1px;
-}
+<style scoped>
+  .texts {
+    font-family:
+      'Sarala'
+      'Quicksand',
+      'Source Sans Pro',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+    letter-spacing: 1px;
+  }
+  .object-enter-active,
+  .object-leave-active {
+    transition-duration: 0.4s;
+    transition-property: height, opacity, transform;
+    transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+    overflow: hidden;
+  }
+
+  .object-enter {
+    opacity: 0;
+    transform: translate(0, -2em);
+  }
+
+  .object-leave-active {
+    opacity: 0;
+    transform: translate(0, -2em);
+  }
 </style>

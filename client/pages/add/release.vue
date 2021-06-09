@@ -60,6 +60,9 @@
                 label="name" 
                 track-by="id" 
                 :options="artistList" 
+                :close-on-select="false"
+                :clear-on-select="false"
+                :preserve-search="true"
                 :multiple="true" 
                 :taggable="true" 
                 @tag="addArtist">
@@ -73,6 +76,9 @@
                   tag-placeholder="Add this as new style" 
                   placeholder="Search or add a style"
                   :options="styleList" 
+                  :close-on-select="false"
+                  :clear-on-select="false"
+                  :preserve-search="true"
                   :multiple="true" 
                   :taggable="true" 
                   @tag="addStyle">
@@ -233,7 +239,7 @@
     computed: {
       userId(){
         let utmp = this.$store.state.dataUser
-return utmp.id
+        return utmp.id
       },
             
       defaultImage(){

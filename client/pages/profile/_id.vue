@@ -35,21 +35,22 @@
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-y-5 mt-10 my-5 w-full justify-center">
                 <ArtistCard 
-                    v-for="(artist, index) in user.artists"
-                    :key="index"
-                    :artist="artist"
-                    :index="index"/>
+                    v-for="artist in user.artists"
+                    :key="artist.id"
+                    :id="artist.id"
+                    :name="artist.name"
+                    :image="artist.image"/>
             </div>
         </section>
         <section id="music-following" v-if="actualtab == 'music'">
             <h1 class="text-white text-xl">Releases Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-10 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
                 <ReleaseCard
-                    v-for="(release, index) in this.releaseList"
-                    :width="true"
+                    v-for="release in user.releases"
+                    :key="release.id"
                     :release="release"
-                    :key="index"/>
+                    :width="width"/>
             </div>
         </section>
       </section>
@@ -57,62 +58,62 @@
 </template>
 
 <script>
-  export default {
+    export default {
 
-    head() {
-      return {
-        title: 'Comeback - Profile',
-      }
-    },
-
-    data(){
-        return {
-            img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
-            actualtab:'artist',
-            artists: [],
-            releaseList:[],
-            width:false,
-            user:{},
-        }
-    },
-
-    async asyncData({ $axios, params }){
-      let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.id}`)
-      if(user == null) {
-          this.$router.push(`/calendar`)
-      }
-      return { user }
-    },
-
-    mounted() {
-        window.addEventListener('resize', this.handleResize);
-        this.handleResize();
-    },
-    
-    computed: {
-        userData(){
-            let utmp = this.$store.state.dataUser
-            return utmp
-        },
-    },
-
-    methods:{
-        changetab(newtab){
-            this.actualtab = newtab
-        },
-        
-        handleResize() {
-            if(window.innerWidth > 768) {
-            this.width = true
-            this.test = true
-            } else {
-            this.width = false
-            this.test = false
+        head() {
+            return {
+                title: 'Comeback - Profile',
             }
         },
-    },
 
-  }
+        data(){
+            return {
+                img: 'https://foot44.fff.fr/wp-content/uploads/sites/35/2019/10/Silhouette-Homme.jpg',
+                actualtab:'artist',
+                artists: [],
+                releaseList:[],
+                width:false,
+                user:{},
+            }
+        },
+
+        async asyncData({ $axios, params }){
+            let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${params.id}`)
+            if(user == null) {
+                this.$router.push(`/calendar`)
+            }
+            return { user }
+        },
+
+        mounted() {
+            window.addEventListener('resize', this.handleResize);
+            this.handleResize();
+        },
+
+        computed: {
+            userData(){
+                let utmp = this.$store.state.dataUser
+                return utmp
+            },
+        },
+
+        methods:{
+            changetab(newtab){
+                this.actualtab = newtab
+            },
+
+            handleResize() {
+                if(window.innerWidth > 768) {
+                    this.width = true
+                    this.test = true
+                } else {
+                    this.width = false
+                    this.test = false
+                }
+            },
+        },
+
+    }
 </script>
 
 <style>

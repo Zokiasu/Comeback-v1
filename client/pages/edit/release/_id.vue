@@ -99,6 +99,9 @@
             label="name" 
             track-by="id" 
             :options="artistList" 
+            :close-on-select="false"
+            :clear-on-select="false"
+            :preserve-search="true"
             :multiple="true" 
             :taggable="true"
             @input="newObjectToApi('artists', release.artists)" 
@@ -114,6 +117,9 @@
               tag-placeholder="Add this as new style" 
               placeholder="Search or add a style"
               :options="styleList" 
+              :close-on-select="false"
+              :clear-on-select="false"
+              :preserve-search="true"
               :multiple="true" 
               :taggable="true"
               @tag="addStyle">
@@ -124,7 +130,9 @@
           <h1 class="text-xl">Streaming Platforms Link</h1>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
           <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Platforms'" @updateinput="updateList(release.platforms, $event, index, 'platforms')"/>
-          <button @click="addStreamingLink()" class="text-left focus:outline-none">Add</button>
+          <button @click="addStreamingLink()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+              <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+          </button>
       </div>
 
       <div id="tracklist" class="flex flex-col w-full text-white mb-5 xl:mb-10">
@@ -135,7 +143,9 @@
             <t-input v-on:change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.name" placeholder="Track Name"/>
             <t-input @change="newObjectToApiMusic(release.musics, index)" type="text" v-model="music.clip" placeholder="Track Clip"/>
           </div>
-          <button @click="addMusic()" class="text-left focus:outline-none">Add</button>
+          <button @click="addMusic()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+              <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+          </button>
       </div>
 
       <div id="source" class="flex flex-col w-full text-white mb-5 xl:mb-0">

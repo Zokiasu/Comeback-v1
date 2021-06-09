@@ -74,8 +74,8 @@
                 let x = this.getYoutubeId(this.release.musics[index].clip)
                 if(x != null) this.videoId.push(x)
             }
-            /*let that = this
-            await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`).then(res => {
+            let that = this
+            /*await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`).then(res => {
                 res.data.releases.forEach(element => {
                     if(element.id == that.release.id) that.liked = true
                 });

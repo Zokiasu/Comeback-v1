@@ -1,9 +1,9 @@
 <template>
-  <div v-if="start" class="flex relative overscroll-hidden overflow-y-visible min-h-screen" :class="width ? 'flex-row':'flex-col'">
+  <div v-if="start" class="flex relative overscroll-hidden min-h-screen" :class="width ? 'flex-row':'flex-col'">
     <div class="fixed max-w-xs min-h-screen min-w-min">
-      <SideBar v-if="width" class="max-w-xs min-h-screen max-h-screen overflow-hidden overflow-y-visible"/>
+      <SideBar v-if="width" style="min-width:17rem;" class="max-w-xs w-min min-h-screen max-h-screen"/>
     </div>
-    <span v-if="width" class="max-w-xs min-w-min max-h-screen w-full"></span>
+    <span v-if="width" style="min-width:17rem;" class="max-w-xs w-min min-h-screen max-h-screen"></span>
     <TopBar v-if="!width"/>
     <div class="w-full flex flex-col overflow-hidden 2xl:overflow-visible">
       <ModeratorMenu class="p-5" v-if="(this.$route.path).includes('moderator')"/>
@@ -23,7 +23,6 @@
       },
 
       beforeCreate(){
-        console.log("Default-beforeCreate")
         let that = this
         this.$fire.auth.onAuthStateChanged(async function (user) {
           if (user != null) {
@@ -34,13 +33,11 @@
             if(response) {
               that.start = true
             }
-            console.log(that.$store.state.dataUser)
           }
         })
       },
 
       created(){
-        console.log("Default-Created")
         let that = this
         this.$fire.auth.onAuthStateChanged(async function (user) {
           if (user != null) {
@@ -56,7 +53,6 @@
       },
 
       mounted() {
-        console.log("Default-Mounted")
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
       },

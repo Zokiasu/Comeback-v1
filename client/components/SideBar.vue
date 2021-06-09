@@ -1,8 +1,8 @@
 <template>
     <div class="bg-leftbar flex flex-col justify-between relative text-white texts min-h-screen">
         <div class="w-full">
-            <header class="mx-5 flex justify-center">
-                <button @click="backToHome()" class="focus:outline-none"><img class="w-60 my-5 cursor-pointer" src="../assets/image/comeback-logo.png"/></button>
+            <header class="m-5 flex justify-center">
+                <button @click="backToHome()" class="focus:outline-none"><img class="w-52 cursor-pointer" src="../assets/image/comeback-logo.png"/></button>
             </header>
             <section id="navigation" class="border-t-2 border-gray-400 mx-5 py-5">
                 <nav>
@@ -99,7 +99,7 @@
             </section>
             <section class="border-t-2 border-gray-400 space-y-2 mx-3 pt-2 text-sm">
                 <p class="text-center"><a href="#">Contact</a> - <a href="#">About</a> - <a href="#">Terms</a> - <a href="#">Privacy Policy</a></p>
-                <p class="text-center">2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
+                <p class="text-center">©2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
             </section>
         </footer>
     </div>
@@ -115,6 +115,12 @@
                 adminCheck: false,
                 userData: null,
             }
+        },
+
+        watch: {
+            $route() {
+                if(this.$route.name != 'search') this.search = ''
+            },
         },
         
         created(){
@@ -160,7 +166,7 @@
                 let that = this
                 this.$fire.auth.onAuthStateChanged(function (user) {
                     if (user != null) {
-                        that.$router.push(`/${user.uid}/calendar`)
+                        that.$router.push(`/calendar`)
                     } else {
                         that.$router.push('/')
                     }

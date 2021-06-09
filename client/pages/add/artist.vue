@@ -61,7 +61,10 @@
                 placeholder="Search or add a artists" 
                 label="name" 
                 track-by="id" 
-                :options="artistList" 
+                :options="artistList"
+                :close-on-select="false"
+                :clear-on-select="false"
+                :preserve-search="true"
                 :multiple="true" 
                 :taggable="true"
                 @tag="addMember">
@@ -78,6 +81,9 @@
                 label="name" 
                 track-by="id" 
                 :options="artistList" 
+                :close-on-select="false"
+                :clear-on-select="false"
+                :preserve-search="true"
                 :multiple="true" 
                 :taggable="true"
                 @tag="addGroup">
@@ -92,6 +98,9 @@
                 tag-placeholder="Add this as new style" 
                 placeholder="Search or add a style"
                 :options="styleList" 
+                :close-on-select="false"
+                :clear-on-select="false"
+                :preserve-search="true"
                 :multiple="true" 
                 :taggable="true"
                 @tag="addStyle">
@@ -174,7 +183,6 @@
 
     methods:{
       async createArtist() {
-        console.log(this.artists)
         await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
           state:'PENDING',
           method:'POST',

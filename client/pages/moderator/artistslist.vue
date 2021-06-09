@@ -1,6 +1,6 @@
 <template>
     <div class="px-5">
-        <section id="page-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+        <section v-if="artists.length > 0" id="page-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
             <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
@@ -34,6 +34,9 @@
                 </div>
             </div>
         </section>
+        <div v-if="artists.length < 1" class="px-5">
+            <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Artist found.</span>
+        </div>
     </div>
 </template>
 
@@ -66,7 +69,6 @@ return utmp.id
         methods:{
             async removeArtist(object, index){await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${object.id}`, object).then(response=>{
                     //console.log(response)
-                    console.log("Artist has been deleted", "| Artist Name : ", this.artists[index].name)
                     this.$toast.error(this.artists[index].name + ' has been deleted', {duration:2000, position:'top-right'})
                     this.artists.splice(index, 1)
                 })

@@ -21,30 +21,37 @@
                         <span>Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
                     </div>
                     <div id="style">
-                        <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
-                        <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div>
+                        <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                        <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div>
                     </div>
                     <div id="description">
                         <span>Description : <span :class="pending.body.description ? 'text-red-500':''">{{pending.currentData.description}}</span> </span>
                         <span class="text-green-500">{{pending.body.description}} </span>
                     </div>
                     <div id="groups">
-                        <div class="flex space-x-1"><span>Groups :</span><div :class="pending.body.groups ? 'text-red-500':''" class="space-x-1"><span v-for="(group, index) in pending.currentData.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
-                        <div v-if="pending.body.groups" class="text-green-500 space-x-1"><span v-for="(group, index) in pending.body.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{group.name}}</span></div>
+                        <div class="flex space-x-1"><span>Groups :</span><div :class="pending.body.groups ? 'text-red-500':''" class="space-x-1"><span v-for="(group, index) in pending.currentData.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
+                        <div v-if="pending.body.groups" class="text-green-500 space-x-1"><span v-for="(group, index) in pending.body.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div>
                     </div>
                     <div id="members">
-                        <div class="flex space-x-1"><span>Members :</span><div :class="pending.body.members ? 'text-red-500':''" class="space-x-1"><span v-for="(member, index) in pending.currentData.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div></div>
-                        <div v-if="pending.body.members" class="text-green-500 space-x-1"><span v-for="(member, index) in pending.body.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div>
+                        <div class="flex space-x-1">
+                            <span>Members :</span>
+                            <div :class="pending.body.members ? 'text-red-500':''" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-8 gap-1">
+                                <span v-for="(member, index) in pending.currentData.members" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{member.name}}</span>
+                            </div>
+                        </div>
+                        <div v-if="pending.body.members" class="text-green-500 grid grid-cols-2 ms:grid-cols-3 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-8 gap-1">
+                            <span v-for="(member, index) in pending.body.members" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{member.name}}</span>
+                        </div>
                     </div>
                     <div id="socials">
                         <span>Social :</span>
-                        <div :class="pending.body.socials ? 'text-red-500':''" class="grid grid-cols-1 gap-1 mb-1"><span v-for="(social, index) in pending.currentData.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
-                        <div v-if="pending.body.socials" class="text-green-500 grid grid-cols-1 gap-1"><span v-for="(social, index) in pending.body.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{social}} </span></div>
+                        <div :class="pending.body.socials ? 'text-red-500':''" class="grid grid-cols-1 gap-1 mb-1"><span v-for="(social, index) in pending.currentData.socials" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{social}} </span></div>
+                        <div v-if="pending.body.socials" class="text-green-500 grid grid-cols-1 gap-1"><span v-for="(social, index) in pending.body.socials" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{social}} </span></div>
                     </div>
                     <div id="platforms">
                         <span>Platforms :</span>
-                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 gap-1 mb-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
-                        <div v-if="pending.body.platforms" class="text-green-500 grid grid-cols-1 gap-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 gap-1 mb-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div v-if="pending.body.platforms" class="text-green-500 grid grid-cols-1 gap-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
                     </div>
                     <div id="source">
                         <span>Source :</span>
@@ -62,28 +69,28 @@
                     <span id="type">Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
                     <span id="date">Date : <span :class="pending.body.date ? 'text-red-500':''">{{pending.currentData.date}}</span> <span v-if="pending.body.date" class="text-green-500">{{pending.body.date}}</span></span>
                     <div id="styles">
-                        <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
-                        <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div>
+                        <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                        <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div>
                     </div>
                     <div id="artist">
-                        <div class="flex space-x-1"><span>Artists :</span><div :class="pending.body.artists ? 'text-red-500':''" class="space-x-1"><span v-for="(member, index) in pending.currentData.artists" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div></div>
-                        <div v-if="pending.body.artists" class="text-green-500 space-x-1"><span v-for="(member, index) in pending.body.artists" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{member.name}}</span></div>
+                        <div class="flex space-x-1"><span>Artists :</span><div :class="pending.body.artists ? 'text-red-500':''" class="space-x-1"><span v-for="(member, index) in pending.currentData.artists" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{member.name}}</span></div></div>
+                        <div v-if="pending.body.artists" class="text-green-500 space-x-1"><span v-for="(member, index) in pending.body.artists" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{member.name}}</span></div>
                     </div>
                     <div id="musics">
                         <span>Musics :</span>
                         <div v-for="(music, index) in pending.currentData.musics" :key="index" :class="pending.body.musics ? 'text-red-500':''" class="grid grid-cols-1 gap-1">
-                            <span class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.name}} </span>
-                            <span v-if="music.clip" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.clip}} </span>
+                            <span class="bg-gray-300 p-1 px-2 rounded text-xs"> {{music.name}} </span>
+                            <span v-if="music.clip" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{music.clip}} </span>
                         </div>
                         <div v-for="(music, index) in pending.body.musics" :key="index" class="text-green-500 space-x-1">
-                            <span class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.name}} </span>
-                            <span v-if="music.clip" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{music.clip}} </span>
+                            <span class="bg-gray-300 p-1 px-2 rounded text-xs"> {{music.name}} </span>
+                            <span v-if="music.clip" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{music.clip}} </span>
                         </div>
                     </div>
                     <div id="platforms">
                         <span>Platforms :</span>
-                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
-                        <div v-if="pending.body.platforms" class="text-green-500 space-x-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div v-if="pending.body.platforms" class="text-green-500 space-x-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
                     </div>
                     <div id="source">
                         <span>Source :</span>
@@ -112,15 +119,14 @@
                     wrapper-class="animate__animated"
                     in-class="animate__fadeInDown"
                     out-class="animate__zoomOut"
-                    modal-class="fullscreen-modal bg-gray-500 "
+                    modal-class="fullscreen-modal bg-gray-300 "
                     @before-open="beforeOpen"
                     @before-close="beforeClose">
-                        
-                    <div class="relative flex flex-col justify-center m-5 p-10 bg-opacity-50 rounded overflow-hidden overflow-y-scroll text-white bg-gray-500">
+                    <div id="edit-pending-artist-data" class="flex flex-col justify-center p-5 rounded text-white bg-gray-600" v-if="pendings[indexEdit].body.type === 'SOLO' || pendings[indexEdit].body.type === 'GROUP' || pendings[indexEdit].currentData.type === 'SOLO' || pendings[indexEdit].currentData.type === 'GROUP'">
                         <div>
                             <img :src="pendings[indexEdit].currentData.image" :alt="pendings[indexEdit].currentData.name" class="w-40 h-40 object-cover">
                         </div>
-                        <ul class="my-2 space-y-2 py-5">
+                        <ul class="my-2 space-y-5 py-5">
                             <li v-if="pendings[indexEdit].currentData.name || pendings[indexEdit].body.name" class="space-y-1">
                                 <span>Name : <span>{{pendings[indexEdit].currentData.name}}</span></span>
                                 <t-input v-if="pendings[indexEdit].body.name" v-model="pendings[indexEdit].body.name" placeholder="Name" name="name" type="text"></t-input>
@@ -138,7 +144,7 @@
                                 <t-input v-if="pendings[indexEdit].body.website" v-model="pendings[indexEdit].body.website" placeholder="Website" name="website" type="text"></t-input>
                             </li>
                             <li v-if="pendings[indexEdit].currentData.members || pendings[indexEdit].body.members" class="space-y-1">
-                                <div class="flex space-x-1"><span>Members :</span><div class="space-x-1"><span v-for="(member, index) in pendings[indexEdit].currentData.members" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white">{{member.name}}</span></div></div>
+                                <div class="flex space-x-1"><span>Members :</span><div class="space-x-1"><span v-for="(member, index) in pendings[indexEdit].currentData.members" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-white">{{member.name}}</span></div></div>
                                 <multiselect
                                     v-if="pendings[indexEdit].body.members"
                                     v-model="pendings[indexEdit].body.members" 
@@ -147,13 +153,16 @@
                                     label="name" 
                                     track-by="id" 
                                     :options="artistList" 
+                                    :close-on-select="false"
+                                    :clear-on-select="false"
+                                    :preserve-search="true"
                                     :multiple="true" 
                                     :taggable="true" 
                                     @tag="addMember">
                                 </multiselect>
                             </li>
                             <li v-if="pendings[indexEdit].currentData.groups || pendings[indexEdit].body.groups" class="space-y-1">
-                                <div class="flex space-x-1"><span>Belong To The Groups :</span><div class="space-x-1"><span v-for="(group, index) in pendings[indexEdit].currentData.groups" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white">{{group.name}}</span></div></div>
+                                <div class="flex space-x-1"><span>Belong To The Groups :</span><div class="space-x-1"><span v-for="(group, index) in pendings[indexEdit].currentData.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-white">{{group.name}}</span></div></div>
                                 <multiselect
                                     v-if="pendings[indexEdit].body.groups"
                                     v-model="pendings[indexEdit].body.groups" 
@@ -162,19 +171,25 @@
                                     label="name" 
                                     track-by="id" 
                                     :options="artistList" 
+                                    :close-on-select="false"
+                                    :clear-on-select="false"
+                                    :preserve-search="true"
                                     :multiple="true" 
                                     :taggable="true" 
                                     @tag="addGroup">
                                 </multiselect>
                             </li>
                             <li v-if="pendings[indexEdit].currentData.styles || pendings[indexEdit].body.styles" class="space-y-1">
-                                <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pendings[indexEdit].currentData.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                                <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pendings[indexEdit].currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
                                 <multiselect
                                     v-if="pendings[indexEdit].body.styles"
                                     v-model="pendings[indexEdit].body.styles" 
                                     tag-placeholder="Add this as new style" 
                                     placeholder="Search or add a style"
                                     :options="styleList" 
+                                    :close-on-select="false"
+                                    :clear-on-select="false"
+                                    :preserve-search="true"
                                     :multiple="true" 
                                     :taggable="true"
                                     @tag="addStyle">
@@ -182,16 +197,104 @@
                             </li>
                             <li v-if="pendings[indexEdit].currentData.socials || pendings[indexEdit].body.socials" class="space-y-1">
                                 <span>Social :</span>
-                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(social, index) in pendings[indexEdit].currentData.socials" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white"> {{social}} </span></div>
-                                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in pendings[indexEdit].body.socials" :key="index" :elem="elem" @updateinput="updateList(pendings[indexEdit].body.socials, $event, index)"/>
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(social, index) in pendings[indexEdit].currentData.socials" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-white"> {{social}} </span></div>
+                                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in pendings[indexEdit].body.socials" :key="index" :elem="elem" @updateinput="updateList(pendings[indexEdit].body.socials, $event, index)" @deleteinput="deleteList(pendings[indexEdit].body.socials, index)"/>
                             </li>
                             <li v-if="pendings[indexEdit].currentData.platforms || pendings[indexEdit].body.platforms" class="space-y-1">
                                 <span>Platforms :</span>
-                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pendings[indexEdit].currentData.platforms" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs text-white"> {{platform}} </span></div>
-                                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in pendings[indexEdit].body.platforms" :key="index" :elem="elem" @updateinput="updateList(pendings[indexEdit].body.platforms, $event, index)"/>
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pendings[indexEdit].currentData.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-white"> {{platform}} </span></div>
+                                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in pendings[indexEdit].body.platforms" :key="index" :elem="elem" @updateinput="updateList(pendings[indexEdit].body.platforms, $event, index)" @deleteinput="deleteList(pendings[indexEdit].body.platforms, index)"/>
                             </li>
                         </ul>
-                        <div class="absolute bottom-5 right-5 space-x-5 flex">
+                        <div class="bottom-5 right-5 space-x-5 flex w-full justify-end">
+                            <button @click="editArtist=false" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700 text-white">Closed</button>
+                            <button @click="editByModerator()" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700 text-white">Confirm Edition</button>
+                        </div>
+                    </div>
+                    <div id="edit-pending-release-data" class="flex flex-col justify-center p-5 rounded text-white bg-gray-600" v-if="pendings[indexEdit].body.type === 'SINGLE' || pendings[indexEdit].body.type === 'ALBUM' || pendings[indexEdit].body.type === 'EP' || pendings[indexEdit].currentData.type === 'SINGLE' || pendings[indexEdit].currentData.type === 'ALBUM' || pendings[indexEdit].currentData.type === 'EP'">
+                        <div>
+                            <img :src="pendings[indexEdit].currentData.image" :alt="pendings[indexEdit].currentData.name" class="w-40 h-40 object-cover">
+                        </div>
+                        <ul class="my-2 space-y-5 py-5">
+                            <li v-if="pendings[indexEdit].currentData.name || pendings[indexEdit].body.name" class="space-y-1">
+                                <span>Name : <span>{{pendings[indexEdit].currentData.name}}</span></span>
+                                <t-input v-if="pendings[indexEdit].body.name" v-model="pendings[indexEdit].body.name" placeholder="Name" name="name" type="text"></t-input>
+                            </li>
+                            <li v-if="pendings[indexEdit].currentData.type || pendings[indexEdit].body.type" id="artists-type-selector" class="space-y-1">
+                                <span>Type : <span>{{pendings[indexEdit].currentData.type}}</span></span>
+                                <t-select v-if="pendings[indexEdit].body.type" v-model="pendings[indexEdit].body.type" :options="[ { value: 'SOLO', text: 'Soloist' }, { value: 'GROUP', text: 'Group' }, ]" ></t-select>
+                            </li>
+                            <li v-if="pendings[indexEdit].currentData.artists || pendings[indexEdit].body.artists" class="space-y-1">
+                                <div class="flex space-x-1"><span>Artists :</span><div class="space-x-1"><span v-for="(member, index) in pendings[indexEdit].currentData.artists" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-white">{{artists.name}}</span></div></div>
+                                <multiselect
+                                    v-if="pendings[indexEdit].body.artists"
+                                    v-model="pendings[indexEdit].body.artists" 
+                                    tag-placeholder="Add this as new artists" 
+                                    placeholder="Search or add a artists" 
+                                    label="name" 
+                                    track-by="id" 
+                                    :options="artistList" 
+                                    :close-on-select="false"
+                                    :clear-on-select="false"
+                                    :preserve-search="true"
+                                    :multiple="true" 
+                                    :taggable="true" 
+                                    @tag="addMember">
+                                </multiselect>
+                            </li>
+                            <li v-if="pendings[indexEdit].currentData.styles || pendings[indexEdit].body.styles" class="space-y-1">
+                                <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pendings[indexEdit].currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                                <multiselect
+                                    v-if="pendings[indexEdit].body.styles"
+                                    v-model="pendings[indexEdit].body.styles" 
+                                    tag-placeholder="Add this as new style" 
+                                    placeholder="Search or add a style"
+                                    :options="styleList" 
+                                    :close-on-select="false"
+                                    :clear-on-select="false"
+                                    :preserve-search="true"
+                                    :multiple="true" 
+                                    :taggable="true"
+                                    @tag="addStyle">
+                                </multiselect>
+                            </li>
+                            <li v-if="pendings[indexEdit].currentData.platforms || pendings[indexEdit].body.platforms" class="flex flex-col w-full text-white mb-10">
+                                <h1 class="text-xl">Streaming Platforms Link</h1>
+                                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+                                <MultipleInput class="mb-1" v-for="(elem, index) in pendings[indexEdit].body.platforms" :key="index" :elem="elem" :placehol="'Streaming Platforms'" @updateinput="updateList(pendings[indexEdit].body.platforms, $event, index)" @deleteinput="deleteList(pendings[indexEdit].body.platforms, index)"/>
+                                <button @click="addStreamingLink()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+                                    <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                                </button>
+                            </li>
+                            <li v-if="pendings[indexEdit].currentData.musics || pendings[indexEdit].body.musics" class="flex flex-col w-full text-white mb-5 xl:mb-10">
+                                <h1 class="text-xl">Tracklist</h1>
+                                <div class="mb-1 py-3 space-y-1 w-3/4" v-for="(music, index) in pendings[indexEdit].body.musics" :key="index">
+                                    <span>Track {{index+1}}</span>
+                                    <t-input type="text" v-model="music.name" placeholder="Track Name"/>
+                                    <t-input type="text" v-model="music.clip" placeholder="Track Clip"/>
+                                </div>
+                                <button @click="addMusic()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
+                                    <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="bottom-5 right-5 space-x-5 flex w-full justify-end">
+                            <button @click="editArtist=false" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700 text-white">Closed</button>
+                            <button @click="editByModerator()" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700 text-white">Confirm Edition</button>
+                        </div>
+                    </div>
+                    <div id="edit-pending-music-data" class="flex flex-col justify-center p-5 rounded text-white bg-gray-600" v-if="!pendings[indexEdit].body.type && !pendings[indexEdit].currentData.type">
+                        <ul class="my-2 space-y-5 py-5">
+                            <li v-if="pendings[indexEdit].currentData.name || pendings[indexEdit].body.name" class="space-y-1">
+                                <span>Name : <span>{{pendings[indexEdit].currentData.name}}</span></span>
+                                <t-input v-if="pendings[indexEdit].body.name" v-model="pendings[indexEdit].body.name" placeholder="Name" name="name" type="text"></t-input>
+                            </li>
+                            <li v-if="pendings[indexEdit].currentData.clip || pendings[indexEdit].body.clip" class="space-y-1">
+                                <span>Clip : <span>{{pendings[indexEdit].currentData.clip}}</span></span>
+                                <t-input v-if="pendings[indexEdit].body.clip" v-model="pendings[indexEdit].body.clip" placeholder="Clip" name="clip" type="text"></t-input>
+                            </li>
+                        </ul>
+                        <div class="bottom-5 right-5 space-x-5 flex w-full justify-end">
                             <button @click="editArtist=false" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700 text-white">Closed</button>
                             <button @click="editByModerator()" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700 text-white">Confirm Edition</button>
                         </div>
@@ -237,44 +340,40 @@
         methods: {
 
             async accepted(object, index){
-                console.log("accepted")
                 if(object.method == 'PUT'){
-                    console.log("PUT")
-                    await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
+                    await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body)
+                    .then(response => {
                         console.log(response)
+                        if(response) this.updateRequest(object, index, "ACCEPTED", this.userData.id)
                     }).catch(function (error) {
                         console.log(error);
                     });
                 } else if (object.method == 'POST'){
-                    console.log("POST")
-                    await this.$axios.post(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body).then(response => {
+                    await this.$axios.post(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body)
+                    .then(response => {
                         console.log(response)
+                        if(response) {
+                            this.updateRequest(object, index, "ACCEPTED", this.userData.id)
+                        }
                     }).catch(function (error) {
                         console.log(error);
                     });
                 }
-                object.state = "ACCEPTED"
-                object.checked_by = this.userData.id
-                console.log(object)
-                await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
-                    //console.log(response)
-                    this.pendings.splice(index, 1)
-                    this.$toast.success('The pending has been accepted', {duration:3000, position:'top-right'})
-                }).catch(function (error) {
-                    console.log(error);
-                });
             },
 
             async refused(object, index){
-                object.state = "DENIED"
-                object.checked_by = this.userData.id
-                await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object)
-                .then(response => {
-                    //console.log(response)
+                this.updateRequest(object, index, "DENIED", this.userData.id)
+            },
+
+            async updateRequest(object, index, state, checked_by){
+                object.state = state
+                object.checked_by = checked_by
+                await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
+                    console.log(response)
                     this.pendings.splice(index, 1)
-                    this.$toast.error('The pending has been refused', {duration:3000, position:'top-right'})
-                })
-                .catch(function (error) {
+                    if(state == "ACCEPTED") this.$toast.success('The pending has been accepted', {duration:3000, position:'top-right'})
+                    else this.$toast.error('The pending has been refused', {duration:3000, position:'top-right'})
+                }).catch(function (error) {
                     console.log(error);
                 });
             },
@@ -286,6 +385,10 @@
 
             updateList(list, newElem, index){
                 list[index] = newElem
+            },
+
+            deleteList(list, index){
+                list.splice(index, 1)
             },
 
             addStyle (newTag) {
@@ -334,6 +437,23 @@
                 }
                 
                 this.pendings[this.indexEdit].body.newGroups.push(tag)
+            },
+
+            addMusic(){
+                this.pendings[this.indexEdit].body.musics.push({
+                    id: null,
+                    name: null,
+                    clip: null,
+                    platforms: null,
+                })
+            },
+
+            addStreamingLink(){
+                if(this.pendings[this.indexEdit].body.platforms == null) {
+                    this.pendings[this.indexEdit].body.platforms = [""]
+                } else {
+                    this.pendings[this.indexEdit].body.platforms.push("")
+                }
             },
             
             editOpen(index){

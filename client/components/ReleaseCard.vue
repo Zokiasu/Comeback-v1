@@ -2,8 +2,7 @@
   <NuxtLink :to="`/release/${release.id}`" v-if="width" class="texts flex flex-col text-white rounded">
     <div class="relative">
         <img class="rounded-md object-cover" v-lazy="release.image" :key="release.image" alt="Artist Picture"/>
-        <div class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl">
-            <!--<p class="text-center"> {{release.releaseDate.toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>-->
+        <div v-if="validationDate" class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl">
             <p class="text-center"> {{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>
         </div>
     </div>
@@ -23,7 +22,7 @@
         <div class="flex justify-between w-full">
             <span class="font-semibold">{{release.name}}</span>
             <!--<span class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{release.releaseDate.toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}}</span>-->
-            <span class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}}</span>
+            <span v-if="validationDate" class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}}</span>
         </div>
         <div class="flex text-sm">
             <span> {{release.type}} </span><div class="bg-white mt-2 mx-2 h-1 w-1 rounded-full"></div><span class="truncate"><span v-for="(artist, index) in release.artists" :key="index"> {{artist.name}} </span></span>
@@ -33,6 +32,7 @@
 </template>
 
 <script>
+  import moment from 'moment-timezone'
   export default {
     props: ['release', 'width'],
 
@@ -41,7 +41,17 @@
         let utmp = this.$store.state.dataUser
         return utmp
       },
+
+      validationDate(){
+        return this.checkDate()
+      },
     },
+
+    methods :{
+      checkDate(){
+        return moment(new Date(this.release.date)).isAfter(new Date())
+      }
+    }
   }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
     <div class="px-5">
-        <section id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+        <section v-if="releases.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
             <div v-for="(release, index) in this.releases" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
@@ -38,6 +38,9 @@
                 </div>
             </div>
         </section>
+        <div v-if="releases.length < 1" class="px-5">
+            <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release found.</span>
+        </div>
     </div>
 </template>
 
