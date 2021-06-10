@@ -154,6 +154,7 @@
           <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
       </div>
     </section>
+
     <div class="flex justify-end mt-5">
       <button @click="editRelease()" class="px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
     </div>
@@ -288,8 +289,7 @@
       },
     },
 
-    methods:{
-
+    methods: {
       async editRelease() {
         if(this.updateRelease) {
           await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
@@ -300,7 +300,7 @@
               currentData: this.oldDataToApi,
               userId: this.userData.id,
               source: this.source
-           }).then(response=>{
+           }).then(response => {
               //console.log(response)
               if(!this.updateMusic) {
                 this.$router.push({ path: `/release/${this.$route.params.id}`})
@@ -323,7 +323,7 @@
                 currentData: oldData,
                 userId: this.userData.id,
                 source: this.source
-            }).then(response=>{
+            }).then(response => {
                 //console.log(response)
                 this.$router.push({ path: `/release/${this.$route.params.id}`})
             }).catch(function (error) {
@@ -401,39 +401,40 @@
       },
 
       launchImageFile () {
-          this.$refs.imageFile.click()
+        this.$refs.imageFile.click()
       },
 
       uploadImageFile (files) {
-          if (!files.length) {
-              return
-          }
-          let file = files[0]
+        if (!files.length) {
+            return
+        }
+        let file = files[0]
 
-          if (!file.type.match('image.*')) {
-              alert('Please upload an image.')
-              return
-          }
+        if (!file.type.match('image.*')) {
+            alert('Please upload an image.')
+            return
+        }
 
-          let metadata = {
-              contentType: file.type
-          }
+        let metadata = {
+            contentType: file.type
+        }
 
-          this.isUploadingImage = true
-          let imageRef = this.$fire.storage.ref(`images/release-${this.release.id.replace(/\s/g, '')}`)
+        this.isUploadingImage = true
+        
+        let imageRef = this.$fire.storage.ref(`images/release-${this.release.id}`)
 
-          let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
-              return snapshot.ref.getDownloadURL().then((url) => {
-                  return url
-              })
-          }).catch((error) => {
-              console.error('Error uploading image', error)
-          })
-          uploadTask.then((url) => {
-              this.newObjectToApi("image", url)
-              this.release.image = url
-              this.isUploadingImage = false
-          })
+        let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
+            return snapshot.ref.getDownloadURL().then((url) => {
+                return url
+            })
+        }).catch((error) => {
+            console.error('Error uploading image', error)
+        })
+        uploadTask.then((url) => {
+            this.newObjectToApi("image", url)
+            this.release.image = url
+            this.isUploadingImage = false
+        })
       },
     },
   }
