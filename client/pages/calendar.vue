@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import moment from 'moment-timezone'
+  import moment from 'moment-timezone'
 
   export default {
 
@@ -85,10 +85,11 @@ import moment from 'moment-timezone'
           }
         }
 
-        if(moment(new Date(this.releaseDateList[this.releaseDateList.length-1])).isAfter(new Date(response[0].date)) || this.releaseDateList[this.releaseDateList.length-1] == new Date(response[0].date).toISOString().slice(0, 10).replace('T', '')) {
-          this.enough = true
+        if(response) {
+          if(moment(new Date(this.releaseDateList[this.releaseDateList.length-1])).isAfter(new Date(response[0].date)) || this.releaseDateList[this.releaseDateList.length-1] == new Date(response[0].date).toISOString().slice(0, 10).replace('T', '')) {
+            this.enough = true
+          }
         }
-
       },
     },
   }

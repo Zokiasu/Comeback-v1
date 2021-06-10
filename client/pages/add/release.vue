@@ -134,7 +134,10 @@
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0">
             <h2 class="text-xl">Tracklist</h2>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-full"></div>
-            <t-input class="mb-1" v-for="(music, index) in this.release.musics" :key="index" type="text" v-model="music.name" placeholder="Track name"/>
+            <div v-for="(music, index) in this.release.musics" :key="index" class="py-3 space-y-1">
+              <t-input type="text" v-model="music.name" :placeholder="'Track name (' + (index+1) + ')'"/>
+              <t-input type="text" v-model="music.clip" :placeholder="'Track clip (' + (index+1) + ')'"/>
+            </div>
             <button @click="addMusic()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
               <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
             </button>

@@ -89,13 +89,6 @@
           </NuxtLink>
         </div>
       </div>
-      <div id="player-section" v-if="videoId">
-        <h1 class="text-white text-xl">Last Music Video</h1>
-        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
-        <div id="video" class="flex justify-center">
-          <iframe width="560" height="315" :src="videoId" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
       <div id="release-section" v-if="artist.releases.length > 0">
         <h1 class="text-white text-xl">Lastest Releases</h1>
         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full lg:w-96"></div>
@@ -137,6 +130,12 @@
 
     async asyncData({ $axios, params }){
       let artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
+
+      artist.releases?.sort(function(a,b){
+          if(a.date.toLowerCase() > b.date.toLowerCase()) {return -1}
+          if(a.date.toLowerCase() < b.date.toLowerCase()) {return 1}
+          return 0;
+      })
       let memberslist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}/members?sortby=name`)
       return {artist,memberslist}
     },

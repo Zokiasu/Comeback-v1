@@ -20,7 +20,7 @@
       </div>
       <div id="content">
         <div>
-          <transition-group name="object" class="grid grid-cols-4 ld:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-5">
+          <transition-group name="object" class="grid grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-9 gap-5">
             <ArtistCard 
               v-for="(artist) in bestArtistsList.slice(0, maxArtist)"
               :key="artist.id"
@@ -82,16 +82,16 @@
 
     methods:{
       updateSearch(){
-          let that = this
-          this.$fire.auth.onAuthStateChanged(async function (user) {
-              if (user != null) {
-                  await that.$router.push(`/${user.uid}/search?search=${that.search}`)
-              }
-          })
+        let that = this
+        this.$fire.auth.onAuthStateChanged(async function (user) {
+            if (user != null) {
+                await that.$router.push(`/${user.uid}/search?search=${that.search}`)
+            }
+        })
       },
       
       async getDataFromApi(){
-        const {data: response}  = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?name=%${this.$route.query.search}%&op=ilike&sortby=id`)
+        const {data: response}  = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/full?name=%${this.$route.query.search}%&op=ilike&sortby=id`)
         this.bestArtistsList = response
       },
 

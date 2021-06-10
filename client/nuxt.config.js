@@ -36,7 +36,7 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
-  ssr: false,
+  ssr: true,
 
   loading: {
     color: 'red',
