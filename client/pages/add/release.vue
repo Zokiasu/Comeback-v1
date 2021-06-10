@@ -130,7 +130,7 @@
         </section>
       </div>
 
-      <div id="release-contents" class="grid grid-cols-2 gap-5">
+      <div id="release-contents" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div id="tracklist" class="flex flex-col text-white mb-5 xl:mb-0">
             <h2 class="text-xl">Tracklist</h2>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-full"></div>
