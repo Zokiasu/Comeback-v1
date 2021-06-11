@@ -30,10 +30,11 @@ app.use('/artists', routes.artist);
 app.use('/events', routes.happening);
 app.use('/releases', routes.release);
 app.use('/musics', routes.music);
+app.use('/calendar', routes.calendar);
 
 // Start
 
-const eraseDatabaseOnSync = false;
+const eraseDatabaseOnSync = true;
 const doCreateSeeds = true;
 
 sequelize
@@ -80,7 +81,7 @@ const createSeeds = async () => {
           source: 'ça se fait pas',
         },
       ],
-      releases: [{ name: 'relasecool', type: 'ALBUM' }],
+      releases: [{ date: today, name: 'relasecool', type: 'ALBUM' }],
       artists: [{ name: 'JohnBoy' }],
     },
     {
@@ -249,7 +250,7 @@ const createSeeds = async () => {
         'Alex est la plus grande artiste de sa génération voire de la génération humaine',
       socials: ['facebooklol'],
       platforms: ['spotift.com'],
-      events: [{ name: 'Concert incroyable' }],
+      events: [{ date: nextMonth, name: 'Concert incroyable' }],
       type: 'SOLO',
     },
     { include: [{ model: models.Happening, as: 'events' }] },
@@ -287,6 +288,45 @@ const createSeeds = async () => {
     },
     {
       include: [{ model: models.Music, as: 'musics' }, models.Artist],
+    },
+  );
+  await models.Release.create(
+    {
+      name: 'ime',
+      type: 'SINGLE',
+      date: nextMonth,
+      artists: [{ name: 'artist3' }],
+      musics: [
+        {
+          name: 'Turn Back Time (Korean Version)',
+          clip: 'https://youtu.be/eUCVRF6hjSQ',
+        },
+      ],
+    },
+    {
+      include: [{ model: models.Music, as: 'musics' }, models.Artist],
+    },
+  );
+  await models.Release.create(
+    {
+      name: 'TTime',
+      type: 'SINGLE',
+      date: today,
+      artists: [{ name: 'artist3' }],
+      musics: [
+        {
+          name: 'Turn Back Time (Korean Version)',
+          clip: 'https://youtu.be/eUCVRF6hjSQ',
+        },
+      ],
+      followers: [{ id: 'test', username: 'jenamark' }],
+    },
+    {
+      include: [
+        { model: models.User, as: 'followers' },
+        { model: models.Music, as: 'musics' },
+        models.Artist,
+      ],
     },
   );
   const release = await models.Release.findOne({
