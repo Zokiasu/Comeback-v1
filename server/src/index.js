@@ -34,7 +34,7 @@ app.use('/calendar', routes.calendar);
 
 // Start
 
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 const doCreateSeeds = true;
 
 sequelize
@@ -250,7 +250,13 @@ const createSeeds = async () => {
         'Alex est la plus grande artiste de sa génération voire de la génération humaine',
       socials: ['facebooklol'],
       platforms: ['spotift.com'],
-      events: [{ date: nextMonth, name: 'Concert incroyable' }],
+      events: [
+        {
+          startDate: tomorrow,
+          endDate: nextMonth,
+          name: 'Concert incroyable',
+        },
+      ],
       type: 'SOLO',
     },
     { include: [{ model: models.Happening, as: 'events' }] },

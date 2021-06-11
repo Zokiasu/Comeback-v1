@@ -4,6 +4,22 @@ import moment from 'moment';
 
 const router = Router();
 
+Date.prototype.addDays = function (days) {
+  const date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+};
+
+const getDates = (startDate, stopDate) => {
+  const dateArray = new Array();
+  let currentDate = startDate;
+  while (currentDate <= stopDate) {
+    dateArray.push(new Date(currentDate));
+    currentDate = currentDate.addDays(1);
+  }
+  return dateArray;
+};
+
 const sortDateDict = (dates) => {
   const orderedDates = {};
   //sort key from earliest date to last date
@@ -20,24 +36,40 @@ const sortDateDict = (dates) => {
   return orderedDates;
 };
 
-const createDateDict = (items) => {
+const createDateDict = (items, key = 'item', dates = {}) => {
   // create a dict of items with their date as key
-  const dates = {};
   for (const item of items) {
-    if (!item.date) continue;
-
-    const day = new Date(item.date);
-    const momentDay = moment(day).format('DD/MM/YYYY');
-    if (!dates[momentDay]) {
-      dates[momentDay] = [];
+    if (!!item.date) {
+      const day = new Date(item.date);
+      const momentDay = moment(day).format('DD/MM/YYYY');
+      if (!dates[momentDay]) {
+        dates[momentDay] = {};
+      }
+      if (!dates[momentDay][key]) {
+        dates[momentDay][key] = [];
+      }
+      dates[momentDay][key].push(item);
+    } else if (!!item.startDate) {
+      for (const item of items) {
+        for (const date of getDates(item.startDate, item.endDate)) {
+          const day = new Date(date);
+          const momentDay = moment(day).format('DD/MM/YYYY');
+          if (!dates[momentDay]) {
+            dates[momentDay] = {};
+          }
+          if (!dates[momentDay][key]) {
+            dates[momentDay][key] = [];
+          }
+          dates[momentDay][key].push(item);
+        }
+      }
     }
-    dates[momentDay].push(item);
   }
   return dates;
 };
 
 router.get('/', async (req, res) => {
-  let items = await req.context.models.Release.findAll({
+  const releases = await req.context.models.Release.findAll({
     ...queriesToDict(req.query),
     include: [
       req.context.models.Artist,
@@ -47,19 +79,13 @@ router.get('/', async (req, res) => {
 
   const artists = await req.context.models.Artist.findAll({
     ...queriesToDict(req.query),
-    include: [
-      { model: req.context.models.Happening, as: 'events' },
-      {
-        model: req.context.models.Release,
-      },
-    ],
+    include: [{ model: req.context.models.Happening, as: 'events' }],
   });
 
+  let dates = createDateDict(releases, 'releases');
   for (const artist of artists) {
-    items = items.concat(artist.releases);
+    dates = createDateDict(artist.events, 'events', dates);
   }
-
-  const dates = createDateDict(items);
 
   return res.send(sortDateDict(dates));
 });
