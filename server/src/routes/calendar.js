@@ -26,8 +26,8 @@ const sortDateDict = (dates) => {
   Object.keys(dates)
     .sort(function (a, b) {
       return (
-        moment(a, 'DD/MM/YYYY').toDate() -
-        moment(b, 'DD/MM/YYYY').toDate()
+        moment(a, 'MM//DDYYYY').toDate() -
+        moment(b, 'MM/DD/YYYY').toDate()
       );
     })
     .forEach(function (key) {
@@ -41,7 +41,7 @@ const createDateDict = (items, key = 'item', dates = {}) => {
   for (const item of items) {
     if (!!item.date) {
       const day = new Date(item.date);
-      const momentDay = moment(day).format('DD/MM/YYYY');
+      const momentDay = moment(day).format('MM/DD/YYYY');
       if (!dates[momentDay]) {
         dates[momentDay] = {};
       }
@@ -53,7 +53,7 @@ const createDateDict = (items, key = 'item', dates = {}) => {
       for (const item of items) {
         for (const date of getDates(item.startDate, item.endDate)) {
           const day = new Date(date);
-          const momentDay = moment(day).format('DD/MM/YYYY');
+          const momentDay = moment(day).format('MM/DD/YYYY');
           if (!dates[momentDay]) {
             dates[momentDay] = {};
           }
