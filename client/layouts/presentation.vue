@@ -96,10 +96,6 @@
           const {data: response} = await that.$axios.get(`https://comeback-api.herokuapp.com/users/${res.user.uid}`)
           that.$store.commit('SET_DATA_USER', response)
           that.$store.commit('SET_TOKEN_USER', token.i)
-          /*let x = this.$store.state.dataUser
-          let y = this.$store.state.tokenUser
-          console.log(x)
-          console.log(y)*/
           that.login = false
           that.$router.push({ path: `/calendar`})
           that.$toast.success('You are login', {duration:3000, position:'top-right'})

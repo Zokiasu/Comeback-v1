@@ -31,7 +31,6 @@
         computed: {
             userData(){
                 let utmp = this.$store.state.dataUser
-                console.log(utmp)
                 return utmp
             },
         },

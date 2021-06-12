@@ -89,7 +89,7 @@
         </div>
 
         <section id="release-date">
-          <h2 class="text-white text-xl">Release Date*</h2>
+          <h2 class="text-white text-xl">Release Date* <span class="text-base">: {{dates.toLocaleDateString('fr-FR')}} at {{(dates.toLocaleTimeString('en-US')).toString().slice(0,4)}} in {{actualTimezone}}</span></h2>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
           <div id="date-picker">
             
@@ -165,12 +165,14 @@
 </template>
 
 <script>
+  import moment from 'moment-timezone'
   export default {
     
     data() {
       return {
         source:'',
         dates: new Date(),
+        actualTimezone:'',
         timezoneIndex: 11,
         timezones: [
           'Pacific/Niue', // -11
@@ -237,6 +239,10 @@
           musics:[],
         },
       }
+    },
+
+    created(){
+      this.actualTimezone = moment.tz.guess()
     },
 
     computed: {
@@ -324,7 +330,6 @@
           console.log(error);
         })
         .then(response => {
-          //console.log(response)
           this.$toast.success('Thank you, Your new comeback has been added to pending list to validated', {duration:5000, position:'top-right'})
           //this.$toast.info('Find all your modifications in Setting/Requests', {duration:5000, position:'top-right'})
           //this.$router.push({ path: `/${this.userId}/release/${response.data.id}`})

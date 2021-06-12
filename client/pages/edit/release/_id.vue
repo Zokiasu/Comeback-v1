@@ -129,7 +129,7 @@
       <div id="streaming-platform" class="flex flex-col w-full text-white mb-10">
           <h1 class="text-xl">Streaming Platforms Link</h1>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-          <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Platforms'" @updateinput="updateList(release.platforms, $event, index, 'platforms')"/>
+          <MultipleInput class="mb-1" v-for="(elem, index) in this.release.platforms" :key="index" :elem="elem" :placehol="'Streaming Platforms'" @updateinput="updateList(release.platforms, $event, index, 'platforms')" @deleteinput="deleteList(release.platforms, index, 'platforms')"/>
           <button @click="addStreamingLink()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
               <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
           </button>
@@ -301,7 +301,7 @@
               userId: this.userData.id,
               source: this.source
            }).then(response => {
-              //console.log(response)
+              
               if(!this.updateMusic) {
                 this.$router.push({ path: `/release/${this.$route.params.id}`})
               }
@@ -324,7 +324,7 @@
                 userId: this.userData.id,
                 source: this.source
             }).then(response => {
-                //console.log(response)
+                
                 this.$router.push({ path: `/release/${this.$route.params.id}`})
             }).catch(function (error) {
               console.log(error);
@@ -377,6 +377,10 @@
       updateList(list, newElem, index, key){
         list[index] = newElem
         this.newObjectToApi(key, list)
+      },
+
+      deleteList(list, index, key){
+        list.splice(index, 1)
       },
 
       newObjectToApi(key, value){

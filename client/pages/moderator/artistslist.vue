@@ -68,7 +68,7 @@ return utmp.id
 
         methods:{
             async removeArtist(object, index){await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${object.id}`, object).then(response=>{
-                    //console.log(response)
+                    
                     this.$toast.error(this.artists[index].name + ' has been deleted', {duration:2000, position:'top-right'})
                     this.artists.splice(index, 1)
                 })

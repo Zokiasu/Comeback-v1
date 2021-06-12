@@ -107,7 +107,7 @@
         let that = this;
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, this.editToApi)
         .then(response=>{
-          console.log(response)
+          
           that.$store.commit('SET_DATA_USER', that.user)
           that.$toast.success('Your account has been edited', {duration:3000, position:'top-center', fullWidth:true})
         })
@@ -118,7 +118,6 @@
         this.userData.username = null
         this.userData.email = null
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, this.user).catch((error) => {console.log(error)}).then(response=>{
-          //console.log(response)
           this.$fire.auth.currentUser.delete().then(
             this.$toast.success('Your account has been deleted', {duration:3000, position:'top', fullWidth:true})
           )

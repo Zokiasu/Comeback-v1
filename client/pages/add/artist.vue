@@ -192,7 +192,7 @@
           userId: this.userData.id,
           source: this.source
         }).then(response=>{
-          console.log(response)
+          
           //this.$router.push({ path: `/artist`})
         })
       },

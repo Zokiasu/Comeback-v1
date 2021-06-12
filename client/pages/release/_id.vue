@@ -106,7 +106,7 @@
                 await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, {
                     releases: [this.release],
                 }).then(response => {
-                    //console.log(response)
+                    
                     this.$toast.info('You have been following ' + this.release.name, {duration:2000, position:'bottom-left'})
                     this.liked = true
                 }).catch(function (error) {
@@ -116,7 +116,7 @@
 
             async unfollowRelease(){
                 await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.userData.id}/releases/${this.release.id}`, this.release).then(response => {
-                    //console.log(response)
+                    
                     this.liked = false
                 }).catch(function (error) {
                     console.log(error);

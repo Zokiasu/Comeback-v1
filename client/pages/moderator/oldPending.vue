@@ -343,7 +343,7 @@
                 if(object.method == 'PUT'){
                     await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body)
                     .then(response => {
-                        console.log(response)
+                        
                         if(response) this.updateRequest(object, index, "ACCEPTED", this.userData.id)
                     }).catch(function (error) {
                         console.log(error);
@@ -351,7 +351,7 @@
                 } else if (object.method == 'POST'){
                     await this.$axios.post(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body)
                     .then(response => {
-                        console.log(response)
+                        
                         if(response) {
                             this.updateRequest(object, index, "ACCEPTED", this.userData.id)
                         }
@@ -369,7 +369,7 @@
                 object.state = state
                 object.checked_by = checked_by
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
-                    console.log(response)
+                    
                     if(state == "ACCEPTED") this.$toast.success('The pending has been accepted', {duration:3000, position:'top-right'})
                     else this.$toast.error('The pending has been refused', {duration:3000, position:'top-right'})
                 }).catch(function (error) {

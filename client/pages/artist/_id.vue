@@ -178,7 +178,6 @@
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, {
           artists: [this.artist],
         }).then(response => {
-          //console.log(response)
           this.$toast.info('You have been following ' + this.artist.name, {duration:2000, position:'bottom-left'})
           this.liked = true
         }).catch(function (error) {
@@ -188,7 +187,6 @@
 
       async unfollowArtist() {
         await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.userData.id}/artists/${this.artist.id}`, this.artist).then(response => {
-          //console.log(response)
           this.liked = false
         }).catch(function (error) {
           console.log(error);

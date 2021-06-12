@@ -1,5 +1,5 @@
 <template>
-    <div class="relative text-white texts w-full flex mt-2">
+    <div class="relative bottom-0 text-white texts w-full flex mt-2">
         <section class="w-full">
                 <ul class="flex md:space-x-3 w-full justify-center relative">
                     <li>

@@ -1,23 +1,25 @@
 <template>
   <div class="mt-5">
-    <!--<div class="w-full flex justify-end">
-      <t-select v-model="userPreference" id="artists-type-selector" class="w-40"
-      :options="[
-          { value: true, text: 'My Comeback' },
-          { value: false, text: 'All Comeback' },
-      ]" ></t-select>
-    </div>-->
-    <CalendarDay
-      class=" z-0"
-      v-for="(date, index) in this.releaseDateList"
-      :key="index"
-      :date="date"
-      :userPreference="userPreference"
-      :userArtistFollow="userData.artists"
-      :width="width"/>
-    <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList(startDate, false)" />
-    <div v-if="this.releaseDateList.length < 1 && enough" class="px-5">
-      <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">Nothing is planned</span>
+    <div v-if="width" class="w-full flex justify-end px-10">
+      <div>
+        <t-select v-model="userPreference" id="artists-type-selector"
+        :options="[
+            { value: true, text: 'My Comeback' },
+            { value: false, text: 'All Comeback' },
+        ]" ></t-select>
+      </div>
+    </div>
+    <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10">
+      <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
+          <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric' })}} </h1>
+      </div>
+      <div class="grid gap-3 py-5 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
+        <ReleaseCard
+          v-for="release in date.releases"
+          :width="width"
+          :release="release"
+          :key="release.id"/>
+      </div>
     </div>
   </div>
 </template>
@@ -37,18 +39,19 @@
 
     data(){
         return {
-          width:false,
-          releaseDateList:[],
-          maxDateListDisplay: -1,
-          enough: false,
           userPreference:false,
-          startDate: new Date(),
+          width:false,
+          enough: false,
+          dateList:[],
         }
     },
 
-    async mounted() {
+    created(){
+      this.getCalendar();
+    },
+
+    mounted() {
       this.handleResize();
-      this.updateDateList(this.startDate)
     },
     
     computed: {
@@ -59,36 +62,21 @@
     },
 
     methods: {
+      async getCalendar(){
+        if(this.userPreference){
+          const {data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/calendar')
+          this.dateList = response
+        } else {
+          const {data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/calendar')
+          this.dateList = response
+        }
+      },
+
       handleResize() {
         if(window.innerWidth > 768) {
           this.width = true
         } else {
           this.width = false
-        }
-      },
-
-      async updateDateList(start, resetList){
-        
-        if(resetList) { 
-          this.releaseDateList = []
-          this.maxDateListDisplay = 0
-          this.enough = false
-        }
-        const {data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/releases?sortby=date:desc&limit=1')
-
-        if(!this.enough) {
-          this.maxDateListDisplay = this.maxDateListDisplay + 10
-          for (let index = (this.maxDateListDisplay) - 10; index < this.maxDateListDisplay; index++) {
-            let date = new Date(start)
-            date.setDate(date.getDate() + index)
-            this.releaseDateList.push(date.toISOString().slice(0, 10).replace('T', ''))
-          }
-        }
-
-        if(response) {
-          if(moment(new Date(this.releaseDateList[this.releaseDateList.length-1])).isAfter(new Date(response[0].date)) || this.releaseDateList[this.releaseDateList.length-1] == new Date(response[0].date).toISOString().slice(0, 10).replace('T', '')) {
-            this.enough = true
-          }
         }
       },
     },

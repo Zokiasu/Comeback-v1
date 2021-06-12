@@ -27,7 +27,6 @@
                 var domain = this.extractHostname(url),
                     splitArr = domain.split('.'),
                     arrLen = splitArr.length;
-
                 //extracting the root domain here
                 //if there is a subdomain 
                 if (arrLen > 2) {

@@ -89,8 +89,8 @@
                     </div>
                     <div id="platforms">
                         <span>Platforms :</span>
-                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 lg:grid-cols-2 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
-                        <div v-if="pending.body.platforms" class="text-green-500 space-x-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div :class="pending.body.platforms ? 'text-red-500':''" class="grid grid-cols-1 gap-1"><span v-for="(platform, index) in pending.currentData.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
+                        <div v-if="pending.body.platforms" class="text-green-500 grid grid-cols-1 gap-1"><span v-for="(platform, index) in pending.body.platforms" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs"> {{platform}} </span></div>
                     </div>
                     <div id="source">
                         <span>Source :</span>
@@ -225,7 +225,7 @@
                                 <t-select v-if="pendings[indexEdit].body.type" v-model="pendings[indexEdit].body.type" :options="[ { value: 'SOLO', text: 'Soloist' }, { value: 'GROUP', text: 'Group' }, ]" ></t-select>
                             </li>
                             <li v-if="pendings[indexEdit].currentData.artists || pendings[indexEdit].body.artists" class="space-y-1">
-                                <div class="flex space-x-1"><span>Artists :</span><div class="space-x-1"><span v-for="(member, index) in pendings[indexEdit].currentData.artists" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-white">{{artists.name}}</span></div></div>
+                                <div class="flex space-x-1"><span>Artists :</span><div class="space-x-1"><span v-for="(member, index) in pendings[indexEdit].currentData.artists" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-white">{{member.name}}</span></div></div>
                                 <multiselect
                                     v-if="pendings[indexEdit].body.artists"
                                     v-model="pendings[indexEdit].body.artists" 
@@ -343,7 +343,7 @@
                 if(object.method == 'PUT'){
                     await this.$axios.put(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body)
                     .then(response => {
-                        console.log(response)
+                        
                         if(response) this.updateRequest(object, index, "ACCEPTED", this.userData.id)
                     }).catch(function (error) {
                         console.log(error);
@@ -351,7 +351,7 @@
                 } else if (object.method == 'POST'){
                     await this.$axios.post(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body)
                     .then(response => {
-                        console.log(response)
+                        
                         if(response) {
                             this.updateRequest(object, index, "ACCEPTED", this.userData.id)
                         }
@@ -369,7 +369,7 @@
                 object.state = state
                 object.checked_by = checked_by
                 await this.$axios.put(`https://comeback-api.herokuapp.com/requests/${object.id}`, object).then(response => {
-                    console.log(response)
+                    
                     this.pendings.splice(index, 1)
                     if(state == "ACCEPTED") this.$toast.success('The pending has been accepted', {duration:3000, position:'top-right'})
                     else this.$toast.error('The pending has been refused', {duration:3000, position:'top-right'})

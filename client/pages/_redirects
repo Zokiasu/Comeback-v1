@@ -1,2 +1,3 @@
 /* /index.html 200
 /api/* http://comeback-api.herokuapp.com/:splat 200!
+/api/* https://music.youtube.com/:splat 200!
