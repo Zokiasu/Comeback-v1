@@ -36,12 +36,24 @@ const sortDateDict = (dates) => {
   return orderedDates;
 };
 
-const createDateDict = (items, key = 'item', dates = {}) => {
+const createDateDict = (
+  items,
+  key = 'item',
+  dates = {},
+  query = {},
+) => {
   // create a dict of items with their date as key
   for (const item of items) {
     if (!!item.date) {
       const day = new Date(item.date);
       const momentDay = moment(day).format('MM/DD/YYYY');
+      // if the date is not between date_inf and date_sup we don't add it
+      if (
+        (query.date_inf && day > query.date_inf) ||
+        (query.date_sup && day < query.date_sup)
+      ) {
+        continue;
+      }
       if (!dates[momentDay]) {
         dates[momentDay] = {};
       }
@@ -54,6 +66,13 @@ const createDateDict = (items, key = 'item', dates = {}) => {
         for (const date of getDates(item.startDate, item.endDate)) {
           const day = new Date(date);
           const momentDay = moment(day).format('MM/DD/YYYY');
+          // if the date is not between date_inf and date_sup we don't add it
+          if (
+            (query.date_inf && day > query.date_inf) ||
+            (query.date_sup && day < query.date_sup)
+          ) {
+            continue;
+          }
           if (!dates[momentDay]) {
             dates[momentDay] = {};
           }
@@ -69,6 +88,18 @@ const createDateDict = (items, key = 'item', dates = {}) => {
 };
 
 router.get('/', async (req, res) => {
+  const dateQuery = {
+    date_inf: req.query.date_inf
+      ? new Date(req.query.date_inf)
+      : null,
+    date_sup: req.query.date_sup
+      ? new Date(req.query.date_sup)
+      : null,
+  };
+
+  delete req.query['date_inf'];
+  delete req.query['date_sup'];
+
   const releases = await req.context.models.Release.findAll({
     ...queriesToDict(req.query),
     include: [
@@ -82,15 +113,24 @@ router.get('/', async (req, res) => {
     include: [{ model: req.context.models.Happening, as: 'events' }],
   });
 
-  let dates = createDateDict(releases, 'releases');
+  let dates = createDateDict(releases, 'releases', {}, dateQuery);
   for (const artist of artists) {
-    dates = createDateDict(artist.events, 'events', dates);
+    dates = createDateDict(artist.events, 'events', dates, dateQuery);
   }
-
   return res.send(sortDateDict(dates));
 });
 
 router.get('/:userId', async (req, res) => {
+  const dateQuery = {
+    date_inf: req.query.date_inf
+      ? new Date(req.query.date_inf)
+      : null,
+    date_sup: req.query.date_sup
+      ? new Date(req.query.date_sup)
+      : null,
+  };
+  delete req.query['date_inf'];
+  delete req.query['date_sup'];
   const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
@@ -121,9 +161,9 @@ router.get('/:userId', async (req, res) => {
     releases = releases.concat(artist.releases);
   }
 
-  let dates = createDateDict(releases, 'releases');
+  let dates = createDateDict(releases, 'releases', {}, dateQuery);
   for (const artist of artists) {
-    dates = createDateDict(artist.events, 'events', dates);
+    dates = createDateDict(artist.events, 'events', dates, dateQuery);
   }
 
   return res.send(sortDateDict(dates));

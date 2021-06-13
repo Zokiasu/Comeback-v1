@@ -81,7 +81,11 @@ const createSeeds = async () => {
           source: 'ça se fait pas',
         },
       ],
-      releases: [{ date: today, name: 'relasecool', type: 'ALBUM' }],
+      releases: [
+        { date: today, name: 'relasecool', type: 'ALBUM' },
+        { date: tomorrow, name: 'releasenew', type: 'ALBUM' },
+        { date: nextMonth, name: 'reallse', type: 'ALBUM' },
+      ],
       artists: [{ name: 'JohnBoy' }],
     },
     {
