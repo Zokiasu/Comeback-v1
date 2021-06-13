@@ -108,19 +108,23 @@ router.get('/:userId', async (req, res) => {
               as: 'releases',
               ...queriesToDict(req.query),
             },
+            { model: req.context.models.Happening, as: 'events' },
           ],
         },
       ],
     },
   );
 
-  let items = user?.releases || [];
+  let releases = user?.releases || [];
   const artists = user?.artists || [];
   for (const artist of artists) {
-    items = items.concat(artist.releases);
+    releases = releases.concat(artist.releases);
   }
 
-  const dates = createDateDict(items);
+  let dates = createDateDict(releases, 'releases');
+  for (const artist of artists) {
+    dates = createDateDict(artist.events, 'events', dates);
+  }
 
   return res.send(sortDateDict(dates));
 });
