@@ -1,7 +1,7 @@
 <template>
     <div class="px-5">
         <section v-if="releases.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-            <div v-for="(release, index) in this.releases" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
+            <div v-for="(release, index) in this.releases.slice(0,maxObjectDisplay)" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
                     <NuxtLink :to="`/edit/release/${release.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="mb-2">
-                    <span v-for="(style, index) in release.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style}} </span>
+                    <span v-for="(style, index) in release.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style.name}} </span>
                     <span v-if="!release.styles" class="text-red-500"> No styles </span>
                 </div>
                 <span class="font-semibold text-gray-400">Artists :</span>
@@ -38,6 +38,9 @@
                 </div>
             </div>
         </section>
+        <div v-if="maxObjectDisplay < this.releases.length" class="w-full flex justify-center">
+            <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
+        </div>
         <div v-if="releases.length < 1" class="px-5">
             <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release found.</span>
         </div>
@@ -51,18 +54,26 @@
         data() {
             return {
                 releases: [],
+                maxObjectDisplay:20
             }
         },
 
         async asyncData({ $axios }){
-            let releases = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=id:asc`)
+            let releases = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=name:asc`)
+
+            releases?.sort(function(a,b){
+                if(a.name.toLowerCase() > b.name.toLowerCase()) {return -1}
+                if(a.name.toLowerCase() < b.name.toLowerCase()) {return 1}
+                return 0;
+            })
+
             return {releases}
         },
     
         computed: {
             userId(){
                 let utmp = this.$store.state.dataUser
-return utmp.id
+                return utmp.id
             },
 
             adminCheck(){
@@ -71,9 +82,9 @@ return utmp.id
         },
 
         methods:{
-            async removeRelease(id, object, index){
-                await this.$axios.delete(`https://comeback-api.herokuapp.com/releases/${id}`, object).then(response=>{
-                    
+            removeRelease(id, object, index){
+                this.$axios.delete(`https://comeback-api.herokuapp.com/releases/${id}`, object)
+                .then(response=>{
                     this.releases.splice(index, 1)
                 })
             },

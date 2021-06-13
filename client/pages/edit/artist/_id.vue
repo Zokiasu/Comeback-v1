@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-10" v-if="artists.type == 'GROUP'">
+        <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-10">
             <h1 class="text-xl">Members</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <multiselect
@@ -100,6 +100,8 @@
                 v-model="artists.styles" 
                 tag-placeholder="Add this as new style" 
                 placeholder="Search or add a style"
+                label="name" 
+                track-by="name" 
                 :options="styleList" 
                 :close-on-select="false"
                 :clear-on-select="false"
@@ -157,11 +159,12 @@
         async asyncData({ $axios, params }){
             const artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
+            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
 
             artists["newGroups"] = []
             artists["newMembers"] = []
 
-            return {artists, artistList}
+            return {artists, artistList, styleList}
         },
 
         mounted(){
@@ -198,11 +201,15 @@
             },
 
             addStyle (newTag) {
-                if(this.artists.styles == null) {
-                    this.artists.styles = [newTag]
-                } else {
-                    this.artists.styles.push(newTag)
+                const tag = {
+                    name: newTag,
                 }
+                if(this.artists.styles == null) {
+                    this.artists.styles = [tag]
+                } else {
+                    this.artists.styles.push(tag)
+                }
+                this.styleList.push(tag)
                 this.newObjectToApi('styles', this.artists.styles)
             },
             

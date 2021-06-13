@@ -11,7 +11,7 @@
     </div>
     <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10">
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
-          <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric' })}} </h1>
+          <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
       </div>
       <div class="grid gap-3 py-5 justify-center texts text-white" :class="width ? 'grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
         <ReleaseCard
@@ -43,6 +43,7 @@
           width:false,
           enough: false,
           dateList:[],
+          startDate: new Date()
         }
     },
 
@@ -63,12 +64,19 @@
 
     methods: {
       async getCalendar(){
+        this.startDate.setDate(this.startDate.getDate()-30)
         if(this.userPreference){
-          const {data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/calendar')
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}`)
           this.dateList = response
         } else {
-          const {data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/calendar')
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}`)
           this.dateList = response
+          console.log(this.dateList)
+          this.dateList.sort(function(a,b){
+            if(a > b) {return -1}
+            if(a < b) {return 1}
+            return 0;
+          })
         }
       },
 

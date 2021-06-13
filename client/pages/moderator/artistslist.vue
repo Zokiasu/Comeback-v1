@@ -1,7 +1,7 @@
 <template>
     <div class="px-5">
         <section v-if="artists.length > 0" id="page-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-            <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
+            <div v-for="(artist, index) in this.artists.slice(0,maxObjectDisplay)" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
                     <NuxtLink :to="`/edit/artist/${artist.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div>
-                    <span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style}} </span>
+                    <span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style.name}} </span>
                     <span v-if="!artist.styles" class="text-red-500"> No styles </span>
                 </div>
                 <div>
@@ -34,6 +34,9 @@
                 </div>
             </div>
         </section>
+        <div v-if="maxObjectDisplay < this.artists.length" class="w-full flex justify-center mb-5 text-white">
+            <button class=" focus:outline-none" @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
+        </div>
         <div v-if="artists.length < 1" class="px-5">
             <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Artist found.</span>
         </div>
@@ -47,11 +50,12 @@
         data() {
             return {
                 artists: [],
+                maxObjectDisplay:20
             }
         },
 
         async asyncData({ $axios }){
-            let artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=id:asc`)
+            let artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=name:asc`)
             return {artists}
         },
     

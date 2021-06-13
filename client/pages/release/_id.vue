@@ -7,7 +7,7 @@
                 <div class="flex space-x-2">
                     <span><span v-for="(artist, index) in this.release.artists" :key="index"><NuxtLink :to="`/artist/${artist.id}`" class="hover:underline">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span> • {{this.release.name}}</span>
                     <div v-if="this.release.styles" class="space-x-1.5 text-sm mt-2.5">
-                        <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span>
+                        <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style.name}}</span>
                     </div>
                 </div>
                 <span>{{(new Date(this.release.date)).toLocaleDateString({ day:'numeric', month: 'numeric', year:'numeric' })}} • {{this.release.type.charAt(0).toUpperCase() + this.release.type.slice(1).toLowerCase() }}</span>

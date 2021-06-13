@@ -1,7 +1,7 @@
 <template>
     <div class="px-5">
         <section id="pending-page" class="pb-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
-            <div v-for="(pending, index) in this.pendings" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden space-y-2">
+            <div v-for="(pending, index) in this.pendings.slice(0,maxObjectDisplay)" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden space-y-2">
                 <section id="pending-type">
                     <span v-if="pending.method == 'POST'">Creation</span>
                     <span v-if="pending.method == 'PUT'">Edition</span>
@@ -186,6 +186,8 @@
                                     v-model="pendings[indexEdit].body.styles" 
                                     tag-placeholder="Add this as new style" 
                                     placeholder="Search or add a style"
+                                    label="name" 
+                                    track-by="name" 
                                     :options="styleList" 
                                     :close-on-select="false"
                                     :clear-on-select="false"
@@ -243,12 +245,14 @@
                                 </multiselect>
                             </li>
                             <li v-if="pendings[indexEdit].currentData.styles || pendings[indexEdit].body.styles" class="space-y-1">
-                                <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pendings[indexEdit].currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                                <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pendings[indexEdit].currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style.name}}</span></div></div>
                                 <multiselect
                                     v-if="pendings[indexEdit].body.styles"
                                     v-model="pendings[indexEdit].body.styles" 
                                     tag-placeholder="Add this as new style" 
                                     placeholder="Search or add a style"
+                                    label="name" 
+                                    track-by="name" 
                                     :options="styleList" 
                                     :close-on-select="false"
                                     :clear-on-select="false"
@@ -301,6 +305,9 @@
                     </div>
                 </Modal>
             </div>
+            <div v-if="maxObjectDisplay < this.pendings.length" class="w-full flex justify-center">
+                <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
+            </div>
             <div v-if="this.pendings.length < 1" style="background-color: #6B728033" class="w-full text-white lg:col-span-2 py-2 rounded-sm flex justify-center">
                 <span class="w-full text-center">No new pending</span>
             </div>
@@ -323,6 +330,7 @@
                 indexEdit: 0,
                 artistList:[],
                 styleList:[],
+                maxObjectDisplay:20
             }
         },
 
@@ -392,11 +400,15 @@
             },
 
             addStyle (newTag) {
-                if(this.pendings[this.indexEdit].body.styles) {
-                    this.pendings[this.indexEdit].body["styles"] = [newTag]
-                } else {
-                    this.pendings[this.indexEdit].body.styles.push(newTag)
+                const tag = {
+                    name: newTag,
                 }
+                if(this.pendings[this.indexEdit].body.styles) {
+                    this.pendings[this.indexEdit].body["styles"] = [tag]
+                } else {
+                    this.pendings[this.indexEdit].body.styles.push(tag)
+                }
+                this.styleList.push(tag)
             },
 
             addMember (newTag) {
@@ -476,7 +488,8 @@
         async asyncData({ $axios }){
             const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-            return { pendings, artistList }
+            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
+            return { pendings, artistList, styleList }
         },
     }
 </script>

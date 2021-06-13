@@ -24,7 +24,7 @@
             <div id="social-media" v-if="artist.styles">
               <h1 class="text-white text-xl">Styles</h1>
               <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full xl:w-96"></div>
-              <div class="space-x-1"><span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style}}</span></div>
+              <div class="space-x-1"><span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style.name}}</span></div>
             </div>
           </div>
           <div id="social-media" v-if="artist.socials">
@@ -130,10 +130,10 @@
 
     async asyncData({ $axios, params }){
       let artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
-
+      console.log(artist.releases)
       artist.releases?.sort(function(a,b){
-          if(a.date.toLowerCase() > b.date.toLowerCase()) {return -1}
-          if(a.date.toLowerCase() < b.date.toLowerCase()) {return 1}
+          if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
+          if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
           return 0;
       })
       let memberslist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}/members?sortby=name`)

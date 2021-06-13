@@ -1,7 +1,7 @@
 <template>
     <div class="px-5">
         <section v-if="lastUpdate.length > 0" id="page-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
-            <div v-for="(update, index) in this.lastUpdate" :key="index" style="background-color: #6B728033" class="flex text-white rounded-sm relative p-3 overflow-hidden">
+            <div v-for="(update, index) in this.lastUpdate.slice(0,maxObjectDisplay)" :key="index" style="background-color: #6B728033" class="flex text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="mr-2">
                     <img :src="update.releases ? require(`~/assets/image/artist.png`) : update.image" class="w-20 h-20 object-cover" alt="">
@@ -35,6 +35,9 @@
                 </div>
             </div>
         </section>
+        <div v-if="maxObjectDisplay < this.lastUpdate.length" class="w-full flex justify-center">
+            <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
+        </div>
         <div v-if="lastUpdate.length < 1" class="px-5">
             <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Created found.</span>
         </div>
@@ -51,6 +54,7 @@
                 releases: [],
                 musics: [],
                 lastUpdate: [],
+                maxObjectDisplay:20
             }
         },
 

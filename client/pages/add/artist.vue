@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-10" v-if="artists.type == 'GROUP'">
+        <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-10">
             <h1 class="text-xl">Members</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <multiselect
@@ -77,7 +77,7 @@
             <multiselect
                 v-model="artists.groups" 
                 tag-placeholder="Add this as new artists" 
-                placeholder="Search or add a artists" 
+                placeholder="Search or add a artists"
                 label="name" 
                 track-by="id" 
                 :options="artistList" 
@@ -97,6 +97,8 @@
                 v-model="artists.styles" 
                 tag-placeholder="Add this as new style" 
                 placeholder="Search or add a style"
+                label="name" 
+                track-by="name" 
                 :options="styleList" 
                 :close-on-select="false"
                 :clear-on-select="false"
@@ -167,7 +169,8 @@
 
     async asyncData({ $axios}){
       const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-      return {artistList}
+      const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
+      return {artistList, styleList}
     },
 
     computed: {
@@ -198,22 +201,26 @@
       },
 
       addStyle (newTag) {
-        if(this.artists.styles == null) {
-            this.artists.styles = [newTag]
-        } else {
-            this.artists.styles.push(newTag)
+        const tag = {
+          name: newTag,
         }
+        if(this.artists.styles == null) {
+            this.artists.styles = [tag]
+        } else {
+            this.artists.styles.push(tag)
+        }
+        this.styleList.push(tag)
       },
       
       addGroup (newTag) {
         const tag = {
-            name: newTag,
-            image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
-            type: 'SOLO',
-            website: null,
-            description: null,
-            socials: null,
-            platforms: null,
+          name: newTag,
+          image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
+          type: 'SOLO',
+          website: null,
+          description: null,
+          socials: null,
+          platforms: null,
         }
         this.artistList.push(tag)
         this.artists.groups.push(tag)

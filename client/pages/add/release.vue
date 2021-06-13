@@ -75,6 +75,8 @@
                   v-model="release.styles" 
                   tag-placeholder="Add this as new style" 
                   placeholder="Search or add a style"
+                  label="name" 
+                  track-by="name" 
                   :options="styleList" 
                   :close-on-select="false"
                   :clear-on-select="false"
@@ -276,7 +278,8 @@
 
     async asyncData({ $axios }){
       let artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-      return {artistList}
+      const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
+      return {artistList, styleList}
     },
 
     methods:{
@@ -338,12 +341,15 @@
       },
 
       addStyle (newTag) {
-        if(this.release.styles == null) {
-          this.release.styles = [newTag]
-        } else {
-          this.release.styles.push(newTag)
+        const tag = {
+          name: newTag,
         }
-        this.styleList.push(newTag)
+        if(this.release.styles == null) {
+          this.release.styles = [tag]
+        } else {
+          this.release.styles.push(tag)
+        }
+        this.styleList.push(tag)
       },
 
       addArtist (newTag) {

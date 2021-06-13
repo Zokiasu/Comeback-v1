@@ -1,7 +1,7 @@
 <template>
     <div class="px-5">
         <section id="pending-page" class="pb-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
-            <div v-for="(pending, index) in this.pendings" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden space-y-2">
+            <div v-for="(pending, index) in this.pendings.slice(0,maxObjectDisplay)" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden space-y-2">
                 <section id="pending-type">
                     <span v-if="pending.method == 'POST'">Creation</span>
                     <span v-if="pending.method == 'PUT'">Edition</span>
@@ -243,7 +243,7 @@
                                 </multiselect>
                             </li>
                             <li v-if="pendings[indexEdit].currentData.styles || pendings[indexEdit].body.styles" class="space-y-1">
-                                <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pendings[indexEdit].currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
+                                <div class="flex space-x-1"><span>Styles :</span><div class="space-x-1"><span v-for="(style, index) in pendings[indexEdit].currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style.name}}</span></div></div>
                                 <multiselect
                                     v-if="pendings[indexEdit].body.styles"
                                     v-model="pendings[indexEdit].body.styles" 
@@ -301,6 +301,9 @@
                     </div>
                 </Modal>
             </div>
+            <div v-if="maxObjectDisplay < this.pendings.length" class="w-full flex justify-center">
+                <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
+            </div>
             <div v-if="this.pendings.length < 1" style="background-color: #6B728033" class="w-full text-white lg:col-span-2 py-2 rounded-sm flex justify-center">
                 <span class="w-full text-center">No new pending</span>
             </div>
@@ -323,6 +326,7 @@
                 indexEdit: 0,
                 artistList:[],
                 styleList:[],
+                maxObjectDisplay:20
             }
         },
 
