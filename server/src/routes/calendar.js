@@ -26,7 +26,7 @@ const sortDateDict = (dates) => {
   Object.keys(dates)
     .sort(function (a, b) {
       return (
-        moment(a, 'MM//DDYYYY').toDate() -
+        moment(a, 'MM/DD/YYYY').toDate() -
         moment(b, 'MM/DD/YYYY').toDate()
       );
     })
