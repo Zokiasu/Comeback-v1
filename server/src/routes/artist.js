@@ -38,9 +38,12 @@ const getSoloMembers = async (members, model, req) => {
 };
 
 router.get('/', async (req, res) => {
-  const artists = await req.context.models.Artist.findAll(
-    queriesToDict(req.query),
-  );
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      req.context.models.Style,
+    ],
+  });
   return res.send(artists);
 });
 
