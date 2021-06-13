@@ -52,6 +52,7 @@ router.get('/full', async (req, res) => {
       { model: req.context.models.Artist, as: 'groups' },
       { model: req.context.models.Artist, as: 'members' },
       { model: req.context.models.Happening, as: 'events' },
+      req.context.models.Style,
       {
         model: req.context.models.Release,
         include: [{ model: req.context.models.Music, as: 'musics' }],
@@ -70,6 +71,7 @@ router.get('/:artistId', async (req, res) => {
         { model: req.context.models.Artist, as: 'groups' },
         { model: req.context.models.Artist, as: 'members' },
         { model: req.context.models.Happening, as: 'events' },
+        req.context.models.Style,
         {
           model: req.context.models.Release,
           include: [
@@ -126,6 +128,15 @@ router.post('/', async (req, res) => {
     (array) => artist.addMembers(array),
     (array) => artist.createMember(array),
   );
+
+  await addAssociationItems(
+    null,
+    [{ name: 'releasecool' }, { name: 'rekzlrjik' }],
+    req.context.models.Style,
+    (array) => artist.addStyles(array),
+    (array) => artist.createStyle(array),
+    true,
+  );
   return res.send(artist);
 });
 
@@ -149,6 +160,15 @@ router.put('/:artistId', async (req, res) => {
     req.context.models.Artist,
     (array) => artist.addMembers(array),
     (array) => artist.createMember(array),
+  );
+
+  await addAssociationItems(
+    null,
+    req.body.styles,
+    req.context.models.Style,
+    (array) => artist.addStyles(array),
+    (array) => artist.createStyle(array),
+    true,
   );
   return res.send(artist);
 });

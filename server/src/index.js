@@ -31,6 +31,7 @@ app.use('/events', routes.happening);
 app.use('/releases', routes.release);
 app.use('/musics', routes.music);
 app.use('/calendar', routes.calendar);
+app.use('/styles', routes.style);
 
 // Start
 

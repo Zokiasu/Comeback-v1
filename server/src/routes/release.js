@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
     ...queriesToDict(req.query, whereOptions),
     include: [
       req.context.models.Artist,
+      req.context.models.Style,
       { model: req.context.models.Music, as: 'musics' },
       { model: req.context.models.User, as: 'followers' },
     ],
@@ -37,6 +38,7 @@ router.get('/:releaseId', async (req, res) => {
     {
       include: [
         req.context.models.Artist,
+        req.context.models.Style,
         { model: req.context.models.Happening, as: 'events' },
         { model: req.context.models.Music, as: 'musics' },
         { model: req.context.models.User, as: 'followers' },
@@ -68,6 +70,15 @@ router.post('/', async (req, res) => {
     (array) => release.createMusic(array),
   );
 
+  await addAssociationItems(
+    null,
+    req.body.styles,
+    req.context.models.Style,
+    (array) => release.addStyles(array),
+    (array) => release.createStyle(array),
+    true,
+  );
+
   return res.send(release);
 });
 
@@ -78,6 +89,7 @@ router.put('/:releaseId', async (req, res) => {
   release.update(req.body);
 
   await addAssociationItems(
+    null,
     req.body.artists,
     req.body.newArtists,
     req.context.models.Artist,
@@ -91,6 +103,15 @@ router.put('/:releaseId', async (req, res) => {
     req.context.models.Music,
     (array) => release.addMusics(array),
     (array) => release.createMusic(array),
+  );
+
+  await addAssociationItems(
+    null,
+    req.body.styles,
+    req.context.models.Style,
+    (array) => release.addStyles(array),
+    (array) => release.createStyle(array),
+    true,
   );
 
   return res.send(release);

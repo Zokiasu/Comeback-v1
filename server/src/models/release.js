@@ -24,10 +24,6 @@ const release = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING(2000)),
       allowNull: true,
     },
-    styles: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
   });
 
   Release.associate = (models) => {
@@ -46,6 +42,9 @@ const release = (sequelize, DataTypes) => {
     Release.belongsToMany(models.Happening, {
       through: 'Happening_Release',
       as: 'events',
+    });
+    Release.belongsToMany(models.Style, {
+      through: 'Release_Style',
     });
   };
 

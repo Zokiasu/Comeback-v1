@@ -35,10 +35,6 @@ const artist = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING(2000)),
       allowNull: true,
     },
-    styles: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
   });
 
   Artist.associate = (models) => {
@@ -66,6 +62,9 @@ const artist = (sequelize, DataTypes) => {
     Artist.belongsToMany(models.Happening, {
       through: 'Happening_Artist',
       as: 'events',
+    });
+    Artist.belongsToMany(models.Style, {
+      through: 'Artist',
     });
   };
 

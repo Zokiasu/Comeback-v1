@@ -6,6 +6,7 @@ import happening from './happening';
 import release from './release';
 import music from './music';
 import calendar from './calendar';
+import style from './style';
 
 export default {
   session,
@@ -16,4 +17,5 @@ export default {
   release,
   music,
   calendar,
+  style,
 };
