@@ -14,7 +14,10 @@
         :name="artist.name"
         :image="artist.image"/>
     </section>
-    <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList()"/>
+    <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList(false)"/>
+    <div class="p-5">
+      <button @click="updateDateList(false)" class="w-full text-white font-semibold bg-gray-500 bg-opacity-50 focus:outline-none">More</button>
+    </div>
     <div v-if="filteredList.length < 1" class="px-5">
       <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No artists found.</span>
     </div>
@@ -42,7 +45,7 @@
     },
 
     mounted(){
-      this.updateDateList()
+      this.updateDateList(false)
     },
         
     computed: {
@@ -62,6 +65,7 @@
     methods:{
       async updateDateList(reset){
         let artTmp = []
+        console.log('reset', reset)
         if(reset) {
           this.maxArtist = 0
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
@@ -69,11 +73,13 @@
             artTmp = artTmp.concat(response)
             this.artists = [...new Set(artTmp)] //Remove all double entry
             if(response.length < 20) {
+              console.log("response < 20")
               this.enough = true
             } else {
               this.maxArtist = this.maxArtist + 20
             }
           } else {
+            console.log("response < 0 V1")
             this.enough = true
           }
         } else {
@@ -83,7 +89,9 @@
             artTmp = artTmp.concat(response) //Add next artist into actual list
             this.artists = [...new Set(artTmp)] //Remove all double entry
             this.maxArtist = this.maxArtist + 20
+            console.log('artist', this.artists)
           } else {
+            console.log("response < 0 V2")
             this.enough = true
           }
         }

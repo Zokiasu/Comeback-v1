@@ -78,11 +78,6 @@
         } else {
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}`)
           this.dateList = response
-          this.dateList.sort(function(a,b){
-            if(a > b) {return -1}
-            if(a < b) {return 1}
-            return 0;
-          })
         }
       },
 
