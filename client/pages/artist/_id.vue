@@ -21,7 +21,7 @@
         </div>
         <div id="info" class="space-y-5 2xl:col-span-2">
           <div class="space-y-5">
-            <div id="social-media" v-if="artist.styles">
+            <div id="social-media" v-if="artist.styles.length > 0">
               <h1 class="text-white text-xl">Styles</h1>
               <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-full xl:w-96"></div>
               <div class="space-x-1"><span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style.name}}</span></div>
