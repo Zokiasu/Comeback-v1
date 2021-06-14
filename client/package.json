@@ -9,7 +9,6 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@forked-prs/nuxt-infinite-scroll-module": "^1.0.2",
     "@kouts/vue-modal": "^2.0.10",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/firebase": "^7.5.0",
@@ -32,6 +31,7 @@
     "tailwindcss": "^2.0.4",
     "v-calendar": "^2.2.1",
     "v-read-more-box": "^1.2.2",
+    "vue-infinite-loading": "^2.4.5",
     "vue-lazy-loading": "^1.0.3",
     "vue-multiselect": "^2.1.6",
     "vue-tailwind": "^2.3.0"

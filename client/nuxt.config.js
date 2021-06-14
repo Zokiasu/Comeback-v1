@@ -48,6 +48,7 @@ export default {
     '~/plugins/inject.js',
     '~/plugins/vtlw.js',
     { src: '~/plugins/v-calendar.js', ssr: false },
+    { src: "~/plugins/infiniteloading", ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -63,7 +64,6 @@ export default {
   modules: [
     '@nuxtjs/toast',
     '@nuxtjs/axios',
-    '@forked-prs/nuxt-infinite-scroll-module',
     ['@nuxtjs/pwa',
       {
         // disable the modules you don't need

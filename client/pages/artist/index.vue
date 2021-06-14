@@ -14,10 +14,11 @@
         :name="artist.name"
         :image="artist.image"/>
     </section>
-    <InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList(false)"/>
-    <div class="p-5">
+    <!--<InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList(false)"/>-->
+    <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
+    <!--<div v-if="!enough" class="p-5">
       <button @click="updateDateList(false)" class="w-full text-white font-semibold bg-gray-500 bg-opacity-50 focus:outline-none">More</button>
-    </div>
+    </div>-->
     <div v-if="filteredList.length < 1" class="px-5">
       <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No artists found.</span>
     </div>
@@ -43,10 +44,6 @@
         enough: false,
       }
     },
-
-    mounted(){
-      this.updateDateList(false)
-    },
         
     computed: {
       filteredList() {
@@ -63,7 +60,35 @@
     },
 
     methods:{
-      async updateDateList(reset){
+      async fetchData() {
+        let artTmp = []
+        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`);
+        artTmp = artTmp.concat(response)
+        this.artists = [...new Set(artTmp)]
+      },
+      infiniteScroll($state) {
+        let artTmp = []
+        setTimeout(() => {
+          artTmp = artTmp.concat(this.artists)
+          this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
+            if(response.data.length > 0) {
+              artTmp = artTmp.concat(response.data)
+              this.artists = [...new Set(artTmp)]
+              this.maxArtist = this.maxArtist + 20
+              $state.loaded();
+            } else {
+              console.log("response < 0 V2")
+              this.enough = true
+              $state.complete();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        }, 500);
+      },
+
+      async updateDateList(reset) {
         let artTmp = []
         console.log('reset', reset)
         if(reset) {
@@ -80,18 +105,6 @@
             }
           } else {
             console.log("response < 0 V1")
-            this.enough = true
-          }
-        } else {
-          artTmp = artTmp.concat(this.artists)
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
-          if(response.length > 0) {
-            artTmp = artTmp.concat(response) //Add next artist into actual list
-            this.artists = [...new Set(artTmp)] //Remove all double entry
-            this.maxArtist = this.maxArtist + 20
-            console.log('artist', this.artists)
-          } else {
-            console.log("response < 0 V2")
             this.enough = true
           }
         }
