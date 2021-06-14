@@ -5,8 +5,12 @@
         </div>
         <div class="space-y-3">
             <div class="flex flex-col">
-            <NuxtLink :to="`/release/${this.release.id}`"><span class="text-base font-semibold hover:text-black">{{this.release.name}}</span></NuxtLink>
-            <span class="text-xs">{{new Date(this.release.date).toLocaleDateString()}}</span>
+                <NuxtLink :to="`/release/${this.release.id}`"><span class="text-base font-semibold hover:text-black">{{this.release.name}}</span></NuxtLink>
+                <div class="flex space-x-1 text-xs">
+                    <span>{{this.release.type}}</span>
+                    <span>-</span>
+                    <span>{{new Date(this.release.date).toLocaleDateString()}}</span>
+                </div>
             </div>
             <div class="flex space-x-3">
                 <a v-for="(platforms, index) in this.release.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>

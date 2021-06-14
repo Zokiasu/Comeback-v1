@@ -1,6 +1,6 @@
 <template>
     <section id="menu">
-        <ul class="flex space-x-2 text-white">
+        <ul class="flex space-x-2 text-white text-xs md:text-sm lg:text-base">
             <NuxtLink :to="`/moderator/pending`" class="px-3 py-1.5" :class="$route.name !== 'moderator-pending' ? '' : 'border-b-2 border-red-700'">
                 <span>Pending</span>
             </NuxtLink>

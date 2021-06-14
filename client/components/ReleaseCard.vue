@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="`/release/${release.id}`" v-if="width" class="texts flex flex-col text-white rounded">
+  <!--<NuxtLink :to="`/release/${release.id}`" v-if="width" class="texts flex flex-col text-white rounded">
     <div class="relative h-40 w-40">
         <img class="rounded-md object-cover h-40 w-40" :src="release.image" alt="Artist Picture"/>
         <div v-if="validationDate" class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl rounded-tr">
@@ -12,9 +12,9 @@
             <span> {{release.type}} </span><div class="bg-white mt-2 mx-2 h-1 w-1 rounded-full"></div><span class="truncate"><span v-for="(artist, index) in release.artists" :key="index">{{artist.name}}<span v-if="release.artists.length > 1 && index != release.artists.length-1">, </span></span></span>
         </div>
     </div>
-  </NuxtLink>
+  </NuxtLink>-->
 
-  <NuxtLink :to="`/release/${release.id}`" v-else-if="!width" style="background-color: #3B3B3B" class="texts text-white flex rounded relative">
+  <NuxtLink :to="`/release/${release.id}`" style="background-color: #3B3B3B" class="texts text-white flex rounded relative">
     <div class="w-20 h-full">
         <img class="h-full w-40 rounded-l object-cover" :src="release.image" alt="Artist Picture"/>
     </div>

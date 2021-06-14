@@ -3,7 +3,7 @@
         <section v-if="releases.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
             <div v-for="(release, index) in this.releases.slice(0,maxObjectDisplay)" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
-                <div class="flex absolute right-2 top-3 space-x-2">
+                <div class="flex 2xl:absolute mb-2 2xl:mb-0 right-2 top-3 space-x-2">
                     <NuxtLink :to="`/edit/release/${release.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
                     <img v-if="adminCheck" class="cursor-pointer" @click="removeRelease(release.id, releases[release.place], index)" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
                 </div>
@@ -32,13 +32,13 @@
                     <span v-if="!release.artists" class="text-red-500"> No Artists </span>
                 </div>
                 <span class="font-semibold text-gray-400">Tracklist :</span>
-                <div class="grid grid-cols-2">
+                <div class="grid grid-cols-1 2xl:grid-cols-2">
                     <span v-for="(music, index) in release.musics" :key="index" class="rounded">{{music.name}}</span>
                     <span v-if="release.musics.length < 1" class="text-red-500"> No Musics </span>
                 </div>
             </div>
         </section>
-        <div v-if="maxObjectDisplay < this.releases.length" class="w-full flex justify-center">
+        <div v-if="maxObjectDisplay < this.releases.length" class="w-full flex justify-center mb-5 text-white">
             <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
         </div>
         <div v-if="releases.length < 1" class="px-5">
