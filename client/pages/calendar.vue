@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <div id="test" class="mt-5">
     <div v-if="width" class="w-full flex justify-end px-10">
       <div>
         <t-select v-model="userPreference" id="artists-type-selector"
@@ -60,6 +60,7 @@
 
     mounted() {
       this.handleResize();
+      window.scrollTo(0,document.getElementById("test").scrollHeight);
     },
     
     computed: {
@@ -71,7 +72,7 @@
 
     methods: {
       async getCalendar(){
-        this.startDate.setDate(this.startDate.getDate()-30)
+        this.startDate.setDate(this.startDate.getDate()-(this.startDate.getDate()))
         if(this.userPreference){
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}`)
           this.dateList = response

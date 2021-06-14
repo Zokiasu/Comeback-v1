@@ -134,7 +134,7 @@ router.post('/', async (req, res) => {
 
   await addAssociationItems(
     null,
-    [{ name: 'releasecool' }, { name: 'rekzlrjik' }],
+    req.body.styles,
     req.context.models.Style,
     (array) => artist.addStyles(array),
     (array) => artist.createStyle(array),
