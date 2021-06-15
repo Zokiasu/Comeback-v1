@@ -46,7 +46,7 @@
             <h1 class="text-white text-xl">Releases Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-10 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
-                <ReleaseCard
+                <ReleaseCardProfile
                     v-for="release in user.releases"
                     :key="release.id"
                     :release="release"

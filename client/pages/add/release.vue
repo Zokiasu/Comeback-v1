@@ -19,12 +19,11 @@
               <img class="w-96" :src="this.release.image ? this.release.image : defaultImage" alt="">
               <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                 <button 
-                  class="px-5 py-1 bg-red-700 hover:bg-red-900 text-white rounded flex flex-col text-sm justify-center space-x-2"
+                  class="p-2 bg-red-700 hover:bg-red-900 text-white rounded flex flex-col text-sm justify-center space-x-2"
                   @click="launchImageFile"
                   :disabled="this.isUploadingImage"
                   type="button">
                   <svg class="w-full" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M85.79327,2.06731c-3.59195,0 -7.18389,3.66947 -14.47115,10.95673l-43.41346,43.62019c-7.98497,8.01082 -5.32331,9.50962 3.10096,9.50962h21.91346v52.92308c0,10.95673 8.88942,19.84615 19.84615,19.84615h26.46154c10.95673,0 19.84615,-8.88942 19.84615,-19.84615v-52.92308h21.5c9.32872,0 11.29267,-1.49879 3.30769,-9.50962l-43.62019,-43.62019c-7.28726,-7.28726 -10.87921,-10.95673 -14.47115,-10.95673zM0,125.69231v26.46154c0,10.95673 8.88942,19.84615 19.84615,19.84615h132.30769c10.95673,0 19.84615,-8.88942 19.84615,-19.84615v-26.46154h-13.23077v26.46154c0,3.64363 -2.97176,6.61538 -6.61538,6.61538h-132.30769c-3.64363,0 -6.61538,-2.97176 -6.61538,-6.61538v-26.46154z"></path></g></g></svg>
-                  {{ this.isUploadingImage ? 'Uploading...' : 'Upload' }}
                 </button>
                 <input
                   ref="imageFile"

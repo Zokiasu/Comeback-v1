@@ -79,24 +79,25 @@
 
     data(){
       return {
-        user:{},
+        userData:{},
         editToApi:{},
         isUploadingImage: false,
         disableAccount: false,
       }
     },
 
-    computed: {
-      userData(){
-        let utmp = this.$store.state.dataUser
-        return utmp
-      },
+    created(){
+      const that = this
+      this.$fire.auth.onAuthStateChanged(function (user) {
+        if (user != null) {
+          that.$axios.get(`https://comeback-api.herokuapp.com/users/${user.uid}`).then(res => {
+            console.log('res', res.data)
+            that.userData = res.data
+            console.log('userData', that.userData)
+          })
+        }
+      })
     },
-
-    /*async asyncData({ $axios, params }){
-      let user = await $axios.$get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`)
-      return {user}
-    },*/
 
     methods: {
       newObjectToApi(key, value){
@@ -107,8 +108,7 @@
         let that = this;
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, this.editToApi)
         .then(response=>{
-          
-          that.$store.commit('SET_DATA_USER', that.user)
+          that.$store.commit('SET_DATA_USER', response.data)
           that.$toast.success('Your account has been edited', {duration:3000, position:'top-center', fullWidth:true})
         })
         .catch((error) => {console.log(error)})
