@@ -22,7 +22,7 @@ api.initalize().then(async info => {
     api.search(entry, "artist").then(result => {
         result.content.forEach(element => {
             console.log('element', element.name)
-            if(element.name.toLowerCase() == entry.toLowerCase()){
+            //if(element.name.toLowerCase() == entry.toLowerCase()){
                 //console.log(element.browseId)
                 api.getArtist(element.browseId).then(result2 => {
                     //console.log(result2)
@@ -55,10 +55,10 @@ api.initalize().then(async info => {
                             axios.post(`https://comeback-api.herokuapp.com/artists`, artist)
                             .then(res => {
                                 artist.id = res.data.id
-                                console.log("ID ARTIST", artist.id)
+                                //console.log("ID ARTIST", artist.id)
                                 axios.get(`https://comeback-api.herokuapp.com/artists`).then(res => {
                                     artistList = res.data
-                                    console.log("ALBUMS", result2.products?.albums?.content?.length)
+                                    //console.log("ALBUMS", result2.products?.albums?.content?.length)
                                     //ajout des albums de l'artiste
                                     result2.products?.albums?.content?.forEach(el => {
                                         api.getAlbum(el.browseId).then(result3 => {
@@ -98,12 +98,12 @@ api.initalize().then(async info => {
                                                     }
                                                 })
                                             })
-                                            if(!releaseExist){
-                                                console.log("-- RELEASE NOT EXIST")
-                                                console.log("ADD ALBUMS : ", release.name)
+                                            if(!releaseExist && result3.date.year >= 2000){
+                                                //console.log("-- RELEASE NOT EXIST")
+                                                //console.log("ADD ALBUMS : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                                 .then(res => {
-                                                    console.log('success', res.data.name)
+                                                    //console.log('success', res.data.name)
                                                 })
                                                 .catch(res => console.log('error', res))
                                             } else {
@@ -112,7 +112,7 @@ api.initalize().then(async info => {
                                             }
                                         })
                                     })
-                                    console.log("SINGLES", result2.products?.singles?.content?.length)
+                                    //console.log("SINGLES", result2.products?.singles?.content?.length)
                                     //ajout des singles de l'artiste
                                     result2.products?.singles?.content?.forEach(el => {
                                         api.getAlbum(el.browseId).then(result3 => {
@@ -153,11 +153,11 @@ api.initalize().then(async info => {
                                                 })
                                             })
                                             if(!releaseExist){
-                                                console.log("-- RELEASE NOT EXIST")
-                                                console.log("ADD SINGLE : ", release.name)
+                                                //console.log("-- RELEASE NOT EXIST")
+                                                //console.log("ADD SINGLE : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                                 .then(res => {
-                                                    console.log('success', res.data.name)
+                                                    //console.log('success', res.data.name)
                                                 })
                                                 .catch(res => console.log('error', res))
                                             } else {
@@ -173,7 +173,7 @@ api.initalize().then(async info => {
                         //Si l'artiste est déjà dans la base de donnée
                         else {
                             console.log("-- ARTIST EXIST")
-                            console.log("ALBUMS", result2.products?.albums?.content?.length)
+                            //console.log("ALBUMS", result2.products?.albums?.content?.length)
                             //ajout des albums de l'artiste
                             result2.products?.albums?.content?.forEach(el => {
                                 api.getAlbum(el.browseId).then(result3 => {
@@ -214,11 +214,11 @@ api.initalize().then(async info => {
                                         })
                                     })
                                     if(!releaseExist){
-                                        console.log("-- RELEASE NOT EXIST")
-                                        console.log("ADD ALBUMS : ", release.name)
+                                        //console.log("-- RELEASE NOT EXIST")
+                                        //console.log("ADD ALBUMS : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                         .then(res => {
-                                            console.log('success', res.data.name)
+                                            //console.log('success', res.data.name)
                                         })
                                         .catch(res => console.log('error', res))
                                     } else {
@@ -227,7 +227,7 @@ api.initalize().then(async info => {
                                     }
                                 })
                             })
-                            console.log("SINGLES", result2.products?.singles?.content?.length)
+                            //console.log("SINGLES", result2.products?.singles?.content?.length)
                             //ajout des singles de l'artiste
                             result2.products?.singles?.content?.forEach(el => {
                                 api.getAlbum(el.browseId).then(result3 => {
@@ -268,11 +268,11 @@ api.initalize().then(async info => {
                                         })
                                     })
                                     if(!releaseExist){
-                                        console.log("-- RELEASE NOT EXIST")
-                                        console.log("ADD SINGLE : ", release.name)
+                                        //console.log("-- RELEASE NOT EXIST")
+                                        //console.log("ADD SINGLE : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                         .then(res => {
-                                            console.log('success', res.data.name)
+                                            //console.log('success', res.data.name)
                                         })
                                         .catch(res => console.log('error', res))
                                     } else {
@@ -285,7 +285,7 @@ api.initalize().then(async info => {
                         }
                     }
                 })
-            }
+            //}
         });
     })
 })

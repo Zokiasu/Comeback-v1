@@ -70,6 +70,14 @@
                 :taggable="true"
                 @input="newObjectToApi('members', artists.members)" 
                 @tag="addMember">
+                <template slot="option" slot-scope="props">
+                    <div class="flex space-x-1">
+                        <img v-if="props.option.image" class="option__image w-20 h-20" :src="props.option.image">
+                        <div class="option__desc">
+                            <span class="option__title">{{ props.option.name }}</span>
+                        </div>
+                    </div>
+                </template>
             </multiselect>
         </div>
         
