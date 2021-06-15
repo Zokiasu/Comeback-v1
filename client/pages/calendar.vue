@@ -13,20 +13,20 @@
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
       </div>
-      <div class="flex flex-col space-y-2	py-5 justify-center texts text-white" >
-        <ReleaseCard
-          v-for="release in date.releases"
-          :width="width"
-          :release="release"
-          :key="release.id"/>
-      </div>
-      <!--<div class="grid gap-3 py-5 justify-center texts text-white" :class="width ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-x-5 gap-y-10' : 'grid-cols-1 gap-3'">
+      <!--<div class="flex flex-col space-y-2	py-5 justify-center texts text-white" >
         <ReleaseCard
           v-for="release in date.releases"
           :width="width"
           :release="release"
           :key="release.id"/>
       </div>-->
+      <transition-group name="object" class="flex flex-col space-y-2	py-5 justify-center texts text-white">
+        <ReleaseCard
+          v-for="release in date.releases"
+          :width="width"
+          :release="release"
+          :key="release.id"/>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -55,12 +55,25 @@
     },
 
     created(){
+      this.startDate.setDate(this.startDate.getDate()-(this.startDate.getDate()))
       this.getCalendar();
     },
 
     mounted() {
       this.handleResize();
       window.scrollTo(0,document.getElementById("test").scrollHeight);
+        
+    },
+
+    watch: {
+      userPreference: {
+        immediate: true,
+        handler(userPreference) {
+          if (process.client) {
+            this.getCalendar()
+          }
+        }
+      }
     },
     
     computed: {
@@ -72,11 +85,14 @@
 
     methods: {
       async getCalendar(){
-        this.startDate.setDate(this.startDate.getDate()-(this.startDate.getDate()))
-        if(this.userPreference){
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}`)
+        console.log("getCalendar")
+        console.log("userPreference", this.userPreference)
+        if(this.userPreference == 'true'){
+          console.log("ENTRY OK")
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}`)
           this.dateList = response
         } else {
+          console.log("ENTRY NOT OK")
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}`)
           this.dateList = response
         }
@@ -92,3 +108,23 @@
     },
   }
 </script>
+
+<style scoped>
+  .object-enter-active,
+  .object-leave-active {
+    transition-duration: 0.4s;
+    transition-property: height, opacity, transform;
+    transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+    overflow: hidden;
+  }
+
+  .object-enter {
+    opacity: 0;
+    transform: translate(0, -2em);
+  }
+
+  .object-leave-active {
+    opacity: 0;
+    transform: translate(0, -2em);
+  }
+</style>

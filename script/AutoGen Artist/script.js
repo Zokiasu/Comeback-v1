@@ -98,7 +98,7 @@ api.initalize().then(async info => {
                                                     }
                                                 })
                                             })
-                                            if(!releaseExist && result3.date.year >= 2020){
+                                            if(!releaseExist && result3.date.year >= 2010){
                                                 //console.log("-- RELEASE NOT EXIST")
                                                 //console.log("ADD ALBUMS : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -152,7 +152,7 @@ api.initalize().then(async info => {
                                                     }
                                                 })
                                             })
-                                            if(!releaseExist && result3.date.year >= 2020){
+                                            if(!releaseExist && result3.date.year >= 2010){
                                                 //console.log("-- RELEASE NOT EXIST")
                                                 //console.log("ADD SINGLE : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -213,7 +213,7 @@ api.initalize().then(async info => {
                                             if(release.artists.length < 1) releaseExist = true
                                         })
                                     })
-                                    if(!releaseExist && result3.date.year >= 2020){
+                                    if(!releaseExist && result3.date.year >= 2010){
                                         //console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD ALBUMS : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -267,7 +267,7 @@ api.initalize().then(async info => {
                                             }
                                         })
                                     })
-                                    if(!releaseExist && result3.date.year >= 2020){
+                                    if(!releaseExist && result3.date.year >= 2010){
                                         //console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD SINGLE : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
