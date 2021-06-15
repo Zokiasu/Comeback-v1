@@ -20,7 +20,7 @@
       </div>
       <div id="content">
         <div>
-          <transition-group name="object" class="grid grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-9 gap-5">
+          <transition-group name="object" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-y-10 w-full justify-center">
             <ArtistCard 
               v-for="(artist) in bestArtistsList.slice(0, maxArtist)"
               :key="artist.id"
@@ -41,7 +41,7 @@
       </div>
       <div id="content">
         <div>
-          <transition-group name="object" class="grid grid-cols-4 ld:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-5">
+          <transition-group name="object" class="grid grid-cols-3 gap-5">
             <ReleaseCard
               v-for="release in filteredReleasesList.slice(0, maxRelease)"
               :width="true"

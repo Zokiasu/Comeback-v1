@@ -8,7 +8,7 @@
         </section>
         <button v-if="search" @click="search=''; updateDateList(true); " class="text-red-700 focus:outline-none mb-5">Reset</button>
         <section v-if="artists.length > 0" id="page-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-            <div v-for="(artist, index) in this.filteredList" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
+            <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
                 <div class="flex absolute right-2 top-3 space-x-2">
                     <NuxtLink :to="`/edit/artist/${artist.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
@@ -41,9 +41,10 @@
                 </div>
             </div>
         </section>
-        <div v-if="maxObjectDisplay <= artists.length" class="w-full flex justify-center mb-5 text-white">
+        <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
+        <!--<div v-if="maxObjectDisplay <= artists.length" class="w-full flex justify-center mb-5 text-white">
             <button class=" focus:outline-none" @click="updateDateList(false)">More</button>
-        </div>
+        </div>-->
         <div v-if="artists.length < 1" class="px-5">
             <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Artist found.</span>
         </div>
@@ -62,10 +63,6 @@
                 enough: false,
             }
         },
-
-        mounted(){
-            this.updateDateList()
-        },
     
         computed: {
             filteredList() {
@@ -83,6 +80,27 @@
         },
 
         methods:{
+            infiniteScroll($state) {
+                let artTmp = []
+                setTimeout(() => {
+                    artTmp = artTmp.concat(this.artists)
+                    this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                        if(response.data.length > 0) {
+                            artTmp = artTmp.concat(response.data)
+                            this.artists = [...new Set(artTmp)]
+                            this.maxObjectDisplay = this.maxObjectDisplay + 20
+                            $state.loaded();
+                        } else {
+                            this.enough = true
+                            $state.complete();
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }, 500);
+            },
+
             async updateDateList(reset){
                 let artTmp = []
                 if(reset) {

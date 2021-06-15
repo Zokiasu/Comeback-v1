@@ -1,8 +1,8 @@
 <template>
     <div class="px-5">
         <section v-if="releases.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-            <div v-for="(release, index) in this.releases.slice(0,maxObjectDisplay)" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
-                <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2">{{index}}</span>
+            <div v-for="(release, index) in this.releases" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
+                <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2 z-50">{{index}}</span>
                 <div class="flex 2xl:absolute mb-2 2xl:mb-0 right-2 top-3 space-x-2">
                     <NuxtLink :to="`/edit/release/${release.id}`" target="_blank"><img src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/></NuxtLink>
                     <img v-if="adminCheck" class="cursor-pointer" @click="removeRelease(release.id, releases[release.place], index)" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
@@ -32,15 +32,20 @@
                     <span v-if="!release.artists" class="text-red-500"> No Artists </span>
                 </div>
                 <span class="font-semibold text-gray-400">Tracklist :</span>
-                <div class="grid grid-cols-1 2xl:grid-cols-2">
-                    <span v-for="(music, index) in release.musics" :key="index" class="rounded">{{music.name}}</span>
-                    <span v-if="release.musics.length < 1" class="text-red-500"> No Musics </span>
-                </div>
+                <v-read-more-box bg-color="#6B728033">
+                    <button slot="readMore" class="focus:outline-none font-semibold mt-2">SHOW MORE</button>
+                    <button slot="readLess" class="focus:outline-none font-semibold mt-2">SHOW LESS</button>
+                    <div class="grid grid-cols-1 gap-y-1">
+                        <span v-for="(music, index) in release.musics" :key="index" class="rounded truncate text-sm">{{music.name}}</span>
+                        <span v-if="release.musics.length < 1" class="text-red-500"> No Musics </span>
+                    </div>
+                </v-read-more-box>
             </div>
         </section>
-        <div v-if="maxObjectDisplay < this.releases.length" class="w-full flex justify-center mb-5 text-white">
+        <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
+        <!--<div v-if="maxObjectDisplay < this.releases.length" class="w-full flex justify-center mb-5 text-white">
             <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
-        </div>
+        </div>-->
         <div v-if="releases.length < 1" class="px-5">
             <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release found.</span>
         </div>
@@ -53,12 +58,14 @@
 
         data() {
             return {
+                search: '',
                 releases: [],
-                maxObjectDisplay:20
+                maxObjectDisplay: 20,
+                enough: false,
             }
         },
 
-        async asyncData({ $axios }){
+        /*async asyncData({ $axios }){
             let releases = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=name:asc`)
 
             releases?.sort(function(a,b){
@@ -68,7 +75,7 @@
             })
 
             return {releases}
-        },
+        },*/
     
         computed: {
             userId(){
@@ -82,6 +89,28 @@
         },
 
         methods:{
+            infiniteScroll($state) {
+                let artTmp = []
+                setTimeout(() => {
+                    artTmp = artTmp.concat(this.releases)
+                    this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                        if(response.data.length > 0) {
+                            artTmp = artTmp.concat(response.data)
+                            this.releases = [...new Set(artTmp)]
+                            this.maxObjectDisplay = this.maxObjectDisplay + 20
+                            $state.loaded();
+                        } else {
+                            console.log("response < 0 V2")
+                            this.enough = true
+                            $state.complete();
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }, 500);
+            },
+
             removeRelease(id, object, index){
                 this.$axios.delete(`https://comeback-api.herokuapp.com/releases/${id}`, object)
                 .then(response=>{
