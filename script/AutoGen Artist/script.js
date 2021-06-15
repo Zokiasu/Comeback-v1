@@ -21,8 +21,8 @@ api.initalize().then(async info => {
     
     api.search(entry, "artist").then(result => {
         result.content.forEach(element => {
-            console.log('element', element.name)
-            //if(element.name.toLowerCase() == entry.toLowerCase()){
+            //console.log('element', element.name)
+            if(element.name.toLowerCase() == entry.toLowerCase()){
                 //console.log(element.browseId)
                 api.getArtist(element.browseId).then(result2 => {
                     //console.log(result2)
@@ -51,7 +51,7 @@ api.initalize().then(async info => {
                         })
                         //Si l'artiste n'est pas déjà dans la base de donnée
                         if(!artistExist) {
-                            console.log("-- ARTIST NOT EXIST")
+                            //console.log("-- ARTIST NOT EXIST")
                             axios.post(`https://comeback-api.herokuapp.com/artists`, artist)
                             .then(res => {
                                 artist.id = res.data.id
@@ -98,7 +98,7 @@ api.initalize().then(async info => {
                                                     }
                                                 })
                                             })
-                                            if(!releaseExist && result3.date.year >= 2000){
+                                            if(!releaseExist && result3.date.year >= 2020){
                                                 //console.log("-- RELEASE NOT EXIST")
                                                 //console.log("ADD ALBUMS : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -152,7 +152,7 @@ api.initalize().then(async info => {
                                                     }
                                                 })
                                             })
-                                            if(!releaseExist){
+                                            if(!releaseExist && result3.date.year >= 2020){
                                                 //console.log("-- RELEASE NOT EXIST")
                                                 //console.log("ADD SINGLE : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -213,7 +213,7 @@ api.initalize().then(async info => {
                                             if(release.artists.length < 1) releaseExist = true
                                         })
                                     })
-                                    if(!releaseExist){
+                                    if(!releaseExist && result3.date.year >= 2020){
                                         //console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD ALBUMS : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -267,7 +267,7 @@ api.initalize().then(async info => {
                                             }
                                         })
                                     })
-                                    if(!releaseExist){
+                                    if(!releaseExist && result3.date.year >= 2020){
                                         //console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD SINGLE : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -285,7 +285,7 @@ api.initalize().then(async info => {
                         }
                     }
                 })
-            //}
+            }
         });
     })
 })
