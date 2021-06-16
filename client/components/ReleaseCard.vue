@@ -16,8 +16,8 @@
 
   <NuxtLink :to="`/release/${release.id}`" style="background-color: #3B3B3B" class="texts text-white flex rounded relative overflow-hidden">
     <img class="w-20 h-full rounded-l object-cover" :src="release.image" alt="Artist Picture"/>
-    <div class="pl-2 py-2 truncate">
-        <div class="flex justify-between truncate">
+    <div class="pl-2 truncate w-full">
+        <div class="flex justify-between truncate w-full">
             <p class="font-semibold truncate">{{release.name}}</p>
             <span v-if="validationDate" class="text-center font-semibold text-sm text-white bg-gray-500 py-1 px-2 shadow-2xl">{{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}}</span>
         </div>

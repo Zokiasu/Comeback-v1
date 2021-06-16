@@ -2,7 +2,7 @@
   <div id="test" class="mt-5">
     <div v-if="width" class="w-full flex justify-end px-10">
       <div>
-        <t-select v-model="userPreference" id="artists-type-selector"
+        <t-select v-model="userPreference" id="artists-type-selector" class="focus:outline-none text-xs"
         :options="[
             { value: true, text: 'My Comeback' },
             { value: false, text: 'All Comeback' },
@@ -13,13 +13,6 @@
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
       </div>
-      <!--<div class="flex flex-col space-y-2	py-5 justify-center texts text-white" >
-        <ReleaseCard
-          v-for="release in date.releases"
-          :width="width"
-          :release="release"
-          :key="release.id"/>
-      </div>-->
       <transition-group name="object" class="flex flex-col space-y-2	py-5 justify-center texts text-white">
         <ReleaseCard
           v-for="release in date.releases"
