@@ -48,7 +48,9 @@ const user = (sequelize, DataTypes) => {
     User.belongsToMany(models.Release, {
       through: 'User_Release',
     });
-    User.hasMany(models.Notification, { onDelete: 'cascade' });
+    User.belongsToMany(models.Notification, {
+      through: models.UserNotification,
+    });
 
     User.hasMany(models.Request);
   };

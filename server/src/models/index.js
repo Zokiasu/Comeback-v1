@@ -32,6 +32,7 @@ const models = {
   Music: sequelize.import('./music'),
   Request: sequelize.import('./request'),
   Notification: sequelize.import('./notification'),
+  UserNotification: sequelize.import('./user_notification'),
   Style: sequelize.import('./style'),
 };
 

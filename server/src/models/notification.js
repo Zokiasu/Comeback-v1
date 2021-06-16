@@ -12,6 +12,11 @@ const notification = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
+    title: {
+      type: DataTypes.STRING(1000),
+      unique: false,
+      allowNull: true,
+    },
     message: {
       type: DataTypes.TEXT,
       unique: false,
@@ -22,16 +27,12 @@ const notification = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
-    unread: {
-      type: DataTypes.BOOLEAN,
-      unique: false,
-      allowNull: true,
-      defaultValue: true,
-    },
   });
 
   Notification.associate = (models) => {
-    Notification.belongsTo(models.User);
+    Notification.belongsToMany(models.User, {
+      through: models.UserNotification,
+    });
   };
 
   return Notification;

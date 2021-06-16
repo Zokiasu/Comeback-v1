@@ -88,9 +88,15 @@ const createSeeds = async () => {
         { date: nextMonth, name: 'reallse', type: 'ALBUM' },
       ],
       artists: [{ name: 'JohnBoy' }],
+      notifications: [{ type: 'GENERAL' }],
     },
     {
-      include: [models.Artist, models.Request, models.Release],
+      include: [
+        models.Artist,
+        models.Request,
+        models.Release,
+        models.Notification,
+      ],
     },
   );
 
