@@ -92,13 +92,15 @@
           that.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
         })
         .then(async (res)=>{
-          const token = that.$fire.auth.currentUser.getIdToken();
-          const {data: response} = await that.$axios.get(`https://comeback-api.herokuapp.com/users/${res.user.uid}`)
-          that.$store.commit('SET_DATA_USER', response)
-          that.$store.commit('SET_TOKEN_USER', token.i)
-          that.login = false
-          that.$router.push({ path: `/calendar`})
-          that.$toast.success('You are login', {duration:3000, position:'top-right'})
+          if(res){
+            const token = that.$fire.auth.currentUser.getIdToken();
+            const {data: response} = await that.$axios.get(`https://comeback-api.herokuapp.com/users/${res.user.uid}`)
+            that.$store.commit('SET_DATA_USER', response)
+            that.$store.commit('SET_TOKEN_USER', token.i)
+            that.login = false
+            that.$router.push({ path: `/calendar`})
+            that.$toast.success('You are login', {duration:3000, position:'top-right'})
+          }
         })
       },
 

@@ -15,7 +15,7 @@
   </NuxtLink>-->
 
   <NuxtLink :to="`/release/${release.id}`" style="background-color: #3B3B3B" class="texts text-white flex rounded relative overflow-hidden">
-    <img class="w-20 h-full rounded-l object-cover" :src="release.image" alt="Artist Picture"/>
+    <img class="w-20 h-20 rounded-l object-cover" :src="release.image" alt="Artist Picture"/>
     <div class="pl-2 truncate w-full">
         <div class="flex justify-between truncate w-full">
             <p class="font-semibold truncate">{{release.name}}</p>

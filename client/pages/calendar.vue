@@ -21,6 +21,7 @@
           :key="release.id"/>
       </transition-group>
     </div>
+    <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
   </div>
 </template>
 
@@ -28,7 +29,7 @@
   import moment from 'moment-timezone'
 
   export default {
-
+    loading: false,
     scrollToTop: true,
 
     head() {
@@ -42,14 +43,17 @@
           userPreference:false,
           width:false,
           enough: false,
-          dateList:[],
-          startDate: new Date()
+          dateList: null,
+          startDate: new Date(),
+          endDate: new Date(),
+          gapDate: 5,
         }
     },
 
     created(){
-      this.startDate.setDate(this.startDate.getDate()-(this.startDate.getDate()))
-      this.getCalendar();
+      this.startDate.setDate(this.startDate.getDate()-5)
+      this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
+      //this.getCalendar();
     },
 
     mounted() {
@@ -63,7 +67,7 @@
         immediate: true,
         handler(userPreference) {
           if (process.client) {
-            this.getCalendar()
+            this.fetchData()
           }
         }
       }
@@ -77,18 +81,79 @@
     },
 
     methods: {
+      async fetchData() {
+          console.log("fetchData")
+          if(this.userPreference == 'true'){
+            console.log("true")
+            this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+              console.log(response)
+              if(response.data) {
+                this.dateList = response.data
+                console.log(this.dateList)
+                this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          } else {
+            console.log("false")
+            this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+              console.log(response)
+              //if (JSON.stringify(this.dateList) == JSON.stringify(response.data)) console.log("Hello")
+              if(response.data) {
+                this.dateList = response.data
+                this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          }
+      },
+      infiniteScroll($state) {
+        setTimeout(() => {
+          if(this.userPreference == 'true'){
+            this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+              if(response.data) {
+                this.dateList = response.data
+                this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                $state.loaded();
+              } else {
+                $state.complete();
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          } else {
+            this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+              //if (JSON.stringify(this.dateList) == JSON.stringify(response.data)) console.log("Hello")
+              if(response.data) {
+                this.dateList = response.data
+                this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                $state.loaded();
+              } else {
+                $state.complete();
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          }
+        }, 500);
+      },
+
       async getCalendar(){
         console.log("getCalendar")
-        console.log("userPreference", this.userPreference)
-        if(this.userPreference == 'true'){
-          console.log("ENTRY OK")
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}`)
+        this.dateList = {}
+        /*if(this.userPreference == 'true'){
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`)
           this.dateList = response
         } else {
-          console.log("ENTRY NOT OK")
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}`)
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`)
           this.dateList = response
-        }
+        }*/
       },
 
       handleResize() {
