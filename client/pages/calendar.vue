@@ -1,6 +1,6 @@
 <template>
   <div id="test" class="mt-5">
-    <div v-if="width" class="w-full flex justify-end px-10">
+    <!--<div v-if="width" class="w-full flex justify-end px-10">
       <div>
         <t-select v-model="userPreference" id="artists-type-selector" class="focus:outline-none text-xs"
         :options="[
@@ -8,7 +8,7 @@
             { value: false, text: 'All Comeback' },
         ]" ></t-select>
       </div>
-    </div>
+    </div>-->
     <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10">
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
@@ -67,7 +67,7 @@
         immediate: true,
         handler(userPreference) {
           if (process.client) {
-            this.fetchData()
+            //this.fetchData()
           }
         }
       }
@@ -82,14 +82,10 @@
 
     methods: {
       async fetchData() {
-          console.log("fetchData")
           if(this.userPreference == 'true'){
-            console.log("true")
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              console.log(response)
               if(response.data) {
                 this.dateList = response.data
-                console.log(this.dateList)
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
               }
             })
@@ -99,7 +95,6 @@
           } else {
             console.log("false")
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              console.log(response)
               //if (JSON.stringify(this.dateList) == JSON.stringify(response.data)) console.log("Hello")
               if(response.data) {
                 this.dateList = response.data

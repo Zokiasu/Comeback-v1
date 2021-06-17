@@ -38,10 +38,12 @@ export default {
 
   ssr: false,
 
-  loading: {
+  /*loading: {
     color: 'red',
     height: '2px'
-  },
+  },*/
+
+  loading: false,
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
