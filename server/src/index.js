@@ -351,4 +351,8 @@ const createSeeds = async () => {
   });
 
   artist.addRelease(release);
+  const artist2 = await models.Artist.findOne({
+    where: { name: 'JohnBoy' },
+  });
+  artist2.addRelease(release);
 };

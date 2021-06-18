@@ -138,7 +138,6 @@ router.get('/:userId', async (req, res) => {
         {
           model: req.context.models.Release,
           as: 'releases',
-          ...queriesToDict(req.query),
         },
         {
           model: req.context.models.Artist,
@@ -146,7 +145,6 @@ router.get('/:userId', async (req, res) => {
             {
               model: req.context.models.Release,
               as: 'releases',
-              ...queriesToDict(req.query),
             },
             { model: req.context.models.Happening, as: 'events' },
           ],
