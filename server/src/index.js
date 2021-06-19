@@ -39,8 +39,7 @@ const eraseDatabaseOnSync = false;
 const doCreateSeeds = true;
 
 sequelize
-  //.sync({ force: eraseDatabaseOnSync && process.env.DEV })
-  .sync({ force: true })
+  .sync({ force: eraseDatabaseOnSync && process.env.DEV })
   .then(async () => {
     if (eraseDatabaseOnSync && doCreateSeeds && process.env.DEV) {
       createSeeds();
