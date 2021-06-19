@@ -29,15 +29,9 @@ api.initalize().then(async info => {
 
 const addNewArtists = function(entry, artistList, releaseList){
     api.search(entry, "artist").then(result => {
-        //console.log(entry)
         result.content.forEach(element => {
-            //console.log('element', element.name)
-            //console.log('entry', entry)
             if(element.name.toLowerCase() == entry.toLowerCase()){
-                console.log(element.browseId)
-                api.search(element.browseId, "artist").then(result => console.log(result))
                 api.getArtist(element.browseId).then(result2 => {
-                    console.log(result2)
                     let artist = {
                         id: null,
                         name: null,
@@ -111,7 +105,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                                 })
                                             })
                                             if(!releaseExist && result3.date.year >= 2021){
-                                                console.log("-- RELEASE NOT EXIST")
+                                                console.log("-- RELEASE NOT EXIST", release.name)
                                                 //console.log("ADD ALBUMS : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                                 .then(res => {
@@ -119,7 +113,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                                 })
                                                 .catch(res => console.log('error', res))
                                             } else {
-                                                console.log("RELEASE EXIST")
+                                                console.log("RELEASE EXIST OR TOO OLD")
                                                 releaseExist = false
                                             }
                                         })
@@ -165,7 +159,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                                 })
                                             })
                                             if(!releaseExist && result3.date.year >= 2021){
-                                                console.log("-- RELEASE NOT EXIST")
+                                                console.log("-- RELEASE NOT EXIST", release.name)
                                                 //console.log("ADD SINGLE : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                                 .then(res => {
@@ -173,7 +167,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                                 })
                                                 .catch(res => console.log('error', res))
                                             } else {
-                                                console.log("RELEASE EXIST")
+                                                console.log("RELEASE EXIST OR TOO OLD")
                                                 releaseExist = false
                                             }
                                         })
@@ -226,7 +220,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                         })
                                     })
                                     if(!releaseExist && result3.date.year >= 2021){
-                                        console.log("-- RELEASE NOT EXIST")
+                                        console.log("-- RELEASE NOT EXIST", release.name)
                                         //console.log("ADD ALBUMS : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                         .then(res => {
@@ -234,7 +228,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                         })
                                         .catch(res => console.log('error', res))
                                     } else {
-                                        console.log("RELEASE EXIST")
+                                        console.log("RELEASE EXIST OR TOO OLD")
                                         releaseExist = false
                                     }
                                 })
@@ -280,7 +274,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                         })
                                     })
                                     if(!releaseExist && result3.date.year >= 2021){
-                                        console.log("-- RELEASE NOT EXIST")
+                                        console.log("-- RELEASE NOT EXIST", release.name)
                                         //console.log("ADD SINGLE : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                         .then(res => {
@@ -288,7 +282,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                         })
                                         .catch(res => console.log('error', res))
                                     } else {
-                                        console.log("RELEASE EXIST")
+                                        console.log("RELEASE EXIST OR TOO OLD")
                                         releaseExist = false
                                     }
                                 })
@@ -381,7 +375,7 @@ const updateArtists = function(entry, artistList, releaseList){
                                         })
                                     })
                                     if(!releaseExist && result3.date.year >= 2021){
-                                        console.log("-- RELEASE NOT EXIST")
+                                        console.log("-- RELEASE NOT EXIST", release.name)
                                         //console.log("ADD ALBUMS : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                         .then(res => {
@@ -389,7 +383,7 @@ const updateArtists = function(entry, artistList, releaseList){
                                         })
                                         .catch(res => console.log('error', res))
                                     } else {
-                                        console.log("RELEASE EXIST")
+                                        console.log("RELEASE EXIST OR TOO OLD")
                                         releaseExist = false
                                     }
                                 })
@@ -435,7 +429,7 @@ const updateArtists = function(entry, artistList, releaseList){
                                         })
                                     })
                                     if(!releaseExist && result3.date.year >= 2021){
-                                        console.log("-- RELEASE NOT EXIST")
+                                        console.log("-- RELEASE NOT EXIST", release.name)
                                         //console.log("ADD SINGLE : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                                         .then(res => {
@@ -443,7 +437,7 @@ const updateArtists = function(entry, artistList, releaseList){
                                         })
                                         .catch(res => console.log('error', res))
                                     } else {
-                                        console.log("RELEASE EXIST")
+                                        console.log("RELEASE EXIST OR TOO OLD")
                                         releaseExist = false
                                     }
                                 })

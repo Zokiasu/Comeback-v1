@@ -72,7 +72,7 @@
                 @tag="addMember">
                 <template slot="option" slot-scope="props">
                     <div class="flex space-x-1">
-                        <img v-if="props.option.image" class="option__image w-20 h-20" :src="props.option.image">
+                        <img v-if="props.option.image" class="option__image w-14 h-14" :src="props.option.image">
                         <div class="option__desc">
                             <span class="option__title">{{ props.option.name }}</span>
                         </div>
@@ -86,8 +86,8 @@
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <multiselect
                 v-model="artists.groups" 
-                tag-placeholder="Add this as new artists" 
-                placeholder="Search or add a artists" 
+                tag-placeholder="Add this as new groups" 
+                placeholder="Search or add a groups" 
                 label="name" 
                 track-by="id" 
                 :options="artistList" 
@@ -98,6 +98,14 @@
                 :taggable="true"
                 @input="newObjectToApi('groups', artists.groups)" 
                 @tag="addGroup">
+                <template slot="option" slot-scope="props">
+                    <div class="flex space-x-1">
+                        <img v-if="props.option.image" class="option__image w-14 h-14" :src="props.option.image">
+                        <div class="option__desc">
+                            <span class="option__title">{{ props.option.name }}</span>
+                        </div>
+                    </div>
+                </template>
             </multiselect>
         </div>
         
@@ -313,7 +321,7 @@
                         return url
                     })
                 }).catch((error) => {
-                    console.error('Error uploading image', error)
+                    console.error(error)
                 })
                 uploadTask.then((url) => {
                     this.newObjectToApi("image", url)

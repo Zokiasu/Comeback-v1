@@ -77,7 +77,6 @@
               this.maxArtist = this.maxArtist + 20
               $state.loaded();
             } else {
-              console.log("response < 0 V2")
               this.enough = true
               $state.complete();
             }
@@ -90,7 +89,6 @@
 
       async updateDateList(reset) {
         let artTmp = []
-        console.log('reset', reset)
         if(reset) {
           this.maxArtist = 0
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
@@ -98,13 +96,11 @@
             artTmp = artTmp.concat(response)
             this.artists = [...new Set(artTmp)] //Remove all double entry
             if(response.length < 20) {
-              console.log("response < 20")
               this.enough = true
             } else {
               this.maxArtist = this.maxArtist + 20
             }
           } else {
-            console.log("response < 0 V1")
             this.enough = true
           }
         }

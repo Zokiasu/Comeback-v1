@@ -93,9 +93,7 @@
               console.log(err);
             });
           } else {
-            console.log("false")
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              //if (JSON.stringify(this.dateList) == JSON.stringify(response.data)) console.log("Hello")
               if(response.data) {
                 this.dateList = response.data
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
@@ -123,8 +121,6 @@
             });
           } else {
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              //if (JSON.stringify(this.dateList) == JSON.stringify(response.data)) console.log("Hello")
-              console.log(Object.fromEntries(Object.entries(response.data)))
               if(response.data) {
                 this.dateList = response.data
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
@@ -141,7 +137,6 @@
       },
 
       async getCalendar(){
-        console.log("getCalendar")
         this.dateList = {}
         /*if(this.userPreference == 'true'){
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`)

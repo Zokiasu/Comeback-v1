@@ -95,7 +95,6 @@
                             this.maxObjectDisplay = this.maxObjectDisplay + 20
                             $state.loaded();
                         } else {
-                            console.log("response < 0 V2")
                             this.enough = true
                             $state.complete();
                         }

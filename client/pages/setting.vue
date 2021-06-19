@@ -91,9 +91,7 @@
       this.$fire.auth.onAuthStateChanged(function (user) {
         if (user != null) {
           that.$axios.get(`https://comeback-api.herokuapp.com/users/${user.uid}`).then(res => {
-            console.log('res', res.data)
             that.userData = res.data
-            console.log('userData', that.userData)
           })
         }
       })
@@ -111,16 +109,22 @@
           that.$store.commit('SET_DATA_USER', response.data)
           that.$toast.success('Your account has been edited', {duration:3000, position:'top-center', fullWidth:true})
         })
-        .catch((error) => {console.log(error)})
+        .catch((error) => {
+          console.log(error)
+        })
       },
 
       async disableUser(){
         this.userData.username = null
         this.userData.email = null
-        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, this.user).catch((error) => {console.log(error)}).then(response=>{
+        await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, this.user)
+        .then(response=>{
           this.$fire.auth.currentUser.delete().then(
             this.$toast.success('Your account has been deleted', {duration:3000, position:'top', fullWidth:true})
           )
+        })
+        .catch((error) => {
+          console.log(error)
         })
         
         this.$fire.auth.signOut().then(() => {
@@ -158,7 +162,7 @@
             return url
           })
         }).catch((error) => {
-          console.error('Error uploading image', error)
+          console.error(error)
         })
         uploadTask.then((url) => {
           this.newObjectToApi("avatar", url)

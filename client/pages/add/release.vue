@@ -65,6 +65,14 @@
                 :multiple="true" 
                 :taggable="true" 
                 @tag="addArtist">
+                <template slot="option" slot-scope="props">
+                    <div class="flex space-x-1">
+                        <img v-if="props.option.image" class="option__image w-14 h-14" :src="props.option.image">
+                        <div class="option__desc">
+                            <span class="option__title">{{ props.option.name }}</span>
+                        </div>
+                    </div>
+                </template>
               </multiselect>
             </div>
             <div id="styles" class="flex flex-col text-white mb-5 xl:mb-0">
@@ -409,7 +417,7 @@
                   return url
               })
           }).catch((error) => {
-              console.error('Error uploading image', error)
+              console.log(error)
           })
           uploadTask.then((url) => {
               this.release.image = url
