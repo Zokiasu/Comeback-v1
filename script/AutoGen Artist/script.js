@@ -110,7 +110,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                                     if(release.artists.length < 1) releaseExist = true
                                                 })
                                             })
-                                            if(!releaseExist && result3.date.year >= 2015){
+                                            if(!releaseExist && result3.date.year >= 2021){
                                                 console.log("-- RELEASE NOT EXIST")
                                                 //console.log("ADD ALBUMS : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -164,7 +164,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                                     }
                                                 })
                                             })
-                                            if(!releaseExist && result3.date.year >= 2015){
+                                            if(!releaseExist && result3.date.year >= 2021){
                                                 console.log("-- RELEASE NOT EXIST")
                                                 //console.log("ADD SINGLE : ", release.name)
                                                 axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -225,7 +225,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                             if(release.artists.length < 1) releaseExist = true
                                         })
                                     })
-                                    if(!releaseExist && result3.date.year >= 2010){
+                                    if(!releaseExist && result3.date.year >= 2021){
                                         console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD ALBUMS : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -279,7 +279,7 @@ const addNewArtists = function(entry, artistList, releaseList){
                                             }
                                         })
                                     })
-                                    if(!releaseExist && result3.date.year >= 2010){
+                                    if(!releaseExist && result3.date.year >= 2021){
                                         console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD SINGLE : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -380,7 +380,7 @@ const updateArtists = function(entry, artistList, releaseList){
                                             if(release.artists.length < 1) releaseExist = true
                                         })
                                     })
-                                    if(!releaseExist && result3.date.year >= 2020){
+                                    if(!releaseExist && result3.date.year >= 2021){
                                         console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD ALBUMS : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -434,7 +434,7 @@ const updateArtists = function(entry, artistList, releaseList){
                                             }
                                         })
                                     })
-                                    if(!releaseExist && result3.date.year >= 2020){
+                                    if(!releaseExist && result3.date.year >= 2021){
                                         console.log("-- RELEASE NOT EXIST")
                                         //console.log("ADD SINGLE : ", release.name)
                                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)

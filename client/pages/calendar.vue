@@ -124,6 +124,7 @@
           } else {
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
               //if (JSON.stringify(this.dateList) == JSON.stringify(response.data)) console.log("Hello")
+              console.log(Object.fromEntries(Object.entries(response.data)))
               if(response.data) {
                 this.dateList = response.data
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
