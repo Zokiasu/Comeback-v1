@@ -1,4 +1,5 @@
 import { Op } from 'sequelize';
+import moment from 'moment';
 
 export function removeDuplicates(data, key) {
   return [...new Map(data.map((item) => [key(item), item])).values()];
@@ -121,3 +122,22 @@ export const destroyAssociationItems = async (items, parentItems) => {
     }
   }
 };
+
+
+// where date equals where option
+export const whereDay = (date, key = 'date') => {
+  let whereDay = {};
+  if (date) {
+    const day = new Date(date);
+    const momentDay = moment(day).startOf('day');
+    const startDate = momentDay.format();
+    const endDate = momentDay.endOf('day').format();
+    whereDay = {
+      [key]: {
+        [Op.between]: [startDate, endDate],
+      },
+    };
+  }
+
+  return whereDay;
+}

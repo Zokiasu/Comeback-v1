@@ -7,6 +7,7 @@ import release from './release';
 import music from './music';
 import calendar from './calendar';
 import style from './style';
+import notification from './notification';
 
 export default {
   session,
@@ -18,4 +19,5 @@ export default {
   music,
   calendar,
   style,
+  notification,
 };
