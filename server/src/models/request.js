@@ -2,6 +2,13 @@ import { REQUESTS, METHODS } from '../constants';
 
 const request = (sequelize, DataTypes) => {
   const Request = sequelize.define('request', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+      allowNull: false,
+      unique: true,
+    },
     state: {
       type: DataTypes.ENUM(
         REQUESTS.ACCEPTED,

@@ -2,6 +2,13 @@ import { ARTIST_TYPE } from '../constants';
 
 const artist = (sequelize, DataTypes) => {
   const Artist = sequelize.define('artist', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+      allowNull: false,
+      unique: true,
+    },
     name: {
       type: DataTypes.STRING,
       unique: false,

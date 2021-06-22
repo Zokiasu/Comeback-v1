@@ -1,5 +1,12 @@
 const happening = (sequelize, DataTypes) => {
   const Happening = sequelize.define('happening', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+      allowNull: false,
+      unique: true,
+    },
     name: {
       type: DataTypes.STRING,
       unique: false,

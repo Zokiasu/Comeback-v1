@@ -1,5 +1,12 @@
 const music = (sequelize, DataTypes) => {
   const Music = sequelize.define('music', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+      allowNull: false,
+      unique: true,
+    },
     name: {
       type: DataTypes.STRING,
       unique: false,

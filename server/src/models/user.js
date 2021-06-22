@@ -2,6 +2,7 @@ import { ROLES } from '../constants';
 
 const user = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
+    // id is exceptionnaly a string since we get the id from firebase as a string
     id: {
       allowNull: false,
       primaryKey: true,
