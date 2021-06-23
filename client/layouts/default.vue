@@ -3,12 +3,12 @@
     <div class="fixed max-w-xs min-h-screen min-w-min">
       <SideBar v-if="width" style="min-width:17rem;" class="max-w-xs w-min min-h-screen max-h-screen"/>
     </div>
+    <TopBar v-if="!width"/>
     <span v-if="width" style="min-width:17rem;" class="max-w-xs w-min min-h-screen max-h-screen"></span>
     <div class="w-full flex flex-col overflow-hidden 2xl:overflow-visible">
       <ModeratorMenu class="p-5" v-if="(this.$route.path).includes('moderator')"/>
       <Nuxt class="w-full"/>
     </div>
-    <TopBar v-if="!width" class="absolute bottom-0"/>
   </div>
 </template>
 
