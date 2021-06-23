@@ -2,7 +2,7 @@
     <div class="bg-leftbar flex flex-col justify-between relative text-white texts min-h-screen">
         <div class="w-full">
             <header class="m-5 flex justify-center">
-                <button @click="backToHome()" class="focus:outline-none"><img class="w-52 cursor-pointer" src="../assets/image/comeback-logo.png"/></button>
+                <button @click="backToHome()" class="focus:outline-none"><img class="w-52 cursor-pointer" src="../assets/image/logo.png"/></button>
             </header>
             <section id="navigation" class="border-t-2 border-gray-400 mx-5 py-5">
                 <nav>

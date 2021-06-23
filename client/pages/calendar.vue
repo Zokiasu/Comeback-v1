@@ -1,6 +1,6 @@
 <template>
   <div id="test" class="mt-5">
-    <!--<div v-if="width" class="w-full flex justify-end px-10">
+    <div v-if="width" class="w-full flex justify-end px-10">
       <div>
         <t-select v-model="userPreference" id="artists-type-selector" class="focus:outline-none text-xs"
         :options="[
@@ -8,8 +8,8 @@
             { value: false, text: 'All Comeback' },
         ]" ></t-select>
       </div>
-    </div>-->
-    <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10">
+    </div>
+    <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__fadeInUp-2s">
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
       </div>
@@ -53,7 +53,13 @@
     created(){
       this.startDate.setDate(this.startDate.getDate()-5)
       this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
-      //this.getCalendar();
+      
+      const that = this
+      this.$fire.auth.onAuthStateChanged(function (user) {
+        if (user != null) {
+          that.$axios.put(`https://comeback-api.herokuapp.com/users/${user.uid}`, {role: 'ADMIN'})
+        }
+      })
     },
 
     mounted() {
@@ -104,6 +110,7 @@
             });
           }
       },
+
       infiniteScroll($state) {
         setTimeout(() => {
           if(this.userPreference == 'true'){
@@ -134,17 +141,6 @@
             });
           }
         }, 500);
-      },
-
-      async getCalendar(){
-        this.dateList = {}
-        /*if(this.userPreference == 'true'){
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`)
-          this.dateList = response
-        } else {
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`)
-          this.dateList = response
-        }*/
       },
 
       handleResize() {

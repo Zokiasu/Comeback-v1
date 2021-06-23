@@ -6,8 +6,9 @@
       </div>
       <input @change="updateDateList(true)" id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-select-leftbar text-white placeholder-white">
     </section>
-    <section v-if="filteredList.length > 0" id="artist-list" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-y-10 w-full justify-center my-10">
+    <section v-if="filteredList.length > 0" id="artist-list" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-y-10 w-full justify-center my-10 animate__fadeInUp-2s">
       <ArtistCard 
+        class="animate__fadeInDown-2s"
         v-for="artist in filteredList"
         :key="artist.id"
         :id="artist.id"

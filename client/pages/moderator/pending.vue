@@ -359,7 +359,6 @@
                 } else if (object.method == 'POST'){
                     await this.$axios.post(`https://comeback-api.herokuapp.com${object.endpoint}`, object.body)
                     .then(response => {
-                        
                         if(response) {
                             this.updateRequest(object, index, "ACCEPTED", this.userData.id)
                         }

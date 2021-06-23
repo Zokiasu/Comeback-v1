@@ -1,5 +1,5 @@
 <template>
-  <div id="artist-card" class="text-white">
+  <div id="artist-card" class="text-white animate__fadeInDown-2s">
     <div id="artist-image" class="h-20 md:h-40 w-20 md:w-40 mx-auto">
       <NuxtLink :to="`/artist/${this.id}`">
         <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover" :src="this.image ? this.image : defaultArtistImage" :alt="this.name"/>
