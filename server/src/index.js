@@ -36,11 +36,11 @@ app.use('/notifications', routes.notification);
 
 // Start
 
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 const doCreateSeeds = true;
 
 sequelize
-    .sync({ force: true })
+    .sync({ force: eraseDatabaseOnSync && process.env.DEV })
     .then(async() => {
         if (eraseDatabaseOnSync && doCreateSeeds && process.env.DEV) {
             createSeeds();
