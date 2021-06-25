@@ -343,7 +343,7 @@
           this.$toast.success('Thank you, Your new comeback has been added to pending list to validated', {duration:5000, position:'top-right'})
           //this.$toast.info('Find all your modifications in Setting/Requests', {duration:5000, position:'top-right'})
           //this.$router.push({ path: `/${this.userId}/release/${response.data.id}`})
-          this.$router.push({ path: `/${this.userId}/calendar`})
+          this.$router.push({ path: `/calendar`})
         })
       },
 
