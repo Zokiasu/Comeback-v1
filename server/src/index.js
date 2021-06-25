@@ -33,14 +33,15 @@ app.use('/musics', routes.music);
 app.use('/calendar', routes.calendar);
 app.use('/styles', routes.style);
 app.use('/notifications', routes.notification);
+app.use('/comments', routes.comment);
 
 // Start
 
-const eraseDatabaseOnSync = false;
+const eraseDatabaseOnSync = true;
 const doCreateSeeds = true;
 
 sequelize
-    .sync({ force: true })
+    .sync({ force: eraseDatabaseOnSync && process.env.DEV })
     .then(async() => {
         if (eraseDatabaseOnSync && doCreateSeeds && process.env.DEV) {
             createSeeds();
@@ -289,6 +290,19 @@ const createSeeds = async() => {
             models.Artist,
         ],
     }, );
+
+
+
+    await models.Comment.create({
+        message: "le message de on commentaire",
+        answers: [{message: 'comentnaire'}]
+    }, {
+        include: [
+            {model: models.Comment, as: "answers"},
+        ],
+    }, );
+
+
     const release = await models.Release.findOne({
         where: { name: 'Turn Back Time' },
     });

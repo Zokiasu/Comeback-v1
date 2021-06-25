@@ -34,6 +34,7 @@ const models = {
   Notification: sequelize.import('./notification'),
   UserNotification: sequelize.import('./user_notification'),
   Style: sequelize.import('./style'),
+  Comment: sequelize.import('./comment'),
 };
 
 Object.keys(models).forEach((key) => {
