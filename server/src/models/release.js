@@ -31,6 +31,16 @@ const release = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING(2000)),
       allowNull: true,
     },
+    idspotify: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: true,
+    },
+    idyoutubemusic: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: true,
+    },
   });
 
   Release.associate = (models) => {
