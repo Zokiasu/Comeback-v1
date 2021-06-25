@@ -19,12 +19,6 @@ api.initalize().then(async info => {
         releaseList = res.data
     })
 
-    /*api.search("RDCLAK5uy_k27uu-EtQ_b5U2r26DNDZOmNqGdccUIGQ", "playlist").then(result => {
-        result.content.forEach(el => {
-            console.log(el)
-        })
-    })*/
-
     if(entry == "") {
         artistList.forEach(el => {
             addNewArtists(el.name, artistList, releaseList)
@@ -44,6 +38,7 @@ const addNewArtists = function(entry, artistList, releaseList) {
                         if(element?.browseId) {
                             api.getArtist(element?.browseId).then(result2 => {
                                 if(result2) {
+                                    //console.log(result2)
                                     let artist = {
                                         image: null,
                                         type: "SOLO",
@@ -51,18 +46,20 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                         description: null,
                                         socials: null,
                                         platforms: null,
-                                        styles: null
+                                        styles: null,
+                                        idyoutubemusic: null,
                                     }
 
                                     artist.name = result2.name
                                     artist.description = result2.description
                                     artist.image = element.thumbnails[element.thumbnails.length-1].url.replace('w120-h120', 'w250-h250')
-                                    
+                                    artist.idyoutubemusic = element?.browseId
+
                                     //verification si l'artiste trouver existe chez youtube
                                     if(artist.name) {
                                         console.log('ADD ARTIST : ', artist.name)
                                         artistList.forEach(elem => {
-                                            if (elem.name == artist.name && elem.image == artist.image) {
+                                            if (elem.name == artist.name && elem.idyoutubemusic == artist.idyoutubemusic) {
                                                 artistExist = true
                                                 artist['id'] = elem.id
                                             }
@@ -90,12 +87,14 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                                 artists: [],
                                                                 events: [],
                                                                 musics: [],
-                                                                followers: []
+                                                                followers: [],
+                                                                idyoutubemusic: null,
                                                             }
 
                                                             release.name = result3.title
                                                             release.image = result3.thumbnails[result3.thumbnails.length-1].url
                                                             release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
+                                                            release.idyoutubemusic = el?.browseId                                                            
 
                                                             result3.tracks.forEach(element => {
                                                                 release.musics.push({
@@ -103,6 +102,7 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                                     clip: 'https://youtu.be/'+element.videoId
                                                                 })
                                                             })
+
                                                             artistList.forEach(elem => {
                                                                 if (elem.id == artist.id) {
                                                                     release.artists.push(elem)
@@ -111,12 +111,9 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                 
                                                             //vérifier si la release n'existe pas déjà
                                                             releaseList.forEach(elem => {
-                                                                elem.artists.forEach(elem2 => {
-                                                                    if (elem.name == release.name && elem2.id == release.artists[0]?.id) {
-                                                                        releaseExist = true
-                                                                    }
-                                                                    if(release.artists.length < 1) releaseExist = true
-                                                                })
+                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
+                                                                    releaseExist = true
+                                                                }
                                                             })
 
                                                             if(!releaseExist && result3.date.year >= 2021){
@@ -135,7 +132,7 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                     })
                                                     console.log("SINGLES", result2.products?.singles?.content?.length)
                                                     //ajout des singles de l'artiste
-                                                    result2.products?.singles?.content?.forEach(el => {
+                                                    result2?.products?.singles?.content?.forEach(el => {
                                                         api.getAlbum(el.browseId).then(result3 => {
                                                             let release = {
                                                                 name: null,
@@ -149,9 +146,12 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                                 musics: [],
                                                                 followers: []
                                                             }
+
                                                             release.name = result3.title
                                                             release.image = result3.thumbnails[result3.thumbnails.length-1].url
                                                             release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
+                                                            release.idyoutubemusic = el?.browseId                                                
+
                                                             result3.tracks.forEach(element => {
                                                                 release.musics.push({
                                                                     name: element.name,
@@ -167,11 +167,9 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                 
                                                             //vérifier si la release n'existe pas déjà
                                                             releaseList.forEach(elem => {
-                                                                elem.artists.forEach(elem2 => {
-                                                                    if (elem.name == release.name && elem2.id == release.artists[0]?.id) {
-                                                                        releaseExist = true
-                                                                    }
-                                                                })
+                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
+                                                                    releaseExist = true
+                                                                }
                                                             })
 
                                                             if(!releaseExist && result3.date.year >= 2021){
@@ -217,6 +215,7 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                             release.name = result3.title
                                                             release.image = result3.thumbnails[result3.thumbnails.length-1].url
                                                             release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
+                                                            release.idyoutubemusic = el?.browseId                                                
                             
                                                             result3.tracks.forEach(element => {
                                                                 release.musics.push({
@@ -233,12 +232,9 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                 
                                                             //vérifier si la release n'existe pas déjà
                                                             releaseList.forEach(elem => {
-                                                                elem.artists.forEach(elem2 => {
-                                                                    if (elem.name == release.name && elem2.id == release.artists[0]?.id) {
-                                                                        releaseExist = true
-                                                                    }
-                                                                    if(release.artists.length < 1) releaseExist = true
-                                                                })
+                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
+                                                                    releaseExist = true
+                                                                }
                                                             })
 
                                                             if(!releaseExist && result3.date.year >= 2021){
@@ -279,6 +275,7 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                             release.name = result3.title
                                                             release.image = result3.thumbnails[result3.thumbnails.length-1].url
                                                             release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
+                                                            release.idyoutubemusic = el?.browseId                                                
                                                             
                                                             result3.tracks.forEach(element => {
                                                                 release.musics.push({
@@ -295,11 +292,9 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                                 
                                                             //vérifier si la release n'existe pas déjà
                                                             releaseList.forEach(elem => {
-                                                                elem.artists.forEach(elem2 => {
-                                                                    if (elem.name == release.name && elem2.id == release.artists[0]?.id) {
-                                                                        releaseExist = true
-                                                                    }
-                                                                })
+                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
+                                                                    releaseExist = true
+                                                                }
                                                             })
 
                                                             if(!releaseExist && result3.date.year >= 2021){
