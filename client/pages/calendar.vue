@@ -46,8 +46,17 @@
           dateList: null,
           startDate: new Date(),
           endDate: new Date(),
+          lastReleaseDate: new Date(),
           gapDate: 5,
         }
+    },
+
+    async asyncData({ $axios}){
+      const { date } = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=date:desc&limit=1`)
+      console.log("date", date)
+      const lastReleaseDate = date
+      console.log("lastReleaseDate", lastReleaseDate)
+      return {lastReleaseDate}
     },
 
     created(){
@@ -60,6 +69,8 @@
           that.$axios.put(`https://comeback-api.herokuapp.com/users/${user.uid}`, {role: 'ADMIN'})
         }
       })
+
+      this.fetchData()
     },
 
     mounted() {
@@ -76,7 +87,7 @@
             //this.fetchData()
           }
         }
-      }
+      },
     },
     
     computed: {
@@ -90,8 +101,16 @@
       async fetchData() {
           if(this.userPreference == 'true'){
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              if(response.data) {
-                this.dateList = response.data
+
+              //console.log("data", response.data)
+              if(Object.entries(response.data).length !== 0) {
+                this.dateList = {}
+                for(let [key, value] of Object.entries(response.data)) {
+                  this.dateList[key] = value
+                }
+                //console.log("dateList", this.dateList)
+                //this.dateList = response.data
+                this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
               }
             })
@@ -100,8 +119,16 @@
             });
           } else {
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              if(response.data) {
-                this.dateList = response.data
+
+              //console.log("data", response.data)
+              if(Object.entries(response.data).length !== 0) {
+                this.dateList = {}
+                for(let [key, value] of Object.entries(response.data)) {
+                  this.dateList[key] = value
+                }
+                //console.log("dateList", this.dateList)
+                //this.dateList = response.data
+                this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
               }
             })
@@ -113,10 +140,21 @@
 
       infiniteScroll($state) {
         setTimeout(() => {
+          let test = this.dateList != null ? this.dateList : {}
           if(this.userPreference == 'true'){
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              if(response.data) {
-                this.dateList = response.data
+
+              //console.log("data", response.data)
+              if(Object.entries(response.data).length !== 0) {
+                this.dateList = {}
+                for(let [key, value] of Object.entries(response.data)) {
+                  test[key] = value
+                }
+                console.log("test", test)
+                this.dateList = test
+                //console.log("dateList", this.dateList)
+                //this.dateList = response.data
+                this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
                 $state.loaded();
               } else {
@@ -128,8 +166,18 @@
             });
           } else {
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-              if(response.data) {
-                this.dateList = response.data
+              
+              //console.log("data", response.data)
+              if(Object.entries(response.data).length !== 0) {
+                this.dateList = {}
+                for(let [key, value] of Object.entries(response.data)) {
+                  test[key] = value
+                }
+                console.log("test", test)
+                this.dateList = test
+                //console.log("dateList", this.dateList)
+                //this.dateList = response.data
+                this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
                 $state.loaded();
               } else {
