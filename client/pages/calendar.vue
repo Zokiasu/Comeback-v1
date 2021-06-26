@@ -84,7 +84,7 @@
         immediate: true,
         handler(userPreference) {
           if (process.client) {
-            //this.fetchData()
+            this.fetchData()
           }
         }
       },
