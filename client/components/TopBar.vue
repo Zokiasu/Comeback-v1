@@ -89,7 +89,7 @@
                 let that = this
                 this.$fire.auth.onAuthStateChanged(function (user) {
                     if (user != null) {
-                        that.$router.push(`/${user.uid}/calendar`)
+                        that.$router.push(`/calendar`)
                     } else {
                         that.$router.push('/')
                     }

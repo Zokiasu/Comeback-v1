@@ -85,7 +85,7 @@
         let that = this
         this.$fire.auth.onAuthStateChanged(async function (user) {
             if (user != null) {
-                await that.$router.push(`/${user.uid}/search?search=${that.search}`)
+                await that.$router.push(`/search?search=${that.search}`)
             }
         })
       },

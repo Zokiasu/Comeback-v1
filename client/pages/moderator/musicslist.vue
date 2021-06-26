@@ -5,7 +5,7 @@
             <button @click="sorting = 'createdAt'; updateDateList()" class="focus:outline-none bg-gray-500 text-white rounded px-2 py-1">Creation</button>
             <button @click="sorting = 'updatedAt'; updateDateList()" class="focus:outline-none bg-gray-500 text-white rounded px-2 py-1">Last Update</button>
         </div>
-        <section v-if="musics.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <section v-if="musics.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
             <div v-for="(music, index) in this.musics" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2 z-50">{{index}}</span>
                 <div class="flex xl:absolute mb-2 xl:mb-0 right-2 top-3 space-x-2">
