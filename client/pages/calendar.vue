@@ -1,6 +1,6 @@
 <template>
   <div id="test" class="mt-5">
-    <div v-if="width" class="w-full flex justify-end px-10">
+    <!--<div v-if="width" class="w-full flex justify-end px-10">
       <div>
         <t-select v-model="userPreference" id="artists-type-selector" class="focus:outline-none text-xs"
         :options="[
@@ -8,7 +8,7 @@
             { value: false, text: 'All Comeback' },
         ]" ></t-select>
       </div>
-    </div>
+    </div>-->
     <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__fadeInUp-2s">
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
@@ -21,7 +21,7 @@
           :key="release.id"/>
       </transition-group>
     </div>
-    <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
+    <InfiniteLoading v-if="stopInfiniteScroll" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
   </div>
 </template>
 
@@ -41,6 +41,7 @@
     data(){
         return {
           userPreference:false,
+          stopInfiniteScroll: true,
           width:false,
           enough: false,
           dateList: null,
@@ -69,8 +70,6 @@
           that.$axios.put(`https://comeback-api.herokuapp.com/users/${user.uid}`, {role: 'ADMIN'})
         }
       })
-
-      this.fetchData()
     },
 
     mounted() {
@@ -84,6 +83,7 @@
         immediate: true,
         handler(userPreference) {
           if (process.client) {
+            console.log("Coucou")
             this.fetchData()
           }
         }
@@ -99,7 +99,8 @@
 
     methods: {
       async fetchData() {
-          if(this.userPreference == 'true'){
+        console.log("userPreference", this.userPreference)
+          if(this.userPreference){
             this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
 
               //console.log("data", response.data)
@@ -150,7 +151,6 @@
                 for(let [key, value] of Object.entries(response.data)) {
                   test[key] = value
                 }
-                console.log("test", test)
                 this.dateList = test
                 //console.log("dateList", this.dateList)
                 //this.dateList = response.data
@@ -159,6 +159,7 @@
                 $state.loaded();
               } else {
                 $state.complete();
+                this.stopInfiniteScroll = false
               }
             })
             .catch(err => {
@@ -173,7 +174,6 @@
                 for(let [key, value] of Object.entries(response.data)) {
                   test[key] = value
                 }
-                console.log("test", test)
                 this.dateList = test
                 //console.log("dateList", this.dateList)
                 //this.dateList = response.data
@@ -182,6 +182,7 @@
                 $state.loaded();
               } else {
                 $state.complete();
+                this.stopInfiniteScroll = false
               }
             })
             .catch(err => {
