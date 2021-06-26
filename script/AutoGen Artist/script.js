@@ -20,9 +20,11 @@ api.initalize().then(async info => {
     })
 
     if(entry == "") {
-        artistList.forEach(el => {
-            addNewArtists(el.name, artistList, releaseList)
-        })
+        /*artistList.forEach(el => {
+            //addNewArtists(el.name, artistList, releaseList)
+            if(el.idyoutubemusic) api.getArtist(el.idyoutubemusic).then(result => console.log(result))
+        })*/
+        api.getArtist("UC6tU41SuJUDVHKnl48-Yrhw").then(result => console.log(result))
     } else {
         addNewArtists(entry, artistList, releaseList)
     }
@@ -57,135 +59,23 @@ const addNewArtists = function(entry, artistList, releaseList) {
 
                                     //verification si l'artiste trouver existe chez youtube
                                     if(artist.name) {
-                                        console.log('ADD ARTIST : ', artist.name)
+                                        console.log('CHECK ARTIST : ', artist.name)
                                         artistList.forEach(elem => {
                                             if (elem.name == artist.name && elem.idyoutubemusic == artist.idyoutubemusic) {
                                                 artistExist = true
                                                 artist['id'] = elem.id
                                             }
                                         })
+                                        
                                         //Si l'artiste n'est pas déjà dans la base de donnée
                                         if(!artistExist) {
                                             console.log("-- ARTIST NOT EXIST")
-                                            axios.post(`https://comeback-api.herokuapp.com/artists`, artist)
-                                            .then(res => {
+                                            axios.post(`https://comeback-api.herokuapp.com/artists`, artist).then(res => {
                                                 artist['id'] = res.data.id
-                                                console.log("ID ARTIST", artist.id)
+                                                //console.log("ID ARTIST", artist.id)
                                                 axios.get(`https://comeback-api.herokuapp.com/artists`).then(res => {
                                                     artistList = res.data
-                                                    console.log("ALBUMS", result2.products?.albums?.content?.length)
-                                                    //ajout des albums de l'artiste
-                                                    result2.products?.albums?.content?.forEach(el => {
-                                                        api.getAlbum(el.browseId).then(result3 => {
-                                                            let release = {
-                                                                name: null,
-                                                                image: null,
-                                                                type: "ALBUM",
-                                                                date: new Date(),
-                                                                platforms: [],
-                                                                styles: [],
-                                                                artists: [],
-                                                                events: [],
-                                                                musics: [],
-                                                                followers: [],
-                                                                idyoutubemusic: null,
-                                                            }
-
-                                                            release.name = result3.title
-                                                            release.image = result3.thumbnails[result3.thumbnails.length-1].url
-                                                            release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
-                                                            release.idyoutubemusic = el?.browseId                                                            
-
-                                                            result3.tracks.forEach(element => {
-                                                                release.musics.push({
-                                                                    name: element.name,
-                                                                    clip: 'https://youtu.be/'+element.videoId
-                                                                })
-                                                            })
-
-                                                            artistList.forEach(elem => {
-                                                                if (elem.id == artist.id) {
-                                                                    release.artists.push(elem)
-                                                                }
-                                                            })
-                                                
-                                                            //vérifier si la release n'existe pas déjà
-                                                            releaseList.forEach(elem => {
-                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
-                                                                    releaseExist = true
-                                                                }
-                                                            })
-
-                                                            if(!releaseExist && result3.date.year >= 2021){
-                                                                console.log("-- RELEASE NOT EXIST", release.name)
-                                                                console.log("ADD ALBUMS : ", release.name)
-                                                                axios.post(`https://comeback-api.herokuapp.com/releases`, release)
-                                                                .then(res => {
-                                                                    console.log('success', res.data.name)
-                                                                })
-                                                                .catch(res => console.log('error', res))
-                                                            } else {
-                                                                console.log("RELEASE EXIST OR TOO OLD")
-                                                                releaseExist = false
-                                                            }
-                                                        })
-                                                    })
-                                                    console.log("SINGLES", result2.products?.singles?.content?.length)
-                                                    //ajout des singles de l'artiste
-                                                    result2?.products?.singles?.content?.forEach(el => {
-                                                        api.getAlbum(el.browseId).then(result3 => {
-                                                            let release = {
-                                                                name: null,
-                                                                image: null,
-                                                                type: "SINGLE",
-                                                                date: null,
-                                                                platforms: [],
-                                                                styles: [],
-                                                                artists: [],
-                                                                events: [],
-                                                                musics: [],
-                                                                followers: []
-                                                            }
-
-                                                            release.name = result3.title
-                                                            release.image = result3.thumbnails[result3.thumbnails.length-1].url
-                                                            release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
-                                                            release.idyoutubemusic = el?.browseId                                                
-
-                                                            result3.tracks.forEach(element => {
-                                                                release.musics.push({
-                                                                    name: element.name,
-                                                                    clip: 'https://youtu.be/'+element.videoId
-                                                                })
-                                                            })
-                                                            
-                                                            artistList.forEach(elem => {
-                                                                if (elem.id == artist.id) {
-                                                                    release.artists.push(elem)
-                                                                }
-                                                            })
-                                                
-                                                            //vérifier si la release n'existe pas déjà
-                                                            releaseList.forEach(elem => {
-                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
-                                                                    releaseExist = true
-                                                                }
-                                                            })
-
-                                                            if(!releaseExist && result3.date.year >= 2021){
-                                                                console.log("-- RELEASE NOT EXIST", release.name)
-                                                                console.log("ADD SINGLE : ", release.name)
-                                                                axios.post(`https://comeback-api.herokuapp.com/releases`, release)
-                                                                .then(res => {
-                                                                    console.log('success', res.data.name)
-                                                                })
-                                                                .catch(res => console.log('error', res))
-                                                            } else {
-                                                                console.log("RELEASE EXIST OR TOO OLD")
-                                                                releaseExist = false
-                                                            }
-                                                        })
-                                                    })
+                                                    addReleases(result2, artist, artistList, releaseList)
                                                 })
                                             })
                                             .catch(res => console.log('error', res))
@@ -193,126 +83,7 @@ const addNewArtists = function(entry, artistList, releaseList) {
                                         //Si l'artiste est déjà dans la base de donnée
                                         else {
                                             console.log("-- ARTIST EXIST")
-                                            //console.log("ALBUMS", result2?.products?.albums?.content?.length)
-                                            //ajout des albums de l'artiste
-                                            result2?.products?.albums?.content?.forEach(el => {
-                                                if(el) {
-                                                    api.getAlbum(el.browseId).then(result3 => {
-                                                        if(result3) {
-                                                            let release = {
-                                                                name: null,
-                                                                image: null,
-                                                                type: "ALBUM",
-                                                                date: new Date(),
-                                                                platforms: [],
-                                                                styles: [],
-                                                                artists: [],
-                                                                events: [],
-                                                                musics: [],
-                                                                followers: []
-                                                            }
-                            
-                                                            release.name = result3.title
-                                                            release.image = result3.thumbnails[result3.thumbnails.length-1].url
-                                                            release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
-                                                            release.idyoutubemusic = el?.browseId                                                
-                            
-                                                            result3.tracks.forEach(element => {
-                                                                release.musics.push({
-                                                                    name: element.name,
-                                                                    clip: 'https://youtu.be/'+element.videoId
-                                                                })
-                                                            })
-                            
-                                                            artistList.forEach(elem => {
-                                                                if (elem.id == artist.id) {
-                                                                    release.artists.push(elem)
-                                                                }
-                                                            })
-                                                
-                                                            //vérifier si la release n'existe pas déjà
-                                                            releaseList.forEach(elem => {
-                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
-                                                                    releaseExist = true
-                                                                }
-                                                            })
-
-                                                            if(!releaseExist && result3.date.year >= 2021){
-                                                                console.log("-- RELEASE NOT EXIST", release.name)
-                                                                console.log("ADD ALBUMS : ", release.name)
-                                                                axios.post(`https://comeback-api.herokuapp.com/releases`, release)
-                                                                .then(res => {
-                                                                    console.log('success', res.data.name)
-                                                                })
-                                                                .catch(res => console.log('error', res))
-                                                            } else {
-                                                                console.log("RELEASE EXIST OR TOO OLD")
-                                                                releaseExist = false
-                                                            }
-                                                        }
-                                                    })
-                                                }
-                                            })
-                                            //console.log("SINGLES", result2.products?.singles?.content?.length)
-                                            //ajout des singles de l'artiste
-                                            result2?.products?.singles?.content?.forEach(el => {
-                                                if(el) {
-                                                    api.getAlbum(el.browseId).then(result3 => {
-                                                        if(result3) {
-                                                            let release = {
-                                                                name: null,
-                                                                image: null,
-                                                                type: "SINGLE",
-                                                                date: null,
-                                                                platforms: [],
-                                                                styles: [],
-                                                                artists: [],
-                                                                events: [],
-                                                                musics: [],
-                                                                followers: []
-                                                            }
-                            
-                                                            release.name = result3.title
-                                                            release.image = result3.thumbnails[result3.thumbnails.length-1].url
-                                                            release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
-                                                            release.idyoutubemusic = el?.browseId                                                
-                                                            
-                                                            result3.tracks.forEach(element => {
-                                                                release.musics.push({
-                                                                    name: element.name,
-                                                                    clip: 'https://youtu.be/'+element.videoId
-                                                                })
-                                                            })
-                                                            
-                                                            artistList.forEach(elem => {
-                                                                if (elem.id == artist.id) {
-                                                                    release.artists.push(elem)
-                                                                }
-                                                            })
-                                                
-                                                            //vérifier si la release n'existe pas déjà
-                                                            releaseList.forEach(elem => {
-                                                                if (elem.idyoutubemusic == release.idyoutubemusic) {
-                                                                    releaseExist = true
-                                                                }
-                                                            })
-
-                                                            if(!releaseExist && result3.date.year >= 2021){
-                                                                console.log("-- RELEASE NOT EXIST", release.name)
-                                                                console.log("ADD SINGLE : ", release.name)
-                                                                axios.post(`https://comeback-api.herokuapp.com/releases`, release)
-                                                                .then(res => {
-                                                                    console.log('success', res.data.name)
-                                                                })
-                                                                .catch(res => console.log('error', res))
-                                                            } else {
-                                                                console.log("RELEASE EXIST OR TOO OLD")
-                                                                releaseExist = false
-                                                            }
-                                                        }
-                                                    })
-                                                }
-                                            })
+                                            addReleases(result2, artist, artistList, releaseList)
                                             artistExist = false
                                         }
                                     }
@@ -326,6 +97,125 @@ const addNewArtists = function(entry, artistList, releaseList) {
     })
 }
 
-const G = {
-    
+const addReleases = function(result2, artist, artistList, releaseList) {
+    //ajout des albums de l'artiste
+    result2?.products?.albums?.content?.forEach(el => {
+        if(el) {
+            api.getAlbum(el.browseId).then(result3 => {
+                if(result3) {
+                    let release = {
+                        name: null,
+                        image: null,
+                        type: "ALBUM",
+                        date: new Date(),
+                        platforms: [],
+                        styles: [],
+                        artists: [],
+                        events: [],
+                        musics: [],
+                        followers: []
+                    }
+
+                    release.name = result3.title
+                    release.type = el.type.toUpperCase()
+                    release.image = result3.thumbnails[result3.thumbnails.length-1].url
+                    release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
+                    release.idyoutubemusic = el?.browseId                                                
+
+                    result3.tracks.forEach(element => {
+                        release.musics.push({
+                            name: element.name,
+                            clip: 'https://youtu.be/'+element.videoId
+                        })
+                    })
+
+                    artistList.forEach(elem => {
+                        if (elem.id == artist.id) {
+                            release.artists.push(elem)
+                        }
+                    })
+        
+                    //vérifier si la release n'existe pas déjà
+                    releaseList.forEach(elem => {
+                        if (elem.idyoutubemusic == release.idyoutubemusic) {
+                            releaseExist = true
+                        }
+                    })
+
+                    if(!releaseExist && result3.date.year >= 2021){
+                        console.log("-- RELEASE NOT EXIST : ", release.name)
+                        console.log("ADD ALBUMS : ", release.name)
+                        axios.post(`https://comeback-api.herokuapp.com/releases`, release)
+                        .then(res => {
+                            console.log('success', res.data.name)
+                        })
+                        .catch(res => console.log('error', res))
+                    } else {
+                        //console.log("RELEASE EXIST OR TOO OLD")
+                        releaseExist = false
+                    }
+                }
+            })
+        }
+    })
+    //console.log("SINGLES", result2.products?.singles?.content?.length)
+    //ajout des singles de l'artiste
+    result2?.products?.singles?.content?.forEach(el => {
+        if(el) {
+            api.getAlbum(el.browseId).then(result3 => {
+                if(result3) {
+                    let release = {
+                        name: null,
+                        image: null,
+                        type: "SINGLE",
+                        date: null,
+                        platforms: [],
+                        styles: [],
+                        artists: [],
+                        events: [],
+                        musics: [],
+                        followers: []
+                    }
+
+                    release.name = result3.title
+                    release.image = result3.thumbnails[result3.thumbnails.length-1].url
+                    release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
+                    release.idyoutubemusic = el?.browseId                                                
+                    
+                    result3.tracks.forEach(element => {
+                        release.musics.push({
+                            name: element.name,
+                            clip: 'https://youtu.be/'+element.videoId
+                        })
+                    })
+                    
+                    artistList.forEach(elem => {
+                        if (elem.id == artist.id) {
+                            release.artists.push(elem)
+                        }
+                    })
+        
+                    //vérifier si la release n'existe pas déjà
+                    releaseList.forEach(elem => {
+                        if (elem.idyoutubemusic == release.idyoutubemusic) {
+                            releaseExist = true
+                        }
+                    })
+
+                    if(!releaseExist && result3.date.year >= 2021){
+                        console.log("-- RELEASE NOT EXIST", release.name)
+                        console.log("ADD SINGLE : ", release.name)
+                        axios.post(`https://comeback-api.herokuapp.com/releases`, release)
+                        .then(res => {
+                            console.log('success', res.data.name)
+                        })
+                        .catch(res => console.log('error', res))
+                    } else {
+                        //console.log("RELEASE EXIST OR TOO OLD")
+                        releaseExist = false
+                    }
+                }
+            })
+        }
+    })
 }

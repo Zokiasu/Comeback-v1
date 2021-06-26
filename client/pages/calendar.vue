@@ -67,12 +67,12 @@
       this.startDate.setDate(this.startDate.getDate()-5)
       this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
       
-      const that = this
+      /*const that = this
       this.$fire.auth.onAuthStateChanged(function (user) {
         if (user != null) {
           that.$axios.put(`https://comeback-api.herokuapp.com/users/${user.uid}`, {role: 'ADMIN'})
         }
-      })
+      })*/
     },
 
     mounted() {
