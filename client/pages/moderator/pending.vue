@@ -337,6 +337,13 @@
         mounted(){
             bodyScroll.init()
         },
+
+        async asyncData({ $axios }){
+            const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
+            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
+            return { pendings, artistList, styleList }
+        },
     
         computed: {
             userData(){
@@ -482,13 +489,6 @@
             beforeClose() {
                 bodyScroll.unfreeze()
             }
-        },
-
-        async asyncData({ $axios }){
-            const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
-            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
-            return { pendings, artistList, styleList }
         },
     }
 </script>
