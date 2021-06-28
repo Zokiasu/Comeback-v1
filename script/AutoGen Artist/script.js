@@ -20,11 +20,10 @@ api.initalize().then(async info => {
     })
 
     if(entry == "") {
-        for (let index = 0; index < artistList.length; index++) {
-            //console.log(index, artistList[index].name)
+        /*for (let index = 0; index < artistList.length; index++) {
             getArtist(artistList[index].idyoutubemusic, undefined, artistList, releaseList)
-        }
-        //api.getArtist("UC6tU41SuJUDVHKnl48-Yrhw").then(result => //console.log(result))
+        }*/
+        api.getArtist("UCHKe1oDD06IsoD4bfMREGcA").then(result => console.log(result))
     } else {
         addNewArtists(entry, artistList, releaseList)
     }
@@ -148,7 +147,7 @@ const addAlbum = function(result2, artist, artistList, releaseList) {
                     //vérifier si la release n'existe pas déjà
                     releaseList.forEach(elem => {
                         //console.log(release.name, elem.idyoutubemusic, release.idyoutubemusic)
-                        if (elem.idyoutubemusic == release.idyoutubemusic) {
+                        if (elem.idyoutubemusic == release.idyoutubemusic && elem.artists[0]?.name == release.artists[0]?.name) {
                             releaseExist = true
                         }
                     })
@@ -206,7 +205,7 @@ const addSingle = function(result2, artist, artistList, releaseList) {
                     })
                     //vérifier si la release n'existe pas déjà
                     releaseList.forEach(elem => {
-                        if (elem.idyoutubemusic == release.idyoutubemusic) {
+                        if (elem.idyoutubemusic == release.idyoutubemusic && elem.artists[0]?.name == release.artists[0]?.name) {
                             releaseExist = true
                         }
                     })

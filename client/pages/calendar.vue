@@ -13,7 +13,7 @@
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
       </div>
-      <transition-group v-if="width" name="object" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-5 py-5 justify-center texts text-white animate__fadeInDown">
+      <transition-group v-if="width" name="object" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-5 py-5 justify-center texts text-white animate__fadeInDown">
         <ReleaseCard
           v-for="release in date.releases"
           :release="release"
@@ -69,7 +69,7 @@
     },*/
 
     created(){
-      this.startDate.setDate(this.startDate.getDate()-5)
+      this.startDate.setDate(this.startDate.getDate()-1)
       this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
       
       /*const that = this
@@ -108,7 +108,7 @@
       async fetchData() {
         this.startDate = new Date()
         this.endDate = new Date()
-        this.startDate.setDate(this.startDate.getDate()-5)
+        this.startDate.setDate(this.startDate.getDate()-1)
         this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
         if(this.userPreference == "true"){
           this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
@@ -118,8 +118,8 @@
               this.dateList[key] = value
             }
             console.log("dateList", this.dateList)
-            this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
-            this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+            //this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
+            //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
           })
           .catch(err => {
             console.log(err);
@@ -131,8 +131,8 @@
               for(let [key, value] of Object.entries(response.data)) {
                 this.dateList[key] = value
               }
-              this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
-              this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+              //this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
+              //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
             }
           })
           .catch(err => {
