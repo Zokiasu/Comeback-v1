@@ -10,12 +10,12 @@
         <div id="general" class="z-10 flex flex-col px-3 justify-end">
             <nav>
                 <ul class="flex space-x-5 list-none text-lg md:text-2xl">
-                    <li>
+                    <li v-if="user.artists.length > 0">
                         <div @click="changetab('artist')" class="cursor-pointer" :class="actualtab == 'artist' ? 'border-red-700 border-b-2' : ''">
                             <span>Artist</span>
                         </div>
                     </li>
-                    <li>
+                    <li v-if="user.releases.length > 0">
                         <div @click="changetab('music')" class="cursor-pointer" :class="actualtab == 'music' ? 'border-red-700 border-b-2' : ''">
                             <span>Music</span>
                         </div>
@@ -30,7 +30,7 @@
         </div>
       </section>
       <section id="middle" class="mx-5">
-        <section id="artist-following" v-if="actualtab == 'artist'">
+        <section id="artist-following" v-if="actualtab == 'artist' && user.artists.length > 0">
             <h1 class="text-white text-xl">Artist Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-y-5 mt-10 my-5 w-full justify-center">
@@ -42,7 +42,7 @@
                     :image="artist.image"/>
             </div>
         </section>
-        <section id="music-following" v-if="actualtab == 'music'">
+        <section id="music-following" v-if="actualtab == 'music' && user.releases.length > 0">
             <h1 class="text-white text-xl">Releases Followed</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-10 gap-x-5 gap-y-10 gap-3 py-5 justify-center texts text-white">
