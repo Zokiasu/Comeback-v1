@@ -1,12 +1,12 @@
 <template>
   <NuxtLink :to="`/release/${release.id}`" class="texts flex flex-col text-white rounded">
-    <div class="relative h-52 w-52">
-        <img class="rounded-md object-cover h-52 w-52" :src="release.image" alt="Artist Picture"/>
+    <div class="relative w-32 h-32 lg:h-40 lg:w-40 xl:h-52 xl:w-52">
+        <img class="rounded-md object-cover w-32 h-32 lg:h-36 lg:w-36 xl:h-52 xl:w-52" :src="release.image" alt="Artist Picture"/>
         <div v-if="validationDate" class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl rounded-tr">
             <p class="text-center"> {{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>
         </div>
     </div>
-    <div class="w-52">
+    <div class="w-32 lg:w-40 xl:w-52">
         <span class="font-semibold text-sm"> {{release.name}} </span>
         <div class="flex text-xs md:text-sm">
             <span> {{release.type}} </span><div class="bg-white mt-2 mx-2 h-1 w-1 rounded-full"></div><span class="truncate"><span v-for="(artist, index) in release.artists" :key="index">{{artist.name}}<span v-if="release.artists.length > 1 && index != release.artists.length-1">, </span></span></span>
