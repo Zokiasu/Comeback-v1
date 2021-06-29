@@ -12,10 +12,10 @@ const entry = process.argv.join(" ")
 
 // Retrieves Innertube Config
 api.initalize().then(async info => {
-    await axios.get(`https://comeback-api.herokuapp.com/artists?sortby=id:asc`).then(res => {
+    await axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name:asc`).then(res => {
         artistList = [...new Set(res.data)]
     })
-    await axios.get(`https://comeback-api.herokuapp.com/releases?sortby=id:asc`).then(res => {
+    await axios.get(`https://comeback-api.herokuapp.com/releases?sortby=name:asc`).then(res => {
         releaseList = res.data
     })
 
