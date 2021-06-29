@@ -20,10 +20,10 @@ api.initalize().then(async info => {
     })
 
     if(entry == "") {
-        /*for (let index = 0; index < artistList.length; index++) {
+        for (let index = 0; index < artistList.length; index++) {
             getArtist(artistList[index].idyoutubemusic, undefined, artistList, releaseList)
-        }*/
-        api.getArtist("UCHKe1oDD06IsoD4bfMREGcA").then(result => console.log(result))
+        }
+        //api.getArtist("UCHKe1oDD06IsoD4bfMREGcA").then(result => console.log(result))
     } else {
         addNewArtists(entry, artistList, releaseList)
     }

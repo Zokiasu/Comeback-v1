@@ -69,8 +69,8 @@
     },*/
 
     created(){
-      this.startDate.setDate(this.startDate.getDate()-1)
-      this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
+      /*this.startDate.setDate(this.startDate.getDate()-2)
+      this.endDate.setDate((this.startDate.getDate()) + this.gapDate)*/
       
       /*const that = this
       this.$fire.auth.onAuthStateChanged(function (user) {
@@ -108,7 +108,7 @@
       async fetchData() {
         this.startDate = new Date()
         this.endDate = new Date()
-        this.startDate.setDate(this.startDate.getDate()-1)
+        this.startDate.setDate(this.startDate.getDate()-2)
         this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
         if(this.userPreference == "true"){
           this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
@@ -118,8 +118,8 @@
               this.dateList[key] = value
             }
             console.log("dateList", this.dateList)
-            //this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
-            //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+            this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
+            this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
           })
           .catch(err => {
             console.log(err);
@@ -131,8 +131,8 @@
               for(let [key, value] of Object.entries(response.data)) {
                 this.dateList[key] = value
               }
-              //this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
-              //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+              this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
+              this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
             }
           })
           .catch(err => {
