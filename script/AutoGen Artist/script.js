@@ -89,9 +89,11 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
                             axios.get(`https://comeback-api.herokuapp.com/artists`)
                             .catch(res => console.log('error', res))
                             .then(res => {
-                                //artistList = res.data
-                                addAlbum(result2, artist, artistList, releaseList)
-                                addSingle(result2, artist, artistList, releaseList)
+                                artistList = res.data
+                                //console.log(artist)
+                                /*addAlbum(result2, artist, artistList, releaseList)
+                                addSingle(result2, artist, artistList, releaseList)*/
+                                getArtist(artist.idyoutubemusic, undefined, artistList, releaseList)
                             })
                         })
                         .catch(res => console.log('error', res))
