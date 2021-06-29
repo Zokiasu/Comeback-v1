@@ -319,7 +319,7 @@
     import bodyScroll from 'body-scroll-freezer'
     
     export default {
-        name:'LastUpdate',
+        name:'Pending',
 
         data() {
             return {
@@ -335,6 +335,7 @@
         },
 
         mounted(){
+            console.log("HELLO")
             bodyScroll.init()
         },
 
