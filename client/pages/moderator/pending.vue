@@ -117,7 +117,7 @@
                     <button @click="refused(pending, index)" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700">Refused</button>
                 </section>
 
-                <!--<Modal
+                <Modal
                     v-model="editArtist"
                     wrapper-class="animate__animated"
                     in-class="animate__fadeInDown"
@@ -304,17 +304,14 @@
                             <button @click="editByModerator()" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700 text-white">Confirm Edition</button>
                         </div>
                     </div>
-                </Modal>-->
-            </div>
-
-            <div v-if="maxObjectDisplay < this.pendings.length" class="w-full flex justify-center">
-                <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
+                </Modal>
             </div>
 
             <div v-if="this.pendings.length < 1" style="background-color: #6B728033" class="w-full text-white lg:col-span-2 py-2 rounded-sm flex justify-center">
                 <span class="w-full text-center">No new pending</span>
             </div>
         </section>
+        <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     </div>
 </template>
 
@@ -331,15 +328,14 @@
                 indexEdit: 0,
                 artistList:[],
                 styleList:[],
-                maxObjectDisplay:20
+                maxObjectDisplay: 0
             }
         },
 
         async asyncData({ $axios }){
-            const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
             const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
-            return { pendings, artistList, styleList }
+            return { artistList, styleList }
         },
     
         computed: {
@@ -350,6 +346,26 @@
         },
 
         methods: {
+            infiniteScroll($state) {
+                let artTmp = []
+                setTimeout(() => {
+                    artTmp = artTmp.concat(this.pendings)
+                    this.$axios.get(`https://comeback-api.herokuapp.com/requests?state=PENDING&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                        if(response.data.length > 0) {
+                            artTmp = artTmp.concat(response.data)
+                            this.pendings = [...new Set(artTmp)]
+                            this.maxObjectDisplay = this.maxObjectDisplay + 20
+                            $state.loaded();
+                        } else {
+                            this.enough = true
+                            $state.complete();
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }, 500);
+            },
 
             async accepted(object, index){
                 if(object.method == 'PUT'){
