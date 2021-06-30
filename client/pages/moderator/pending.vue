@@ -7,8 +7,11 @@
                     <span v-if="pending.method == 'PUT'">Edition</span>
                     <span v-if="pending.user">by {{pending.user.username}} </span>
                 </section>
+                <PendingArtist :pending="pending" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'"/>
+                <PendingRelease :pending="pending" v-if="pending.body.type === 'SINGLE' || pending.body.type === 'ALBUM' || pending.body.type === 'EP' || pending.currentData.type === 'SINGLE' || pending.currentData.type === 'ALBUM' || pending.currentData.type === 'EP'"/>
+                <PendingMusic :pending="pending" v-if="!pending.body.type && !pending.currentData.type"/>
 
-                <section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
+                <!--<section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
                     <span class="font-semibold">Artist Pending</span>
                     <div id="image" class="flex space-x-5">
                         <img :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
@@ -21,8 +24,8 @@
                         <span>Type : <span :class="pending.body.type ? 'text-red-500':''">{{pending.currentData.type}}</span> <span v-if="pending.body.type" class="text-green-500">{{pending.body.type}}</span></span>
                     </div>
                     <div id="style">
-                        <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div></div>
-                        <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style}}</span></div>
+                        <div class="flex space-x-1"><span>Styles :</span><div :class="pending.body.styles ? 'text-red-500':''" class="space-x-1"><span v-for="(style, index) in pending.currentData.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style.name}}</span></div></div>
+                        <div v-if="pending.body.styles" class="text-green-500 space-x-1"><span v-for="(style, index) in pending.body.styles" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{style.name}}</span></div>
                     </div>
                     <div id="description">
                         <span>Description : <span :class="pending.body.description ? 'text-red-500':''">{{pending.currentData.description}}</span> </span>
@@ -106,7 +109,7 @@
                         <span>Source :</span>
                         <span> {{pending.source}} </span>
                     </div>
-                </section>
+                </section>-->
 
                 <section id="pending-button" class="flex space-x-3 justify-end">
                     <button @click="editOpen(index)" class="bg-blue-500 px-2 py-1 focus:outline-none hover:bg-blue-700">Edit</button>
@@ -119,9 +122,7 @@
                     wrapper-class="animate__animated"
                     in-class="animate__fadeInDown"
                     out-class="animate__zoomOut"
-                    modal-class="fullscreen-modal bg-gray-300 "
-                    @before-open="beforeOpen"
-                    @before-close="beforeClose">
+                    modal-class="fullscreen-modal bg-gray-300 ">
                     <div id="edit-pending-artist-data" class="flex flex-col justify-center p-5 rounded text-white bg-gray-600" v-if="pendings[indexEdit].body.type === 'SOLO' || pendings[indexEdit].body.type === 'GROUP' || pendings[indexEdit].currentData.type === 'SOLO' || pendings[indexEdit].currentData.type === 'GROUP'">
                         <div>
                             <img :src="pendings[indexEdit].currentData.image" :alt="pendings[indexEdit].currentData.name" class="w-40 h-40 object-cover">
@@ -305,21 +306,18 @@
                     </div>
                 </Modal>
             </div>
-            <div v-if="maxObjectDisplay < this.pendings.length" class="w-full flex justify-center">
-                <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
-            </div>
+
             <div v-if="this.pendings.length < 1" style="background-color: #6B728033" class="w-full text-white lg:col-span-2 py-2 rounded-sm flex justify-center">
                 <span class="w-full text-center">No new pending</span>
             </div>
         </section>
+        <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     </div>
 </template>
 
 <script>
-    import bodyScroll from 'body-scroll-freezer'
-    
     export default {
-        name:'LastUpdate',
+        name:'Pending',
 
         data() {
             return {
@@ -330,12 +328,14 @@
                 indexEdit: 0,
                 artistList:[],
                 styleList:[],
-                maxObjectDisplay:20
+                maxObjectDisplay: 0
             }
         },
 
-        mounted(){
-            bodyScroll.init()
+        async asyncData({ $axios }){
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
+            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
+            return { artistList, styleList }
         },
     
         computed: {
@@ -346,6 +346,26 @@
         },
 
         methods: {
+            infiniteScroll($state) {
+                let artTmp = []
+                setTimeout(() => {
+                    artTmp = artTmp.concat(this.pendings)
+                    this.$axios.get(`https://comeback-api.herokuapp.com/requests?state=PENDING&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                        if(response.data.length > 0) {
+                            artTmp = artTmp.concat(response.data)
+                            this.pendings = [...new Set(artTmp)]
+                            this.maxObjectDisplay = this.maxObjectDisplay + 20
+                            $state.loaded();
+                        } else {
+                            this.enough = true
+                            $state.complete();
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }, 500);
+            },
 
             async accepted(object, index){
                 if(object.method == 'PUT'){
@@ -475,20 +495,13 @@
                 this.pendings[this.indexEdit].body["newMembers"] = []
             },
 
-            beforeOpen() {
+            /*beforeOpen() {
                 bodyScroll.freeze()
             },
 
             beforeClose() {
                 bodyScroll.unfreeze()
-            }
-        },
-
-        async asyncData({ $axios }){
-            const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
-            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
-            return { pendings, artistList, styleList }
+            }*/
         },
     }
 </script>

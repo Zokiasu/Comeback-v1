@@ -6,14 +6,12 @@
       </div>
       <input @change="updateDateList(true)" id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-select-leftbar text-white placeholder-white">
     </section>
-    <section v-if="filteredList.length > 0" id="artist-list" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-y-10 w-full justify-center my-10 animate__fadeInUp-2s">
+    <section v-if="filteredList.length > 0" id="artist-list" class="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-y-10 w-full justify-center my-10 animate__fadeInUp-2s">
       <ArtistCard 
         class="animate__fadeInDown-2s"
         v-for="artist in filteredList"
         :key="artist.id"
-        :id="artist.id"
-        :name="artist.name"
-        :image="artist.image"/>
+        :artist="artist"/>
     </section>
     <!--<InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList(false)"/>-->
     <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
@@ -63,7 +61,7 @@
     methods:{
       async fetchData() {
         let artTmp = []
-        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`);
+        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/full?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`);
         artTmp = artTmp.concat(response)
         this.artists = [...new Set(artTmp)]
       },
@@ -71,7 +69,7 @@
         let artTmp = []
         setTimeout(() => {
           artTmp = artTmp.concat(this.artists)
-          this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
+          this.$axios.get(`https://comeback-api.herokuapp.com/artists/full?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
             if(response.data.length > 0) {
               artTmp = artTmp.concat(response.data)
               this.artists = [...new Set(artTmp)]
@@ -92,7 +90,7 @@
         let artTmp = []
         if(reset) {
           this.maxArtist = 0
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/full?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           if(response.length > 0) {
             artTmp = artTmp.concat(response)
             this.artists = [...new Set(artTmp)] //Remove all double entry

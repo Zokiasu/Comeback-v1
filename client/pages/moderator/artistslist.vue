@@ -65,10 +65,6 @@
         },
     
         computed: {
-            filteredList() {
-                return this.artists
-            },
-
             userId(){
                 let utmp = this.$store.state.dataUser
                 return utmp.id

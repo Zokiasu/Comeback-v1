@@ -83,6 +83,7 @@ const artist = (sequelize, DataTypes) => {
     Artist.belongsToMany(models.Style, {
       through: 'Artist',
     });
+    Artist.hasMany(models.Info);
   };
 
   return Artist;

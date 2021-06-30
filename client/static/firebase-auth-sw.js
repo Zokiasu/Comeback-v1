@@ -1,10 +1,10 @@
 const ignorePaths = ["\u002F__webpack_hmr","\u002F_loading","\u002F_nuxt\u002F"]
 
 importScripts(
-  'https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js'
+  'https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js'
 )
 importScripts(
-  'https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js'
+  'https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js'
 )
 firebase.initializeApp({"apiKey":"AIzaSyC7827CjkYuT3MvcGIPjXwFtM-5XsakQoY","authDomain":"comeback-65643.firebaseapp.com","projectId":"comeback-65643","storageBucket":"comeback-65643.appspot.com","messagingSenderId":"62874869818","appId":"1:62874869818:web:cff1a37d8484785de15503","measurementId":"G-795498CRNX"})
 
@@ -72,8 +72,9 @@ self.addEventListener('fetch', (event) => {
     return path.test(url.pathname.slice(1))
   })
 
+  // https://github.com/nuxt-community/firebase-module/issues/465
   if (!expectsHTML || !isSameOrigin || !isHttps || isIgnored) {
-    event.respondWith(fetch(event.request))
+      event.respondWith(fetch(event.request))
 
     return
   }

@@ -42,7 +42,7 @@
           <t-input @change="newObjectToApi('email', userData.email)" autocomplete="false" type="text" v-model="userData.email" :value="userData.email"/>
         </div>
         <div id="birthday" class="flex flex-col">
-          <span class="font-semibold">Date of Birth</span>
+          <span class="font-semibold">Birthday</span>
           <t-datepicker
             class="text-black"
             v-model="userData.birthday"
