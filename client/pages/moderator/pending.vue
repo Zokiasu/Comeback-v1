@@ -7,7 +7,6 @@
                     <span v-if="pending.method == 'PUT'">Edition</span>
                     <span v-if="pending.user">by {{pending.user.username}} </span>
                 </section>
-
                 <section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
                     <span class="font-semibold">Artist Pending</span>
                     <div id="image" class="flex space-x-5">
@@ -305,9 +304,11 @@
                     </div>
                 </Modal>
             </div>
+
             <div v-if="maxObjectDisplay < this.pendings.length" class="w-full flex justify-center">
                 <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
             </div>
+
             <div v-if="this.pendings.length < 1" style="background-color: #6B728033" class="w-full text-white lg:col-span-2 py-2 rounded-sm flex justify-center">
                 <span class="w-full text-center">No new pending</span>
             </div>
@@ -316,7 +317,6 @@
 </template>
 
 <script>
-    import bodyScroll from 'body-scroll-freezer'
     
     export default {
         name:'Pending',
@@ -335,15 +335,14 @@
         },
 
         mounted(){
-            console.log("HELLO")
-            bodyScroll.init()
+            //console.log("HELLO")
+            // bodyScroll.init()
         },
 
         async asyncData({ $axios }){
             const pendings = await $axios.$get(`https://comeback-api.herokuapp.com/requests?state=PENDING`)
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
             const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
-            console.log("pending", pendings)
             return { pendings, artistList, styleList }
         },
     
@@ -484,13 +483,13 @@
                 this.pendings[this.indexEdit].body["newMembers"] = []
             },
 
-            beforeOpen() {
+            /*beforeOpen() {
                 bodyScroll.freeze()
             },
 
             beforeClose() {
                 bodyScroll.unfreeze()
-            }
+            }*/
         },
     }
 </script>
