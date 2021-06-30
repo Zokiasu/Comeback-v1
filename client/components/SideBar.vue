@@ -137,6 +137,7 @@
                 })
             },
 
+            //firebase logout function
             logout(){
                 this.$fire.auth.signOut().then(() => {
                     this.$router.push('/')
