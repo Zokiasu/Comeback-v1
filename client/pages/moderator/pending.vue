@@ -117,7 +117,7 @@
                     <button @click="refused(pending, index)" class="bg-red-500 px-2 py-1 focus:outline-none hover:bg-red-700">Refused</button>
                 </section>
 
-                <Modal
+                <!--<Modal
                     v-model="editArtist"
                     wrapper-class="animate__animated"
                     in-class="animate__fadeInDown"
@@ -304,7 +304,7 @@
                             <button @click="editByModerator()" class="bg-green-500 px-2 py-1 focus:outline-none hover:bg-green-700 text-white">Confirm Edition</button>
                         </div>
                     </div>
-                </Modal>
+                </Modal>-->
             </div>
 
             <div v-if="maxObjectDisplay < this.pendings.length" class="w-full flex justify-center">
