@@ -33,6 +33,7 @@ app.use('/musics', routes.music);
 app.use('/calendar', routes.calendar);
 app.use('/styles', routes.style);
 app.use('/notifications', routes.notification);
+app.use('/infos', routes.info);
 
 // Start
 

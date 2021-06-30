@@ -54,6 +54,7 @@ const user = (sequelize, DataTypes) => {
     });
 
     User.hasMany(models.Request);
+    User.hasMany(models.Info);
   };
 
   User.findByLogin = async (login) => {

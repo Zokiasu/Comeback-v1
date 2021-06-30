@@ -33,6 +33,7 @@ const sortDateDict = (dates) => {
     .forEach(function (key) {
       orderedDates[key] = dates[key];
     });
+
   return orderedDates;
 };
 
