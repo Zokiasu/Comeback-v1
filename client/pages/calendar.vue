@@ -60,26 +60,6 @@
         }
     },
 
-    /*async asyncData({ $axios}){
-      const { date } = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=date:desc&limit=1`)
-      console.log("date", date)
-      const lastReleaseDate = date
-      console.log("lastReleaseDate", lastReleaseDate)
-      return {lastReleaseDate}
-    },*/
-
-    created(){
-      /*this.startDate.setDate(this.startDate.getDate()-2)
-      this.endDate.setDate((this.startDate.getDate()) + this.gapDate)*/
-      
-      /*const that = this
-      this.$fire.auth.onAuthStateChanged(function (user) {
-        if (user != null) {
-          that.$axios.put(`https://comeback-api.herokuapp.com/users/${user.uid}`, {role: 'ADMIN'})
-        }
-      })*/
-    },
-
     mounted() {
       this.handleResize();
       window.scrollTo(0,document.getElementById("test").scrollHeight);
@@ -112,12 +92,10 @@
         this.endDate.setDate((this.startDate.getDate()) + this.gapDate)
         if(this.userPreference == "true"){
           this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userData.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-            console.log("data", response.data)
             this.dateList = {}
             for(let [key, value] of Object.entries(response.data)) {
               this.dateList[key] = value
             }
-            console.log("dateList", this.dateList)
             this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
             this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
           })

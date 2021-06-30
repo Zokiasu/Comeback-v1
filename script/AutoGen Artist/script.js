@@ -53,7 +53,6 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
     if(idToGet != null) {
         api.getArtist(idToGet).then(result2 => {
             if(result2.name) {
-                //console.log(result2)
                 let artist = {
                     image: null,
                     type: "SOLO",
@@ -67,7 +66,7 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
 
                 artist.name = result2.name
                 artist.description = result2.description
-                if(element) artist.image = element.thumbnails[element.thumbnails.length-1].url.replace('w120-h120', 'w250-h250')
+                if(element) artist.image = element.thumbnails[element.thumbnails.length-1]?.url.replace('w120-h120', 'w250-h250')
                 artist.idyoutubemusic = idToGet
 
                 //verification si l'artiste trouver existe chez youtube
@@ -129,7 +128,7 @@ const addAlbum = function(result2, artist, artistList, releaseList) {
 
                     release.name = result3.title
                     release.type = el.type.toUpperCase()
-                    release.image = result3.thumbnails[result3.thumbnails.length-1].url
+                    release.image = result3.thumbnails[result3.thumbnails.length-1]?.url
                     release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
                     release.idyoutubemusic = el.browseId                                                
 
@@ -189,7 +188,7 @@ const addSingle = function(result2, artist, artistList, releaseList) {
                     }
 
                     release.name = result3.title
-                    release.image = result3.thumbnails[result3.thumbnails.length-1].url
+                    release.image = result3.thumbnails[result3.thumbnails.length-1]?.url
                     release.date = new Date(result3.date.year+'-'+result3.date.month+'-'+result3.date.day + ' 02:00:00')
                     release.idyoutubemusic = el.browseId                                                
                     

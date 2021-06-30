@@ -211,8 +211,7 @@
           userId: this.userData.id,
           source: this.source
         }).then(response=>{
-          
-          //this.$router.push({ path: `/artist`})
+          this.$router.push({ path: `/artist`})
         })
       },
 

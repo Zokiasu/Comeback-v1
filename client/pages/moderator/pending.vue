@@ -7,7 +7,11 @@
                     <span v-if="pending.method == 'PUT'">Edition</span>
                     <span v-if="pending.user">by {{pending.user.username}} </span>
                 </section>
-                <section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
+                <PendingArtist :pending="pending" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'"/>
+                <PendingRelease :pending="pending" v-if="pending.body.type === 'SINGLE' || pending.body.type === 'ALBUM' || pending.body.type === 'EP' || pending.currentData.type === 'SINGLE' || pending.currentData.type === 'ALBUM' || pending.currentData.type === 'EP'"/>
+                <PendingMusic :pending="pending" v-if="!pending.body.type && !pending.currentData.type"/>
+
+                <!--<section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
                     <span class="font-semibold">Artist Pending</span>
                     <div id="image" class="flex space-x-5">
                         <img :src="pending.currentData.image" class="w-20 h-20 object-cover" :style="pending.body.image ? 'filter: grayscale(100%);' : ''">
@@ -105,7 +109,7 @@
                         <span>Source :</span>
                         <span> {{pending.source}} </span>
                     </div>
-                </section>
+                </section>-->
 
                 <section id="pending-button" class="flex space-x-3 justify-end">
                     <button @click="editOpen(index)" class="bg-blue-500 px-2 py-1 focus:outline-none hover:bg-blue-700">Edit</button>
@@ -315,7 +319,6 @@
 </template>
 
 <script>
-    
     export default {
         name:'Pending',
 
@@ -330,11 +333,6 @@
                 styleList:[],
                 maxObjectDisplay:20
             }
-        },
-
-        mounted(){
-            //console.log("HELLO")
-            // bodyScroll.init()
         },
 
         async asyncData({ $axios }){
