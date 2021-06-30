@@ -24,9 +24,7 @@
             <ArtistCard 
               v-for="(artist) in bestArtistsList.slice(0, maxArtist)"
               :key="artist.id"
-              :id="artist.id"
-              :name="artist.name"
-              :image="artist.image"/>
+              :artist="artist"/>
           </transition-group>
         </div>
       </div>

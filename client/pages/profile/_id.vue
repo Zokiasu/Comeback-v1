@@ -37,9 +37,7 @@
                 <ArtistCard 
                     v-for="artist in user.artists"
                     :key="artist.id"
-                    :id="artist.id"
-                    :name="artist.name"
-                    :image="artist.image"/>
+                    :artist="artist"/>
             </div>
         </section>
         <section id="music-following" v-if="actualtab == 'music' && user.releases.length > 0">
