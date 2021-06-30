@@ -118,9 +118,7 @@
                     wrapper-class="animate__animated"
                     in-class="animate__fadeInDown"
                     out-class="animate__zoomOut"
-                    modal-class="fullscreen-modal bg-gray-300 "
-                    @before-open="beforeOpen"
-                    @before-close="beforeClose">
+                    modal-class="fullscreen-modal bg-gray-300 ">
                     <div id="edit-pending-artist-data" class="flex flex-col justify-center p-5 rounded text-white bg-gray-600" v-if="pendings[indexEdit].body.type === 'SOLO' || pendings[indexEdit].body.type === 'GROUP' || pendings[indexEdit].currentData.type === 'SOLO' || pendings[indexEdit].currentData.type === 'GROUP'">
                         <div>
                             <img :src="pendings[indexEdit].currentData.image" :alt="pendings[indexEdit].currentData.name" class="w-40 h-40 object-cover">
