@@ -1,14 +1,51 @@
 <template>
-  <div>
-    
+  <div class="p-10 overflow-hidden space-y-20">
+    <section id="newArtist">
+      <div>
+        <h2 class="text-4xl text-white py-5">Last Artist Added</h2>
+      </div>
+      <transition-group name="object" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 1.5xl:grid-cols-10 gap-5 w-full justify-start overflow-x-scroll inner">
+        <ArtistCard v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
+      </transition-group>
+    </section>
+    <section id="newRelease">
+      <div>
+        <h2 class="text-4xl text-white py-5">Last Release Added</h2>
+      </div>
+      <transition-group name="object" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 1.5xl:grid-cols-10 gap-5 w-full justify-start overflow-x-scroll inner">
+        <ReleaseCard 
+          v-for="(release) in newRelease"
+          :key="release.id"
+          :release="release"/>
+      </transition-group>
+    </section>
+    <!--<section id="artistRecommendation"></section>
+    <section id="releaseRecommendation"></section>-->
   </div>
 </template>
 
 <script>
-export default {}
+  export default {
+    data(){
+      return {
+        newArtist:[],
+        newRelease:[],
+      }
+    },
+    
+    async asyncData({ $axios }){
+      let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=10`)
+      let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=10`)
+      return {newArtist,newRelease}
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
+.inner::-webkit-scrollbar {
+  display: none;
+}
+
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
 body{
   display: flex;
