@@ -100,8 +100,8 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
                     //Si l'artiste est déjà dans la base de donnée
                     else {
                         //console.log("-- ARTIST EXIST")
-                        addAlbum(result2, artist, artistList, releaseList)
-                        addSingle(result2, artist, artistList, releaseList)
+                        if(result2?.products?.albums?.content != undefined) addAlbum(result2, artist, artistList, releaseList)
+                        if(result2?.products?.singles?.content != undefined) addSingle(result2, artist, artistList, releaseList)
                         artistExist = false
                     }
                 }
@@ -113,6 +113,7 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
 const addAlbum = function(result2, artist, artistList, releaseList) {
     //ajout des albums de l'artiste
     result2?.products?.albums?.content?.forEach(el => {
+        //console.log(el)
         if(el.browseId) {
             api.getAlbum(el.browseId).then(result3 => {
                 if(result3.title) {
@@ -153,7 +154,7 @@ const addAlbum = function(result2, artist, artistList, releaseList) {
                         }
                     })
 
-                    if(!releaseExist && result3.date.year >= 2021){
+                    if(!releaseExist && result3?.date?.year >= 2021){
                         console.log("-- RELEASE NOT EXIST : ", release.name)
                         //console.log("ADD ALBUMS : ", release.name)
                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
@@ -211,7 +212,7 @@ const addSingle = function(result2, artist, artistList, releaseList) {
                         }
                     })
 
-                    if(!releaseExist && result3.date.year >= 2021){
+                    if(!releaseExist && result3?.date?.year >= 2021){
                         console.log("-- RELEASE NOT EXIST", release.name)
                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                         .then(res => {

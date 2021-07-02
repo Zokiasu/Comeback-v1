@@ -13,7 +13,7 @@
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
       </div>
-      <transition-group v-if="width" name="object" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-5 py-5 justify-center texts text-white animate__fadeInDown">
+      <transition-group v-if="width" name="object" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-5 py-5 justify-center texts text-white animate__fadeInDown">
         <ReleaseCard
           v-for="release in date.releases"
           :release="release"
