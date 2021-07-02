@@ -6,7 +6,7 @@ importScripts(
 importScripts(
   'https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js'
 )
-firebase.initializeApp({"apiKey":undefined,"authDomain":undefined,"projectId":undefined,"storageBucket":undefined,"messagingSenderId":undefined,"appId":undefined,"measurementId":undefined})
+firebase.initializeApp({"apiKey":"AIzaSyC7827CjkYuT3MvcGIPjXwFtM-5XsakQoY","authDomain":"comeback-65643.firebaseapp.com","projectId":"comeback-65643","storageBucket":"comeback-65643.appspot.com","messagingSenderId":"62874869818","appId":"1:62874869818:web:cff1a37d8484785de15503","measurementId":"G-795498CRNX"})
 
 // Initialize authService
 const authService = firebase.auth()

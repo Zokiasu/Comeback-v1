@@ -7,19 +7,19 @@
         </div>
         <div class="flex justify-center lg:justify-between lg:w-full relative lg:ml-5">
             <ul id="menu" class="flex space-x-0">
-                <NuxtLink :to="`/`" @click="actualPage = 'Home'" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="actualPage != 'Home' ? '' : 'bg-gray-500'">
+                <NuxtLink :to="`/`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? '' : 'bg-gray-500'">
                     <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/home.png"/>
                     <span class="hidden mt-0.5 lg:flex">Home</span>
                 </NuxtLink>
-                <NuxtLink :to="`/calendar`" @click="actualPage = 'Calendar'" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="actualPage != 'Calendar' ? '' : 'bg-gray-500'">
+                <NuxtLink :to="`/calendar`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'calendar' ? '' : 'bg-gray-500'">
                     <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/calendar.png"/>
                     <span class="hidden mt-0.5 lg:flex">Calendar</span>
                 </NuxtLink>
-                <NuxtLink :to="`/artist`" @click="actualPage = 'Artist'" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="actualPage != 'Artist' ? '' : 'bg-gray-500'">
+                <NuxtLink :to="`/artist`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'artist' ? '' : 'bg-gray-500'">
                     <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png"/>
                     <span class="hidden mt-0.5 lg:flex">Artists</span>
                 </NuxtLink>
-                <NuxtLink :to="`/moderator`" @click="actualPage = 'Moderator'" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="actualPage != 'Moderator' ? '' : 'bg-gray-500'">
+                <NuxtLink :to="`/moderator`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator' ? '' : 'bg-gray-500'">
                     <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png"/>
                     <span class="hidden mt-0.5 lg:flex">Moderator</span>
                 </NuxtLink>
@@ -106,7 +106,6 @@
     export default {
         data() {
             return {
-                actualPage: 'Home',
                 searchbar: false,
                 search:'',
                 userMenu: false,

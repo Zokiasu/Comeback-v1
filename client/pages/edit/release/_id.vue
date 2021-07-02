@@ -89,6 +89,12 @@
         </div>
       </div>
 
+      <div v-if="userData.role == 'ADMIN'" id="artists-name" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-10">
+          <h1 class="text-white text-xl">Youtube Music ID</h1>
+          <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+          <t-input @change="newObjectToApi('idyoutubemusic', release.idyoutubemusic)" autocomplete="false" type="text" v-model="release.idyoutubemusic" :value="release.idyoutubemusic" placeholder="release idyoutubemusic" name="release-idyoutubemusic" />
+      </div>
+
       <div id="artists" class="flex flex-col text-white mb-10">
           <h1 class="text-xl">Artists*</h1>
           <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>

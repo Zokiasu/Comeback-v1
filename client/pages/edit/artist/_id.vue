@@ -53,6 +53,12 @@
             </div>
         </div>
 
+        <div v-if="userData.role == 'ADMIN'" id="artists-name" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-10">
+            <h1 class="text-white text-xl">Youtube Music ID</h1>
+            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
+            <t-input @change="newObjectToApi('idyoutubemusic', artists.idyoutubemusic)" autocomplete="false" type="text" v-model="artists.idyoutubemusic" :value="artists.idyoutubemusic" placeholder="Artist idyoutubemusic" name="artists-idyoutubemusic" />
+        </div>
+
         <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-10">
             <h1 class="text-xl">Members</h1>
             <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
@@ -185,6 +191,7 @@
 
         mounted(){
             this.oldArtistData = JSON.parse(JSON.stringify(this.artists))
+            console.log(this.userData)
         },
     
         computed: {
