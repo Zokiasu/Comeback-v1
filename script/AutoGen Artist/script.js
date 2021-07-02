@@ -73,7 +73,7 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
                 if(artist.name) {
                     console.log('CHECK ARTIST : ', artist.name)
                     artistList.forEach(elem => {
-                        if (elem.name == artist.name && elem.idyoutubemusic == artist.idyoutubemusic) {
+                        if (elem.idyoutubemusic == artist.idyoutubemusic) {
                             artistExist = true
                             artist['id'] = elem.id
                         }
