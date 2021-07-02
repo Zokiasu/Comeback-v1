@@ -1,0 +1,14 @@
+{
+  "ArtistCard": {
+    "description": "Auto imported from components/ArtistCard.vue"
+  },
+  "Logo": {
+    "description": "Auto imported from components/Logo.vue"
+  },
+  "Menu": {
+    "description": "Auto imported from components/Menu.vue"
+  },
+  "ReleaseCard": {
+    "description": "Auto imported from components/ReleaseCard.vue"
+  }
+}

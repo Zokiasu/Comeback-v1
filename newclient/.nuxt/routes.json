@@ -1,0 +1,128 @@
+[
+  {
+    "name": "admin",
+    "path": "/admin",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\admin\\\\index.vue",
+    "chunkName": "pages/admin/index"
+  },
+  {
+    "name": "artist",
+    "path": "/artist",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\artist\\\\index.vue",
+    "chunkName": "pages/artist/index"
+  },
+  {
+    "name": "calendar",
+    "path": "/calendar",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\calendar.vue",
+    "chunkName": "pages/calendar"
+  },
+  {
+    "name": "moderator",
+    "path": "/moderator",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\moderator\\\\index.vue",
+    "chunkName": "pages/moderator/index"
+  },
+  {
+    "name": "profile",
+    "path": "/profile",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\profile\\\\index.vue",
+    "chunkName": "pages/profile/index"
+  },
+  {
+    "name": "search",
+    "path": "/search",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\search.vue",
+    "chunkName": "pages/search"
+  },
+  {
+    "name": "add-artist",
+    "path": "/add/artist",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\add\\\\artist.vue",
+    "chunkName": "pages/add/artist"
+  },
+  {
+    "name": "add-release",
+    "path": "/add/release",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\add\\\\release.vue",
+    "chunkName": "pages/add/release"
+  },
+  {
+    "name": "admin-oldrequest",
+    "path": "/admin/oldrequest",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\admin\\\\oldrequest.vue",
+    "chunkName": "pages/admin/oldrequest"
+  },
+  {
+    "name": "admin-user",
+    "path": "/admin/user",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\admin\\\\user.vue",
+    "chunkName": "pages/admin/user"
+  },
+  {
+    "name": "moderator-artist",
+    "path": "/moderator/artist",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\moderator\\\\artist.vue",
+    "chunkName": "pages/moderator/artist"
+  },
+  {
+    "name": "moderator-music",
+    "path": "/moderator/music",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\moderator\\\\music.vue",
+    "chunkName": "pages/moderator/music"
+  },
+  {
+    "name": "moderator-release",
+    "path": "/moderator/release",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\moderator\\\\release.vue",
+    "chunkName": "pages/moderator/release"
+  },
+  {
+    "name": "moderator-request",
+    "path": "/moderator/request",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\moderator\\\\request.vue",
+    "chunkName": "pages/moderator/request"
+  },
+  {
+    "name": "user-setting",
+    "path": "/user/setting",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\user\\\\setting.vue",
+    "chunkName": "pages/user/setting"
+  },
+  {
+    "name": "edit-artist-id",
+    "path": "/edit/artist/:id?",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\edit\\\\artist\\\\_id.vue",
+    "chunkName": "pages/edit/artist/_id"
+  },
+  {
+    "name": "edit-release-id",
+    "path": "/edit/release/:id?",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\edit\\\\release\\\\_id.vue",
+    "chunkName": "pages/edit/release/_id"
+  },
+  {
+    "name": "artist-id",
+    "path": "/artist/:id",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\artist\\\\_id.vue",
+    "chunkName": "pages/artist/_id"
+  },
+  {
+    "name": "profile-id",
+    "path": "/profile/:id",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\profile\\\\_id.vue",
+    "chunkName": "pages/profile/_id"
+  },
+  {
+    "name": "release-id",
+    "path": "/release/:id?",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\release\\\\_id.vue",
+    "chunkName": "pages/release/_id"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "C:\\\\Users\\\\pierr\\\\Desktop\\\\Comeback\\\\newclient\\\\pages\\\\index.vue",
+    "chunkName": "pages/index"
+  }
+]
