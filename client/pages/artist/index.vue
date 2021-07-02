@@ -61,7 +61,7 @@
     methods:{
       async fetchData() {
         let artTmp = []
-        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/full?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`);
+        const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`);
         artTmp = artTmp.concat(response)
         this.artists = [...new Set(artTmp)]
       },
@@ -69,7 +69,7 @@
         let artTmp = []
         setTimeout(() => {
           artTmp = artTmp.concat(this.artists)
-          this.$axios.get(`https://comeback-api.herokuapp.com/artists/full?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
+          this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
             if(response.data.length > 0) {
               artTmp = artTmp.concat(response.data)
               this.artists = [...new Set(artTmp)]
@@ -90,7 +90,7 @@
         let artTmp = []
         if(reset) {
           this.maxArtist = 0
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/full?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           if(response.length > 0) {
             artTmp = artTmp.concat(response)
             this.artists = [...new Set(artTmp)] //Remove all double entry
