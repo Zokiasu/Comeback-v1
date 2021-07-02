@@ -41,6 +41,7 @@ router.get('/', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
     ...queriesToDict(req.query),
     include: [
+      { model: req.context.models.Artist, as: 'groups' },
       req.context.models.Style,
     ],
   });
