@@ -41,14 +41,13 @@ router.get('/', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
     ...queriesToDict(req.query),
     include: [
-      { model: req.context.models.Artist, as: 'groups' },
       req.context.models.Style,
     ],
   });
   return res.send(artists);
 });
 
-router.get('/fulllimit', async (req, res) => {
+router.get('/fulllimited', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
     ...queriesToDict(req.query),
     include: [
