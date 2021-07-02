@@ -77,10 +77,11 @@
                 @input="newObjectToApi('members', artists.members)" 
                 @tag="addMember">
                 <template slot="option" slot-scope="props">
-                    <div class="flex space-x-1">
-                        <img v-if="props.option.image" class="option__image w-14 h-14" :src="props.option.image">
-                        <div class="option__desc">
+                    <div class="flex space-x-5">
+                        <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                        <div class="option__desc flex flex-col space-y-1">
                             <span class="option__title">{{ props.option.name }}</span>
+                            <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
                         </div>
                     </div>
                 </template>
@@ -106,9 +107,10 @@
                 @tag="addGroup">
                 <template slot="option" slot-scope="props">
                     <div class="flex space-x-1">
-                        <img v-if="props.option.image" class="option__image w-14 h-14" :src="props.option.image">
-                        <div class="option__desc">
+                        <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                        <div class="option__desc flex flex-col space-y-1">
                             <span class="option__title">{{ props.option.name }}</span>
+                            <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
                         </div>
                     </div>
                 </template>
@@ -180,7 +182,7 @@
 
         async asyncData({ $axios, params }){
             const artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
-            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists?sortby=name:asc')
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists/full?sortby=name:asc')
             const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')
 
             artists["newGroups"] = []
