@@ -139,7 +139,7 @@
       return {artist,memberslist}
     },
 
-    async mounted(){
+    async created(){
       this.artist.members.forEach(element => {
         if(element.type === "GROUP") {
           this.subunitlist.push(element)
