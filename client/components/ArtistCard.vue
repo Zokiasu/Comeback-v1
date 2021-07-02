@@ -5,7 +5,7 @@
         <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover" :src="artist.image ? artist.image : defaultArtistImage" :alt="artist.name"/>
       </NuxtLink>
     </div>
-    <NuxtLink id="artist-name" :to="`/artist/${artist.id}`" :class=" groupSize > 0 ? 'flex justify-center space-x-1':''"><h3 class="font-semibold text-center hover:underline">{{artist.name}}</h3><span v-if="groupSize > 0"> [{{artist.groups[0].name}}] </span></NuxtLink>
+    <NuxtLink id="artist-name" :to="`/artist/${artist.id}`" :class=" groupSize > 0 ? 'flex justify-center space-x-1':''"><h3 class="font-semibold text-center hover:underline">{{artist.name}}</h3><span v-if="groupSize > 0 && artist.type != 'GROUP'"> [{{artist.groups[0].name}}] </span></NuxtLink>
   </div>
 </template>
 
