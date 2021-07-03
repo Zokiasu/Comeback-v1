@@ -78,7 +78,6 @@ router.put('/:releaseId', async (req, res) => {
   release.update(req.body);
 
   await addAssociationItems(
-    null,
     req.body.artists,
     req.body.newArtists,
     req.context.models.Artist,
