@@ -9,6 +9,12 @@
         ]" ></t-select>
       </div>
     </div>
+    <div class="justify-center texts text-white mx-10 animate__fadeInDown space-y-1 mb-5">
+      <div class="mb-3 sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
+          <h1 class="font-semibold text-4xl">Last News</h1>
+      </div>
+      <NewsCard v-for="(element, index) in newsList" :key="index" :element="element"/>
+    </div>
     <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__fadeInDown">
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
@@ -25,12 +31,6 @@
           :release="release"
           :key="release.id"/>
       </transition-group>
-    </div>
-    <div class="justify-center texts text-white mx-10 animate__fadeInDown space-y-5 mb-10">
-      <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
-          <h1 class="font-semibold text-4xl">Last News</h1>
-      </div>
-      <NewsCard v-for="(element, index) in newsList" :key="index" :element="element" class="mb-10"/>
     </div>
     <InfiniteLoading v-if="stopInfiniteScroll" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     <div v-if="Object.entries(dateList).length < 1" class="px-5 mt-5">
