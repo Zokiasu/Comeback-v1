@@ -2,7 +2,7 @@
     <div class="bg-leftbar flex flex-col justify-between relative text-white texts min-h-screen">
         <div class="w-full">
             <header class="m-5 flex justify-center">
-                <button @click="backToHome()" class="focus:outline-none"><img class="w-52 cursor-pointer" src="../assets/image/logo.png"/></button>
+                <button @click="backToHome()" class="focus:outline-none"><img class="w-52 cursor-pointer" src="~/assets/image/logo.png"/></button>
             </header>
             <section id="navigation" class="border-t-2 border-gray-400 mx-5 py-5">
                 <nav>
@@ -17,31 +17,31 @@
                         </li>
                         <li>
                             <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'calendar' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/calendar`">
-                                <img class="w-4 h-4 mt-1" src="../assets/image/calendar.png"/>
+                                <img class="w-4 h-4 mt-1" src="~/assets/image/calendar.png"/>
                                 <span>Calendar</span>
                             </NuxtLink>
                         </li>
                         <li>
                             <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'artist' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/artist`">
-                                <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
+                                <img class="w-4 h-4 mt-1" src="~/assets/image/artist.png"/>
                                 <span>Artists</span>
                             </NuxtLink>
                         </li>
                         <li>
                             <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'profile-id' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/profile/`">
-                                <img class="w-4 h-4 mt-1" src="../assets/image/profile.png"/>
+                                <img class="w-4 h-4 mt-1" src="~/assets/image/profile.png"/>
                                 <span>Profile</span>
                             </NuxtLink>
                         </li>
                         <!--<li>
                             <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'discover' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/discover`">
-                                <img class="w-4 h-4 mt-1" src="../assets/image/artist.png"/>
+                                <img class="w-4 h-4 mt-1" src="~/assets/image/artist.png"/>
                                 <span>Discover</span>
                             </NuxtLink>
                         </li>-->
                         <li>
                             <NuxtLink class="px-3 py-1 rounded flex space-x-2" :class="$route.name !== 'setting' ? 'bg-transparent' : 'bg-select-leftbar'" :to="`/setting`">
-                                <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
+                                <img class="w-4 h-4 mt-1" src="~/assets/image/setting.png"/>
                                 <span>Setting</span>
                             </NuxtLink>
                         </li>
@@ -51,10 +51,15 @@
             <section id="action-navigation" class="border-t-2 border-gray-400 mx-5 py-5 h-full">
                 <nav>
                     <ul class="space-y-5">
-                        <li>
+                        <!--<li>
                             <NuxtLink :to="`/add/release`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                                 <span>New Release</span>
                             </NuxtLink>
+                        </li>-->
+                        <li>
+                            <button @click="newsWindow = !newsWindow" class="w-full texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                                <span>Add a News</span>
+                            </button>
                         </li>
                         <!--<li>
                             <NuxtLink :to="`/add/artist`" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
@@ -74,7 +79,7 @@
                     <ul class="space-y-5">
                         <li v-if="adminCheck">
                             <NuxtLink :to="`/moderator/pending`" class="px-3 py-1 rounded flex space-x-2" >
-                                <img class="w-4 h-4 mt-1" src="../assets/image/setting.png"/>
+                                <img class="w-4 h-4 mt-1" src="~/assets/image/setting.png"/>
                                 <span>Moderator Panel</span>
                             </NuxtLink>
                         </li>
@@ -92,9 +97,6 @@
                 </div>
             </section>
             <section class="border-t-2 border-gray-400 mx-3 pt-2 flex space-x-6 justify-center">
-                <!--<a href="#"><img class="w-5" src="../assets/image/facebook.png"/></a>
-                <a href="#"><img class="w-5" src="../assets/image/twitter.png"/></a>
-                <a href="#"><img class="w-5" src="../assets/image/instagram.png"/></a>-->
                 <span class="text-center">This website is currently under development, so you may encounter some bugs while using it.</span>
             </section>
             <section class="border-t-2 border-gray-400 space-y-2 mx-3 pt-2 text-sm">
@@ -102,6 +104,56 @@
                 <p class="text-center">©2021<br><a href="#">Studeler Dev</a> - <a href="#">Cozy Codeur</a></p>
             </section>
         </footer>
+        
+        <Modal
+            v-model="newsWindow" 
+            title="Add a news"
+            wrapper-class="animate__animated modal-wrapper"
+            :in-class="`animate__fadeInDown`"
+            :out-class="`animate__bounceOut`"
+            bg-class="animate__animated"
+            :bg-in-class="`animate__fadeInUp`"
+            :bg-out-class="`animate__fadeOutDown`">
+            <div class="flex flex-col justify-center">
+                <!--<t-input type="text" v-model="news.userId" placeholder="Your Id" name="userId" class="my-2"></t-input>-->
+
+                <multiselect
+                    v-if="!newArtist"
+                    v-model="artistSelected"
+                    placeholder="Please select an artists" 
+                    label="name" 
+                    track-by="id" 
+                    :options="artistList"
+                    :close-on-select="true"
+                    :clear-on-select="true"
+                    :preserve-search="false">
+                    <template slot="singleLabel" slot-scope="props">
+                        <div class="flex space-x-1">
+                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                            <div class="option__desc flex flex-col space-y-1">
+                                <span class="option__title">{{ props.option.name }}</span>
+                                <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
+                            </div>
+                        </div>
+                    </template>
+                    <template slot="option" slot-scope="props">
+                        <div class="flex space-x-1">
+                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                            <div class="option__desc flex flex-col space-y-1">
+                                <span class="option__title">{{ props.option.name }}</span>
+                                <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
+                            </div>
+                        </div>
+                    </template>
+                </multiselect>
+                <t-input v-else type="text" v-model="news.newArtistName" placeholder="Your Artist Name" name="Artist Name" class="my-2"></t-input>
+                <span v-if="!newArtist" class="text-sm my-2">You can't find your artist ? <button @click="newArtist = !newArtist" class="focus:outline-none text-green-500">Please click here to suggest him with your news</button></span>
+                <span v-else class="text-sm my-2"><button @click="newArtist = !newArtist" class="focus:outline-none text-green-500">Back to artist list</button></span>
+                <t-textarea type="text" v-model="news.message" placeholder="Your News" name="News" class="my-2"></t-textarea>
+                <button v-if="!newArtist" @click="sendNews()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Send the news</button>
+                <button v-else @click="sendNewsToValidated()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Suggest Artist and News</button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -114,6 +166,19 @@
                 newComeback: false,
                 adminCheck: false,
                 userData: null,
+
+                newsWindow:false,
+                newArtist:false,
+
+                news:{
+                    message: null,
+                    artistId: null,
+                    userId: null,
+                    newArtistName: null,
+                },
+
+                artistSelected:{},
+                artistList:[],
             }
         },
 
@@ -121,13 +186,69 @@
             $route() {
                 if(this.$route.name != 'search') this.search = ''
             },
+            artistSelected: {
+                immediate: true,
+                handler(artistSelected) {
+                    if (process.client) {
+                        this.news.artistId = artistSelected.id
+                    }
+                }
+            },
         },
         
-        created(){
+        async mounted(){
             this.adminChecker()
+            const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name:asc')
+            this.artistList = response
         },
 
         methods:{
+            async sendNewsToValidated() {
+                if(!this.news.message) {
+                    this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
+                } else if(!this.news.newArtistName) {
+                    this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
+                } else {
+                    await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
+                        state:'PENDING',
+                        method:'POST',
+                        endpoint:`/infos`,
+                        body: this.news,
+                        currentData: [],
+                        userId: this.news.userId,
+                        source: null
+                    }).then(response=>{
+                        console.log(response)
+                        this.newsWindow = !this.newsWindow
+                        this.news.message = null,
+                        this.news.newArtistName = null,
+                        this.news.userId = null
+                        this.newArtist = false
+                    })
+                }
+            },
+      
+            async sendNews(){
+                if(!this.news.message) {
+                    this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
+                } else if(!this.news.artistId) {
+                    this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
+                } else {
+                    console.log(this.news)
+                    await this.$axios.post(`https://comeback-api.herokuapp.com/infos`, this.news)
+                    .then(response => {
+                        console.log(response)
+                        this.newsWindow = !this.newsWindow
+                        this.news.message = null,
+                        this.news.artistId = null,
+                        this.news.userId = null
+                        this.newArtist = false
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            },
+
             updateSearch(){
                 let that = this
                 this.$fire.auth.onAuthStateChanged(async function (user) {
@@ -154,6 +275,7 @@
                         let userDatas = await that.$axios.$get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
                         if(userDatas.role != "NONE") {
                             that.adminCheck = true
+                            that.news.userId = user.uid
                         } else {
                             that.adminCheck =  false
                         }

@@ -9,6 +9,12 @@
         ]" ></t-select>
       </div>
     </div>
+    <div class="justify-center texts text-white mx-10 animate__fadeInDown space-y-5 mb-10">
+      <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
+          <h1 class="font-semibold text-4xl">Last News</h1>
+      </div>
+      <NewsCard v-for="(element, index) in newsList" :key="index" :element="element" class="mb-10"/>
+    </div>
     <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__fadeInDown">
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
@@ -57,6 +63,7 @@
           endDate: new Date(),
           lastReleaseDate: new Date(),
           gapDate: 30,
+          newsList:[],
         }
     },
 
@@ -82,6 +89,11 @@
         let utmp = this.$store.state.dataUser
         return utmp
       },
+    },
+
+    async asyncData({ $axios }){
+        const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=5')
+        return {newsList}
     },
 
     methods: {

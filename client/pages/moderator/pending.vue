@@ -8,9 +8,14 @@
                     <span v-if="pending.user">by {{pending.user.username}} </span>
                 </section>
                 <PendingArtist :pending="pending" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'"/>
-                <PendingRelease :pending="pending" v-if="pending.body.type === 'SINGLE' || pending.body.type === 'ALBUM' || pending.body.type === 'EP' || pending.currentData.type === 'SINGLE' || pending.currentData.type === 'ALBUM' || pending.currentData.type === 'EP'"/>
-                <PendingMusic :pending="pending" v-if="!pending.body.type && !pending.currentData.type"/>
-
+                <PendingRelease :pending="pending" v-else-if="pending.body.type === 'SINGLE' || pending.body.type === 'ALBUM' || pending.body.type === 'EP' || pending.currentData.type === 'SINGLE' || pending.currentData.type === 'ALBUM' || pending.currentData.type === 'EP'"/>
+                <PendingMusic :pending="pending" v-else-if="!pending.body.type && !pending.currentData.type && (pending.body.clip || pending.currentData.clip)"/>
+                <section v-else>
+                    <div class="flex flex-col">
+                        <span>Artist to Add : {{pending.body.newArtistName}} </span>
+                        <span>News : {{pending.body.message}} </span>
+                    </div>
+                </section>
                 <!--<section id="pending-artist-data" class="flex flex-col space-y-2 h-full" v-if="pending.body.type === 'SOLO' || pending.body.type === 'GROUP' || pending.currentData.type === 'SOLO' || pending.currentData.type === 'GROUP'">
                     <span class="font-semibold">Artist Pending</span>
                     <div id="image" class="flex space-x-5">

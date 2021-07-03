@@ -80,7 +80,7 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
                     })
                     
                     //Si l'artiste n'est pas déjà dans la base de donnée
-                    if(!artistExist) {
+                    /*if(!artistExist) {
                         console.log("-- ARTIST NOT EXIST")
                         axios.post(`https://comeback-api.herokuapp.com/artists`, artist).then(res => {
                             artist['id'] = res.data.id
@@ -90,8 +90,8 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
                             .then(res => {
                                 artistList = res.data
                                 //console.log(artist)
-                                /*addAlbum(result2, artist, artistList, releaseList)
-                                addSingle(result2, artist, artistList, releaseList)*/
+                                //addAlbum(result2, artist, artistList, releaseList)
+                                //addSingle(result2, artist, artistList, releaseList)
                                 getArtist(artist.idyoutubemusic, undefined, artistList, releaseList)
                             })
                         })
@@ -100,10 +100,10 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
                     //Si l'artiste est déjà dans la base de donnée
                     else {
                         //console.log("-- ARTIST EXIST")
-                        if(result2?.products?.albums?.content != undefined) addAlbum(result2, artist, artistList, releaseList)
-                        if(result2?.products?.singles?.content != undefined) addSingle(result2, artist, artistList, releaseList)
+                        //if(result2?.products?.albums?.content != undefined) addAlbum(result2, artist, artistList, releaseList)
+                        //if(result2?.products?.singles?.content != undefined) addSingle(result2, artist, artistList, releaseList)
                         artistExist = false
-                    }
+                    }*/
                 }
             }
         })
@@ -149,7 +149,7 @@ const addAlbum = function(result2, artist, artistList, releaseList) {
                     //vérifier si la release n'existe pas déjà
                     releaseList.forEach(elem => {
                         //console.log(release.name, elem.idyoutubemusic, release.idyoutubemusic)
-                        if (elem.idyoutubemusic == release.idyoutubemusic && elem.artists[0]?.name == release.artists[0]?.name) {
+                        if (elem.idyoutubemusic == release.idyoutubemusic) {
                             releaseExist = true
                         }
                     })
@@ -207,7 +207,7 @@ const addSingle = function(result2, artist, artistList, releaseList) {
                     })
                     //vérifier si la release n'existe pas déjà
                     releaseList.forEach(elem => {
-                        if (elem.idyoutubemusic == release.idyoutubemusic && elem.artists[0]?.name == release.artists[0]?.name) {
+                        if (elem.idyoutubemusic == release.idyoutubemusic) {
                             releaseExist = true
                         }
                     })
