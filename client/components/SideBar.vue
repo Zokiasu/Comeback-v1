@@ -57,7 +57,7 @@
                             </NuxtLink>
                         </li>-->
                         <li>
-                            <button @click="newsWindow = !newsWindow" class="w-full texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                            <button @click="openNewsWindow()" class="w-full texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
                                 <span>Add a News</span>
                             </button>
                         </li>
@@ -198,11 +198,15 @@
         
         async mounted(){
             this.adminChecker()
-            const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name:asc')
-            this.artistList = response
         },
 
         methods:{
+            async openNewsWindow(){
+                this.newsWindow = !this.newsWindow
+                const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name:asc')
+                this.artistList = response
+            },
+
             async sendNewsToValidated() {
                 if(!this.news.message) {
                     this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
