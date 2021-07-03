@@ -222,7 +222,6 @@
                         userId: this.news.userId,
                         source: null
                     }).then(response=>{
-                        console.log(response)
                         this.newsWindow = !this.newsWindow
                         this.news.message = null,
                         this.news.newArtistName = null,
@@ -238,10 +237,8 @@
                 } else if(!this.news.artistId) {
                     this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
                 } else {
-                    console.log(this.news)
                     await this.$axios.post(`https://comeback-api.herokuapp.com/infos`, this.news)
                     .then(response => {
-                        console.log(response)
                         this.newsWindow = !this.newsWindow
                         this.news.message = null,
                         this.news.artistId = null,

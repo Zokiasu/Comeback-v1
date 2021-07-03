@@ -47,7 +47,7 @@
             class="text-black"
             v-model="userData.birthday"
             @change="newObjectToApi('birthday', userData.birthday)"
-            placeholder="Release Date"
+            placeholder="Birthday"
             initial-view="month" dateFormat='Y-m-d' clearable>
           </t-datepicker>
         </div>
@@ -112,6 +112,14 @@
         .catch((error) => {
           console.log(error)
         })
+      },
+
+      updateUserFirebase(userEdit){
+        this.$fire.auth.currentUser.updateProfile({
+          displayName: userEdit.username,
+          photoURL: userEdit.avatar,
+        })
+        .catch((error) => {console.log(error)})
       },
 
       async disableUser(){

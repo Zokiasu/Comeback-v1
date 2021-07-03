@@ -31,23 +31,21 @@
                 </div>
             </div>
         </section>
+        <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     </div>
 </template>
 
 <script>
     export default {
-        name:'LastUpdate',
+        name:'UserList',
 
         data() {
             return {
                 users: [],
-                maxObjectDisplay:20
+                maxObjectDisplay:0,
+                enough: false,
+                search: '',
             }
-        },
-
-        async asyncData({ $axios }){
-            let users = await $axios.$get(`https://comeback-api.herokuapp.com/users`)
-            return {users}
         },
     
         computed: {
@@ -58,6 +56,29 @@
         
             defaultImage(){
                 return "../../assets/image/profile.png"
+            },
+        },
+
+        methods:{
+            infiniteScroll($state) {
+                let artTmp = []
+                setTimeout(() => {
+                    artTmp = artTmp.concat(this.users)
+                    this.$axios.get(`https://comeback-api.herokuapp.com/users?sortby=username&limit=2&offset=${this.maxObjectDisplay}`).then(response => {
+                        if(response.data.length > 0) {
+                            artTmp = artTmp.concat(response.data)
+                            this.users = [...new Set(artTmp)]
+                            this.maxObjectDisplay = this.maxObjectDisplay + 2
+                            $state.loaded();
+                        } else {
+                            this.enough = true
+                            $state.complete();
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                }, 500);
             },
         }
     }

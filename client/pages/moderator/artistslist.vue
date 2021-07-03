@@ -18,7 +18,7 @@
                     <img :src="artist.releases ? artist.releases[0].image : artist.image" class="w-20 h-20 object-cover" alt="">
                     <div class="flex flex-col justify-between">
                         <div class="flex space-x-2">
-                            <span class="font-semibold text-xl"><NuxtLink :to="`/artist/${artist.id}`" target="_blank" class="hover:underline">{{artist.name}}</NuxtLink> -</span>
+                            <span class="font-semibold text-xl"><NuxtLink :to="`/artist/${artist.id}`" target="_blank" class="hover:underline">{{artist.name}} <span v-if="artist.groups.length > 0">[{{artist.groups[0].name}}]</span></NuxtLink> -</span>
                             <span class="text-base mt-1">{{((artist.type).charAt(0).toUpperCase() + (artist.type).slice(1))}} </span>
                         </div>
                         <div class="flex space-x-2">
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="space-x-1">
                     <span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style.name}} </span>
                     <span v-if="artist.styles.length < 1" class="text-red-500"> No styles </span>
                 </div>
@@ -80,7 +80,7 @@
                 let artTmp = []
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.artists)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.artists = [...new Set(artTmp)]
@@ -101,7 +101,7 @@
                 let artTmp = []
                 if(reset) {
                     this.maxObjectDisplay = 0
-                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response)
                         this.artists = [...new Set(artTmp)] //Remove all double entry
@@ -115,7 +115,7 @@
                     }
                 } else {
                     artTmp = artTmp.concat(this.artists)
-                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response) //Add next artist into actual list
                         this.artists = [...new Set(artTmp)] //Remove all double entry

@@ -80,30 +80,32 @@ const getArtist = function (idToGet, element, artistList, releaseList) {
                     })
                     
                     //Si l'artiste n'est pas déjà dans la base de donnée
-                    /*if(!artistExist) {
+                    if(!artistExist) {
                         console.log("-- ARTIST NOT EXIST")
-                        axios.post(`https://comeback-api.herokuapp.com/artists`, artist).then(res => {
+
+                        let urlYT = "https://music.youtube.com/channel/" + artist.idyoutubemusic
+                        artist.platforms = [urlYT]
+
+                        axios.post(`https://comeback-api.herokuapp.com/artists`, artist)
+                        .then(res => {
                             artist['id'] = res.data.id
                             //console.log("ID ARTIST", artist.id)
                             axios.get(`https://comeback-api.herokuapp.com/artists`)
-                            .catch(res => console.log('error', res))
                             .then(res => {
                                 artistList = res.data
-                                //console.log(artist)
-                                //addAlbum(result2, artist, artistList, releaseList)
-                                //addSingle(result2, artist, artistList, releaseList)
                                 getArtist(artist.idyoutubemusic, undefined, artistList, releaseList)
                             })
+                            .catch(res => console.log('error', res))
                         })
                         .catch(res => console.log('error', res))
                     } 
                     //Si l'artiste est déjà dans la base de donnée
                     else {
                         //console.log("-- ARTIST EXIST")
-                        //if(result2?.products?.albums?.content != undefined) addAlbum(result2, artist, artistList, releaseList)
+                        if(result2?.products?.albums?.content != undefined) addAlbum(result2, artist, artistList, releaseList)
                         //if(result2?.products?.singles?.content != undefined) addSingle(result2, artist, artistList, releaseList)
                         artistExist = false
-                    }*/
+                    }
                 }
             }
         })
@@ -122,6 +124,7 @@ const addAlbum = function(result2, artist, artistList, releaseList) {
                         type: "SINGLE",
                         image: null,
                         date: null,
+                        platforms: null,
                         idyoutubemusic: null,
                         musics:[],
                         artists:[],
@@ -148,7 +151,6 @@ const addAlbum = function(result2, artist, artistList, releaseList) {
         
                     //vérifier si la release n'existe pas déjà
                     releaseList.forEach(elem => {
-                        //console.log(release.name, elem.idyoutubemusic, release.idyoutubemusic)
                         if (elem.idyoutubemusic == release.idyoutubemusic) {
                             releaseExist = true
                         }
@@ -156,10 +158,17 @@ const addAlbum = function(result2, artist, artistList, releaseList) {
 
                     if(!releaseExist && result3?.date?.year >= 2021){
                         console.log("-- RELEASE NOT EXIST : ", release.name)
-                        //console.log("ADD ALBUMS : ", release.name)
+                        
+                        let urlYT = "https://music.youtube.com/browse/" + release.idyoutubemusic
+                        release.platforms = [urlYT]
+
                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                         .then(res => {
                             //console.log('success', res.data.name)
+                            if(release.platforms == null) {
+                                let urlYT = "https://music.youtube.com/browse/" + release.idyoutubemusic
+                                release.platforms = [urlYT]
+                            }
                         })
                         .catch(res => console.log('error', res))
                     } else {
@@ -184,6 +193,7 @@ const addSingle = function(result2, artist, artistList, releaseList) {
                         image: null,
                         date: null,
                         idyoutubemusic: null,
+                        platforms: null,
                         musics:[],
                         artists:[],
                     }
@@ -200,11 +210,13 @@ const addSingle = function(result2, artist, artistList, releaseList) {
                         })
                     })
                     
+                    //Ajouter l'artist à la release
                     artistList.forEach(elem => {
                         if (elem.id == artist.id) {
                             release.artists.push(elem)
                         }
                     })
+
                     //vérifier si la release n'existe pas déjà
                     releaseList.forEach(elem => {
                         if (elem.idyoutubemusic == release.idyoutubemusic) {
@@ -213,7 +225,11 @@ const addSingle = function(result2, artist, artistList, releaseList) {
                     })
 
                     if(!releaseExist && result3?.date?.year >= 2021){
-                        console.log("-- RELEASE NOT EXIST", release.name)
+                        console.log("-- RELEASE NOT EXIST", release.name, artist.name)
+                        
+                        let urlYT = "https://music.youtube.com/browse/" + release.idyoutubemusic
+                        release.platforms = [urlYT]
+
                         axios.post(`https://comeback-api.herokuapp.com/releases`, release)
                         .then(res => {
                             //console.log('success', res.data.name)

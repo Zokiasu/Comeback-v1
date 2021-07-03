@@ -193,7 +193,6 @@
 
         mounted(){
             this.oldArtistData = JSON.parse(JSON.stringify(this.artists))
-            console.log(this.userData)
         },
     
         computed: {
@@ -220,7 +219,6 @@
                     userId: this.userData.id,
                     source: this.source
                 }).then(response=>{
-                    //console.log(response)
                     this.$toast.success('Thank you, Your edits have been sent for verification', {duration:5000, position:'top-right'})
                     this.$router.push({ path: `/artist/${this.$route.params.id}`})
                 })

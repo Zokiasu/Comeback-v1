@@ -108,11 +108,11 @@
                 let artTmp = []
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.news)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=5&offset=${this.maxObjectDisplay}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=10&offset=${this.maxObjectDisplay}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.news = [...new Set(artTmp)]
-                            this.maxObjectDisplay = this.maxObjectDisplay + 20
+                            this.maxObjectDisplay = this.maxObjectDisplay + 10
                             $state.loaded();
                         } else {
                             this.enough = true
@@ -173,7 +173,6 @@
                 object.artist = this.artistSelected
                 await this.$axios.put(`https://comeback-api.herokuapp.com/infos/${object.id}`, object).then(response => {
                     this.$toast.error('News has been edited', {duration:2000, position:'top-right'})
-                    console.log(response)
                 })
                 this.editNews = !this.editNews
             },

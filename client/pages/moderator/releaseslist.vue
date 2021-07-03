@@ -25,7 +25,7 @@
                         </div>
                         <div class="flex space-x-2">
                             <a v-for="(platforms, index) in release.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>
-                            <span v-if="release.platforms" class="text-red-500"> No Streaming Platforms </span>
+                            <span v-if="!release.platforms" class="text-red-500"> No Streaming Platforms </span>
                         </div>
                     </div>
                 </div>
@@ -50,9 +50,6 @@
             </div>
         </section>
         <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
-        <!--<div v-if="maxObjectDisplay < this.releases.length" class="w-full flex justify-center mb-5 text-white">
-            <button @click="maxObjectDisplay = maxObjectDisplay + 20">More</button>
-        </div>-->
         <div v-if="releases.length < 1" class="px-5">
             <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release found.</span>
         </div>
