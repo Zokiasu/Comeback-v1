@@ -144,8 +144,10 @@
                 this.dateList = tmp
                 this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                this.stopInfiniteScroll = true
                 $state.loaded();
               } else {
+                this.stopInfiniteScroll = false
                 $state.complete();
               }
             })
@@ -162,8 +164,10 @@
                 this.dateList = tmp
                 this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
                 this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                this.stopInfiniteScroll = true
                 $state.loaded();
               } else {
+                this.stopInfiniteScroll = false
                 $state.complete();
               }
             })
