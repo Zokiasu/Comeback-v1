@@ -129,7 +129,7 @@
     },
 
     async asyncData({ $axios, params }){
-      let artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
+      let artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}/low`)
       artist.releases?.sort(function(a,b){
           if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
           if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}

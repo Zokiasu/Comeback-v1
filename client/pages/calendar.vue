@@ -14,6 +14,7 @@
           <h1 class="font-semibold text-xl">Last News</h1>
       </div>
       <NewsCard v-for="(element, index) in newsList" :key="index" :element="element"/>
+      <InfiniteLoading spinner="spiral" @infinite="infiniteScrollNews"></InfiniteLoading>
     </div>
     <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__fadeInDown">
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
