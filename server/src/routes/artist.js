@@ -98,27 +98,6 @@ router.get('/:artistId', async (req, res) => {
   return res.send(artist);
 });
 
-router.get('/:artistId/low', async (req, res) => {
-  const artist = await req.context.models.Artist.findByPk(
-    req.params.artistId,
-    {
-      include: [
-        { model: req.context.models.Artist, as: 'groups' },
-        { model: req.context.models.Artist, as: 'members' },
-        { model: req.context.models.Happening, as: 'events' },
-        req.context.models.Style,
-        {
-          model: req.context.models.Release,
-          include: [
-            { model: req.context.models.Music, as: 'musics' },
-          ],
-        },
-      ],
-    },
-  );
-  return res.send(artist);
-});
-
 router.get('/:artistId/members', async (req, res) => {
   const artist = await req.context.models.Artist.findByPk(
     req.params.artistId,

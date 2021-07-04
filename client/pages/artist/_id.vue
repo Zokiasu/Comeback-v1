@@ -129,7 +129,7 @@
     },
 
     async asyncData({ $axios, params }){
-      let artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}/low`)
+      let artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
       artist.releases?.sort(function(a,b){
           if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
           if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
@@ -139,17 +139,17 @@
       return { artist, memberslist }
     },
 
-    async created(){
+    created(){
       this.artist.members.forEach(element => {
         if(element.type === "GROUP") {
           this.subunitlist.push(element)
         }
       });
-      let that = this
-      await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`).then(res => {
-        res.data.artists.forEach(element => {
-            if (element.id == that.artist.id) that.liked = true
-        });
+
+      this.artist.followers.forEach(element => {
+        if(element.id == this.userData.id) {
+          this.liked = true
+        }
       })
     },
     
@@ -174,11 +174,11 @@
       },
 
       async followArtist() {
+        this.liked = true
         await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, {
           artists: [this.artist],
         }).then(response => {
-          this.$toast.info('You have been following ' + this.artist.name, {duration:2000, position:'bottom-left'})
-          this.liked = true
+          this.$toast.info('You are now following ' + this.artist.name, {duration:2000, position:'bottom-left'})
         }).catch(function (error) {
           console.log(error);
         });
