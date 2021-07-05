@@ -90,7 +90,7 @@
         let artTmp = []
         if(reset) {
           this.maxArtist = 0
-          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
+          const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           if(response.length > 0) {
             artTmp = artTmp.concat(response)
             this.artists = [...new Set(artTmp)] //Remove all double entry
