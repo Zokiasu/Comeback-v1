@@ -206,6 +206,33 @@
             },
         },
 
+        watch: {
+            'artists.styles': {
+                immediate: true,
+                handler(res) {
+                    if (process.client) {
+                        this.newObjectToApi('styles', res)
+                    }
+                }
+            },
+            'artists.groups': {
+                immediate: true,
+                handler(res) {
+                    if (process.client) {
+                        this.newObjectToApi('groups', res)
+                    }
+                }
+            },
+            'artists.members': {
+                immediate: true,
+                handler(res) {
+                    if (process.client) {
+                        this.newObjectToApi('members', res)
+                    }
+                }
+            },
+        },
+
         methods:{
             async editArtist() {
                 this.oldDataToApi['name'] = this.oldArtistData['name']
