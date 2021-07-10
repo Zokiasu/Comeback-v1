@@ -24,8 +24,9 @@ const artist = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
-    website: {
-      type: DataTypes.STRING,
+    verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
       unique: false,
       allowNull: true,
     },
