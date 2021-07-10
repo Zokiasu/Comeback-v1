@@ -18,6 +18,16 @@ const info = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
+    date: {
+      type: DataTypes.DATE,
+      unique: false,
+      allowNull: true,
+    },
+    source: {
+      type: DataTypes.TEXT,
+      unique: false,
+      allowNull: true,
+    },
   });
 
   Info.associate = (models) => {
