@@ -148,6 +148,12 @@
                 <t-input v-else type="text" v-model="news.newArtistName" placeholder="Your Artist Name" name="Artist Name" class="my-2"></t-input>
                 <span v-if="!newArtist" class="text-sm my-2">You can't find your artist ? <button @click="newArtist = !newArtist" class="focus:outline-none text-green-500">Please click here to suggest him with your news</button></span>
                 <span v-else class="text-sm my-2"><button @click="newArtist = !newArtist" class="focus:outline-none text-green-500">Back to artist list</button></span>
+                <t-datepicker
+                    class="text-black"
+                    v-model="news.date"
+                    placeholder="Date"
+                    initial-view="month" dateFormat='Y-m-d' clearable>
+                </t-datepicker>
                 <t-textarea type="text" v-model="news.message" placeholder="Your News" name="News" class="my-2"></t-textarea>
                 <button v-if="!newArtist" @click="sendNews()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Send the news</button>
                 <button v-else @click="sendNewsToValidated()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Suggest Artist and News</button>
@@ -171,6 +177,7 @@
 
                 news:{
                     message: null,
+                    date: null,
                     artistId: null,
                     userId: null,
                     newArtistName: null,
@@ -241,6 +248,7 @@
                         this.newsWindow = !this.newsWindow
                         this.news.message = null,
                         this.news.artistId = null,
+                        this.news.date = null,
                         this.news.userId = null
                         this.newArtist = false
                     }).catch(function (error) {
