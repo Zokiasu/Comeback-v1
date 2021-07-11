@@ -92,7 +92,7 @@
     },
 
     async asyncData({ $axios }){
-        const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=10')
+        const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=date:desc&limit=10')
         return {newsList}
     },
 
