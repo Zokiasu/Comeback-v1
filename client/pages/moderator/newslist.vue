@@ -11,7 +11,7 @@
         <section v-for="(element, index) in this.news" :key="element.id" id="page-body" class="flex flex-col justify-center">
             <div :key="index" style="background-color: #6B728033" class="flex flex-col w-full text-white rounded-sm relative p-5 mb-5 overflow-hidden">
                 <div class="flex w-full justify-between mb-2">
-                    <span>Created At {{new Date(element.createdAt).toLocaleDateString('en-US', {  month: 'long', day: 'numeric', year: 'numeric' })}} </span>
+                    <span>Created At {{new Date(element.createdAt).toLocaleDateString('en-US', {  month: 'long', day: 'numeric', year: 'numeric' })}} {{element.id}} </span>
                     <div class="flex space-x-2">
                         <img @click="verifiedNews(element)" class="w-5 h-5 cursor-pointer" src="https://img.icons8.com/material/20/ffffff/checked-2--v2.png"/>
                         <img @click="openEditView(element)" class="w-5 h-5 cursor-pointer" src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/>
@@ -31,7 +31,7 @@
                     :bg-out-class="`animate__fadeOutDown`">
                     <div class="flex flex-col justify-center space-y-2">
                         <multiselect
-                            v-model="artistSelected"
+                            v-model="objectModify.artist"
                             placeholder="Please select an artists" 
                             label="name" 
                             track-by="id" 
@@ -60,12 +60,12 @@
                         </multiselect>
                         <t-datepicker
                             class="text-black"
-                            v-model="editDate"
+                            v-model="objectModify.date"
                             placeholder="Date"
                             initial-view="month" dateFormat='Y-m-d' clearable>
                         </t-datepicker>
-                        <t-input class="w-full" type="text" v-model="editMessage"/>
-                        <button @click="editObjectNews(element)" class="bg-red-700 hover:bg-red-900 text-white py-2">Confirm</button>
+                        <t-input class="w-full" type="text" v-model="objectModify.message"/>
+                        <button @click="editObjectNews(objectModify)" class="bg-red-700 hover:bg-red-900 text-white py-2">Confirm</button>
                     </div>
                 </Modal>
             </div>
@@ -90,9 +90,8 @@
                 enough: false,
 
                 editNews: false,
-                editMessage:'',
-                editDate:'',
-                artistSelected:{},
+
+                objectModify:{},
 
                 artistList:[],
             }
@@ -162,9 +161,7 @@
             },
 
             openEditView(object){
-                this.editMessage = object.message
-                this.editDate = object.date
-                this.artistSelected = object.artist
+                this.objectModify = object
                 this.editNews = !this.editNews
             },
 
@@ -176,12 +173,6 @@
             },
 
             async editObjectNews(object){
-                object.message = this.editMessage
-                object.artistId = this.artistSelected.id
-                object.artist = this.artistSelected
-                object.date = new Date(this.editDate)
-                console.log(object.date)
-                console.log(object)
                 await this.$axios.put(`https://comeback-api.herokuapp.com/infos/${object.id}`, object).then(response => {
                     this.$toast.error('News has been edited', {duration:2000, position:'top-right'})
                 })
