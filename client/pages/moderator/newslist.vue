@@ -58,6 +58,12 @@
                                 </div>
                             </template>
                         </multiselect>
+                        <t-datepicker
+                            class="text-black"
+                            v-model="editDate"
+                            placeholder="Date"
+                            initial-view="month" dateFormat='Y-m-d' clearable>
+                        </t-datepicker>
                         <t-input class="w-full" type="text" v-model="editMessage"/>
                         <button @click="editObjectNews(element)" class="bg-red-700 hover:bg-red-900 text-white py-2">Confirm</button>
                     </div>
@@ -85,6 +91,7 @@
 
                 editNews: false,
                 editMessage:'',
+                editDate:'',
                 artistSelected:{},
 
                 artistList:[],
@@ -156,6 +163,7 @@
 
             openEditView(object){
                 this.editMessage = object.message
+                this.editDate = object.date
                 this.artistSelected = object.artist
                 this.editNews = !this.editNews
             },
@@ -171,6 +179,9 @@
                 object.message = this.editMessage
                 object.artistId = this.artistSelected.id
                 object.artist = this.artistSelected
+                object.date = new Date(this.editDate)
+                console.log(object.date)
+                console.log(object)
                 await this.$axios.put(`https://comeback-api.herokuapp.com/infos/${object.id}`, object).then(response => {
                     this.$toast.error('News has been edited', {duration:2000, position:'top-right'})
                 })
@@ -202,3 +213,7 @@
         },
     }
 </script>
+
+<style>
+  @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+</style>

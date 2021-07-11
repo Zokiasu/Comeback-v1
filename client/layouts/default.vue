@@ -1,5 +1,5 @@
 <template>
-  <div v-if="start" class="flex relative overscroll-hidden min-h-screen" :class="width ? 'flex-row':'flex-col'">
+  <div class="flex relative overscroll-hidden min-h-screen" :class="width ? 'flex-row':'flex-col'">
     <div class="fixed max-w-xs min-h-screen min-w-min">
       <SideBar v-if="width" style="min-width:17rem;" class="max-w-xs w-min min-h-screen max-h-screen"/>
     </div>

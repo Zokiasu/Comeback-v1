@@ -86,7 +86,7 @@
       }
     },
 
-    created(){
+    beforeCreate(){
       const that = this
       this.$fire.auth.onAuthStateChanged(function (user) {
         if (user != null) {

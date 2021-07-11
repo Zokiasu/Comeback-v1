@@ -116,7 +116,6 @@
             :bg-out-class="`animate__fadeOutDown`">
             <div class="flex flex-col justify-center">
                 <!--<t-input type="text" v-model="news.userId" placeholder="Your Id" name="userId" class="my-2"></t-input>-->
-
                 <multiselect
                     v-if="!newArtist"
                     v-model="artistSelected"
@@ -315,4 +314,8 @@
     sans-serif;
   letter-spacing: 1px;
 }
+</style>
+
+<style>
+  @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 </style>
