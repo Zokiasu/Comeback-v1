@@ -1,22 +1,27 @@
 <template>
-  <div class="p-10 overflow-hidden space-y-20">
-    <section id="newArtist">
-      <div>
-        <h2 class="text-4xl text-white py-5">Last Artist Added</h2>
+  <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
+    <section id="newAnnounce" class="section">
+      <div class="flex space-x-5">
+        <h2 class="text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
       </div>
-      <transition-group name="object" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 1.5xl:grid-cols-10 gap-5 w-full justify-start overflow-x-scroll inner">
-        <ArtistCard v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
+      <transition-group name="object" class="grid grid-cols-1 gap-1 w-full justify-start overflow-x-scroll inner">
+        <NewsCard class="news" v-for="(element) in newsList" :key="element.id" :element="element"/>
       </transition-group>
     </section>
-    <section id="newRelease">
+    <section id="newArtist" class="section">
       <div>
-        <h2 class="text-4xl text-white py-5">Last Release Added</h2>
+        <h2 class="text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added<NuxtLink :to="`/artist`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
       </div>
       <transition-group name="object" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 1.5xl:grid-cols-10 gap-5 w-full justify-start overflow-x-scroll inner">
-        <ReleaseCard 
-          v-for="(release) in newRelease"
-          :key="release.id"
-          :release="release"/>
+        <ArtistCard class="artist" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
+      </transition-group>
+    </section>
+    <section id="newRelease" class="section">
+      <div>
+        <h2 class="text-2xl lg:text-4xl text-white py-5 flex">Last Release Added<NuxtLink :to="`/release`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
+      </div>
+      <transition-group name="object" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 1.5xl:grid-cols-10 gap-5 w-full justify-start overflow-x-scroll inner">
+        <ReleaseCard class="release" v-for="(release) in newRelease" :key="release.id" :release="release"/>
       </transition-group>
     </section>
     <!--<section id="artistRecommendation"></section>
@@ -25,18 +30,29 @@
 </template>
 
 <script>
+  import 'animate.css'
+  import ScrollReveal from 'scrollreveal'
+
   export default {
     data(){
       return {
         newArtist:[],
         newRelease:[],
+        newsList:[],
       }
     },
     
     async asyncData({ $axios }){
       let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=10`)
       let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=10`)
-      return {newArtist,newRelease}
+      const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=date:desc&limit=5')
+      return {newArtist,newRelease,newsList}
+    },
+
+    mounted(){
+      ScrollReveal().reveal('.news', {interval: 150, distance: '200%', origin: 'right', opacity: null})
+      ScrollReveal().reveal('.artist', {interval: 150, distance: '1000%', origin: 'top', opacity: null})
+      ScrollReveal().reveal('.release', {interval: 150, distance: '1000%', origin: 'top', opacity: null})
     },
   }
 </script>

@@ -56,10 +56,11 @@
                 userPreference:'false',
                 stopInfiniteScroll: true,
                 dateStart: null,
-                startDate: new Date(),
+                startDate: new Date('01/01/2021'),
                 endDate: new Date(),
                 dateList: {},
                 userId: null,
+                gapDate: 30,
             }
         },
 
@@ -89,7 +90,7 @@
                 handler(dateStart) {
                     if (process.client) {
                         if(dateStart == null) {
-                            let d = new Date();
+                            let d = new Date('01/01/2021');
                             let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
                             let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
                             let da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
@@ -114,6 +115,8 @@
                                 tmp[key] = value
                             }
                             this.dateList = tmp
+                            this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
+                            this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
                         }
                     })
                     .catch(err => {
@@ -127,6 +130,8 @@
                                 tmp[key] = value
                             }
                             this.dateList = tmp
+                            this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
+                            this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
                         }
                     })
                     .catch(err => {
@@ -142,6 +147,7 @@
                 setTimeout(() => {
                     let tmp = this.dateList != null ? this.dateList : {}
                     if(this.userPreference == 'true'){
+                        console.log(`https://comeback-api.herokuapp.com/calendar/${this.userId}?date_sup=${this.startDate}&date_inf=${this.endDate}`)
                         this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userId}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
                             if(Object.entries(response.data).length !== 0) {
                                 this.dateList = {}
@@ -162,6 +168,7 @@
                         console.log(err);
                         });
                     } else {
+                        console.log(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`)
                         this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
                             if(Object.entries(response.data).length !== 0) {
                                 this.dateList = {}

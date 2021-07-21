@@ -8,6 +8,9 @@
   "Menu": {
     "description": "Auto imported from components/Menu.vue"
   },
+  "NewsCard": {
+    "description": "Auto imported from components/NewsCard.vue"
+  },
   "ReleaseCard": {
     "description": "Auto imported from components/ReleaseCard.vue"
   }

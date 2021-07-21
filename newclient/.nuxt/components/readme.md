@@ -9,4 +9,5 @@ You can directly use them in pages and other components without the need to impo
 - `<ArtistCard>` | `<artist-card>` (components/ArtistCard.vue)
 - `<Logo>` | `<logo>` (components/Logo.vue)
 - `<Menu>` | `<menu>` (components/Menu.vue)
+- `<NewsCard>` | `<news-card>` (components/NewsCard.vue)
 - `<ReleaseCard>` | `<release-card>` (components/ReleaseCard.vue)

@@ -1,14 +1,5 @@
 <template>
-  <div id="test" class="mt-5">
-    <div v-if="width" class="w-full flex justify-end px-10">
-      <div>
-        <t-select v-model="userPreference" id="artists-type-selector" class="focus:outline-none text-xs"
-        :options="[
-            { value: true, text: 'My Comeback' },
-            { value: false, text: 'All Comeback' },
-        ]" ></t-select>
-      </div>
-    </div>
+  <div class="py-5">
     <div class="justify-center texts text-white mx-10 animate__fadeInDown space-y-1 mb-5">
       <div class="mb-3 sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
           <h1 class="font-semibold text-xl">Last News</h1>
@@ -19,29 +10,21 @@
       <div class="sticky top-0 bg-mainbg z-50 col-start-1 col-end-7 border-b-2 border-red-700 pb-2 animate__fadeInDown">
           <h1 class="font-semibold text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
       </div>
-      <transition-group v-if="width" name="object" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-5 py-5 justify-center texts text-white animate__fadeInDown">
+      <transition-group name="object" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-5 py-5 justify-center texts text-white animate__fadeInDown">
         <ReleaseCard
-          v-for="release in date.releases"
-          :release="release"
-          :key="release.id"/>
-      </transition-group>
-      <transition-group v-else name="object" class="grid grid-cols-1 gap-5 py-5 justify-center texts text-white animate__fadeInDown">
-        <ReleaseCardMini
           v-for="release in date.releases"
           :release="release"
           :key="release.id"/>
       </transition-group>
     </div>
     <InfiniteLoading v-if="stopInfiniteScroll" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
-    <div v-if="Object.entries(dateList).length < 1" class="px-5 mt-5">
+    <div v-if="Object.entries(dateList).length < 1 && !stopInfiniteScroll" class="px-5 mt-5">
       <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release Scheduled.</span>
     </div>
   </div>
 </template>
 
 <script>
-  import moment from 'moment-timezone'
-
   export default {
     loading: false,
     scrollToTop: true,
@@ -69,8 +52,6 @@
 
     mounted() {
       this.handleResize();
-      window.scrollTo(0,document.getElementById("test").scrollHeight);
-        
     },
 
     watch: {
@@ -190,23 +171,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .object-enter-active,
-  .object-leave-active {
-    transition-duration: 0.4s;
-    transition-property: height, opacity, transform;
-    transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
-    overflow: hidden;
-  }
-
-  .object-enter {
-    opacity: 0;
-    transform: translate(0, -2em);
-  }
-
-  .object-leave-active {
-    opacity: 0;
-    transform: translate(0, -2em);
-  }
-</style>

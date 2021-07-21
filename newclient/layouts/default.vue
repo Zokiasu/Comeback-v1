@@ -1,9 +1,20 @@
 <template>
   <div>
-    <Menu />
-    <Nuxt />
+    <div class="w-screen animate__animated animate__fadeInDown sticky top-0 z-50 bg-background">
+      <Menu/>
+    </div>
+    <div class="animate__animated animate__fadeIn animate__delay-1s">
+      <Nuxt/>
+    </div>
   </div>
 </template>
+
+<script>
+  import 'animate.css'
+  export default {
+
+  }
+</script>
 
 <style>
 html {
@@ -81,5 +92,27 @@ html {
 ::-webkit-scrollbar-thumb {
   background-color: #E1E1E1; /* color of the scroll thumb */
   border-radius: 50px; /* roundness of the scroll thumb */
+}
+
+/* Page Transitions - 0.4s Slide/Fade */
+.page-enter-active {
+  transition-duration: 0.5s;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+.page-leave-active {
+  transition-duration: 0.5s;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+
+.page-enter {
+  opacity: 0;
+}
+
+.page-leave-active {
+  opacity: 0;
 }
 </style>

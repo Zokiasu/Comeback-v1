@@ -8,7 +8,9 @@ const _a94a2c2c = () => interopDefault(import('..\\pages\\admin\\index.vue' /* w
 const _5c8d9d74 = () => interopDefault(import('..\\pages\\artist\\index.vue' /* webpackChunkName: "pages/artist/index" */))
 const _83e267f6 = () => interopDefault(import('..\\pages\\calendar.vue' /* webpackChunkName: "pages/calendar" */))
 const _3726caf4 = () => interopDefault(import('..\\pages\\moderator\\index.vue' /* webpackChunkName: "pages/moderator/index" */))
+const _2863789a = () => interopDefault(import('..\\pages\\news.vue' /* webpackChunkName: "pages/news" */))
 const _99c3d0e0 = () => interopDefault(import('..\\pages\\profile\\index.vue' /* webpackChunkName: "pages/profile/index" */))
+const _c8911b1c = () => interopDefault(import('..\\pages\\release\\index.vue' /* webpackChunkName: "pages/release/index" */))
 const _cbbb1da2 = () => interopDefault(import('..\\pages\\search.vue' /* webpackChunkName: "pages/search" */))
 const _18b7bd1e = () => interopDefault(import('..\\pages\\add\\artist.vue' /* webpackChunkName: "pages/add/artist" */))
 const _03ae564d = () => interopDefault(import('..\\pages\\add\\release.vue' /* webpackChunkName: "pages/add/release" */))
@@ -54,9 +56,17 @@ export const routerOptions = {
     component: _3726caf4,
     name: "moderator"
   }, {
+    path: "/news",
+    component: _2863789a,
+    name: "news"
+  }, {
     path: "/profile",
     component: _99c3d0e0,
     name: "profile"
+  }, {
+    path: "/release",
+    component: _c8911b1c,
+    name: "release"
   }, {
     path: "/search",
     component: _cbbb1da2,
@@ -114,7 +124,7 @@ export const routerOptions = {
     component: _a9268410,
     name: "profile-id"
   }, {
-    path: "/release/:id?",
+    path: "/release/:id",
     component: _1f03695a,
     name: "release-id"
   }, {
