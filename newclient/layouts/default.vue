@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-screen animate__animated animate__fadeInDown sticky top-0 z-50 bg-background">
+    <div class="animate__animated animate__fadeInDown sticky top-0 z-50 bg-background">
       <Menu/>
     </div>
     <div class="animate__animated animate__fadeIn animate__delay-1s">

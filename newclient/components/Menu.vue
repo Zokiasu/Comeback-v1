@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="bg-opacity-10 bg-gray-500 px-3 py-2 flex justify-between text-white w-full lg:p-5">
+        <div class="bg-opacity-10 bg-gray-500 px-3 py-2 flex justify-between text-white lg:px-5">
             <div class="relative">
                 <img class="w-36 hidden lg:flex" src="~/assets/image/logo.png" alt="Comeback Logo">
                 <span class="text-red-700 hidden lg:flex text-xs absolute bottom-0 right-0">Beta</span>
