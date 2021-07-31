@@ -6,36 +6,26 @@ module.exports = {
     './plugins/**/*.{js,ts}',
     './nuxt.config.{js,ts}',
   ],
-
+  
   darkMode: false, // or 'media' or 'class'
 
   theme: {
     extend: {
-    },
-    screens: {
-      'ms': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1536px',
-      '3xl': '1792px',
-      '4xl': '2048px',
-    },
-    backgroundColor: theme => ({
-     ...theme('colors'),
-     'main-gray': '#A6A4A4',
-     'second-gray': '#E1E1E1',
-     'leftbar': '#3B3B3B',
-     'search-leftbar': '#4B4B4B',
-     'select-leftbar': '#5B5B5B',
-     'mainbg': '#1F1D1D',
-     'gray-310': '#E0E0E0',
-    }),
-  },
+      screens: {
+        '1xl': '1400px',
+        '1.5xl': '1500px',
+      },
 
-  variants: {
-    extend: {
-      backgroundColor: ['active'],
+      colors: {
+        'background':'#1F1D1D',
+        'main-gray': '#A6A4A4',
+        'second-gray': '#E1E1E1',
+        'leftbar': '#3B3B3B',
+        'search-leftbar': '#4B4B4B',
+        'select-leftbar': '#5B5B5B',
+        'mainbg': '#1F1D1D',
+        'gray-310': '#E0E0E0',
+      },
     },
   },
 }

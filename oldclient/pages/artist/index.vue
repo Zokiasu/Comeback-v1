@@ -6,14 +6,18 @@
       </div>
       <input @change="updateDateList(true)" id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-select-leftbar text-white placeholder-white">
     </section>
-    <section v-if="filteredList.length > 0" id="artist-list" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 2xl:grid-cols-10 gap-5 w-full justify-center p-5">
+    <section v-if="filteredList.length > 0" id="artist-list" class="grid grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-y-10 w-full justify-center my-10 animate__fadeInUp-2s">
       <ArtistCard 
-        class="animate__animated animate__fadeIn"
+        class="animate__fadeInDown-2s"
         v-for="artist in filteredList"
         :key="artist.id"
         :artist="artist"/>
     </section>
+    <!--<InfiniteScroll class="text-white w-full flex justify-center" :enough="enough" @load-more="updateDateList(false)"/>-->
     <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
+    <!--<div v-if="!enough" class="p-5">
+      <button @click="updateDateList(false)" class="w-full text-white font-semibold bg-gray-500 bg-opacity-50 focus:outline-none">More</button>
+    </div>-->
     <div v-if="filteredList.length < 1" class="px-5">
       <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No artists found.</span>
     </div>
@@ -21,7 +25,6 @@
 </template>
 
 <script>
-  import 'animate.css'
   export default {
     name:"ArtistPage",
 

@@ -10,10 +10,17 @@ export const getters = {
     GET_USER: (state) => {
         return state.authUser
     },
+
+    GET_DATA_USER: (state) => {
+        return state.dataUser
+    },
+
+    GET_TOKEN_USER: (state) => {
+        return state.tokenUser
+    },
 }
 
 export const actions = {
-
     async onAuthStateChangedAction({ commit, dispatch }, { authUser, claims }) {
         if (!authUser) {
             //await dispatch('cleanupAction')
@@ -54,6 +61,15 @@ export const actions = {
 }
 
 export const mutations = {
+
+    SET_DATA_USER (state, value) {
+        state.dataUser = value
+    },
+
+    SET_TOKEN_USER (state, value) {
+        state.tokenUser = value
+    },
+
     SET_USER: (state, payload) => {
         state.authUser = payload;
     },
@@ -70,17 +86,5 @@ export const mutations = {
             photoURL: photoURL || null,
             isAdmin: claims.custom_claim
         }
-    },
-
-    addToken (state, value) {
-        state.tokenUser = value
-    },
-
-    SET_DATA_USER (state, value) {
-        state.dataUser = value
-    },
-
-    SET_TOKEN_USER (state, value) {
-        state.tokenUser = value
     },
 }

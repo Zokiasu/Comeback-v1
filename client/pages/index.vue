@@ -1,116 +1,126 @@
 <template>
-  <div>
-    <section id="logo" class="flex justify-center mx-auto">
-      <Logo class="justify-self-center mx-auto"/>
-    </section>
-    <section id="description" class="w-full my-20 relative grid grid-flow-col auto-cols-col auto-rows-auto gap-2 max-w-full">
-      <img class="object-cover animate__fadeIn w-full" style="min-height:15rem;" src="../assets/image/listartist.png" alt="Artist List">
-      <div class="absolute bg-mainbg bg-opacity-80 top-20 md:top-20 lg:top-10 2xl:top-16 ms:left-10">
-        <h2 class="text-white py-5 px-10 md:text-xl lg:text-2xl xl:text-3xl w-full" style="max-width:45rem;line-height: 2em;">Find your favorite artists and track all their single, album and EP in one place</h2>
+  <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
+    <section id="newAnnounce" class="section">
+      <div class="flex space-x-5">
+        <h2 class="text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
       </div>
+      <transition-group name="object" class="grid grid-cols-1 gap-1 w-full justify-start overflow-x-scroll inner">
+        <NewsCard class="news" v-for="(element) in newsList" :key="element.id" :element="element"/>
+      </transition-group>
     </section>
-    <section id="help_us_message" class="flex justify-center text-white my-32">
-      <span class="text-center text-xl md:text-3xl xl:text-4xl mx-10 2xl:mx-60">Create with us the best place where you can find and track all your favorite musicians.</span>
+    <section id="newArtist" class="section">
+      <div>
+        <h2 class="text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added<NuxtLink :to="`/artist`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
+      </div>
+      <transition-group name="object" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 1.5xl:grid-cols-10 gap-5 w-full justify-start overflow-x-scroll inner">
+        <ArtistCard class="artist" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
+      </transition-group>
     </section>
-    <footer id="footer" class="w-full px-10">
-      <div class="w-full flex flex-col justify-center border-t-2 border-gray-500 py-5">
-        <span class="w-full text-center text-white">This website is currently under development, so you may encounter some bugs while using it.</span>
+    <section id="newRelease" class="section">
+      <div>
+        <h2 class="text-2xl lg:text-4xl text-white py-5 flex">Last Release Added<NuxtLink :to="`/release`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
       </div>
-      <div class="w-full flex flex-col space-y-5 justify-center border-t-2 border-gray-500 py-5">
-        <ul class="flex space-x-1.5 text-white justify-center text-xl">
-          <li>
-            <a href="#" class="hover:text-red-700">About</a>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <a href="#" class="hover:text-red-700">Contact</a>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <a href="#" class="hover:text-red-700">Terms</a>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <a href="#" class="hover:text-red-700">Privacy Policy</a>
-          </li>
-        </ul>
-        <ul class="flex space-x-1.5 text-white justify-center text-xl">
-          <li>
-            <span>Studeler Dev.</span>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <span>Cozy Codeur</span>
-          </li>
-        </ul>
-      </div>
-    </footer>
+      <transition-group name="object" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 1.5xl:grid-cols-10 gap-5 w-full justify-start overflow-x-scroll inner">
+        <ReleaseCard class="release" v-for="(release) in newRelease" :key="release.id" :release="release"/>
+      </transition-group>
+    </section>
+    <!--<section id="artistRecommendation"></section>
+    <section id="releaseRecommendation"></section>-->
   </div>
 </template>
 
 <script>
-  export default {
-    layout: 'presentation',
+  import 'animate.css'
+  import ScrollReveal from 'scrollreveal'
 
-    head() {
+  export default {
+    data(){
       return {
-        title: 'Comeback - Track every next album, single, EP releases.',
-        meta: [
-          {
-            hid: 'description',
-            content: 'Find your favorite artists and track all their next album, single, EP in one place.'
-          }
-        ]
+        newArtist:[],
+        newRelease:[],
+        newsList:[],
       }
+    },
+    
+    async asyncData({ $axios }){
+      let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=10`)
+      let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=10`)
+      const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=5')
+      return {newArtist,newRelease,newsList}
+    },
+
+    mounted(){
+      ScrollReveal().reveal('.news', {interval: 150, distance: '200%', origin: 'right', opacity: null})
+      ScrollReveal().reveal('.artist', {interval: 150, distance: '1000%', origin: 'bottom', opacity: null})
+      ScrollReveal().reveal('.release', {interval: 150, distance: '1000%', origin: 'bottom', opacity: null})
     },
   }
 </script>
 
-<style>
-  .container {
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+<style lang="scss" scoped>
+.inner::-webkit-scrollbar {
+  display: none;
+}
 
-  .title {
-    font-family:
-      'Quicksand',
-      'Source Sans Pro',
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Arial,
-      sans-serif;
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #F0AD4E;
+}
+label{
+  position: relative;
+  display: inline-block;
+  background-color: #fff;
+  padding: 5px 12px;
+  transition: all 1s ease;
+  border-radius: 0;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  &::after{
+    content: '';
     display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
+    height: 2px;
+    width: 80%;
+    background-color: #F0AD4E;
+    transition: all 1s ease 0.5s;
   }
-
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
+  input{
+    transition: width 1s ease, opacity 0.5s ease 0.5s;
+    opacity: 1;
+    width: 180px;
+    height: 25px;
+    border: 0;
+    outline: none;
+    color: darken(#F0AD4E, 25)
   }
-
-  .links {
-    padding-top: 15px;
+  i{
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    color: #333;
+    cursor: pointer;
   }
+  &[data-state=false]{
+    border-radius: 30px;
+    padding: 5px 5px;
+     transition: all 1s ease;
+    &::after{
+      width: 0%;
+      transition: all 0.3s ease;
+    }
+    i{
+      pointer-events: none;
+    }
+    input{
+      width: 28px;
+      height: 25px;
+      opacity:0;
+      cursor: pointer;
+      transition: opacity 0.5s ease, width 1s ease;
+      -webkit-appearance:none
+    } 
+  }
+}
 </style>

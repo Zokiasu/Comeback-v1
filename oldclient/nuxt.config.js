@@ -36,20 +36,17 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
-  ssr: false,
+  ssr: true,
 
-  /*loading: {
+  loading: {
     color: 'red',
     height: '2px'
-  },*/
-
-  loading: false,
+  },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/inject.js',
     '~/plugins/vtlw.js',
-    '~/plugins/vue-carousel.js',
     { src: '~/plugins/v-calendar.js', ssr: false },
     { src: "~/plugins/infiniteloading", ssr: false },
   ],

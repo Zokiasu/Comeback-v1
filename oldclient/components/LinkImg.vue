@@ -1,10 +1,10 @@
 <template>
-    <a :href="url" target="_blank" v-if="url" class="Card rounded p-2 px-3 hover:bg-leftbar hover:bg-opacity-50 text-white flex space-x-1.5">
+    <div v-if="url" class="text-white flex space-x-1.5">
         <div class="mt-1">
             <img :src="urls">
         </div>
-        <span class="linkName">{{this.extractRootDomain(this.url)}}</span>
-    </a>
+        <a :href="url" target="_blank" class="hover:text-red-700"> {{this.extractRootDomain(this.url)}} </a>
+    </div>
 </template>
 
 <script>
@@ -73,11 +73,3 @@
         },
     }
 </script>
-
-<style>
-@media screen and (max-width: 1024px) {
-    .linkName {
-        display: none !important;
-    }
-}
-</style>
