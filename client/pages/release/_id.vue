@@ -1,7 +1,7 @@
 <template>
     <div class="text-white">
         <div class="background-top relative" :style="{ 'background-image': 'url(' + release.image + ')' }">
-            <div class="h-full w-full bg-background bg-opacity-10 flex">
+            <div class="h-full w-full bg-background bg-opacity-30 flex">
                 <div class="flex lg:space-x-10 mt-auto lg:my-auto w-full px-5 md:px-10 lg:px-20 z-50">
                     <div class="relative releaseJacket">
                         <img class="h-80 w-80 shadowRelease object-cover object-center" :src="release.image" :alt="release.name"/>
