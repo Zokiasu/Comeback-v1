@@ -43,10 +43,10 @@
                 <button @click="loginModal=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out hover:bg-gray-600 transform hover:font-bold">Login</button>
             </div>
             <div v-else class="flex space-x-1">
-                <div v-if="width" class="p-2 px-3 relative">
+                <!--<div v-if="width" class="p-2 px-3 relative">
                     <img class="w-6 h-6" src="~/assets/image/bell.png" alt="">
                     <span class="bg-red-500 text-xs rounded-full absolute top-0 right-2 px-1">10</span>
-                </div>
+                </div>-->
                 <div>
                     <img @click="userMenu = !userMenu" class="w-8 sm:w-10 rounded-full cursor-pointer" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fuser-KIIY5tZja8Sa0g8Z9sd4VF8TsEc2?alt=media&token=f95429ca-9934-4d34-8e2a-a8ec062961e4" alt="">
                     <div v-if="userMenu" @blur="userMenu = !userMenu" class="w-40 fixed rounded bg-leftbar bg-opacity-50 right-3 mt-2 animate__animated animate__fadeInDown animate__faster">
