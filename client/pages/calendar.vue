@@ -92,12 +92,11 @@
                             let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
                             let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
                             let da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
-                            da = da-1
+                            if(da != 1) da = da-1
                             dateStart = `${ye}-${mo}-${da}`
                             this.dateStart = `${ye}-${mo}-${da}`
                         }
                         this.startDate = new Date(dateStart)
-                        //console.log('1',this.startDate)
                         this.fetchData()
                     }
                 }
