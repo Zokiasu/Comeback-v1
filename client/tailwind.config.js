@@ -20,7 +20,7 @@ module.exports = {
         'background':'#1F1D1D',
         'main-gray': '#A6A4A4',
         'second-gray': '#E1E1E1',
-        'leftbar': '#3B3B3B',
+        'black-one': '#3B3B3B',
         'search-leftbar': '#4B4B4B',
         'select-leftbar': '#5B5B5B',
         'mainbg': '#1F1D1D',

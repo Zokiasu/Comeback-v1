@@ -81,9 +81,9 @@
                 });
             })*/
             
-            this.userData.releases.forEach(element => {
+            /*this.userData.releases.forEach(element => {
                 if(element.id == that.release.id) that.liked = true
-            });
+            });*/
         },
     
         computed: {    

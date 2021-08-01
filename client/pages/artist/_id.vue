@@ -1,29 +1,29 @@
 <template>
-    <div class="p-5 lg:p-10 text-white">
-        <section class="flex space-x-2 lg:justify-between border-b border-white">
+    <div class="p-5 lg:p-10 space-y-5 text-white">
+        <section class="flex space-x-2 justify-between border-b border-white">
             <h1 class="text-3xl">{{artist.name}}</h1>
-            <!--<NuxtLink :to="`/edit/artist/${$route.params.id}`" class="mt-auto">Edit Page</NuxtLink>-->
+            <NuxtLink v-if="user != null" :to="`/edit/artist/${$route.params.id}`" class="mt-auto">Edit</NuxtLink>
         </section>
 
-        <section class="space-y-5 py-5 lg:p-10">
+        <section class="space-y-5 px-3">
             <section id="img-media-streaming-group" class="flex flex-col space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0 relative">
                 <div id="image">
-                    <img class="w-full lg:h-80" :src="artist.image" :alt="artist.name">
+                    <img class="w-full lg:h-80 object-cover" :src="artist.image" :alt="artist.name">
                 </div>
-                <div id="media-streaming-group" class="flex flex-col space-y-5">
-                    <div id="social-media" class="space-y-2" v-if="artist.socials">
+                <div id="media-streaming-group" class="flex flex-col">
+                    <div id="social-media" class="space-y-1" v-if="artist.socials">
                         <h3 class="text-white text-xl">Social Media</h3>
                         <div id="link-social" class="flex lg:grid lg:grid-cols-4 xl:flex">
                             <LinkImg v-for="(media, index) in artist.socials" :key="index" :url="media" :name="media"/>
                         </div>
                     </div>
-                    <div id="streaming-platforms" class="space-y-2" v-if="artist.platforms">
+                    <div id="streaming-platforms" class="space-y-1" v-if="artist.platforms">
                         <h3 class="text-white text-xl">Streaming Platforms</h3>
                         <div id="link-streaming" class="flex lg:grid lg:grid-cols-4 xl:flex">
                             <LinkImg v-for="(stream, index) in artist.platforms" :key="index" :url="stream" :name="stream"/>
                         </div>
                     </div>
-                    <div id="group-unit" class="space-y-2" v-if="artist.groups.length > 0">
+                    <div id="group-unit" class="space-y-1" v-if="artist.groups.length > 0">
                         <h3 class="text-white text-xl">Group's Unit</h3>
                         <div class="flex flex-row">
                             <NuxtLink :to="`/artist/${group.id}`" v-for="(group, index) in artist.groups" :key="index" class="Card p-3 rounded flex flex-col justify-center">
@@ -44,7 +44,7 @@
             </section>
             <section class="space-y-5">
                 <div id="style" class="space-y-2" v-if="artist.styles.length > 0">
-                    <h1 class="text-white text-xl">Styles</h1>
+                    <h3 class="text-white text-xl">Styles</h3>
                     <div class="space-x-1"><span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style.name}}</span></div>
                 </div>
                 <div id="description" class="space-y-2" v-if="artist.description">
@@ -137,7 +137,6 @@
             this.user = this.GET_DATA_USER()
 
             if(this.user == undefined) {
-                console.log("user undefined")
                 const that = this
                 this.$fire.auth.onAuthStateChanged(async function (users) {
                     if (users != null) {
@@ -171,7 +170,6 @@
                     }
                 })
             } else {
-                console.log("user not undefined")
                 this.artist.members.forEach(element => {
                     if(element.type === "GROUP") {
                         this.subunitlist.push(element)
@@ -184,7 +182,6 @@
                     }
                 })
             }
-            console.log('user', this.user)
         },
 
         methods:{
@@ -217,24 +214,3 @@
         }
     }
 </script>
-
-<style>
-    .Card {
-        cursor: pointer;
-        font-size: 1em;
-        transition-property: background-color, box-shadow, transform;
-        transition-timing-property: ease-out;
-        transition-duration: 0.3s;
-    }
-
-    .Card:hover{
-        box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.4);
-        transform: translateY(-10px);
-        transition-duration: 0.3s;
-    }
-
-    .Card:active {
-        box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.4);
-        transform: translateY(0) scale(0.975);
-    }
-</style>

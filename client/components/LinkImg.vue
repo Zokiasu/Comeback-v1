@@ -37,7 +37,7 @@
                         domain = splitArr[arrLen - 3] + '.' + domain;
                     }
                 }
-                
+                console.log(url)
                 //remove '.com'
                 var n = domain.indexOf('.');
                 domain = domain.substring(0, n != -1 ? n : domain.length);
@@ -48,6 +48,9 @@
                 }
                 if(x === "Youtube" || x === "Apple" || x === "Huawei" || x === "Amazon" || x === "Line" || x === "QQ" || x === "Stingray") {
                     x = x + " Music"
+                }
+                if(url.includes('www.youtube')) {
+                    x = 'Youtube'
                 }
                 return x;
             },

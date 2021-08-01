@@ -39,10 +39,7 @@
                     <div id="artists-type" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
                         <h1 class="text-white text-xl">Artist Type</h1>
                         <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                        <t-select @change="newObjectToApi('type', artists.type)" v-model="artists.type" id="artists-type-selector" :options="[
-                            { value: 'SOLO', text: 'Soloist' },
-                            { value: 'GROUP', text: 'Group' },
-                        ]" ></t-select>
+                        <t-select @change="newObjectToApi('type', artists.type)" v-model="artists.type" id="artists-type-selector" :options="[{ value: 'SOLO', text: 'Soloist' },{ value: 'GROUP', text: 'Group' },]" ></t-select>
                     </div>
                 </div>
                 <div id="description">
