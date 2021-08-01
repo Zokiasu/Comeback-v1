@@ -1,5 +1,5 @@
 <template>
-    <div @click="changeSize()" class="lg:Card border-b border-leftbar flex px-5 py-2 h-full hover:bg-background" :class="this.widthVideo == '100%' ? 'flex-col':'lg:flex-row justify-between'">
+    <div @click="changeSize()" class="Card border-b border-opacity-30 border-leftbar flex px-5 py-2 h-full hover:bg-background cursor-pointer" :class="this.widthVideo == '100%' ? 'flex-col':'lg:flex-row justify-between'">
         <span class="my-auto" :class="this.widthVideo == '57' && this.heightVideo == '34' ? '':'text-2xl font-semibold'">{{title.name}}</span>
         <iframe :width="widthVideo" :height="heightVideo" :src="getYoutubeId(title.clip)" title="YouTube video player" frameborder="0" allow="accelerometer; picture-in-picture" allowfullscreen></iframe>
     </div>
