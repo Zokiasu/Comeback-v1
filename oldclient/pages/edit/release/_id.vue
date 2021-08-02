@@ -40,9 +40,7 @@
                 <h1 class="text-white text-xl">Release Type*</h1>
                 <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
                 <t-select @change="newObjectToApi('type', release.type)" v-model="release.type" id="artist-type-selector" :options="[
-                  { value: 'SINGLE', text: 'Single' },
-                  { value: 'ALBUM', text: 'Album' },
-                  { value: 'EP', text: 'EP'}
+                  { value: 'SINGLE', text: 'Single' }, { value: 'ALBUM', text: 'Album' }, { value: 'EP', text: 'EP'}
                 ]" ></t-select>
             </div>
           </div>

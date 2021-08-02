@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="bg-opacity-10 bg-gray-500 px-3 py-2 flex justify-between text-white lg:px-5">
-            <div class="relative">
+            <NuxtLink :to="`/`" class="relative">
                 <img class="w-36 hidden lg:flex" src="~/assets/image/logo.png" alt="Comeback Logo">
                 <span class="text-red-700 hidden lg:flex text-xs absolute bottom-0 right-0">Beta</span>
                 <img class="w-8 sm:w-10 lg:hidden" src="~/assets/image/mini-logo.png" alt="Comeback Logo">
-            </div>
+            </NuxtLink>
             <div class="flex justify-center lg:justify-between lg:w-full relative lg:ml-5">
                 <ul id="menu" class="flex space-x-0">
                     <NuxtLink :to="`/`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? '' : 'bg-gray-500'">

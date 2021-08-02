@@ -13,6 +13,7 @@
                         </div>
                     </div>
                     <div class="mt-auto">
+                        <NuxtLink v-if="user != null" :to="`/edit/release/${$route.params.id}`" class="mt-auto">Edit</NuxtLink>
                         <h2 class="cursor-default font-semibold filter tShadowRelease text-2xl">{{release.type}} - <span v-for="(artist, index) in release.artists" :key="index"><NuxtLink :to="`/artist/${artist.id}`" class="hover:underline cursor-pointer">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span></h2>
                         <h1 class="cursor-default font-semibold filter tShadowRelease text-4xl lg:text-6xl">{{release.name}}</h1>
                         <div id="link-social" class="flex flex-row lg:space-x-10 pt-3">

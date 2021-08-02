@@ -334,7 +334,7 @@
                 this.isUploadingImage = true
 
                 //let imageRef = this.$fire.storage.ref(`images/artist-${this.artists.id.replace(/\s/g, '')}`)
-                let imageRef = this.$fire.storage.ref(`images/artist-${this.artist.id}`)
+                let imageRef = this.$fire.storage.ref(`images/artist/${this.artist.id}`)
 
                 let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
                     return snapshot.ref.getDownloadURL().then((url) => {
