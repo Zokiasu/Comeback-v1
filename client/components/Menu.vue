@@ -48,15 +48,15 @@
                     <span class="bg-red-500 text-xs rounded-full absolute top-0 right-2 px-1">10</span>
                 </div>-->
                 <div>
-                    <img @click="userMenu = !userMenu" class="w-8 sm:w-10 rounded-full cursor-pointer" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fuser-KIIY5tZja8Sa0g8Z9sd4VF8TsEc2?alt=media&token=f95429ca-9934-4d34-8e2a-a8ec062961e4" alt="">
-                    <div v-if="userMenu" @blur="userMenu = !userMenu" class="w-40 fixed rounded bg-leftbar bg-opacity-50 right-3 mt-2 animate__animated animate__fadeInDown animate__faster">
+                    <img @click="userMenu = !userMenu" class="w-8 sm:w-10 rounded-full cursor-pointer" :src="userAvatar" alt="">
+                    <div v-if="userMenu" @blur="userMenu = !userMenu" class="w-40 fixed rounded bg-black-one right-3 mt-3 animate__animated animate__fadeInDown animate__faster">
                         <ul class="flex flex-col">
-                            <NuxtLink :to="`/profile`" class="rounded-t hover:bg-gray-700 px-5 py-1">
+                            <!--<NuxtLink :to="`/profile`" class="rounded-t hover:bg-gray-700 px-5 py-1">
                                 Profile
                             </NuxtLink>
                             <NuxtLink :to="`/setting`" class="hover:bg-gray-700 px-5 py-1">
                                 Setting
-                            </NuxtLink>
+                            </NuxtLink>-->
                             <button @click="logout()" class="focus:outline-none rounded-b text-left hover:bg-gray-700 px-5 py-1">
                                 Sign Out
                             </button>
@@ -121,6 +121,7 @@
                 loginModal: false,
                 signupModal: false,
                 userConnected: false,
+                userAvatar: require('@/assets/image/artist.png'),
                 
                 auth: {
                     email: '',
@@ -240,6 +241,9 @@
                 this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
                     this.SET_DATA_USER(res.data)
                     //console.log('GET_DATA_USER', this.GET_DATA_USER())
+                    var u = that.GET_DATA_USER()
+                    console.log(u)
+                    if(u.avatar != null) that.userAvatar = u.avatar
                 })
             },
 
