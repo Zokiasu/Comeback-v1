@@ -7,7 +7,7 @@
                 <img class="w-8 sm:w-10 lg:hidden" src="~/assets/image/mini-logo.png" alt="Comeback Logo">
             </NuxtLink>
             <div class="flex justify-center lg:justify-between lg:w-full relative lg:ml-5">
-                <ul id="menu" class="flex space-x-0">
+                <ul id="menu" class="flex space-x-2 mx-2">
                     <NuxtLink :to="`/`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? '' : 'bg-gray-500'">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/home.png"/>
                         <span class="hidden mt-0.5 lg:flex">Home</span>
@@ -20,6 +20,31 @@
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png"/>
                         <span class="hidden mt-0.5 lg:flex">Artists</span>
                     </NuxtLink>
+                    <t-dropdown v-if="userConnected && userRole != 'NONE'" text="Moderator">
+                        <div class="py-1 rounded-md shadow-xs">
+                        <a
+                        href="#"
+                        class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                        role="menuitem"
+                        >
+                        Your Profile
+                        </a>
+                        <a
+                        href="#"
+                        class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                        role="menuitem"
+                        >
+                        Settings
+                        </a>
+                        <a
+                        href="#"
+                        class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                        role="menuitem"
+                        >
+                        Sign out
+                        </a>
+                        </div>
+                    </t-dropdown>
                     <!--<NuxtLink :to="`/moderator`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator' ? '' : 'bg-gray-500'">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png"/>
                         <span class="hidden mt-0.5 lg:flex">Moderator</span>
@@ -120,7 +145,10 @@
 
                 loginModal: false,
                 signupModal: false,
+
+                user: null,
                 userConnected: false,
+                userRole: 'NONE',
                 userAvatar: require('@/assets/image/artist.png'),
                 
                 auth: {
@@ -138,13 +166,14 @@
             }
         },
 
-        beforeCreate(){
+        async beforeCreate(){
             let that = this
-            this.$fire.auth.onAuthStateChanged(async function (user) {
+            await this.$fire.auth.onAuthStateChanged(async function (user) {
                 if (user != null) {
                     if(user.uid) {
                         that.userConnected = true
-                        that.setStoreData(user.uid)
+                        console.log('userConnected', that.userConnected)
+                        await that.setStoreData(user.uid)
                     }
                 }
             })
@@ -195,17 +224,6 @@
                     this.userConnected = true
                     if(res) {
                         this.setStoreData(res.user.uid)
-                        /*this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
-                            that.SET_TOKEN_USER(idToken)
-                            console.log('GET_TOKEN_USER', that.GET_TOKEN_USER())
-                        }).catch(function(error) {
-                            console.log(error)
-                        })
-
-                        this.$axios.get(`https://comeback-api.herokuapp.com/users/${res.user.uid}`).then((res) => {
-                            this.SET_DATA_USER(res.data)
-                            console.log('GET_DATA_USER', this.GET_DATA_USER())
-                        })*/
                     }
                 })
                 .catch(error => {
@@ -229,21 +247,25 @@
                 
             },
 
-            setStoreData(userId){
+            async setStoreData(userId){
+                console.log('setStoreData')
                 const that = this
+
                 this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
                     that.SET_TOKEN_USER(idToken)
-                    //console.log('GET_TOKEN_USER', that.GET_TOKEN_USER())
                 }).catch(function(error) {
                     console.log(error)
                 })
 
-                this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
-                    this.SET_DATA_USER(res.data)
-                    //console.log('GET_DATA_USER', this.GET_DATA_USER())
-                    var u = that.GET_DATA_USER()
-                    console.log(u)
-                    if(u.avatar != null) that.userAvatar = u.avatar
+                await this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
+                    that.SET_DATA_USER(res.data)
+                    that.user = that.GET_DATA_USER()
+                    if(that.user != null) {
+                        that.userAvatar = that.user.avatar
+                        that.userRole = that.user.role
+                        console.log('userAvatar', that.userAvatar)
+                        console.log('userRole', that.userRole)
+                    }
                 })
             },
 

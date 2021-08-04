@@ -37,7 +37,6 @@
                         domain = splitArr[arrLen - 3] + '.' + domain;
                     }
                 }
-                console.log(url)
                 //remove '.com'
                 var n = domain.indexOf('.');
                 domain = domain.substring(0, n != -1 ? n : domain.length);

@@ -58,6 +58,7 @@
     methods:{
       async fetchData() {
         let artTmp = []
+        console.log("Search", `https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
         const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`);
         artTmp = artTmp.concat(response)
         this.artists = [...new Set(artTmp)]
@@ -66,6 +67,7 @@
         let artTmp = []
         setTimeout(() => {
           artTmp = artTmp.concat(this.artists)
+          console.log("Search", `https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
             if(response.data.length > 0) {
               artTmp = artTmp.concat(response.data)
@@ -87,6 +89,7 @@
         let artTmp = []
         if(reset) {
           this.maxArtist = 0
+          console.log("Search", `https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           if(response.length > 0) {
             artTmp = artTmp.concat(response)
