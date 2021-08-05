@@ -20,31 +20,6 @@
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png"/>
                         <span class="hidden mt-0.5 lg:flex">Artists</span>
                     </NuxtLink>
-                    <t-dropdown v-if="userConnected && userRole != 'NONE'" text="Moderator">
-                        <div class="py-1 rounded-md shadow-xs">
-                        <a
-                        href="#"
-                        class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                        role="menuitem"
-                        >
-                        Your Profile
-                        </a>
-                        <a
-                        href="#"
-                        class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                        role="menuitem"
-                        >
-                        Settings
-                        </a>
-                        <a
-                        href="#"
-                        class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                        role="menuitem"
-                        >
-                        Sign out
-                        </a>
-                        </div>
-                    </t-dropdown>
                     <!--<NuxtLink :to="`/moderator`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator' ? '' : 'bg-gray-500'">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png"/>
                         <span class="hidden mt-0.5 lg:flex">Moderator</span>
