@@ -9,7 +9,7 @@
     export default {
         name: "titleRelease",
 
-        props: ['title', 'release'],
+        props: ['title'],
 
         data() {
             return {
@@ -44,35 +44,21 @@
 
             getYoutubeId(url){
                 let id, fullId
-                if(this.release.type === "ALBUM") {
-                    if(url?.includes("list=")) {
+                if(url?.includes("list=")) {
 
-                        id = url.split("list=")[1]
-                        fullId = "https://www.youtube.com/embed/videoseries?list=" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
+                    id = url.split("list=")[1]
+                    fullId = "https://www.youtube.com/embed/videoseries?list=" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
 
-                    } else if(url?.includes("v=")) {
+                } else if(url?.includes("v=")) {
 
-                        id = url.split("v=")[1]
-                        fullId = "https://www.youtube.com/embed/" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
+                    id = url.split("v=")[1]
+                    fullId = "https://www.youtube.com/embed/" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
 
-                    } else if(url?.includes(".be/")) {
+                } else if(url?.includes(".be/")) {
 
-                        id = url.split(".be/")[1]
-                        fullId = "https://www.youtube.com/embed/" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
+                    id = url.split(".be/")[1]
+                    fullId = "https://www.youtube.com/embed/" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
 
-                    }
-                } else {
-                    if(url?.includes("v=")) {
-
-                        id = url.split("v=")[1]
-                        fullId = "https://www.youtube.com/embed/" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
-
-                    } else if(url?.includes(".be/")) {
-
-                        id = url.split(".be/")[1]
-                        fullId = "https://www.youtube.com/embed/" + id + "?rel=0&modestbranding=1&autohide=1&showinfo=0"
-
-                    }
                 }
                 return fullId
             },

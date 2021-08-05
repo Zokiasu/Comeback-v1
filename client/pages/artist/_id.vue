@@ -132,40 +132,24 @@
             return { artist, memberslist }
         },
 
-        created(){
-
+        mounted(){
             this.user = this.GET_DATA_USER()
+            console.log('User', this.user)
 
-            if(this.user == undefined) {
+            if(this.user == undefined || this.user == null) {
                 const that = this
                 this.$fire.auth.onAuthStateChanged(async function (users) {
                     if (users != null) {
-                        const token = that.$fire.auth.currentUser.getIdToken();
-                        const {data: response} = await that.$axios.get(`https://comeback-api.herokuapp.com/users/${users.uid}`)
-                        that.$store.commit('SET_DATA_USER', response)
-                        that.$store.commit('SET_TOKEN_USER', token.i)
+                        this.artist.members.forEach(element => {
+                            if(element.type === "GROUP") {
+                                this.subunitlist.push(element)
+                            }
+                        });
 
-                        that.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
-                            that.SET_TOKEN_USER(idToken)
-                        }).catch(function(error) {
-                            console.log(error)
-                        })
-
-                        that.$axios.get(`https://comeback-api.herokuapp.com/users/${users.uid}`).then((res) => {
-                            that.SET_DATA_USER(res.data)
-                            that.user = that.GET_DATA_USER()
-
-                            this.artist.members.forEach(element => {
-                                if(element.type === "GROUP") {
-                                    this.subunitlist.push(element)
-                                }
-                            });
-
-                            this.artist.followers.forEach(element => {
-                                if(element.id == this.user.id) {
-                                    this.liked = true
-                                }
-                            })
+                        this.artist.followers.forEach(element => {
+                            if(element.id == users.uid) {
+                                this.liked = true
+                            }
                         })
                     }
                 })

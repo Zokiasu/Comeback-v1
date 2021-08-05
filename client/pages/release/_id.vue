@@ -30,7 +30,7 @@
                 <embed src="~/assets/image/play.svg" type="">
             </div>
             <div class="space-y-1">
-                <TitleRelease v-for="title in release.musics" :key="title.id" :title="title" :release="release" ref="title"/>
+                <TitleRelease v-for="title in release.musics" :key="title.id" :title="title" ref="title"/>
             </div>
         </div>
     </div>
