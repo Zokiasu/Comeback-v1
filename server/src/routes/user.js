@@ -65,7 +65,7 @@ router.get('/:userId', async (req, res) => {
   return res.send(user);
 });
 
-router.get('/:userId/all', async (req, res) => {
+router.get('/:userId/full', async (req, res) => {
   const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
