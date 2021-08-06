@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5">
+    <div class="p-5 px-10 space-y-5">
         <ModeratorMenu/>
         <section id="pending-page" class="pb-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
 

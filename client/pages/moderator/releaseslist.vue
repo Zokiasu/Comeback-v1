@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5">
+    <div class="p-5 px-10 space-y-5">
         <ModeratorMenu/>
         <section id="searchbar" class=" flex w-full justify-start" :class="search ? '':'mb-5'">
             <div id="search-icon" class="bg-opacity-20 bg-gray-500 pr-1 pl-2 rounded-none rounded-l py-1.5">
@@ -8,7 +8,7 @@
             <input @change="updateDateList()" id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-opacity-20 bg-gray-500 text-white placeholder-white">
         </section>
         <button v-if="search" @click="search=''; updateDateList(); " class="text-red-700 focus:outline-none mb-5">Reset</button>
-        <section v-if="releases.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+        <section v-if="releases.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
             <div v-for="(release, index) in this.releases" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
                 <span class="absolute text-white bottom-0 right-0 bg-gray-900 px-2 z-50">{{index}}</span>
                 <div class="flex 2xl:absolute mb-2 2xl:mb-0 right-2 top-3 space-x-2">
@@ -22,7 +22,7 @@
                             <span class="font-semibold text-lg"><NuxtLink :to="`/release/${release.id}`" target="_blank" class="hover:underline">{{release.name}}</NuxtLink></span>
                         </div>
                         <div class="mb-1.5">
-                            <span>{{((release.type).charAt(0).toUpperCase() + (release.type).slice(1))}} </span>
+                            <span>{{((release.type).charAt(0).toUpperCase() + (release.type).slice(1))}} - {{new Date(release.date).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </span>
                         </div>
                         <div class="flex space-x-2">
                             <a v-for="(platforms, index) in release.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>
@@ -30,19 +30,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-2">
-                    <span v-for="(style, index) in release.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style.name}} </span>
-                    <span v-if="!release.styles" class="text-red-500"> No styles </span>
-                </div>
-                <span class="font-semibold text-gray-400">Artists :</span>
-                <div class="mb-5">
-                    <span v-for="(artist, index) in release.artists" :key="index" class="rounded">{{artist.name}}<span v-if="index < release.artists.length-1">, </span></span>
-                    <span v-if="!release.artists" class="text-red-500"> No Artists </span>
-                </div>
-                <span class="font-semibold text-gray-400">Tracklist :</span>
+
                 <v-read-more-box bg-color="#6B728033">
                     <button slot="readMore" class="focus:outline-none font-semibold mt-2">SHOW MORE</button>
                     <button slot="readLess" class="focus:outline-none font-semibold mt-2">SHOW LESS</button>
+                    <div class="mb-2">
+                        <span v-for="(style, index) in release.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style.name}} </span>
+                        <span v-if="!release.styles" class="text-red-500"> No styles </span>
+                    </div>
+                    <span class="font-semibold text-gray-400">Artists :</span>
+                    <div class="mb-5">
+                        <span v-for="(artist, index) in release.artists" :key="index" class="rounded">{{artist.name}}<span v-if="index < release.artists.length-1">, </span></span>
+                        <span v-if="!release.artists" class="text-red-500"> No Artists </span>
+                    </div>
+                    <span class="font-semibold text-gray-400">Tracklist :</span>
                     <div class="grid grid-cols-1 gap-y-1">
                         <span v-for="(music, index) in release.musics" :key="index" class="rounded truncate text-sm">{{music.name}}</span>
                         <span v-if="release.musics.length < 1" class="text-red-500"> No Musics </span>
@@ -86,7 +87,7 @@
                 let artTmp = []
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.releases)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.releases = [...new Set(artTmp)]
@@ -106,7 +107,7 @@
             async updateDateList(){
                 let artTmp = []
                 this.maxObjectDisplay = 0
-                const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
                 if(response.length > 0) {
                     artTmp = artTmp.concat(response)
                     this.releases = [...new Set(artTmp)] //Remove all double entry

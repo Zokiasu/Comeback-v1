@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5">
+    <div class="p-5 px-10 space-y-5">
         <ModeratorMenu/>
         <div class="mb-5">
             <button @click="sorting = 'name'; updateDateList()" class="focus:outline-none bg-gray-500 text-white rounded px-2 py-1">Name</button>

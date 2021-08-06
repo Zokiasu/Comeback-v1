@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5">
+    <div class="p-5 px-10 space-y-5">
         <ModeratorMenu/>
         <section id="searchbar" class=" flex w-full justify-start" :class="search ? '':'mb-5'">
             <div id="search-icon" class="bg-opacity-20 bg-gray-500 pr-1 pl-2 rounded-none rounded-l py-1.5">
