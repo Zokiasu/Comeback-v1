@@ -1,5 +1,5 @@
 <template>
-    <a :href="url" target="_blank" v-if="url" class="Card rounded p-2 px-3 hover:bg-leftbar hover:bg-opacity-50 text-white flex space-x-1.5">
+    <a :href="url" target="_blank" v-if="url" class="Card rounded p-2 px-3 bg-black-two bg-opacity-90 hover:bg-opacity-50 text-white flex space-x-1.5">
         <div class="mt-1">
             <img :src="urls">
         </div>

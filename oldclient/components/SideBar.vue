@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-leftbar flex flex-col justify-between relative text-white texts min-h-screen">
+    <div class="bg-opacity-20 bg-gray-500 flex flex-col justify-between relative text-white texts min-h-screen">
         <div class="w-full">
             <header class="m-5 flex justify-center">
                 <button @click="backToHome()" class="focus:outline-none"><img class="w-52 cursor-pointer" src="~/assets/image/logo.png"/></button>

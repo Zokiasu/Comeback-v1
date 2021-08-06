@@ -10,29 +10,22 @@
                 <div id="image">
                     <img class="w-full lg:h-80 object-cover" :src="artist.image" :alt="artist.name">
                 </div>
-                <div id="media-streaming-group" class="flex flex-col">
+                <div id="media-streaming-group" class="flex flex-col space-y-3">
                     <div id="social-media" class="space-y-1" v-if="artist.socials">
                         <h3 class="text-white text-xl">Social Media</h3>
-                        <div id="link-social" class="flex lg:grid lg:grid-cols-4 xl:flex">
+                        <div id="link-social" class="flex lg:grid lg:grid-cols-4 xl:flex xl:space-x-2">
                             <LinkImg v-for="(media, index) in artist.socials" :key="index" :url="media" :name="media"/>
                         </div>
                     </div>
                     <div id="streaming-platforms" class="space-y-1" v-if="artist.platforms">
                         <h3 class="text-white text-xl">Streaming Platforms</h3>
-                        <div id="link-streaming" class="flex lg:grid lg:grid-cols-4 xl:flex">
+                        <div id="link-streaming" class="flex lg:grid lg:grid-cols-4 xl:flex xl:space-x-2">
                             <LinkImg v-for="(stream, index) in artist.platforms" :key="index" :url="stream" :name="stream"/>
                         </div>
                     </div>
-                    <div id="group-unit" class="space-y-1" v-if="artist.groups.length > 0">
-                        <h3 class="text-white text-xl">Group's Unit</h3>
-                        <div class="flex flex-row">
-                            <NuxtLink :to="`/artist/${group.id}`" v-for="(group, index) in artist.groups" :key="index" class="Card p-3 rounded flex flex-col justify-center">
-                                <div class="mb-0.5">
-                                    <img class="rounded w-20 h-20 object-cover mx-auto" :src="group.image" alt="">
-                                </div>
-                                <span class="w-full h-full text-center"> {{group.name}} </span>
-                            </NuxtLink>
-                        </div>
+                    <div id="style" class="space-y-2" v-if="artist.styles.length > 0">
+                        <h3 class="text-white text-xl">Styles</h3>
+                        <div class="space-x-1"><span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style.name}}</span></div>
                     </div>
                 </div>
                 <div v-if="user != null" id="button" class="absolute lg:right-0 top-0">
@@ -43,10 +36,6 @@
                 </div>
             </section>
             <section class="space-y-5">
-                <div id="style" class="space-y-2" v-if="artist.styles.length > 0">
-                    <h3 class="text-white text-xl">Styles</h3>
-                    <div class="space-x-1"><span v-for="(style, index) in artist.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style.name}}</span></div>
-                </div>
                 <div id="description" class="space-y-2" v-if="artist.description">
                     <h3 class="text-xl">Description</h3>
                     <v-read-more-box bg-color="#1F1D1D">
@@ -75,6 +64,17 @@
                         </div>
                         <span class="w-full h-full text-center xl:text-xl"> {{member.name}} </span>
                     </NuxtLink>
+                    </div>
+                </div>
+                <div id="group-unit" class="space-y-1" v-if="artist.groups.length > 0">
+                    <h3 class="text-white text-xl">Group's Unit</h3>
+                    <div class="flex flex-row">
+                        <NuxtLink :to="`/artist/${group.id}`" v-for="(group, index) in artist.groups" :key="index" class="Card p-3 rounded flex flex-col justify-center">
+                            <div class="mb-0.5">
+                                <img class="rounded w-20 h-20 object-cover mx-auto" :src="group.image" alt="">
+                            </div>
+                            <span class="w-full h-full text-center"> {{group.name}} </span>
+                        </NuxtLink>
                     </div>
                 </div>
                 <div id="release-section" class="space-y-2" v-if="artist.releases.length > 0">

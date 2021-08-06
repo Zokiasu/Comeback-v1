@@ -51,6 +51,20 @@
     import { mapGetters } from 'vuex'
 
     export default {
+
+        head() {
+            return {
+                title: "Comeback - Calendar",
+                meta: [
+                    {
+                        hid: 'description',
+                        name: 'description',
+                        content: "Find all the artists' releases by day and according to your preferences.",
+                    }
+                ]
+            }
+        },
+
         data(){
             return {
                 userPreference:null,
