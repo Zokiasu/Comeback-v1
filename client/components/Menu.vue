@@ -210,7 +210,7 @@
             }
         },
 
-        async beforeCreate(){
+        async created(){
             let that = this
             await this.$fire.auth.onAuthStateChanged(async function (user) {
                 if (user != null) {
