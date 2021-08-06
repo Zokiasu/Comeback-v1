@@ -20,7 +20,7 @@
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png"/>
                         <span class="hidden mt-0.5 lg:flex">Artists</span>
                     </NuxtLink>
-                    <NuxtLink v-if="userRole != 'NONE'" :to="`/moderator/pending`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator-*' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
+                    <NuxtLink v-if="userConnected && userRole != 'NONE'" :to="`/moderator/pending`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator-*' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png"/>
                         <span class="hidden mt-0.5 lg:flex">Moderator</span>
                     </NuxtLink>
@@ -281,6 +281,7 @@
                 this.$fire.auth.signOut().then(() => {
                     this.$router.push('/')
                     this.userConnected = false
+                    this.userRole = 'NONE'
                     this.$toast.error('You are log out!', {duration:3000, position:'top-right'})
                 }).catch((error) => {
                     console.log(error)
