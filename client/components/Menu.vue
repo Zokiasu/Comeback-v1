@@ -24,7 +24,7 @@
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png"/>
                         <span class="hidden mt-0.5 lg:flex">Moderator</span>
                     </NuxtLink>
-                    <button @click="openNewsWindow()" class="bg-red-700 Card px-5 rounded-md focus:outline-none">
+                    <button v-if="userConnected" @click="openNewsWindow()" class="bg-red-700 Card px-5 rounded-md focus:outline-none">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/news.png"/>
                         <span class="hidden mt-0.5 lg:flex">Add a News</span>
                     </button>
