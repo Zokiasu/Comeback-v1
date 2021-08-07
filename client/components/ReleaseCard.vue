@@ -20,43 +20,19 @@
 <script>
   import moment from 'moment-timezone'
   export default {
+    name: "releaseCard",
+
     props: ['release'],
 
-    data(){
-        return {
-          width:false,
-        }
-    },
-
     computed: {
-      userData(){
-        let utmp = this.$store.state.dataUser
-        return utmp
-      },
-
       validationDate(){
         return this.checkDate()
       },
     },
 
-    mounted() {
-      this.handleResize();
-        
-    },
-
     methods :{
       checkDate(){
         return moment(new Date(this.release.date)).isAfter(new Date())
-      },
-
-      handleResize() {
-        if(window.innerWidth > 768) {
-          this.width = true
-          this.$nuxt.refresh()
-        } else {
-          this.width = false
-          this.$nuxt.refresh()
-        }
       },
     }
   }
