@@ -8,7 +8,7 @@
             </NuxtLink>
             <div class="flex justify-start sm:justify-center lg:justify-between lg:w-full relative lg:ml-5">
                 <ul id="menu" class="flex space-x-2 mx-2">
-                    <NuxtLink :to="`/`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
+                    <NuxtLink :to="`/index`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/home.png"/>
                         <span class="hidden mt-0.5 lg:flex">Home</span>
                     </NuxtLink>
