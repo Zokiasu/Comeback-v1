@@ -13,13 +13,13 @@
                 <div id="media-streaming-group" class="flex flex-col space-y-3">
                     <div id="social-media" class="space-y-1" v-if="artist.socials">
                         <h3 class="text-white text-xl">Social Media</h3>
-                        <div id="link-social" class="flex lg:grid lg:grid-cols-4 xl:flex xl:space-x-2">
+                        <div id="link-social" class="flex flex-wrap space-x-2">
                             <LinkImg v-for="(media, index) in artist.socials" :key="index" :url="media" :name="media"/>
                         </div>
                     </div>
                     <div id="streaming-platforms" class="space-y-1" v-if="artist.platforms">
                         <h3 class="text-white text-xl">Streaming Platforms</h3>
-                        <div id="link-streaming" class="flex lg:grid lg:grid-cols-4 xl:flex xl:space-x-2">
+                        <div id="link-streaming" class="flex flex-wrap space-x-2">
                             <LinkImg v-for="(stream, index) in artist.platforms" :key="index" :url="stream" :name="stream"/>
                         </div>
                     </div>
