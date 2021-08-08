@@ -6,6 +6,13 @@ const router = Router();
 router.get('/', async (req, res) => {
   const styles = await req.context.models.Style.findAll({
     ...queriesToDict(req.query),
+  });
+  return res.send(styles);
+});
+
+router.get('/full', async (req, res) => {
+  const styles = await req.context.models.Style.findAll({
+    ...queriesToDict(req.query),
     include: [req.context.models.Artist, req.context.models.Release],
   });
   return res.send(styles);
