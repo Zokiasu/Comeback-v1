@@ -132,7 +132,7 @@
             return { artist, memberslist }
         },
 
-        mounted(){
+        created(){
             this.user = this.GET_DATA_USER()
 
             if(this.user == undefined || this.user == null) {
