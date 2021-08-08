@@ -109,18 +109,19 @@
         </Modal>
         <Modal
             v-model="newsWindow"
+            title="Add a News"
             wrapper-class="animate__animated modal-wrapper"
+            modal-class="modal-custom"
             :in-class="`animate__fadeInDown`"
             :out-class="`animate__bounceOut`"
             bg-class="animate__animated"
             :bg-in-class="`animate__fadeInUp`"
             :bg-out-class="`animate__fadeOutDown`">
-            <div class="flex flex-col justify-center">
-                <!--<t-input type="text" v-model="news.userId" placeholder="Your Id" name="userId" class="my-2"></t-input>-->
+            <div class="flex flex-col justify-center space-y-2 py-3 text-white">
                 <multiselect
                     v-if="!newArtist"
                     v-model="artistSelected"
-                    placeholder="Please select an artists" 
+                    placeholder="Please select an artist"
                     label="name" 
                     track-by="id" 
                     :options="artistList"
@@ -146,22 +147,31 @@
                         </div>
                     </template>
                 </multiselect>
-                <t-input v-else type="text" v-model="news.newArtistName" placeholder="Your Artist Name" name="Artist Name" class="my-2"></t-input>
-                <span v-if="!newArtist" class="text-sm my-2">You can't find your artist ? <button @click="newArtist = !newArtist" class="focus:outline-none text-green-500">Please click here to suggest him with your news</button></span>
-                <span v-else class="text-sm my-2"><button @click="newArtist = !newArtist" class="focus:outline-none text-green-500">Back to artist list</button></span>
+                <t-input v-else type="text" v-model="news.newArtistName" placeholder="Your Artist Name" name="Artist Name"></t-input>
+                <span v-if="!newArtist" class="text-sm">You can't find your artist ? <button @click="newArtist = !newArtist" class="focus:outline-none text-red-500">Please click here to suggest him with your news</button></span>
+                <span v-else class="text-sm"><button @click="newArtist = !newArtist" class="focus:outline-none text-red-700">Back to artist list</button></span>
                 <t-datepicker
                     class="text-black"
                     v-model="news.date"
                     placeholder="Date"
                     initial-view="month" dateFormat='Y-m-d' clearable>
                 </t-datepicker>
-                <t-textarea type="text" v-model="news.message" placeholder="Your News" name="News" class="my-2"></t-textarea>
-                <button v-if="!newArtist" @click="sendNews()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Send the news</button>
-                <button v-else @click="sendNewsToValidated()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-green-500 hover:bg-green-700 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Suggest Artist and News</button>
+                <t-textarea type="text" v-model="news.message" placeholder="Your News*" name="News"></t-textarea>
+                <t-textarea type="text" v-model="news.source" placeholder="Source*" name="Source"></t-textarea>
+                <button v-if="!newArtist" @click="sendNews()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Send the news</button>
+                <button v-else @click="sendNewsToValidated()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Suggest Artist and News</button>
             </div>
         </Modal>
     </div>
 </template>
+
+<style>
+.modal-custom{
+    background:#1F1D1D;
+    border-radius: 0.25rem;
+    color:white;
+}
+</style>
 
 <script>
     import 'animate.css'
@@ -186,6 +196,7 @@
                     artistId: null,
                     userId: null,
                     newArtistName: null,
+                    source:null,
                 },
                 artistSelected:{},
                 artistList:[],
@@ -308,8 +319,6 @@
                     if(that.user != null) {
                         that.userAvatar = that.user.avatar
                         that.userRole = that.user.role
-                        console.log('userAvatar', that.userAvatar)
-                        console.log('userRole', that.userRole)
                     }
                 })
             },
@@ -332,6 +341,7 @@
                         this.news.message = null,
                         this.news.artistId = null,
                         this.news.date = null,
+                        this.news.source = null,
                         this.newArtist = false
                     }).catch(function (error) {
                         console.log(error);
@@ -358,6 +368,7 @@
                         this.news.message = null,
                         this.news.newArtistName = null,
                         this.news.date = null,
+                        this.news.source = null,
                         this.newArtist = false
                     })
                 }

@@ -2,17 +2,6 @@
     <div>
         <div id="button" class="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between p-10">
             <div>
-                <t-select
-                id="artists-type-selector"
-                class="focus:outline-none"
-                v-model="userPreference"
-                :options="[
-                    { value: true, text: 'My Comeback' },
-                    { value: false, text: 'All Comeback' },
-                ]">
-                </t-select>
-            </div>
-            <div>
                 <t-datepicker
                     class="text-black"
                     v-model="dateStart"
@@ -21,6 +10,17 @@
                     dateFormat='Y-m-d'
                     clearable>
                 </t-datepicker>
+            </div>
+            <div>
+                <t-select
+                id="artists-type-selector"
+                class="focus:outline-none"
+                v-model="userPreference"
+                :options="[
+                    { value: false, text: 'All Comeback' },
+                    { value: true, text: 'My Comeback' },
+                ]">
+                </t-select>
             </div>
         </div>
         <div id="release-date" class="space-y-5">
@@ -67,7 +67,7 @@
 
         data(){
             return {
-                userPreference:null,
+                userPreference: 'false',
                 stopInfiniteScroll: true,
                 dateStart: null,
                 startDate: new Date(),
@@ -75,6 +75,7 @@
                 dateList: {},
                 user: null,
                 gapDate: 30,
+                infiniteId: +new Date(),
             }
         },
 
@@ -87,11 +88,11 @@
                 immediate: true,
                 handler(userPreference) {
                     if (process.client) {
-                        if(userPreference != null) {
-                            this.fetchData()
-                        } else {
-                            this.userPreference = 'false'
+                        if(this.dateStart != null) {
+                            this.startDate = new Date(this.dateStart)
+                            this.endDate.setDate((this.startDate.getDate()) + 7)
                         }
+                        this.fetchData()
                     }
                 }
             },
@@ -126,12 +127,14 @@
                 let tmp = {}
                 if(this.userPreference == 'true'){
                     this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.user.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-                        if(Object.entries(response.data).length !== 0) {
+                        if(Object.entries(response.data).length) {
                             this.dateList = {}
                             for(let [key, value] of Object.entries(response.data)) {
                                 tmp[key] = value
                             }
                             this.dateList = tmp
+                        } else {
+                            this.dateList = {}
                         }
                     })
                     .catch(err => {
@@ -139,21 +142,21 @@
                     });
                 } else {
                     this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
-                        if(Object.entries(response.data).length !== 0) {
+                        if(Object.entries(response.data).length) {
                             this.dateList = {}
                             for(let [key, value] of Object.entries(response.data)) {
                                 tmp[key] = value
                             }
                             this.dateList = tmp
+                        } else {
+                            this.dateList = {}
                         }
                     })
                     .catch(err => {
                         console.log(err);
                     });
                 }
-                /*if(this.$refs.InfiniteLoading){
-                    this.$refs.InfiniteLoading.stateChanger.reset(); 
-                }*/
+                this.changeType()
             },
 
             infiniteScroll($state) {
@@ -201,6 +204,10 @@
                         });
                     }
                 }, 500);
+            },
+
+            changeType() {
+                this.infiniteId += 1;
             },
         },
     }

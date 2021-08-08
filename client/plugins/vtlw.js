@@ -219,8 +219,8 @@ const settings = {
         calendarDaysWrapper: 'grid grid-cols-7',
         calendarHeaderWrapper: 'grid grid-cols-7',
         monthWrapper: 'grid grid-cols-4',
-        yearWrapper: 'grid grid-cols-4',
-        input: 'block w-full px-3 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+        yearWrapper: 'grid grid-cols-4',        
+        input: 'block w-full px-3 py-2 transition text-white placeholder-gray-400 bg-black-one duration-100 ease-in-out rounded shadow-sm border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
         clearButton: 'flex flex-shrink-0 items-center justify-center absolute right-0 top-0 m-2 h-6 w-6',
         clearButtonIcon: 'fill-current h-3 w-3'
       },

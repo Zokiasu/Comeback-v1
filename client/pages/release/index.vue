@@ -8,8 +8,8 @@
                     class="focus:outline-none"
                     v-model="userPreference"
                     :options="[
-                        { value: true, text: 'My Comeback' },
                         { value: false, text: 'All Comeback' },
+                        { value: true, text: 'My Comeback' },
                     ]">
                     </t-select>
                 </div>
@@ -61,6 +61,7 @@
                 dateList: {},
                 userId: null,
                 gapDate: 30,
+                infiniteId: +new Date(),
             }
         },
 
@@ -80,6 +81,10 @@
                 immediate: true,
                 handler(userPreference) {
                     if (process.client) {
+                        if(this.dateStart != null) {
+                            this.startDate = new Date(this.dateStart)
+                            this.endDate.setDate((this.startDate.getDate()) + 7)
+                        }
                         this.fetchData()
                     }
                 }
@@ -138,9 +143,7 @@
                         console.log(err);
                     });
                 }
-                /*if(this.$refs.InfiniteLoading){
-                    this.$refs.InfiniteLoading.stateChanger.reset(); 
-                }*/
+                this.changeType()
             },
 
             infiniteScroll($state) {
@@ -190,6 +193,10 @@
                         });
                     }
                 }, 500);
+            },
+
+            changeType() {
+                this.infiniteId += 1;
             },
         },
     }

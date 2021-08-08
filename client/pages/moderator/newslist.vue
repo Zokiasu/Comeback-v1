@@ -1,5 +1,5 @@
 <template>
-    <div class="p-5 px-10 space-y-5">
+    <div class="p-5 px-10 space-y-3">
         
         <ModeratorMenu/>
         <section id="searchbar" class=" flex w-full justify-start" :class="search ? '':'mb-5'">
@@ -11,7 +11,7 @@
         <button v-if="search" @click="search=''; updateDateList(true); " class="text-red-700 focus:outline-none mb-5">Reset</button>
 
         <section v-for="(element, index) in this.news" :key="element.id" id="page-body" class="flex flex-col justify-center">
-            <div :key="index" style="background-color: #6B728033" class="flex flex-col w-full text-white rounded-sm relative p-5 mb-5 overflow-hidden">
+            <div :key="index" style="background-color: #6B728033" class="flex flex-col w-full text-white rounded-sm relative p-5 overflow-hidden">
                 <div class="flex w-full justify-between mb-2">
                     <span>Created At {{new Date(element.createdAt).toLocaleDateString('en-US', {  month: 'long', day: 'numeric', year: 'numeric' })}} {{element.id}} </span>
                     <div class="flex space-x-2">
