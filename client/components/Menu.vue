@@ -317,7 +317,6 @@
                     that.user = that.GET_DATA_USER()
                     if(that.user != null) {
                         if(that.user.avatar) that.userAvatar = that.user.avatar
-                        console.log('userAvatar', that.userAvatar)
                         that.userRole = that.user.role
                     }
                 })
