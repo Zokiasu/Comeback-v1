@@ -52,7 +52,7 @@
                     <span class="bg-red-500 text-xs rounded-full absolute top-0 right-2 px-1">10</span>
                 </div>-->
                 <div>
-                    <img @click="userMenu = !userMenu" class="w-8 sm:w-10 rounded-full cursor-pointer" :src="userAvatar ? userAvatar:'@/assets/image/artist.png'" alt="">
+                    <img @click="userMenu = !userMenu" class="w-8 sm:w-10 rounded-full cursor-pointer" :src="userAvatar" alt="">
                     <div v-if="userMenu" @blur="userMenu = !userMenu" class="w-40 fixed rounded bg-black-one right-3 mt-3 animate__animated animate__fadeInDown animate__faster">
                         <ul class="flex flex-col">
                             <!--<NuxtLink :to="`/profile`" class="rounded-t hover:bg-gray-700 px-5 py-1">
@@ -316,7 +316,8 @@
                     that.SET_DATA_USER(res.data)
                     that.user = that.GET_DATA_USER()
                     if(that.user != null) {
-                        that.userAvatar = that.user.avatar
+                        if(that.user.avatar) that.userAvatar = that.user.avatar
+                        console.log('userAvatar', that.userAvatar)
                         that.userRole = that.user.role
                     }
                 })
