@@ -81,7 +81,7 @@
                 let artTmp = []
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.artists)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.artists = [...new Set(artTmp)]
@@ -102,7 +102,7 @@
                 let artTmp = []
                 if(reset) {
                     this.maxObjectDisplay = 0
-                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response)
                         this.artists = [...new Set(artTmp)] //Remove all double entry
@@ -116,7 +116,7 @@
                     }
                 } else {
                     artTmp = artTmp.concat(this.artists)
-                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response) //Add next artist into actual list
                         this.artists = [...new Set(artTmp)] //Remove all double entry

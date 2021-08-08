@@ -167,7 +167,7 @@
 
         async asyncData({ $axios, params }){
             const artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
-            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name:asc')
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
             const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')
 
             artist["newGroups"] = []

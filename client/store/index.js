@@ -1,8 +1,9 @@
 // your-project/store/index.js
 
 export const state = () => ({
-    authUser: '',
-    tokenUser: '',
+    authUser: null,
+    isAdmin: null,
+    tokenUser: null,
     dataUser: null,
 })
 

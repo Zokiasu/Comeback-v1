@@ -316,7 +316,7 @@
 
             async openNewsWindow(){
                 this.newsWindow = !this.newsWindow
-                const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/fulllimited?sortby=name:asc')
+                const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
                 this.artistList = response
             },
       

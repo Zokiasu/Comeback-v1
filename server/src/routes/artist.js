@@ -47,11 +47,44 @@ router.get('/', async (req, res) => {
   return res.send(artists);
 });
 
-router.get('/fulllimited', async (req, res) => {
+router.get('/groups', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
     ...queriesToDict(req.query),
     include: [
       { model: req.context.models.Artist, as: 'groups' },
+      req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+router.get('/members', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Artist, as: 'members' },
+      req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+router.get('/followers', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.User, as: 'followers' },
+      req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+router.get('/events', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Happening, as: 'events' },
       req.context.models.Style,
     ],
   });
