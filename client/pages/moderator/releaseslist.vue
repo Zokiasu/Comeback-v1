@@ -87,7 +87,7 @@
                 let artTmp = []
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.releases)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/releases/full?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.releases = [...new Set(artTmp)]

@@ -65,7 +65,7 @@
                 let artTmp = []
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.users)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/users?sortby=username&limit=2&offset=${this.maxObjectDisplay}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/users/full?sortby=username&limit=2&offset=${this.maxObjectDisplay}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.users = [...new Set(artTmp)]

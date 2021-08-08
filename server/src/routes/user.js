@@ -24,6 +24,48 @@ router.get('/', async (req, res) => {
   return res.send(users);
 });
 
+router.get('/requests', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      req.context.models.Request,
+    ],
+  });
+  return res.send(users);
+});
+
+router.get('/releases', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      req.context.models.Release,
+    ],
+  });
+  return res.send(users);
+});
+
+router.get('/artists', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Artist, as: 'artists' },
+    ],
+  });
+  return res.send(users);
+});
+
+router.get('/full', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Artist, as: 'artists' },
+      req.context.models.Release,
+      req.context.models.Request,
+    ],
+  });
+  return res.send(users);
+});
+
 // test auth and admin
 
 router.get('/testauth', checkIfAuthenticated, async (req, res) => {
