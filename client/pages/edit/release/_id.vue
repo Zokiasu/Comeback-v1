@@ -304,9 +304,6 @@
             ]),
 
             async editRelease() {
-                console.log("editRelease")
-                console.log("updateRelease", this.updateRelease)
-                console.log("updateMusic", this.updateMusic)
                 if(this.updateRelease) {
                     await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
                         state:'PENDING',
@@ -348,7 +345,6 @@
             },
 
             addArtist (newTag) {
-                console.log("addArtist")
                 const tag = {
                     name: newTag,
                     image: "https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Fartists.jpg?alt=media&token=23be3721-5157-45a7-8c0e-e1c03c2e1827",
@@ -364,7 +360,6 @@
             },
 
             addStyle (newTag) {
-                console.log("addStyle")
                 const tag = {
                     name: newTag,
                 }
@@ -378,7 +373,6 @@
             },
 
             addMusic(){
-                console.log("addMusic")
                 this.release.musics.push({
                     id: null,
                     name: null,
@@ -388,7 +382,6 @@
             },
 
             addStreamingLink(){
-                console.log("addStreamingLink")
                 if(this.release.platforms == null) {
                     this.release.platforms = [""]
                 } else {
@@ -397,24 +390,20 @@
             },
 
             updateList(list, newElem, index, key){
-                console.log("updateList")
                 list[index] = newElem
                 this.newObjectToApi(key, list)
             },
 
             deleteList(list, index){
-                console.log("deleteList")
                 list.splice(index, 1)
             },
 
             newObjectToApi(key, value){
-                console.log("newObjectToApi")
                 this.sendToApi[key] = value
                 this.updateRelease = true
             },
 
             newObjectToApiMusic(value, index){
-                console.log("newObjectToApiMusic")
                 if(value[index].id) {
                     let elementExist = false
                     this.sendToApiMusics.forEach(async element => {
@@ -431,12 +420,10 @@
             },
 
             launchImageFile () {
-                console.log("launchImageFile")
                 this.$refs.imageFile.click()
             },
 
             uploadImageFile (files) {
-                console.log("uploadImageFile")
                 if (!files.length) {
                     return
                 }

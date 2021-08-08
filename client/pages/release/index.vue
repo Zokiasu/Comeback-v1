@@ -125,7 +125,7 @@
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        console.log(error);
                     });
                 } else {
                     this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
@@ -140,7 +140,7 @@
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        console.log(error);
                     });
                 }
                 this.changeType()
@@ -150,7 +150,6 @@
                 setTimeout(() => {
                     let tmp = this.dateList != null ? this.dateList : {}
                     if(this.userPreference == 'true'){
-                        console.log(`https://comeback-api.herokuapp.com/calendar/${this.userId}?date_sup=${this.startDate}&date_inf=${this.endDate}`)
                         this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.userId}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
                             if(Object.entries(response.data).length !== 0) {
                                 this.dateList = {}
@@ -168,10 +167,9 @@
                             }
                         })
                         .catch(err => {
-                        console.log(err);
+                        console.log(error);
                         });
                     } else {
-                        console.log(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`)
                         this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
                             if(Object.entries(response.data).length !== 0) {
                                 this.dateList = {}
@@ -189,7 +187,7 @@
                             }
                         })
                         .catch(err => {
-                        console.log(err);
+                        console.log(error);
                         });
                     }
                 }, 500);

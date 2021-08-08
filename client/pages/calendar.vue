@@ -138,7 +138,7 @@
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        console.log(error);
                     });
                 } else {
                     this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
@@ -153,7 +153,7 @@
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        console.log(error);
                     });
                 }
                 this.changeType()
@@ -180,7 +180,7 @@
                             }
                         })
                         .catch(err => {
-                            console.log(err);
+                            console.log(error);
                         });
                     } else {
                         this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
@@ -200,7 +200,7 @@
                             }
                         })
                         .catch(err => {
-                            console.log(err);
+                            console.log(error);
                         });
                     }
                 }, 500);

@@ -2,7 +2,8 @@
   <div>
     <section id="searchbar" class=" flex w-full justify-start p-5">
       <div id="search-icon" class="bg-opacity-20 bg-gray-500 pr-1 pl-2 rounded-none rounded-l py-1.5">
-        <svg class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
+        <svg v-if="!resetSearch" class="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M64.5,14.33333c-27.6214,0 -50.16667,22.54527 -50.16667,50.16667c0,27.6214 22.54527,50.16667 50.16667,50.16667c12.52732,0 23.97256,-4.67249 32.7819,-12.31771l3.05143,3.05143v9.26628l43,43l14.33333,-14.33333l-43,-43h-9.26628l-3.05143,-3.05143c7.64521,-8.80934 12.31771,-20.25458 12.31771,-32.7819c0,-27.6214 -22.54527,-50.16667 -50.16667,-50.16667zM64.5,28.66667c19.87509,0 35.83333,15.95824 35.83333,35.83333c0,19.87509 -15.95825,35.83333 -35.83333,35.83333c-19.87509,0 -35.83333,-15.95825 -35.83333,-35.83333c0,-19.87509 15.95824,-35.83333 35.83333,-35.83333z"></path></g></g></svg>
+        <svg v-else @click="search = ''; resetSearch = false; updateDateList(false)" class="cursor-pointer" fill="#fff" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5 15.538l-3.592-3.548 3.546-3.587-1.416-1.403-3.545 3.589-3.588-3.543-1.405 1.405 3.593 3.552-3.547 3.592 1.405 1.405 3.555-3.596 3.591 3.55 1.403-1.416z"/></svg>
       </div>
       <input id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-opacity-20 bg-gray-500 text-white placeholder-white">
     </section>
@@ -40,10 +41,6 @@
     },
         
     computed: {
-      filteredList() {
-        return this.updateDateList(this.resetSearch)
-      },
-
       widthActual(){
         if(window.innerWidth > 768) {
           return true
@@ -60,8 +57,10 @@
               if(search != '') {
                 this.resetSearch = true
                 this.updateDateList(true)
+              } else {
+                this.resetSearch = false
+                this.updateDateList(false)
               }
-              console.log('resetSearch', this.resetSearch)
             }
         }
     },
@@ -76,9 +75,7 @@
         this.enough = false
         setTimeout(() => {
           artTmp = artTmp.concat(this.artists)
-          console.log(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
-            console.log('response.data.length',response.data.length)
             if(response.data.length) {
               artTmp = artTmp.concat(response.data)
               this.artists = [...new Set(artTmp)]
@@ -90,7 +87,7 @@
             }
           })
           .catch(err => {
-            console.log(err);
+            console.log(error);
           });
         }, 500);
       },
@@ -100,7 +97,6 @@
         this.enough = false
         if(reset) {
           this.maxArtist = 0
-          console.log(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`)
           if(response.length > 0) {
             artTmp = artTmp.concat(response)
@@ -114,9 +110,11 @@
             this.enough = true
             this.artists = []
           }
-          this.resetSearch = false
         }
-        this.changeType()
+        if(this.search == '') {
+          this.artists = []
+        }
+          this.changeType()
       },
     },
   }

@@ -134,7 +134,6 @@
 
         mounted(){
             this.user = this.GET_DATA_USER()
-            console.log('User', this.user)
 
             if(this.user == undefined || this.user == null) {
                 const that = this

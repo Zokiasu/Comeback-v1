@@ -304,7 +304,6 @@
             },
 
             async setStoreData(userId){
-                console.log('setStoreData')
                 const that = this
 
                 this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
