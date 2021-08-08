@@ -1,32 +1,32 @@
 <template>
     <div>
         <div class="bg-opacity-10 bg-gray-500 px-3 py-2 flex justify-between text-white lg:px-5">
-            <NuxtLink :to="`/`" class="relative">
+            <NuxtLink :to="`/`" name="home page" class="relative">
                 <img class="w-36 hidden lg:flex" src="~/assets/image/logo.png" alt="Comeback Logo">
                 <span class="text-red-700 hidden lg:flex text-xs absolute bottom-0 right-0">Beta</span>
                 <img class="w-8 sm:w-10 hidden sm:flex lg:hidden" src="~/assets/image/mini-logo.png" alt="Comeback Logo">
             </NuxtLink>
             <div class="flex justify-start sm:justify-center lg:justify-between lg:w-full relative lg:ml-5">
-                <ul id="menu" class="flex space-x-2 mx-2">
-                    <NuxtLink :to="`/`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
-                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/home.png"/>
+                <div id="menu" class="flex space-x-2 mx-2">
+                    <NuxtLink :to="`/`" name="home page" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
+                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/home.png" alt="Home button redirect"/>
                         <span class="hidden mt-0.5 lg:flex">Home</span>
                     </NuxtLink>
-                    <NuxtLink :to="`/calendar`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'calendar' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
-                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/calendar.png"/>
+                    <NuxtLink :to="`/calendar`" name="calendar page" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'calendar' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
+                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/calendar.png" alt="calendar button redirect"/>
                         <span class="hidden mt-0.5 lg:flex">Calendar</span>
                     </NuxtLink>
-                    <NuxtLink :to="`/artist`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'artist' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
-                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png"/>
+                    <NuxtLink :to="`/artist`" name="artists page" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'artist' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
+                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png" alt="artist button redirect"/>
                         <span class="hidden mt-0.5 lg:flex">Artists</span>
                     </NuxtLink>
-                    <NuxtLink v-if="userConnected && userRole != 'NONE'" :to="`/moderator/pending`" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator-*' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
-                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png"/>
+                    <NuxtLink v-if="userConnected && userRole != 'NONE'" :to="`/moderator/pending`" name="moderator page" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator-*' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
+                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png" alt="moderator button redirect"/>
                         <span class="hidden mt-0.5 lg:flex">Moderator</span>
                     </NuxtLink>
                     <button v-if="userConnected" @click="openNewsWindow()" class="bg-red-700 Card px-5 rounded-md focus:outline-none">
-                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/news.png"/>
-                        <span class="hidden mt-0.5 lg:flex">Add a News</span>
+                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/news.png" alt="comeback button to add new comeback"/>
+                        <span class="hidden mt-0.5 lg:flex">Add a Comeback</span>
                     </button>
                     <!--<button @click="showInput" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1 lg:invisible">
                         <img class="w-4 h-4 mt-0.5 lg:mt-2" src="~/assets/image/search.png"/>
@@ -34,7 +34,7 @@
                     <!--<NuxtLink :to="`/search`" @click="showInput" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1 lg:invisible">
                         <img class="w-4 h-4 mt-0.5 lg:mt-2" src="~/assets/image/search.png"/>
                     </NuxtLink>-->
-                </ul>
+                </div>
                 <!--<section id="searchbar" v-if="(searchbar || width) && userConnected" class="flex justify-start -space-x-1 absolute lg:static w-screen lg:w-1/3">
                     <div id="search-icon" style="background-color:#3B3B3B" class="pl-2 pt-3 lg:pt-2.5 lg:pl-2.5 rounded-none rounded-l cursor-pointer">
                         <img @click="hideInput" v-if="!width" class="w-6 h-5 cursor-pointer" src="~/assets/image/arrow_back.png"/>
@@ -130,7 +130,7 @@
                     :preserve-search="false">
                     <template slot="singleLabel" slot-scope="props">
                         <div class="flex space-x-1">
-                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image" :alt="props.option.name">
                             <div class="option__desc flex flex-col space-y-1">
                                 <span class="option__title">{{ props.option.name }}</span>
                                 <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
@@ -329,11 +329,14 @@
             },
       
             async sendNews(){
+                console.log(this.news)
+                console.log('artistSelected', this.artistSelected)
                 if(!this.news.message) {
                     this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
-                } else if(!this.news.artistId) {
+                } else if(!this.artistSelected) {
                     this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
                 } else {
+                    this.news.artistId = this.artistSelected.id
                     await this.$axios.post(`https://comeback-api.herokuapp.com/infos`, this.news)
                     .then(response => {
                         this.newsWindow = !this.newsWindow

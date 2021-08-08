@@ -5,7 +5,7 @@
         <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover" :src="artist.image" :alt="artist.name"/>
       </NuxtLink>
     </div>
-    <NuxtLink id="artist-name" :to="`/artist/${artist.id}`" :class=" groupSize > 0 ? 'flex flex-col justify-center space-x-1':''">
+    <NuxtLink :id="artist.name" :to="`/artist/${artist.id}`" :class=" groupSize > 0 ? 'flex flex-col justify-center space-x-1':''">
     <h2 class="font-semibold text-center hover:underline">{{artist.name}}</h2>
     <h3 class="text-center" v-if="groupSize > 0 && artist.type != 'GROUP'">[{{artist.groups[0].name}}]</h3>
     </NuxtLink>

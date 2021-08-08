@@ -21,55 +21,6 @@
                     </div>
                 </div>
                 <NewsCard :element="element"/>
-        
-                <Modal
-                    v-model="editNews" 
-                    title="Edit News"
-                    wrapper-class="animate__animated modal-wrapper"
-                    :in-class="`animate__fadeInDown`"
-                    :out-class="`animate__bounceOut`"
-                    bg-class="animate__animated"
-                    :bg-in-class="`animate__fadeInUp`"
-                    :bg-out-class="`animate__fadeOutDown`">
-                    <div class="flex flex-col justify-center space-y-2">
-                        <multiselect
-                            v-model="objectModify.artist"
-                            placeholder="Please select an artists" 
-                            label="name" 
-                            track-by="id" 
-                            :options="artistList"
-                            :close-on-select="true"
-                            :clear-on-select="true"
-                            :preserve-search="false">
-                            <template slot="singleLabel" slot-scope="props">
-                                <div class="flex space-x-1">
-                                    <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
-                                    <div class="option__desc flex flex-col space-y-1">
-                                        <span class="option__title">{{ props.option.name }}</span>
-                                        <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
-                                    </div>
-                                </div>
-                            </template>
-                            <template slot="option" slot-scope="props">
-                                <div class="flex space-x-1">
-                                    <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
-                                    <div class="option__desc flex flex-col space-y-1">
-                                        <span class="option__title">{{ props.option.name }}</span>
-                                        <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </multiselect>
-                        <t-datepicker
-                            class="text-black"
-                            v-model="objectModify.date"
-                            placeholder="Date"
-                            initial-view="month" dateFormat='Y-m-d' clearable>
-                        </t-datepicker>
-                        <t-input class="w-full" type="text" v-model="objectModify.message"/>
-                        <button @click="editObjectNews(objectModify)" class="bg-red-700 hover:bg-red-900 text-white py-2">Confirm</button>
-                    </div>
-                </Modal>
             </div>
         </section>
 
@@ -77,10 +28,62 @@
         <div v-if="news.length < 1" class="px-5">
             <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No News found.</span>
         </div>
+        
+        <Modal
+            v-model="editNews" 
+            title="Edit News"
+            wrapper-class="animate__animated modal-wrapper"
+            modal-class="modal-custom"
+            :in-class="`animate__fadeInDown`"
+            :out-class="`animate__bounceOut`"
+            bg-class="animate__animated"
+            :bg-in-class="`animate__fadeInUp`"
+            :bg-out-class="`animate__fadeOutDown`">
+            <div class="flex flex-col justify-center space-y-2">
+                <multiselect
+                    v-model="objectModify.artist"
+                    placeholder="Please select an artists" 
+                    label="name" 
+                    track-by="id" 
+                    :options="artistList"
+                    :close-on-select="true"
+                    :clear-on-select="true"
+                    :preserve-search="false">
+                    <template slot="singleLabel" slot-scope="props">
+                        <div class="flex space-x-1">
+                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                            <div class="option__desc flex flex-col space-y-1">
+                                <span class="option__title">{{ props.option.name }}</span>
+                                <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
+                            </div>
+                        </div>
+                    </template>
+                    <template slot="option" slot-scope="props">
+                        <div class="flex space-x-1">
+                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                            <div class="option__desc flex flex-col space-y-1">
+                                <span class="option__title">{{ props.option.name }}</span>
+                                <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
+                            </div>
+                        </div>
+                    </template>
+                </multiselect>
+                <t-datepicker
+                    class="text-black"
+                    v-model="objectModify.date"
+                    placeholder="Date"
+                    initial-view="month" dateFormat='Y-m-d' clearable>
+                </t-datepicker>
+                <t-input class="w-full" type="text" v-model="objectModify.message"/>
+                <button @click="editObjectNews(objectModify)" class="bg-red-700 hover:bg-red-900 text-white py-2">Confirm</button>
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script>
+    import 'animate.css'
+
     export default {
         name:'ArtistList',
 
@@ -206,7 +209,3 @@
         },
     }
 </script>
-
-<style>
-  @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
-</style>
