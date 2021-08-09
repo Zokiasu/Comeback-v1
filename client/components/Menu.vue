@@ -26,7 +26,7 @@
                     </NuxtLink>
                     <button v-if="userConnected" @click="openNewsWindow()" class="bg-red-700 Card px-5 rounded-md focus:outline-none">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/news.png" alt="comeback button to add new comeback"/>
-                        <span class="hidden mt-0.5 lg:flex">Add a Comeback</span>
+                        <span class="hidden mt-0.5 lg:flex">Add a News</span>
                     </button>
                     <!--<button @click="showInput" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1 lg:invisible">
                         <img class="w-4 h-4 mt-0.5 lg:mt-2" src="~/assets/image/search.png"/>
