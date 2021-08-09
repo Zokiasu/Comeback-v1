@@ -73,7 +73,8 @@
         let artTmp = []
         this.enough = false
         setTimeout(() => {
-          artTmp = artTmp.concat(this.artists)
+          //console.log(this.maxArtist, this.artists)
+          if(this.artists.length >= 20) artTmp = artTmp.concat(this.artists)
           this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxArtist}`).then(response => {
             if(response.data.length) {
               artTmp = artTmp.concat(response.data)

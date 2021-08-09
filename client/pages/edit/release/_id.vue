@@ -244,13 +244,13 @@
 
         async asyncData({ $axios, params }){
             const release = await $axios.$get(`https://comeback-api.herokuapp.com/releases/${params.id}`)
-            /*const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
-            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')*/
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
+            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')
 
             release["newArtists"] = []
 
-            //return {release, artistList, styleList}
-            return {release}
+            return {release, artistList, styleList}
+            //return {release}
         },
 
         created() {
@@ -262,11 +262,12 @@
         async mounted() {
             this.dates = new Date(this.release.date)
             this.oldDataToApi = JSON.parse(JSON.stringify(this.release))
-            this.user = this.GET_DATA_USER()
-            const {data:responseA} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
+            this.user = await this.GET_DATA_USER()
+            console.log('user', this.user)
+            /*const {data:responseA} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
             this.artistList = responseA
             const {data:responseS} = await this.$axios.get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')
-            this.styleList = responseS
+            this.styleList = responseS*/
         },
 
         watch: {
@@ -304,6 +305,7 @@
             ]),
 
             async editRelease() {
+                if(this.user == null) this.user = this.GET_DATA_USER()
                 if(this.updateRelease) {
                     await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
                         state:'PENDING',

@@ -150,6 +150,8 @@
 </template>
 
 <script>
+    import { mapMutations, mapGetters } from 'vuex'
+
     export default {
 
         data() {
@@ -162,6 +164,7 @@
                 oldDataToApi:{},
                 source:'',
                 isUploadingImage: false,
+                user: null,
             }
         },
 
@@ -177,15 +180,12 @@
         },
 
         mounted(){
+            this.user = this.GET_DATA_USER()
+            console.log('user', this.user)
             this.oldArtistData = JSON.parse(JSON.stringify(this.artist))
         },
     
         computed: {
-            userData(){
-                let utmp = this.$store.state.dataUser
-                return utmp
-            },
-
             defaultImage(){
                 return this.$store.state.imageArtistDefault
             },
@@ -219,7 +219,17 @@
         },
 
         methods:{
+            ...mapMutations([
+                'SET_DATA_USER',
+                'SET_TOKEN_USER',
+            ]),
+
+            ...mapGetters([
+                'GET_DATA_USER',
+            ]),
+
             async editArtist() {
+                if(this.user == null) this.user = this.GET_DATA_USER()
                 this.oldDataToApi['name'] = this.oldArtistData['name']
                 this.oldDataToApi['image'] = this.oldArtistData['image']
                 await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
@@ -228,7 +238,7 @@
                     endpoint:`/artists/${this.$route.params.id}`,
                     body: this.editToApi,
                     currentData: this.oldArtistData,
-                    userId: this.userData.id,
+                    userId: this.user.id,
                     source: this.source
                 }).then(response=>{
                     this.$toast.success('Thank you, Your edits have been sent for verification', {duration:5000, position:'top-right'})
