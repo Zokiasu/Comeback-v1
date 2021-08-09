@@ -46,8 +46,6 @@
 </template>
 
 <script>
-    import 'animate.css'
-    import ScrollReveal from 'scrollreveal'
     import { mapGetters } from 'vuex'
 
     export default {

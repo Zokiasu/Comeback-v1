@@ -1,38 +1,33 @@
 <template>
   <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
-    <client-only>
-      <section id="newAnnounce" class="section">
-        <div class="flex space-x-5">
-          <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
-        </div>
-        <transition-group name="object" class="grid grid-cols-1 gap-1 w-full justify-start overflow-x-scroll inner">
-          <NewsCard class="news" v-for="(element) in newsList" :key="element.id" :element="element"/>
-        </transition-group>
-      </section>
-      <section id="newArtist" class="section">
-        <div>
-          <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added<NuxtLink :to="`/artist`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
-        </div>
-        <transition-group name="object" class="flex flex-wrap  w-full justify-start overflow-x-scroll inner">
-          <ArtistCard class="artist mr-5 lg:mr-3.5 mb-5" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
-        </transition-group>
-      </section>
-      <section id="newRelease" class="section">
-        <div>
-          <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added<NuxtLink :to="`/release`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
-        </div>
-        <transition-group name="object" class="flex flex-wrap w-full justify-start overflow-x-scroll inner">
-          <ReleaseCard class="release mr-5 mb-5" v-for="(release) in newRelease" :key="release.id" :release="release"/>
-        </transition-group>
-      </section>
-      <!--<section id="artistRecommendation"></section>
-      <section id="releaseRecommendation"></section>-->
-    </client-only>
+    <section id="newAnnounce" class="section">
+      <div class="flex space-x-5">
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
+      </div>
+      <transition-group name="object" class="grid grid-cols-1 gap-1 w-full justify-start inner">
+        <NewsCard class="news" v-for="(element) in newsList" :key="element.id" :element="element"/>
+      </transition-group>
+    </section>
+    <section id="newArtist" class="section">
+      <div>
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added<NuxtLink :to="`/artist`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
+      </div>
+      <transition-group name="object" class="flex flex-wrap  w-full justify-start inner">
+        <ArtistCard class="artist mr-5 lg:mr-3.5 mb-5" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
+      </transition-group>
+    </section>
+    <section id="newRelease" class="section">
+      <div>
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added<NuxtLink :to="`/release`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
+      </div>
+      <transition-group name="object" class="flex flex-wrap w-full justify-start inner">
+        <ReleaseCard class="release mr-5 mb-5" v-for="(release) in newRelease" :key="release.id" :release="release"/>
+      </transition-group>
+    </section>
   </div>
 </template>
 
 <script>
-  import 'animate.css'
   import ScrollReveal from 'scrollreveal'
 
   export default {

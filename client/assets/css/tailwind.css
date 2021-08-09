@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 fieldset[disabled] .multiselect {
     pointer-events: none;
 }

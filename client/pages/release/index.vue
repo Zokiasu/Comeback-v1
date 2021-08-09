@@ -1,54 +1,50 @@
 <template>
     <div>
-        <client-only>
-            <div id="button" class="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between p-10">
-                <div>
-                    <t-select
-                    id="artists-type-selector"
-                    class="focus:outline-none"
-                    v-model="userPreference"
-                    :options="[
-                        { value: false, text: 'All Comeback' },
-                        { value: true, text: 'My Comeback' },
-                    ]">
-                    </t-select>
+        <div id="button" class="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between p-10">
+            <div>
+                <t-select
+                id="artists-type-selector"
+                class="focus:outline-none"
+                v-model="userPreference"
+                :options="[
+                    { value: false, text: 'All Comeback' },
+                    { value: true, text: 'My Comeback' },
+                ]">
+                </t-select>
+            </div>
+            <div>
+                <t-datepicker
+                    class="text-black"
+                    v-model="dateStart"
+                    placeholder="Start Date"
+                    initial-view="month"
+                    dateFormat='Y-m-d'
+                    clearable>
+                </t-datepicker>
+            </div>
+        </div>
+        <div id="release-date" class="space-y-10">
+            <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__animated animate__fadeIn">
+                <div class="top-0 bg-mainbg z-50">
+                    <h1 class="font-semibold text-2xl md:text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
                 </div>
-                <div>
-                    <t-datepicker
-                        class="text-black"
-                        v-model="dateStart"
-                        placeholder="Start Date"
-                        initial-view="month"
-                        dateFormat='Y-m-d'
-                        clearable>
-                    </t-datepicker>
+                <div class="w-full flex space-x-5 overflow-y-scroll py-5 texts text-white">
+                    <ReleaseCard
+                        v-for="release in date.releases"
+                        :release="release"
+                        :key="release.id">
+                    </ReleaseCard>
                 </div>
             </div>
-            <div id="release-date" class="space-y-10">
-                <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__animated animate__fadeIn">
-                    <div class="top-0 bg-mainbg z-50">
-                        <h1 class="font-semibold text-2xl md:text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
-                    </div>
-                    <div class="w-full flex space-x-5 overflow-y-scroll py-5 texts text-white">
-                        <ReleaseCard
-                            v-for="release in date.releases"
-                            :release="release"
-                            :key="release.id">
-                        </ReleaseCard>
-                    </div>
-                </div>
-                <InfiniteLoading v-if="stopInfiniteScroll" @infinite="infiniteScroll"></InfiniteLoading>
-                <div v-if="Object.entries(dateList).length < 1 && !stopInfiniteScroll" class="px-5 mt-5">
-                    <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release Scheduled.</span>
-                </div>
+            <InfiniteLoading v-if="stopInfiniteScroll" @infinite="infiniteScroll"></InfiniteLoading>
+            <div v-if="Object.entries(dateList).length < 1 && !stopInfiniteScroll" class="px-5 mt-5">
+                <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release Scheduled.</span>
             </div>
-        </client-only>
+        </div>
     </div>
 </template>
 
 <script>
-    import 'animate.css'
-    import ScrollReveal from 'scrollreveal'
 
     export default {
         data(){

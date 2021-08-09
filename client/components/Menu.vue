@@ -174,7 +174,6 @@
 </style>
 
 <script>
-    import 'animate.css'
     import { mapMutations, mapGetters } from 'vuex'
 
     export default {
