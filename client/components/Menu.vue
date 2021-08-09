@@ -73,12 +73,13 @@
             v-model="loginModal" 
             title="Login"
             wrapper-class="animate__animated modal-wrapper"
+            :modal-style="{'background':'#1F1D1D', 'border-radius': '0.25rem', 'color':'white'}"
             :in-class="`animate__fadeInDown`"
             :out-class="`animate__bounceOut`"
             bg-class="animate__animated"
             :bg-in-class="`animate__fadeInUp`"
             :bg-out-class="`animate__fadeOutDown`">
-            <div class="flex flex-col justify-center">
+            <div class="flex flex-col justify-center text-white">
                 <t-input type="email" v-model="auth.email" placeholder="Email" name="email" class="my-2"></t-input>
                 <t-input type="password" v-model="auth.password" placeholder="Password" name="password" class="my-2"></t-input>
                 <button @click="logIn(auth)" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Login</button>
@@ -94,12 +95,13 @@
             v-model="signupModal" 
             title="Signup"
             wrapper-class="animate__animated modal-wrapper"
+            :modal-style="{'background':'#1F1D1D', 'border-radius': '0.25rem', 'color':'white'}"
             :in-class="`animate__fadeInDown`"
             :out-class="`animate__bounceOut`"
             bg-class="animate__animated"
             :bg-in-class="`animate__fadeInUp`"
             :bg-out-class="`animate__fadeOutDown`">
-            <div class="flex flex-col justify-center">
+            <div class="flex flex-col justify-center text-white">
                 <t-input id="username" type="text" v-model="sign.username" placeholder="Username" name="username" class="my-2"></t-input>
                 <t-input id="email" type="email" v-model="sign.email" placeholder="Email" name="email" class="my-2"></t-input>
                 <t-input id="password" type="password" v-model="sign.password" placeholder="Password" name="password" class="my-2"></t-input>

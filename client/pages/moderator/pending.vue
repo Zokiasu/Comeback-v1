@@ -126,10 +126,11 @@
                 <Modal
                     v-model="editArtist"
                     wrapper-class="animate__animated"
+                    :modal-style="{'background':'#1F1D1D', 'border-radius': '0.25rem', 'color':'white'}"
                     in-class="animate__fadeInDown"
                     out-class="animate__zoomOut"
                     modal-class="fullscreen-modal bg-gray-300 ">
-                    <div id="edit-pending-artist-data" class="flex flex-col justify-center p-5 rounded text-white bg-gray-600" v-if="pendings[indexEdit].body.type === 'SOLO' || pendings[indexEdit].body.type === 'GROUP' || pendings[indexEdit].currentData.type === 'SOLO' || pendings[indexEdit].currentData.type === 'GROUP'">
+                    <div id="edit-pending-artist-data" class="flex flex-col justify-center p-5 rounded text-white" v-if="pendings[indexEdit].body.type === 'SOLO' || pendings[indexEdit].body.type === 'GROUP' || pendings[indexEdit].currentData.type === 'SOLO' || pendings[indexEdit].currentData.type === 'GROUP'">
                         <div>
                             <img :src="pendings[indexEdit].currentData.image" :alt="pendings[indexEdit].currentData.name" class="w-40 h-40 object-cover">
                         </div>

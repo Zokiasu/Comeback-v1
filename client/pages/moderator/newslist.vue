@@ -33,7 +33,7 @@
             v-model="editNews" 
             title="Edit News"
             wrapper-class="animate__animated modal-wrapper"
-            modal-class="modal-custom"
+            :modal-style="{'background':'#1F1D1D', 'border-radius': '0.25rem', 'color':'white'}"
             :in-class="`animate__fadeInDown`"
             :out-class="`animate__bounceOut`"
             bg-class="animate__animated"
