@@ -44,9 +44,11 @@
                         <span v-if="!release.artists" class="text-red-500"> No Artists </span>
                     </div>
                     <span class="font-semibold text-gray-400">Tracklist :</span>
-                    <div class="grid grid-cols-1 gap-y-1">
+                    <div v-if="release.musics" class="grid grid-cols-1 gap-y-1">
                         <span v-for="(music, index) in release.musics" :key="index" class="rounded truncate text-sm">{{music.name}}</span>
-                        <span v-if="release.musics.length < 1" class="text-red-500"> No Musics </span>
+                    </div>
+                    <div v-else class="grid grid-cols-1 gap-y-1">
+                        <span class="text-red-500"> No Musics </span>
                     </div>
                 </v-read-more-box>
             </div>
@@ -88,11 +90,15 @@
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.releases)
                     this.$axios.get(`https://comeback-api.herokuapp.com/releases/full?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
-                        if(response.data.length > 0) {
+                        if(response.data) {
                             artTmp = artTmp.concat(response.data)
                             this.releases = [...new Set(artTmp)]
                             this.maxObjectDisplay = this.maxObjectDisplay + 20
                             $state.loaded();
+                        } else if (!response.data && !artTmp && this.search){
+                            this.enough = true
+                            $state.complete();
+                            this.releases = []
                         } else {
                             this.enough = true
                             $state.complete();
@@ -108,7 +114,7 @@
                 let artTmp = []
                 this.maxObjectDisplay = 0
                 const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
-                if(response.length > 0) {
+                if(response) {
                     artTmp = artTmp.concat(response)
                     this.releases = [...new Set(artTmp)] //Remove all double entry
                     if(response.length < 20) {
