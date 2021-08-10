@@ -5,7 +5,8 @@
                 <NuxtLink :to="`/artist/${element.artist.id}`" target="_blank">{{element.artist.name}}'s news</NuxtLink>
                 <img v-if="element.verified" class="w-4 my-auto" src="~/assets/image/approval.png" alt="Verified mark">
             </div>            
-            <NuxtLink class="text-right text-xs mt-auto mb-1 h-full" :to="`/profile/${element.user.id}`" target="_blank" v-if="element.user">by {{element.user.username}}</NuxtLink>
+            <!--<NuxtLink class="text-right text-xs mt-auto mb-1 h-full" :to="`/profile/${element.user.id}`" target="_blank" v-if="element.user">by {{element.user.username}}</NuxtLink>-->
+            <span class="text-right text-xs mt-auto mb-1 h-full" v-if="element.user">by {{element.user.username}}</span>
         </div>
         <p class="text-sm my-1">{{element.message}}</p>
     </div>
