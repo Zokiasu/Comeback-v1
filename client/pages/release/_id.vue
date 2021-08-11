@@ -3,7 +3,7 @@
         <div class="background-top relative" :style="{ 'background-image': 'url(' + release.image + ')' }">
             <div class="h-full w-full bg-background bg-opacity-30 flex">
                 <div class="flex lg:space-x-10 mt-auto lg:my-auto w-full px-5 md:px-10 lg:px-20 z-50">
-                    <div class="relative releaseJacket">
+                    <div class="relative releaseJacket min-w-max">
                         <img class="h-80 w-80 shadowRelease object-cover object-center" :src="release.image" :alt="release.name"/>
                         <div v-if="user != null" id="button" class="absolute right-0 top-0">
                             <button @click="liked ? unfollowArtist() : followArtist()" :class="liked ? '':''" class="flex space-x-0.5 px-2 focus:outline-none rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
@@ -14,8 +14,8 @@
                     </div>
                     <div class="mt-auto">
                         <NuxtLink v-if="user != null" :to="`/edit/release/${$route.params.id}`" class="mt-auto">Edit</NuxtLink>
-                        <h2 class="cursor-default font-semibold filter tShadowRelease text-2xl">{{release.type}} - <span v-for="(artist, index) in release.artists" :key="index"><NuxtLink :to="`/artist/${artist.id}`" class="hover:underline cursor-pointer">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span></h2>
-                        <h1 class="cursor-default font-semibold filter tShadowRelease text-4xl lg:text-6xl">{{release.name}}</h1>
+                        <h2 class="cursor-default font-semibold filter tShadowRelease text-xl md:text-2xl">{{release.type}} - <span v-for="(artist, index) in release.artists" :key="index"><NuxtLink :to="`/artist/${artist.id}`" class="hover:underline cursor-pointer">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span></h2>
+                        <h1 class="cursor-default font-semibold filter tShadowRelease text-2xl md:text-4xl xl:text-5xl 2xl:text-6xl">{{release.name}}</h1>
                         <div id="link-social" class="flex flex-row lg:space-x-10 pt-3">
                             <LinkImg class="tShadowRelease" v-for="(platforms, index) in release.platforms" :key="index" :url="platforms" :name="platforms"/>
                         </div>
