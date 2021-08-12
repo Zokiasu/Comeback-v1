@@ -127,14 +127,14 @@
                     <div id="social-media" class="w-full space-y-1">
                         <span class="my-auto font-semibold text-lg">Social Media Link</span>
                         <MultipleInput class="mb-1 w-full" v-for="(elem, index) in artist.socials" :key="index" :elem="elem" @updateinput="updateList(artist.socials, $event, index, 'socials')" @deleteinput="deleteList(artist.socials, index, 'socials')"/>
-                        <button @click="addSocials()" class="Card w-full text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
+                        <button @click="addSocials()" class="w-full hover:bg-opacity-50 text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
                             <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
                         </button>
                     </div>
                     <div id="streaming-platform" class="w-full space-y-1">
                         <span class="my-auto font-semibold text-lg">Streaming Platforms Link</span>
                         <MultipleInput class="mb-1 w-full" v-for="(elem, index) in artist.platforms" :key="index" :elem="elem" @updateinput="updateList(artist.platforms, $event, index, 'platforms')" @deleteinput="deleteList(artist.platforms, index, 'platforms')"/>
-                        <button @click="addStreamingLink()" class="Card w-full text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
+                        <button @click="addStreamingLink()" class="w-full hover:bg-opacity-50 text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
                             <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
                         </button>
                     </div>
@@ -343,7 +343,6 @@
 
                 this.isUploadingImage = true
 
-                //let imageRef = this.$fire.storage.ref(`images/artist-${this.artists.id.replace(/\s/g, '')}`)
                 let imageRef = this.$fire.storage.ref(`images/artist/${this.artist.id}`)
 
                 let uploadTask = imageRef.put(file, metadata).then((snapshot) => {

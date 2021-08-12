@@ -93,7 +93,7 @@
                 let artTmp = []
                 let url = ''
                 setTimeout(() => {
-                    artTmp = artTmp.concat(this.artists)
+                    if(this.artists.length >= 20) artTmp = artTmp.concat(this.artists)
                     url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`
                     if(this.typeFilter != '') url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&type=${this.typeFilter}&limit=20&offset=${this.maxObjectDisplay}`
                     console.log('url', url)
