@@ -135,7 +135,7 @@
                             this.dateList = {}
                         }
                     })
-                    .catch(err => {
+                    .catch(error => {
                         console.log(error);
                     });
                 } else {
@@ -150,7 +150,7 @@
                             this.dateList = {}
                         }
                     })
-                    .catch(err => {
+                    .catch(error => {
                         console.log(error);
                     });
                 }
@@ -177,7 +177,7 @@
                                 $state.complete();
                             }
                         })
-                        .catch(err => {
+                        .catch(error => {
                             console.log(error);
                         });
                     } else {
@@ -197,7 +197,7 @@
                                 $state.complete();
                             }
                         })
-                        .catch(err => {
+                        .catch(error => {
                             console.log(error);
                         });
                     }

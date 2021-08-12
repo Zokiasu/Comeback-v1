@@ -7,6 +7,11 @@
             </div>
             <input @change="updateDateList(true)" id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-opacity-20 bg-gray-500 text-white placeholder-white">
         </section>
+        <div class="flex space-x-5 text-white">
+            <button @click="filterType('')">ALL</button>
+            <button @click="filterType('GROUP')">GROUP</button>
+            <button @click="filterType('SOLO')">SOLIST</button>
+        </div>
         <button v-if="search" @click="search=''; updateDateList(true); " class="text-red-700 focus:outline-none mb-5">Reset</button>
         <section v-if="artists.length > 0" id="page-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
             <div v-for="(artist, index) in this.artists" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
@@ -42,7 +47,7 @@
                 </div>
             </div>
         </section>
-        <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
+        <InfiniteLoading :identifier="infiniteId" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
         <!--<div v-if="maxObjectDisplay <= artists.length" class="w-full flex justify-center mb-5 text-white">
             <button class=" focus:outline-none" @click="updateDateList(false)">More</button>
         </div>-->
@@ -59,29 +64,40 @@
         data() {
             return {
                 search: '',
+                typeFilter: '',
                 artists: [],
                 maxObjectDisplay:0,
                 enough: false,
+                infiniteId: +new Date(),
             }
         },
     
         computed: {
-            userId(){
-                let utmp = this.$store.state.dataUser
-                return utmp.id
-            },
-
             adminCheck(){
                 return this.adminChecker()
             }
         },
 
         methods:{
+            changeType() {
+                this.infiniteId += 1;
+            },
+
+            filterType(filter){
+                this.typeFilter = filter
+                this.updateDateList(true)
+                console.log("filterType")
+            },
+
             infiniteScroll($state) {
                 let artTmp = []
+                let url = ''
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.artists)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`).then(response => {
+                    url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`
+                    if(this.typeFilter != '') url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&type=${this.typeFilter}&limit=20&offset=${this.maxObjectDisplay}`
+                    console.log('url', url)
+                    this.$axios.get(`${url}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.artists = [...new Set(artTmp)]
@@ -92,7 +108,7 @@
                             $state.complete();
                         }
                     })
-                    .catch(err => {
+                    .catch(error => {
                         console.log(error);
                     });
                 }, 500);
@@ -100,9 +116,13 @@
 
             async updateDateList(reset){
                 let artTmp = []
+                let url = ''
                 if(reset) {
                     this.maxObjectDisplay = 0
-                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                    url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`
+                    if(this.typeFilter != '') url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&type=${this.typeFilter}&limit=20&offset=${this.maxObjectDisplay}`
+                    console.log('url', url)
+                    const {data: response} = await this.$axios.get(`${url}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response)
                         this.artists = [...new Set(artTmp)] //Remove all double entry
@@ -116,7 +136,10 @@
                     }
                 } else {
                     artTmp = artTmp.concat(this.artists)
-                    const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                    url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`
+                    if(this.typeFilter != '') url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&type=${this.typeFilter}&limit=20&offset=${this.maxObjectDisplay}`
+                    console.log('url', url)
+                    const {data: response} = await this.$axios.get(`${url}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response) //Add next artist into actual list
                         this.artists = [...new Set(artTmp)] //Remove all double entry
@@ -125,10 +148,11 @@
                         this.enough = true
                     }
                 }
+                this.changeType()
             },
             
-            async removeArtist(object, index){await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${object.id}`, object).then(response=>{
-                    
+            async removeArtist(object, index){
+                await this.$axios.delete(`https://comeback-api.herokuapp.com/artists/${object.id}`, object).then(response=>{
                     this.$toast.error(this.artists[index].name + ' has been deleted', {duration:2000, position:'top-right'})
                     this.artists.splice(index, 1)
                 })

@@ -61,6 +61,9 @@
                             <NuxtLink :to="`/setting`" class="hover:bg-gray-700 px-5 py-1">
                                 Setting
                             </NuxtLink>-->
+                            <NuxtLink :to="`/add/artist`" class="hover:bg-gray-700 px-5 py-1">
+                                Add New Artist
+                            </NuxtLink>
                             <button @click="logout()" class="focus:outline-none rounded-b text-left hover:bg-gray-700 px-5 py-1">
                                 Sign Out
                             </button>

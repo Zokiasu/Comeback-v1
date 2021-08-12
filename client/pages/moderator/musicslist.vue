@@ -86,7 +86,7 @@
                             $state.complete();
                         }
                     })
-                    .catch(err => {
+                    .catch(error => {
                         console.log(error);
                     });
                 }, 500);
