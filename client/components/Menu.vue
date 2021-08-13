@@ -237,6 +237,7 @@
         mounted() {
             window.addEventListener('resize', this.handleResize);
             this.handleResize();
+            this.$toast.info("This website is currently under development, so you may encounter some bugs while using it.", {duration:5000, position:'top-center'})
         },
 
         methods:{
