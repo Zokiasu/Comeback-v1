@@ -53,7 +53,7 @@
                 </div>-->
                 <div>
                     <img @click="userMenu = !userMenu" class="w-8 sm:w-10 rounded-full cursor-pointer" :src="userAvatar" alt="">
-                    <div v-if="userMenu" @blur="userMenu = !userMenu" class="w-40 fixed rounded bg-black-one right-3 mt-3 animate__animated animate__fadeInDown animate__faster">
+                    <div v-if="userMenu" class="w-40 fixed rounded bg-black-one right-3 mt-3 animate__animated animate__fadeInDown animate__faster">
                         <ul class="flex flex-col">
                             <!--<NuxtLink :to="`/profile`" class="rounded-t hover:bg-gray-700 px-5 py-1">
                                 Profile
@@ -61,10 +61,10 @@
                             <NuxtLink :to="`/setting`" class="hover:bg-gray-700 px-5 py-1">
                                 Setting
                             </NuxtLink>-->
-                            <NuxtLink :to="`/add/artist`" class="hover:bg-gray-700 px-5 py-1">
+                            <NuxtLink :to="`/add/artist`" @click="userMenu = !userMenu" class="hover:bg-gray-700 px-5 py-1">
                                 Add New Artist
                             </NuxtLink>
-                            <button @click="logout()" class="focus:outline-none rounded-b text-left hover:bg-gray-700 px-5 py-1">
+                            <button @click="logout();userMenu = !userMenu" class="focus:outline-none rounded-b text-left hover:bg-gray-700 px-5 py-1">
                                 Sign Out
                             </button>
                         </ul>

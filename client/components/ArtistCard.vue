@@ -1,8 +1,8 @@
 <template>
-  <div id="artist-card" class="text-white animate__fadeInDown-2s">
+  <div id="artist-card" class="text-white animate__animated animate__fadeIn">
     <div id="artist-image" class="h-20 md:h-40 w-20 md:w-40 mx-auto">
       <NuxtLink :to="`/artist/${artist.id}`">
-        <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover" :src="artist.image" :alt="artist.name"/>
+        <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover animate__animated animate__fadeIn" :src="artist.image" :alt="artist.name"/>
       </NuxtLink>
     </div>
     <NuxtLink :id="artist.name" :to="`/artist/${artist.id}`" :class=" groupSize > 0 ? 'flex flex-col justify-center space-x-1':''">
