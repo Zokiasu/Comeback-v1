@@ -5,15 +5,17 @@ export function removeDuplicates(data, key) {
   return [...new Map(data.map((item) => [key(item), item])).values()];
 }
 
-export const queriesToDict = (queries, whereOptions = {}) => {
+export const queriesToDict = (queries, whereOptions = {}, opOn = []) => {
   const order = queries.sortby?.split(':') || ['createdAt', 'DESC'];
   const limit = queries.limit;
   const offset = queries.offset;
   const op = queries.op;
+  opOn = queries.opon?.split(',') || opOn;
   delete queries['sortby'];
   delete queries['limit'];
   delete queries['offset'];
   delete queries['op'];
+  delete queries['opon'];
 
   if (op === 'like') {
     for (const [key, value] of Object.entries(queries)) {
@@ -21,6 +23,7 @@ export const queriesToDict = (queries, whereOptions = {}) => {
     }
   } else if (op === 'ilike') {
     for (const [key, value] of Object.entries(queries)) {
+      if (opOn.length && ! opOn.includes(key)) continue
       queries[key] = { [Op.iLike]: value };
     }
   }

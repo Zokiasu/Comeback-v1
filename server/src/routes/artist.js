@@ -39,7 +39,7 @@ const getSoloMembers = async (members, model, req) => {
 
 router.get('/', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
-    ...queriesToDict(req.query),
+    ...queriesToDict(req.query, {}, ['name']),
     include: [
       req.context.models.Style,
     ],
