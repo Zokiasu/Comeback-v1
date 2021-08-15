@@ -197,7 +197,7 @@ router.put('/:artistId', async (req, res) => {
     req.body.groups,
     req.body.newGroups,
     req.context.models.Artist,
-    (array) => artist.addGroups(array),
+    (array) => artist.setGroups(array),
     (array) => artist.createGroup(array),
   );
 
@@ -205,7 +205,7 @@ router.put('/:artistId', async (req, res) => {
     req.body.members,
     req.body.newMembers,
     req.context.models.Artist,
-    (array) => artist.addMembers(array),
+    (array) => artist.setMembers(array),
     (array) => artist.createMember(array),
   );
 
@@ -213,7 +213,7 @@ router.put('/:artistId', async (req, res) => {
     null,
     req.body.styles,
     req.context.models.Style,
-    (array) => artist.addStyles(array),
+    (array) => artist.setStyles(array),
     (array) => artist.createStyle(array),
     true,
   );
