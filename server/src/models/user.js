@@ -1,4 +1,4 @@
-import { ROLES } from '../constants';
+import { ROLES, SUBSCRIPTION} from '../constants';
 
 const user = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
@@ -33,6 +33,11 @@ const user = (sequelize, DataTypes) => {
 
     role: {
       type: DataTypes.ENUM(ROLES.ADMIN, ROLES.MODERATOR, ROLES.NONE),
+    },
+
+    subscription: {
+      type: DataTypes.ENUM(SUBSCRIPTION.REGULAR, SUBSCRIPTION.SUBSCRIBER, SUBSCRIPTION.VIP),
+      defaultValue: SUBSCRIPTION.REGULAR,
     },
 
     avatar: {
