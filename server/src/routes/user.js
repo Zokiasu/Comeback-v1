@@ -15,11 +15,6 @@ router.post('/auth/signup', createUser);
 router.get('/', async (req, res) => {
   const users = await req.context.models.User.findAll({
     ...queriesToDict(req.query),
-    include: [
-      { model: req.context.models.Artist, as: 'artists' },
-      req.context.models.Release,
-      req.context.models.Request,
-    ],
   });
   return res.send(users);
 });
