@@ -1,7 +1,9 @@
 <template>
   <NuxtLink :to="`/release/${release.id}`" class="texts flex flex-col text-white rounded">
     <div class="relative w-32 h-32 lg:h-40 lg:w-40">
-        <img class="rounded-md object-cover w-32 h-32 lg:h-36 lg:w-36" :src="release.image" alt="Artist Picture"/>
+        <div>
+          <img class="rounded-md object-cover w-32 h-32 lg:h-36 lg:w-36" :src="release.image" alt="Artist Picture"/>
+        </div>
         <div v-if="validationDate" class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl rounded-tr">
             <p class="text-center"> {{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>
         </div>

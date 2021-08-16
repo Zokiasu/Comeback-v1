@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex space-x-3">
+                <!--<div class="flex space-x-3">
                     <div>
                         <span v-if="user.artists.length > 0">{{user.artists.length}} Artists followed</span>
                         <span v-else> No artists followed </span>
@@ -29,7 +29,7 @@
                         <span v-if="user.requests.length > 0">{{user.requests.length}} Request sent</span>
                         <span v-else> No request sent </span>
                     </div>
-                </div>
+                </div>-->
             </div>
         </section>
         <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
@@ -65,7 +65,7 @@
                 let artTmp = []
                 setTimeout(() => {
                     artTmp = artTmp.concat(this.users)
-                    this.$axios.get(`https://comeback-api.herokuapp.com/users/full?sortby=username&limit=2&offset=${this.maxObjectDisplay}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/users?sortby=username&limit=2&offset=${this.maxObjectDisplay}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.users = [...new Set(artTmp)]
