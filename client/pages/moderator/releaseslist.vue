@@ -117,10 +117,9 @@
                 if(response) {
                     artTmp = artTmp.concat(response)
                     this.releases = [...new Set(artTmp)] //Remove all double entry
+                    this.maxObjectDisplay = this.maxObjectDisplay + 20
                     if(response.length < 20) {
                         this.enough = true
-                    } else {
-                        this.maxObjectDisplay = this.maxObjectDisplay + 20
                     }
                 } else {
                     this.enough = true
