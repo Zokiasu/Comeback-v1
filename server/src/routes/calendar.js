@@ -114,10 +114,17 @@ router.get('/', async (req, res) => {
     include: [{ model: req.context.models.Happening, as: 'events' }],
   });
 
+  const infos = await req.context.models.Info.findAll({
+    ...queriesToDict(req.query),
+  });
+
   let dates = createDateDict(releases, 'releases', {}, dateQuery);
   for (const artist of artists) {
     dates = createDateDict(artist.events, 'events', dates, dateQuery);
   }
+
+  dates = createDateDict(infos, 'infos', dates, dateQuery);
+
   return res.send(sortDateDict(dates));
 });
 
