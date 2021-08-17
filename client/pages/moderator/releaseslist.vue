@@ -113,7 +113,7 @@
             async updateDateList(){
                 let artTmp = []
                 this.maxObjectDisplay = 0
-                const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
+                const {data: response} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases/full?sortby=date&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`)
                 if(response) {
                     artTmp = artTmp.concat(response)
                     this.releases = [...new Set(artTmp)] //Remove all double entry
