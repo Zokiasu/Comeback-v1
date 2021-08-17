@@ -4,8 +4,8 @@
       <div class="flex space-x-5">
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
       </div>
-      <transition-group name="object" class="grid grid-cols-1 gap-1 w-full justify-start inner">
-        <NewsCard class="news" v-for="(element) in newsList" :key="element.id" :element="element"/>
+      <transition-group name="object" class="flex flex-wrap w-full justify-start inner">
+        <NewsCard class="news m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
       </transition-group>
     </section>
     <section id="newArtist" class="section">
@@ -56,12 +56,12 @@
     async asyncData({ $axios }){
       let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=9`)
       let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=9`)
-      const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=5')
+      const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=7')
       return {newArtist,newRelease,newsList}
     },
 
     mounted(){
-      ScrollReveal().reveal('.news', {interval: 150, distance: '200%', origin: 'right', opacity: null})
+      ScrollReveal().reveal('.news', {interval: 200, distance: '1000%', origin: 'right', opacity: null})
       ScrollReveal().reveal('.artist', {interval: 150, distance: '1000%', origin: 'bottom', opacity: null})
       ScrollReveal().reveal('.release', {interval: 150, distance: '1000%', origin: 'bottom', opacity: null})
     },

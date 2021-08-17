@@ -3,8 +3,8 @@
         <div class="w-full flex justify-center">
             <h2 class="text-white text-4xl">Lastest News</h2>
         </div>
-        <transition-group name="object" class="grid grid-cols-1 gap-1 w-full justify-start overflow-x-scroll inner">
-            <NewsCard v-for="(element) in newsList" :key="element.id" :element="element"/>
+        <transition-group name="object" class="flex flex-wrap justify-center w-full overflow-x-scroll inner">
+            <NewsCard class="m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
         </transition-group>
     </div>
 </template>

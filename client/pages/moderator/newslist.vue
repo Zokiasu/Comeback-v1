@@ -9,18 +9,20 @@
             <input @change="updateDateList(true)" id="search-input" type="text" placeholder="Search by username or artistname" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-opacity-20 bg-gray-500 text-white placeholder-white">
         </section>
         <button v-if="search" @click="search=''; updateDateList(true); " class="text-red-700 focus:outline-none mb-5">Reset</button>
-
-        <section v-for="(element, index) in this.news" :key="element.id" id="page-body" class="flex flex-col justify-center">
-            <div :key="index" style="background-color: #6B728033" class="flex flex-col w-full text-white rounded-sm relative p-5 overflow-hidden">
-                <div class="flex w-full justify-between mb-2">
-                    <span>Created At {{new Date(element.createdAt).toLocaleDateString('en-US', {  month: 'long', day: 'numeric', year: 'numeric' })}} {{element.id}} </span>
-                    <div class="flex space-x-2">
+        <section id="page-body" class="flex flex-wrap justify-center">
+            <div v-for="(element, index) in this.news" :key="element.id" class="flex flex-col m-2 bg-black-four min-h-full text-white rounded-sm relative p-5 overflow-hidden">
+                <div class="flex w-full justify-between mb-2 relative">
+                    <div class="flex flex-col">
+                        <span class="font-semibold">Created At {{new Date(element.createdAt).toLocaleDateString('en-US', {  month: 'numeric', day: 'numeric', year: 'numeric' })}}</span>
+                        <span class="text-sm">{{element.id}}</span>
+                    </div>
+                    <div class="flex space-x-2 absolute top-0 right-0">
                         <img @click="verifiedNews(element)" class="w-5 h-5 cursor-pointer" src="https://img.icons8.com/material/20/ffffff/checked-2--v2.png"/>
                         <img @click="openEditView(element)" class="w-5 h-5 cursor-pointer" src="https://img.icons8.com/material-sharp/20/ffffff/edit--v1.png"/>
                         <img @click="removeNews(element, index)" class="w-5 h-5 cursor-pointer" src="https://img.icons8.com/material-rounded/20/ffffff/delete-trash.png"/>
                     </div>
                 </div>
-                <NewsCard :element="element"/>
+                <NewsCard class="m-auto" :element="element"/>
             </div>
         </section>
 

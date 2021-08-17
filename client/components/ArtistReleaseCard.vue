@@ -1,19 +1,21 @@
 <template>
-    <div class="bg-red-700 flex px-3 py-2 space-x-3 text-white rounded">
-        <div>
-            <img class="mt-1.5 w-16 h-16 object-cover rounded" :src="this.release.image ? this.release.image : defaultImage">
+    <div class="bg-black-four flex p-2 space-x-2 text-white rounded">
+        <div class="my-auto w-20">
+            <img class="my-auto object-cover rounded" :src="this.release.image ? this.release.image : defaultImage">
         </div>
-        <div class="space-y-3">
+        <div class="flex flex-col w-full">
             <div class="flex flex-col">
-                <NuxtLink :to="`/release/${this.release.id}`"><span class="text-base font-semibold hover:text-black">{{this.release.name}}</span></NuxtLink>
+                <NuxtLink :to="`/release/${this.release.id}`"><span class="text-base font-semibold hover:text-red-700">{{this.release.name}}</span></NuxtLink>
                 <div class="flex space-x-1 text-xs">
                     <span>{{this.release.type}}</span>
                     <span>-</span>
                     <span>{{new Date(this.release.date).toLocaleDateString()}}</span>
                 </div>
             </div>
-            <div class="flex space-x-3">
-                <a v-for="(platforms, index) in this.release.platforms" :key="index" :href="platforms" target="_blank"><img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/></a>
+            <div class="flex space-x-3 my-auto">
+                <a v-for="(platforms, index) in this.release.platforms" :key="index" :href="platforms" target="_blank">
+                    <img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/>
+                </a>
             </div>
         </div>
     </div>

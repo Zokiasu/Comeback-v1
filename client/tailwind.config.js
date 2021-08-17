@@ -20,6 +20,9 @@ module.exports = {
         'background':'#1F1D1D',
         'black-one': '#3B3B3B',
         'black-two': '#222020',
+        'black-three': '#2B2B2B',
+        'black-four': '#3A3A3A',
+        
         'main-gray': '#A6A4A4',
         'second-gray': '#E1E1E1',
         'gray-310': '#E0E0E0',

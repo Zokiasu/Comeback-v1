@@ -1,15 +1,25 @@
 <template>
-    <div class="bg-gray-500 bg-opacity-30 px-3 py-1 rounded flex flex-col w-full text-white">
-        <div class="flex space-x-2 focus-within: w-full justify-between border-b border-red-700" v-if="element.artist">
-            <div class="font-semibold mt-auto h-full flex space-x-1">
-                <NuxtLink :to="`/artist/${element.artist.id}`" target="_blank">{{element.artist.name}}'s news</NuxtLink>
-                <img v-if="element.verified" class="w-4 my-auto" src="~/assets/image/approval.png" alt="Verified mark">
-            </div>            
-            <!--<NuxtLink class="text-right text-xs mt-auto mb-1 h-full" :to="`/profile/${element.user.id}`" target="_blank" v-if="element.user">by {{element.user.username}}</NuxtLink>-->
-            <span class="text-right text-xs mt-auto mb-1 h-full cursor-default" v-if="element.user">by {{element.user.username}}</span>
+    <NuxtLink :to="`/artist/${element.artist.id}`" class="flex flex-col space-y-5 bg-gray-500 bg-opacity-30 text-white Card rounded-xl overflow-clip w-56">
+        <div class="flex justify-between px-3 py-2">
+            <div class="flex flex-col">
+                <div class="font-semibold">
+                    {{element.artist.name}}'s news
+                </div>
+                <div class="text-xs">
+                    by {{element.user ? element.user.username : 'Unknow'}}
+                </div>
+            </div>
+            <div>
+                <img class="w-5 my-auto" src="~/assets/image/approval.png" alt="Verified mark">
+            </div>
         </div>
-        <p class="text-sm my-1">{{element.message}}</p>
-    </div>
+        <div class="flex justify-center">
+            <img class="w-36 h-36 rounded-full object-cover" :src="element.artist.image" alt="">
+        </div>
+        <div class="w-full h-full bg-black-three flex justify-center py-3 px-5 rounded-b-xl mb-0 mt-auto">
+            <span class="text-center my-auto">{{element.message}}</span>
+        </div>
+    </NuxtLink>
 </template>
 
 <script>
