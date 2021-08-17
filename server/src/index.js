@@ -290,6 +290,27 @@ const createSeeds = async() => {
             models.Artist,
         ],
     }, );
+
+    await models.Info.create({
+      message: 'hey guys cool info',
+      date: today,
+    });
+    await models.Info.create({
+      message: 'heguys col info',
+      date: today,
+    });
+    await models.Info.create({
+      message: 'hey gus cool info',
+      date: tomorrow,
+    });
+    await models.Info.create({
+      message: 'hey guool info',
+      date: nextMonth,
+    });
+    await models.Info.create({
+      message: 'hey gu cool info',
+      date: nextMonth,
+    });
     const release = await models.Release.findOne({
         where: { name: 'Turn Back Time' },
     });
