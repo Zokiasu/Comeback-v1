@@ -222,20 +222,39 @@ const createSeeds = async() => {
         artist.createMember(memberItem);
     }
 
-    await models.Artist.create({
+    await models.Artist.create(
+      {
         name: 'Alex',
-        image: 'https://cdn.radiofrance.fr/s3/cruiser-production/2021/01/9046b609-68b8-494a-9dfd-53ca91a599a4/1200x680_rihanna.jpg',
-        description: 'Alex est la plus grande artiste de sa génération voire de la génération humaine',
+        image:
+          'https://cdn.radiofrance.fr/s3/cruiser-production/2021/01/9046b609-68b8-494a-9dfd-53ca91a599a4/1200x680_rihanna.jpg',
+        description:
+          'Alex est la plus grande artiste de sa génération voire de la génération humaine',
         socials: ['facebooklol'],
         platforms: ['spotift.com'],
-        events: [{
+        events: [
+          {
             startDate: today,
             endDate: nextMonth,
             name: 'Concert incroyable',
-        }, ],
+          },
+        ],
+        infos: [
+          {
+            message: 'hey gu cool info d alex',
+            date: nextMonth,
+          },
+        ],
         followers: [{ id: 'ididi', username: 'jen markuse' }],
         type: 'SOLO',
-    }, { include: [{ model: models.Happening, as: 'events' }, { model: models.User, as: 'followers' }] }, );
+      },
+      {
+        include: [
+          { model: models.Happening, as: 'events' },
+          { model: models.User, as: 'followers' },
+          models.Info,
+        ],
+      },
+    );
 
     await models.Release.create({
         name: 'Turn Back Time',

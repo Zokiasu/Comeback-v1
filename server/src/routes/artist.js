@@ -91,6 +91,17 @@ router.get('/events', async (req, res) => {
   return res.send(artists);
 });
 
+
+router.get('/infos', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      req.context.models.Info,
+    ],
+  });
+  return res.send(artists);
+});
+
 router.get('/full', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
     ...queriesToDict(req.query),
@@ -100,6 +111,7 @@ router.get('/full', async (req, res) => {
       { model: req.context.models.Artist, as: 'members' },
       { model: req.context.models.Happening, as: 'events' },
       req.context.models.Style,
+      req.context.models.Info,
       {
         model: req.context.models.Release,
         include: [{ model: req.context.models.Music, as: 'musics' }],
@@ -119,6 +131,7 @@ router.get('/:artistId', async (req, res) => {
         { model: req.context.models.Artist, as: 'members' },
         { model: req.context.models.Happening, as: 'events' },
         req.context.models.Style,
+        req.context.models.Info,
         {
           model: req.context.models.Release,
           include: [

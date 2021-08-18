@@ -128,6 +128,28 @@ router.get('/', async (req, res) => {
   return res.send(sortDateDict(dates));
 });
 
+router.get('/infos', async (req, res) => {
+  const dateQuery = {
+    date_inf: req.query.date_inf
+      ? new Date(req.query.date_inf)
+      : null,
+    date_sup: req.query.date_sup
+      ? new Date(req.query.date_sup)
+      : null,
+  };
+
+  delete req.query['date_inf'];
+  delete req.query['date_sup'];
+
+  const infos = await req.context.models.Info.findAll({
+    ...queriesToDict(req.query),
+  });
+
+  let dates = createDateDict(infos, 'infos', dates, dateQuery);
+
+  return res.send(sortDateDict(dates));
+});
+
 router.get('/:userId', async (req, res) => {
   const dateQuery = {
     date_inf: req.query.date_inf

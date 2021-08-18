@@ -56,6 +56,7 @@ router.get('/full', async (req, res) => {
       { model: req.context.models.Artist, as: 'artists' },
       req.context.models.Release,
       req.context.models.Request,
+      req.context.models.Info,
     ],
   });
   return res.send(users);
@@ -111,6 +112,7 @@ router.get('/:userId/full', async (req, res) => {
         req.context.models.Release,
         req.context.models.Request,
         req.context.models.Notification,
+        req.context.models.Info,
       ],
     },
   );
@@ -165,6 +167,18 @@ router.get('/:userId/notifications', async (req, res) => {
     },
   );
   return res.send(user?.notifications || []);
+});
+
+router.get('/:userId/infos', async (req, res) => {
+  const user = await req.context.models.User.findByPk(
+    req.params.userId,
+    {
+      include: [
+          req.context.models.Info,
+      ],
+    },
+  );
+  return res.send(user?.infos || []);
 });
 
 router.post('/', async (req, res) => {
