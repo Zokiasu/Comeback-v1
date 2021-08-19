@@ -147,4 +147,23 @@ label{
     } 
   }
 }
+
+.Card {
+    cursor: pointer;
+    font-size: 1em;
+    transition-property: background-color, box-shadow, transform;
+    transition-timing-property: ease-out;
+    transition-duration: 0.3s;
+}
+
+.Card:hover{
+    box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.4);
+    transform: translateY(-10px);
+    transition-duration: 0.3s;
+}
+
+.Card:active {
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.4);
+    transform: translateY(0) scale(0.975);
+}
 </style>
