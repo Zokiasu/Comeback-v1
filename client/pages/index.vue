@@ -5,7 +5,7 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
       </div>
       <transition-group name="object" class="flex flex-wrap w-full justify-start inner">
-        <NewsCard class="news m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
+        <NewsCard class="Card news m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
       </transition-group>
     </section>
     <section id="newArtist" class="section">
@@ -56,7 +56,20 @@
     async asyncData({ $axios }){
       let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=9`)
       let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=9`)
-      const newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=7')
+      let newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=7')
+      /*let newsList = []
+      let test = await $axios.$get(`https://comeback-api.herokuapp.com/calendar/infos?date_sup=${new Date()}`)
+      console.log('test', test)
+      Object.keys(test).map(function(key, index) {
+        //console.log(test[key])
+        for(let [key2, value2] of Object.entries(test[key])) {
+            value2.forEach(element => {
+              console.log(element)
+              newsList.push(element)
+            });
+        }
+      })*/
+
       return {newArtist,newRelease,newsList}
     },
 
