@@ -4,15 +4,15 @@
       <div class="flex space-x-5">
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
       </div>
-      <transition-group name="object" class="flex flex-wrap w-full justify-start inner">
-        <NewsCard class="Card news m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
+      <transition-group name="object" class="flex flex-wrap w-full justify-center lg:justify-start inner">
+        <NewsCard class="Card news my-1.5 md:m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
       </transition-group>
     </section>
     <section id="newArtist" class="section">
       <div>
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added<NuxtLink :to="`/artist`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
       </div>
-      <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-start md:inner">
+      <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
         <ArtistCard class="artist md:mr-5 lg:mr-3.5 md:mb-5" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
       </transition-group>
     </section>
@@ -20,7 +20,7 @@
       <div>
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added<NuxtLink :to="`/release`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
       </div>
-      <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-start md:inner">
+      <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
         <ReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in newRelease" :key="release.id" :release="release"/>
       </transition-group>
     </section>
