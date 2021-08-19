@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="flex justify-center">
-            <img class="w-36 h-36 rounded-full object-cover" :src="element.artist.image" alt="">
+            <img class="w-36 h-36 rounded-full object-cover shadowCard" :src="element.artist.image" alt="">
         </div>
         <div class="w-full h-full bg-black-three flex justify-center py-3 px-5 rounded-b-xl mb-0 mt-auto">
             <span class="text-center my-auto">{{element.message}}</span>
@@ -29,5 +29,8 @@
 </script>
 
 <style>
-
+    .shadowCard{
+        --tw-shadow: 5px 5px 5px 2px rgba(0,0,0,0.30);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
 </style>
