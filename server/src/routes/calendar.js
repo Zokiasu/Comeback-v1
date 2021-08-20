@@ -116,6 +116,7 @@ router.get('/', async (req, res) => {
 
   const infos = await req.context.models.Info.findAll({
     ...queriesToDict(req.query),
+    include: [req.context.models.User, req.context.models.Artist],
   });
 
   let dates = createDateDict(releases, 'releases', {}, dateQuery);
@@ -143,6 +144,7 @@ router.get('/infos', async (req, res) => {
 
   const infos = await req.context.models.Info.findAll({
     ...queriesToDict(req.query),
+    include: [req.context.models.User, req.context.models.Artist],
   });
 
   let dates = createDateDict(infos, 'infos', dates, dateQuery);
