@@ -56,8 +56,8 @@
     async asyncData({ $axios }){
       let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=9`)
       let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=9`)
-      let newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=7')
-      /*let newsList = []
+      //let newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=7')
+      let newsList = []
       let test = await $axios.$get(`https://comeback-api.herokuapp.com/calendar/infos?date_sup=${new Date()}`)
       console.log('test', test)
       Object.keys(test).map(function(key, index) {
@@ -68,7 +68,7 @@
               newsList.push(element)
             });
         }
-      })*/
+      })
 
       return {newArtist,newRelease,newsList}
     },
