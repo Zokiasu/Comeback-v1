@@ -126,7 +126,9 @@
                 if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
                 return 0;
             })
-
+            if(artist.socials == null) artist.socials = []
+            if(artist.platforms == null) artist.platforms = []
+ 
             let memberslist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}/members?sortby=name`)
 
             return { artist, memberslist }
