@@ -1,10 +1,10 @@
 <template>
   <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
     <section id="newAnnounce" class="section">
-      <div class="flex space-x-5">
-        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Coming Soon</h2>
+      <div class="flex w-full justify-center space-x-5">
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-center text-white py-5 flex">Coming Soon</h2>
       </div>
-      <transition-group name="object" class="flex flex-wrap w-full justify-center lg:justify-start inner">
+      <transition-group name="object" class="flex flex-wrap w-full justify-center inner">
         <NewsCard class="Card news my-1.5 md:m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
       </transition-group>
     </section>
