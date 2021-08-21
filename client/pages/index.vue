@@ -2,18 +2,10 @@
   <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
     <section id="newAnnounce" class="section">
       <div class="flex space-x-5">
-        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last News Added<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Coming Soon<NuxtLink :to="`/news`" class="ml-2 mt-auto text-sm focus:outline-none">View More</NuxtLink></h2>
       </div>
       <transition-group name="object" class="flex flex-wrap w-full justify-center lg:justify-start inner">
         <NewsCard class="Card news my-1.5 md:m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
-      </transition-group>
-    </section>
-    <section id="newArtist" class="section">
-      <div>
-        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added<NuxtLink :to="`/artist`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
-      </div>
-      <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-        <ArtistCard class="artist md:mr-5 lg:mr-3.5 md:mb-5" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
       </transition-group>
     </section>
     <section id="newRelease" class="section">
@@ -22,6 +14,14 @@
       </div>
       <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
         <ReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in newRelease" :key="release.id" :release="release"/>
+      </transition-group>
+    </section>
+    <section id="newArtist" class="section">
+      <div>
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added<NuxtLink :to="`/artist`" class="ml-2 mt-auto text-sm  focus:outline-none">View More</NuxtLink></h2>
+      </div>
+      <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
+        <ArtistCard class="artist md:mr-5 lg:mr-3.5 md:mb-5" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
       </transition-group>
     </section>
   </div>
@@ -56,15 +56,13 @@
     async asyncData({ $axios }){
       let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=9`)
       let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=9`)
-      //let newsList = await $axios.$get('https://comeback-api.herokuapp.com/infos?sortby=createdAt:desc&limit=7')
       let newsList = []
-      let test = await $axios.$get(`https://comeback-api.herokuapp.com/calendar/infos?date_sup=${new Date()}`)
-      console.log('test', test)
-      Object.keys(test).map(function(key, index) {
-        //console.log(test[key])
-        for(let [key2, value2] of Object.entries(test[key])) {
+      let dateToGet = new Date()
+      dateToGet.setDate((dateToGet.getDate())-1)
+      let tmpNews = await $axios.$get(`https://comeback-api.herokuapp.com/calendar/infos?date_sup=${dateToGet}`)
+      Object.keys(tmpNews).map(function(key, index) {
+        for(let [key2, value2] of Object.entries(tmpNews[key])) {
             value2.forEach(element => {
-              console.log(element)
               newsList.push(element)
             });
         }
