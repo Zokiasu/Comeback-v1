@@ -10,11 +10,12 @@
                         {{element.artist.name}}'s news
                     </div>
                     <div class="text-xs">
-                        by {{element.user ? element.user.username : 'Unknow'}}
+                        <span>by {{element.user ? element.user.username : 'Unknow'}}</span>
+                        <span v-if="!checkDate(element.date)" class="bg-red-700 rounded px-3">Today</span>
                     </div>
                 </div>
             </div>
-            <div>
+            <div v-if="element.verified">
                 <img class="w-5 my-auto" src="~/assets/image/approval.png" alt="Verified mark">
             </div>
         </div>
@@ -28,8 +29,15 @@
 </template>
 
 <script>
+    import moment from 'moment-timezone'
     export default {
         props:['element'],
+
+        methods :{
+            checkDate(date){
+                return moment(new Date(date)).isAfter(new Date())
+            },
+        }
     }
 </script>
 

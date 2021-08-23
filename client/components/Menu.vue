@@ -295,6 +295,8 @@
                     this.userConnected = false
                     this.userRole = 'NONE'
                     this.$toast.error('You are log out!', {duration:3000, position:'top-right'})
+                    this.SET_DATA_USER(null)
+                    this.SET_TOKEN_USER(null)
                 }).catch((error) => {
                     console.log(error)
                 })

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="button" class="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between p-10">
-            <div>
+            <!--<div>
                 <t-datepicker
                     class="text-black"
                     v-model="dateStart"
@@ -10,8 +10,8 @@
                     dateFormat='Y-m-d'
                     clearable>
                 </t-datepicker>
-            </div>
-            <div>
+            </div>-->
+            <div v-if="user != null">
                 <t-select
                 id="artists-type-selector"
                 class="focus:outline-none"
@@ -24,9 +24,9 @@
             </div>
         </div>
         <div id="release-date" class="space-y-5">
-            <div v-for="(date, index) in dateList" :key="index" class="justify-center texts text-white mx-10 animate__animated animate__fadeIn">
+            <div v-for="(date, index) in dateList.slice().reverse()" :key="index" class="justify-center texts text-white mx-10 animate__animated animate__fadeIn">
                 <div class="top-0 bg-mainbg z-50">
-                    <h1 class="font-semibold text-2xl md:text-4xl"> {{new Date(index).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
+                    <h1 class="font-semibold text-2xl md:text-4xl"> {{new Date(date.date).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
                 </div>
                 <div class="w-full flex flex-wrap overflow-y-scroll py-5 texts text-white">
                     <ReleaseCard
@@ -70,7 +70,7 @@
                 dateStart: null,
                 startDate: new Date(),
                 endDate: new Date(),
-                dateList: {},
+                dateList: [],
                 user: null,
                 gapDate: 30,
                 infiniteId: +new Date(),
@@ -79,6 +79,7 @@
 
         created(){
             this.user = this.GET_DATA_USER()
+            this.endDate.setDate(this.startDate.getDate()+1)
         },
 
         watch: {
@@ -87,28 +88,8 @@
                 handler(userPreference) {
                     if (process.client) {
                         if(this.dateStart != null) {
-                            this.startDate = new Date(this.dateStart)
-                            this.endDate.setDate((this.startDate.getDate()) + 7)
+                            //this.startDate = new Date(this.dateStart)/
                         }
-                        this.fetchData()
-                    }
-                }
-            },
-
-            dateStart: {
-                immediate: true,
-                handler(dateStart) {
-                    if (process.client) {
-                        if(dateStart == null) {
-                            let d = new Date();
-                            let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-                            let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
-                            let da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
-                            if(da != 1) da = da-1
-                            dateStart = `${ye}-${mo}-${da}`
-                            this.dateStart = `${ye}-${mo}-${da}`
-                        }
-                        this.startDate = new Date(dateStart)
                         this.fetchData()
                     }
                 }
@@ -117,37 +98,49 @@
 
         methods:{
 
+            dateFormat(d){
+                let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+                let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
+                let da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
+                return `${mo}/${da}/${ye}`
+            },
+
             ...mapGetters([
                 'GET_DATA_USER',
             ]),
 
             async fetchData() {
-                let tmp = {}
+                console.log('fetchData')
+                //let tmp = {}
+                let test = []
                 if(this.userPreference == 'true'){
-                    this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.user.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+                    this.user = this.GET_DATA_USER()
+                    this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.user.id}?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
                         if(Object.entries(response.data).length) {
-                            this.dateList = {}
+                            this.dateList = []
                             for(let [key, value] of Object.entries(response.data)) {
-                                tmp[key] = value
+                                value['date'] = key
+                                if(value.releases) test.push(value)
                             }
-                            this.dateList = tmp
+                            this.dateList = test
                         } else {
-                            this.dateList = {}
+                            this.dateList = []
                         }
                     })
                     .catch(error => {
                         console.log(error);
                     });
                 } else {
-                    this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+                    this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
                         if(Object.entries(response.data).length) {
-                            this.dateList = {}
+                            this.dateList = []
                             for(let [key, value] of Object.entries(response.data)) {
-                                tmp[key] = value
+                                value['date'] = KeyframeEffect
+                                if(value.releases) test.push(value)
                             }
-                            this.dateList = tmp
+                            this.dateList = test
                         } else {
-                            this.dateList = {}
+                            this.dateList = []
                         }
                     })
                     .catch(error => {
@@ -159,17 +152,21 @@
 
             infiniteScroll($state) {
                 setTimeout(() => {
-                    let tmp = this.dateList != null ? this.dateList : {}
+                    //let tmp = this.dateList != null ? this.dateList : {}
+                    let test = []
                     if(this.userPreference == 'true'){
-                        this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.user.id}?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+                        this.user = this.GET_DATA_USER()
+                        this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.user.id}?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
                             if(Object.entries(response.data).length !== 0) {
-                                this.dateList = {}
+                                this.dateList = []
                                 for(let [key, value] of Object.entries(response.data)) {
-                                    tmp[key] = value
+                                    value['date'] = key
+                                    //tmp[key] = value
+                                    if(value.releases) test.push(value)
                                 }
-                                this.dateList = tmp
-                                this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
-                                this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                                this.dateList = test
+                                this.startDate.setDate((this.startDate.getDate()) - 2)
+                                //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
                                 $state.loaded();
                                 this.stopInfiniteScroll = true
                             } else {
@@ -181,15 +178,18 @@
                             console.log(error);
                         });
                     } else {
-                        this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.startDate}&date_inf=${this.endDate}`).then(response => {
+                        this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
                             if(Object.entries(response.data).length !== 0) {
-                                this.dateList = {}
+                                this.dateList = []
                                 for(let [key, value] of Object.entries(response.data)) {
-                                    tmp[key] = value
+                                    value['date'] = key
+                                    //tmp[key] = value
+                                    if(value.releases) test.push(value)
                                 }
-                                this.dateList = tmp
-                                this.startDate.setDate((this.startDate.getDate()) + this.gapDate)
-                                this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                                console.log(test)
+                                this.dateList = test
+                                this.startDate.setDate((this.startDate.getDate()) - 2)
+                                //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
                                 $state.loaded();
                                 this.stopInfiniteScroll = true
                             } else {
