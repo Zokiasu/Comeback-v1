@@ -11,7 +11,7 @@
                     </div>
                     <div class="text-xs">
                         <span>by {{element.user ? element.user.username : 'Unknow'}}</span>
-                        <span v-if="!checkDate(element.date)" class="bg-red-700 rounded px-3">Today</span>
+                        <span v-if="checkDate(element.date)" class="bg-red-700 rounded px-3">Today</span>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
 
         methods :{
             checkDate(date){
-                return moment(new Date(date)).isAfter(new Date())
+                return moment(new Date(date)).isSame(moment(), 'day');
             },
         }
     }
