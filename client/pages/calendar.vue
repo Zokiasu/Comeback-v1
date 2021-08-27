@@ -72,7 +72,7 @@
                 endDate: new Date(),
                 dateList: [],
                 user: null,
-                gapDate: 30,
+                gapDate: 5,
                 infiniteId: +new Date(),
             }
         },
@@ -110,8 +110,6 @@
             ]),
 
             async fetchData() {
-                console.log('fetchData')
-                //let tmp = {}
                 let test = []
                 if(this.userPreference == 'true'){
                     this.user = this.GET_DATA_USER()
@@ -152,7 +150,6 @@
 
             infiniteScroll($state) {
                 setTimeout(() => {
-                    //let tmp = this.dateList != null ? this.dateList : {}
                     let test = []
                     if(this.userPreference == 'true'){
                         this.user = this.GET_DATA_USER()
@@ -160,13 +157,11 @@
                             if(Object.entries(response.data).length !== 0) {
                                 this.dateList = []
                                 for(let [key, value] of Object.entries(response.data)) {
-                                    value['date'] = key
-                                    //tmp[key] = value
+                                    value['date'] = MediaKeySession
                                     if(value.releases) test.push(value)
                                 }
                                 this.dateList = test
-                                this.startDate.setDate((this.startDate.getDate()) - 2)
-                                //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                                this.startDate.setDate((this.startDate.getDate()) - this.gapDate)
                                 $state.loaded();
                                 this.stopInfiniteScroll = true
                             } else {
@@ -183,13 +178,10 @@
                                 this.dateList = []
                                 for(let [key, value] of Object.entries(response.data)) {
                                     value['date'] = key
-                                    //tmp[key] = value
                                     if(value.releases) test.push(value)
                                 }
-                                console.log(test)
                                 this.dateList = test
-                                this.startDate.setDate((this.startDate.getDate()) - 2)
-                                //this.endDate.setDate((this.endDate.getDate()) + this.gapDate)
+                                this.startDate.setDate((this.startDate.getDate()) - this.gapDate)
                                 $state.loaded();
                                 this.stopInfiniteScroll = true
                             } else {
