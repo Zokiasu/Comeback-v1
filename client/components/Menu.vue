@@ -61,6 +61,9 @@
                             <NuxtLink :to="`/setting`" class="hover:bg-gray-700 px-5 py-1">
                                 Setting
                             </NuxtLink>-->
+                            <NuxtLink :to="`/profile/${user.id}/general`" @click="userMenu = !userMenu" class="hover:bg-gray-700 px-5 py-1">
+                                Profile
+                            </NuxtLink>
                             <NuxtLink :to="`/add/artist`" @click="userMenu = !userMenu" class="hover:bg-gray-700 px-5 py-1">
                                 Add New Artist
                             </NuxtLink>
