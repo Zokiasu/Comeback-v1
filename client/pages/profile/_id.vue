@@ -11,7 +11,7 @@
                         <div class="flex mt-auto">
                             <div class="mt-auto py-5 space-y-5">
                                 <div>
-                                    <span v-if="userConnected && userConnected.id == user.id">Edit</span>
+                                    <!--<span v-if="userConnected && userConnected.id == user.id" class="text-lg">Edit</span>-->
                                     <h1 class="cursor-default font-semibold filter tShadowRelease text-6xl xl:text-8xl">{{user.username}}</h1>
                                 </div>
                                 <div>
