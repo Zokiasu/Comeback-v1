@@ -79,8 +79,10 @@
 
         created(){
             this.user = this.GET_DATA_USER()
-            this.startDate.setDate(this.startDate.getDate()-5)
             this.endDate.setDate(this.startDate.getDate()+1)
+            this.startDate.setDate(this.startDate.getDate()-5)
+            console.log('startDate', this.startDate)
+            console.log('endDate', this.endDate)
         },
 
         watch: {
