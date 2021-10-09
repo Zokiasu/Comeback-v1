@@ -5,8 +5,8 @@ export function removeDuplicates(data, key) {
   return [...new Map(data.map((item) => [key(item), item])).values()];
 }
 
-export const queriesToDict = (queries, whereOptions = {}, opOn = []) => {
-  const order = queries.sortby?.split(':') || ['createdAt', 'DESC'];
+export const queriesToDict = (queries, whereOptions = {}, opOn = [], childModel=null) => {
+  let order = queries.sortby?.split(':') || ['createdAt', 'DESC'];
   const limit = queries.limit;
   const offset = queries.offset;
   const op = queries.op;
@@ -26,6 +26,9 @@ export const queriesToDict = (queries, whereOptions = {}, opOn = []) => {
       if (opOn.length && ! opOn.includes(key)) continue
       queries[key] = { [Op.iLike]: value };
     }
+  }
+  if (childModel) {
+    order = [{model: childModel}, ...order]
   }
 
   return {

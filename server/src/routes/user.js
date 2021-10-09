@@ -120,14 +120,15 @@ router.get('/:userId/full', async (req, res) => {
 });
 
 router.get('/:userId/artists', async (req, res) => {
+  console.log('quzry', req.query);
   const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
+    ...queriesToDict(req.query, {}, [], req.context.models.Artist),
       include: [
         {
           model: req.context.models.Artist,
           as: 'artists',
-          ...queriesToDict(req.query),
         },
         req.context.models.Release,
       ],
@@ -140,11 +141,12 @@ router.get('/:userId/releases', async (req, res) => {
   const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
+    ...queriesToDict(req.query, {}, [], req.context.models.Release),
       include: [
         {
           model: req.context.models.Release,
           as: 'releases',
-          ...queriesToDict(req.query),
+          include: [req.context.models.Artist]
         },
         req.context.models.Artist,
       ],
