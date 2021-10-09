@@ -82,7 +82,7 @@ const artist = (sequelize, DataTypes) => {
       as: 'events',
     });
     Artist.belongsToMany(models.Style, {
-      through: 'Artist',
+      through: 'Artist_Style',
     });
     Artist.hasMany(models.Info);
   };
