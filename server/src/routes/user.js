@@ -3,7 +3,7 @@ import {
   addAssociationItems,
   queriesToDict,
 } from '../helpers/routes';
-import { createUser } from '../firebase/user';
+import { createUser, createUserWithoutFirebase } from '../firebase/user';
 import { hasRoles } from '../firebase/authorization';
 import { ROLES } from '../constants';
 import { checkIfAuthenticated } from '../firebase/authentication';
@@ -11,6 +11,7 @@ import { checkIfAuthenticated } from '../firebase/authentication';
 const router = Router();
 
 router.post('/auth/signup', createUser);
+router.post('/auth/signup2', createUserWithoutFirebase);
 
 router.get('/', async (req, res) => {
   const users = await req.context.models.User.findAll({
