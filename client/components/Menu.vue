@@ -237,10 +237,12 @@
             })
         },
 
-        mounted() {
+        async mounted() {
             window.addEventListener('resize', this.handleResize);
             this.handleResize();
             this.$toast.info("This website is currently under development, so you may encounter some bugs while using it.", {duration:5000, position:'top-center'})
+            const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
+            this.artistList = response
         },
 
         methods:{

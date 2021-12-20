@@ -1,5 +1,5 @@
 module.exports = {
-  purge: [
+  content: [
     './components/**/*.{vue,js}',
     './layouts/**/*.vue',
     './pages/**/*.vue',
@@ -7,15 +7,10 @@ module.exports = {
     './nuxt.config.{js,ts}',
   ],
   
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'media', // or 'media' or 'class'
 
   theme: {
     extend: {
-      screens: {
-        '1xl': '1400px',
-        '1.5xl': '1500px',
-      },
-
       colors: {
         'background':'#1F1D1D',
         'black-one': '#3B3B3B',

@@ -49,7 +49,6 @@ export default {
   plugins: [
     '~/plugins/inject.js',
     '~/plugins/vtlw.js',
-    '~/plugins/vue-carousel.js',
     { src: '~/plugins/v-calendar.js', ssr: false },
     { src: "~/plugins/infiniteloading", ssr: false },
   ],
