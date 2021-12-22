@@ -8,7 +8,9 @@
             </NuxtLink>
             <div class="flex justify-start sm:justify-center lg:justify-between lg:w-full relative lg:ml-5">
                 <div id="menu" class="flex space-x-2 mx-2">
-                    <NuxtLink :to="`/`" name="home page" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'index' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
+                    <NuxtLink :to="`/`" name="home page" 
+                        class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" 
+                        :class="$route.name != 'index' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/home.png" alt="Home button redirect"/>
                         <span class="hidden mt-0.5 lg:flex">Home</span>
                     </NuxtLink>
@@ -20,54 +22,30 @@
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png" alt="artist button redirect"/>
                         <span class="hidden mt-0.5 lg:flex">Artists</span>
                     </NuxtLink>
-                    <NuxtLink v-if="userConnected && userRole != 'NONE'" :to="`/moderator/pending`" name="moderator page" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1" :class="$route.name != 'moderator-*' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
-                        <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/moderator.png" alt="moderator button redirect"/>
-                        <span class="hidden mt-0.5 lg:flex">Moderator</span>
-                    </NuxtLink>
                     <button v-if="userConnected" @click="openNewsWindow()" class="bg-red-700 Card px-5 rounded-md focus:outline-none">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/news.png" alt="comeback button to add new comeback"/>
                         <span class="hidden mt-0.5 lg:flex">Add a News</span>
                     </button>
-                    <!--<button @click="showInput" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1 lg:invisible">
-                        <img class="w-4 h-4 mt-0.5 lg:mt-2" src="~/assets/image/search.png"/>
-                    </button>-->
-                    <!--<NuxtLink :to="`/search`" @click="showInput" class="bg-opacity-30 px-2 sm:px-3 rounded space-x-1 pt-2 lg:pt-1 lg:invisible">
-                        <img class="w-4 h-4 mt-0.5 lg:mt-2" src="~/assets/image/search.png"/>
-                    </NuxtLink>-->
                 </div>
-                <!--<section id="searchbar" v-if="(searchbar || width) && userConnected" class="flex justify-start -space-x-1 absolute lg:static w-screen lg:w-1/3">
-                    <div id="search-icon" style="background-color:#3B3B3B" class="pl-2 pt-3 lg:pt-2.5 lg:pl-2.5 rounded-none rounded-l cursor-pointer">
-                        <img @click="hideInput" v-if="!width" class="w-6 h-5 cursor-pointer" src="~/assets/image/arrow_back.png"/>
-                        <img @click="showInput" v-else class="w-5 h-5" src="~/assets/image/search.png"/>
-                    </div>
-                    <input ref="searchInput" @blur="hideInput" type="text" placeholder="Find Releases, Artist, Comeback" v-model="search" style="background-color:#3B3B3B" class="w-full p-2 pl-5 text-white placeholder-white focus:outline-none rounded-r rounded-none">
-                </section>-->
             </div>
             <div v-if="!userConnected" class="text-white font-semibold my-auto">
                 <button @click="loginModal=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out hover:bg-gray-600 transform hover:font-bold">Login</button>
             </div>
             <div v-else class="flex space-x-1">
-                <!--<div v-if="width" class="p-2 px-3 relative">
-                    <img class="w-6 h-6" src="~/assets/image/bell.png" alt="">
-                    <span class="bg-red-500 text-xs rounded-full absolute top-0 right-2 px-1">10</span>
-                </div>-->
                 <div>
                     <img @click="userMenu = !userMenu" class="w-8 sm:w-10 rounded-full cursor-pointer" :src="userAvatar" alt="">
                     <div v-if="userMenu" class="w-40 fixed rounded bg-black-one right-3 mt-3 animate__animated animate__fadeInDown animate__faster">
-                        <ul class="flex flex-col">
-                            <!--<NuxtLink :to="`/profile`" class="rounded-t hover:bg-gray-700 px-5 py-1">
+                        <ul @click="userMenu = !userMenu" class="flex flex-col">
+                            <NuxtLink :to="`/profile/${user.id}/general`" class="hover:bg-gray-700 px-5 py-1">
                                 Profile
                             </NuxtLink>
-                            <NuxtLink :to="`/setting`" class="hover:bg-gray-700 px-5 py-1">
-                                Setting
-                            </NuxtLink>-->
-                            <NuxtLink :to="`/profile/${user.id}/general`" @click="userMenu = !userMenu" class="hover:bg-gray-700 px-5 py-1">
-                                Profile
-                            </NuxtLink>
-                            <NuxtLink :to="`/add/artist`" @click="userMenu = !userMenu" class="hover:bg-gray-700 px-5 py-1">
+                            <NuxtLink :to="`/add/artist`" class="hover:bg-gray-700 px-5 py-1">
                                 Add New Artist
                             </NuxtLink>
-                            <button @click="logout();userMenu = !userMenu" class="focus:outline-none rounded-b text-left hover:bg-gray-700 px-5 py-1">
+                            <NuxtLink v-if="userConnected && userRole != 'NONE'" :to="`/dashboard`" class="hover:bg-gray-700 px-5 py-1">
+                                Dashboard
+                            </NuxtLink>
+                            <button @click="logout()" class="focus:outline-none rounded-b text-left hover:bg-gray-700 px-5 py-1">
                                 Sign Out
                             </button>
                         </ul>
@@ -85,35 +63,7 @@
             bg-class="animate__animated"
             :bg-in-class="`animate__fadeInUp`"
             :bg-out-class="`animate__fadeOutDown`">
-            <div class="flex flex-col justify-center text-white">
-                <t-input type="email" v-model="auth.email" placeholder="Email" name="email" class="my-2"></t-input>
-                <t-input type="password" v-model="auth.password" placeholder="Password" name="password" class="my-2"></t-input>
-                <button @click="logIn(auth)" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Login</button>
-                <div class="flex justify-center space-x-1">
-                    <span>Forget your password? <button class="focus:outline-none text-red-500 font-semibold">Reset Password</button></span>
-                </div>
-                <div class="flex justify-center space-x-1">
-                    <p>No account? <button @click="signupModal=true" class="focus:outline-none font-semibold "> Sign Up</button></p>
-                </div>
-            </div>
-        </Modal>
-        <Modal
-            v-model="signupModal" 
-            title="Signup"
-            wrapper-class="animate__animated modal-wrapper"
-            :modal-style="{'background':'#1F1D1D', 'border-radius': '0.25rem', 'color':'white'}"
-            :in-class="`animate__fadeInDown`"
-            :out-class="`animate__bounceOut`"
-            bg-class="animate__animated"
-            :bg-in-class="`animate__fadeInUp`"
-            :bg-out-class="`animate__fadeOutDown`">
-            <div class="flex flex-col justify-center text-white">
-                <t-input id="username" type="text" v-model="sign.username" placeholder="Username" name="username" class="my-2"></t-input>
-                <t-input id="email" type="email" v-model="sign.email" placeholder="Email" name="email" class="my-2"></t-input>
-                <t-input id="password" type="password" v-model="sign.password" placeholder="Password" name="password" class="my-2"></t-input>
-                <t-input id="confirm_password" type="password" v-model="passwordCheck" placeholder="Confirm Password" name="confirm_password" class="my-2"></t-input>
-                <button @click="signUpUser()" class="focus:outline-none texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 text-white hover:bg-red-900 transform hover:-translate-y-0.5 hover:scale-110 hover:font-bold my-2">Sign Up</button>
-            </div>
+            <Authentification/>
         </Modal>
         <Modal
             v-model="newsWindow"
@@ -305,10 +255,6 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            },
-
-            forgotPassword(){
-                
             },
 
             async setStoreData(userId){
