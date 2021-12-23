@@ -22,14 +22,14 @@
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/artist.png" alt="artist button redirect"/>
                         <span class="hidden mt-0.5 lg:flex">Artists</span>
                     </NuxtLink>
-                    <button v-if="userConnected" @click="openNewsWindow()" class="bg-red-700 Card px-5 rounded-md focus:outline-none">
+                    <button v-if="userConnected" @click="newsModal=true" class="bg-red-700 Card px-5 rounded-md focus:outline-none">
                         <img class="w-4 h-4 mt-1 lg:hidden" src="~/assets/image/news.png" alt="comeback button to add new comeback"/>
                         <span class="hidden mt-0.5 lg:flex">Add a News</span>
                     </button>
                 </div>
             </div>
             <div v-if="!userConnected" class="text-white font-semibold my-auto">
-                <button @click="loginModal=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out hover:bg-gray-600 transform hover:font-bold">Login</button>
+                <button @click="authentificationModal=true" class="focus:outline-none px-3 py-1 rounded-sm flex justify-center transition duration-500 ease-in-out hover:bg-gray-600 transform hover:font-bold">Login</button>
             </div>
             <div v-else class="flex space-x-1">
                 <div>
@@ -54,8 +54,8 @@
             </div>
         </div>
         <Modal
-            v-model="loginModal" 
-            title="Login"
+            v-model="authentificationModal" 
+            title="Authentification"
             wrapper-class="animate__animated modal-wrapper"
             :modal-style="{'background':'#1F1D1D', 'border-radius': '0.25rem', 'color':'white'}"
             :in-class="`animate__fadeInDown`"
@@ -63,10 +63,10 @@
             bg-class="animate__animated"
             :bg-in-class="`animate__fadeInUp`"
             :bg-out-class="`animate__fadeOutDown`">
-            <Authentification/>
+            <Authentification @close="closeAuthentificationModal"/>
         </Modal>
         <Modal
-            v-model="newsWindow"
+            v-model="newsModal"
             title="Add a News"
             wrapper-class="animate__animated modal-wrapper"
             :modal-style="{'background':'#1F1D1D', 'border-radius': '0.25rem', 'color':'white'}"
@@ -75,50 +75,7 @@
             bg-class="animate__animated"
             :bg-in-class="`animate__fadeInUp`"
             :bg-out-class="`animate__fadeOutDown`">
-            <div class="flex flex-col justify-center space-y-2 py-3 text-white">
-                <multiselect
-                    v-if="!newArtist"
-                    v-model="artistSelected"
-                    placeholder="Please select an artist"
-                    label="name" 
-                    track-by="id" 
-                    :options="artistList"
-                    :close-on-select="true"
-                    :clear-on-select="true"
-                    :preserve-search="false">
-                    <template slot="singleLabel" slot-scope="props">
-                        <div class="flex space-x-1">
-                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image" :alt="props.option.name">
-                            <div class="option__desc flex flex-col space-y-1">
-                                <span class="option__title">{{ props.option.name }}</span>
-                                <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
-                            </div>
-                        </div>
-                    </template>
-                    <template slot="option" slot-scope="props">
-                        <div class="flex space-x-1">
-                            <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
-                            <div class="option__desc flex flex-col space-y-1">
-                                <span class="option__title">{{ props.option.name }}</span>
-                                <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
-                            </div>
-                        </div>
-                    </template>
-                </multiselect>
-                <t-input v-else type="text" v-model="news.newArtistName" placeholder="Your Artist Name" name="Artist Name"></t-input>
-                <span v-if="!newArtist" class="text-sm">You can't find your artist ? <button @click="newArtist = !newArtist" class="focus:outline-none text-red-500">Please click here to suggest him with your news</button></span>
-                <span v-else class="text-sm"><button @click="newArtist = !newArtist" class="focus:outline-none text-red-700">Back to artist list</button></span>
-                <t-datepicker
-                    class="text-black"
-                    v-model="news.date"
-                    placeholder="Date"
-                    initial-view="month" dateFormat='Y-m-d' clearable>
-                </t-datepicker>
-                <t-textarea type="text" v-model="news.message" placeholder="Your News*" name="News"></t-textarea>
-                <t-textarea type="text" v-model="news.source" placeholder="Source*" name="Source"></t-textarea>
-                <button v-if="!newArtist" @click="sendNews()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Send the news</button>
-                <button v-else @click="sendNewsToValidated()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Suggest Artist and News</button>
-            </div>
+            <NewsCreation @close="closeNewsModal"/>
         </Modal>
     </div>
 </template>
@@ -128,231 +85,88 @@
 </style>
 
 <script>
-    import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 
-    export default {
-        data() {
-            return {
-                searchbar: false,
-                search:'',
-                userMenu: false,
-                width: false,
+export default {
+    data() {
+        return {
+            userMenu: false,
 
-                loginModal: false,
-                signupModal: false,
+            authentificationModal: false,
+            newsModal:false,
 
-                newsWindow:false,
-                newArtist:false,
-                news:{
-                    message: null,
-                    date: null,
-                    artistId: null,
-                    userId: null,
-                    newArtistName: null,
-                    source:null,
-                },
-                artistSelected:{},
-                artistList:[],
+            user: null,
+            userConnected: false,
+            userRole: 'NONE',
+            userAvatar: require('@/assets/image/artist.png'),
+        }
+    },
 
-                user: null,
-                userConnected: false,
-                userRole: 'NONE',
-                userAvatar: require('@/assets/image/artist.png'),
-                
-                auth: {
-                    email: '',
-                    password: '',
-                },
-
-                sign: {
-                    username: '',
-                    email: '',
-                    password: '',
-                },
-
-                passwordCheck: null,
+    async created(){
+        let that = this
+        await this.$fire.auth.onAuthStateChanged(async function (user) {
+            if (user != null) {
+                if(user.uid) {
+                    that.userConnected = true
+                    await that.setStoreData(user.uid)
+                }
             }
+        })
+    },
+
+    async mounted() {
+        this.$toast.info("This website is currently under development, so you may encounter some bugs while using it.", {duration:5000, position:'top-center'})
+    },
+
+    methods:{
+        ...mapMutations([
+            'SET_DATA_USER',
+            'SET_TOKEN_USER',
+        ]),
+
+        ...mapGetters([
+            'GET_DATA_USER',
+        ]),
+
+        logout(){
+            this.$fire.auth.signOut().then(() => {
+                this.$router.push('/')
+                this.userConnected = false
+                this.userRole = 'NONE'
+                this.$toast.error('You are log out!', {duration:3000, position:'top-right'})
+                this.SET_DATA_USER(null)
+                this.SET_TOKEN_USER(null)
+            }).catch((error) => {
+                console.log(error)
+            })
         },
 
-        async created(){
-            let that = this
-            await this.$fire.auth.onAuthStateChanged(async function (user) {
-                if (user != null) {
-                    if(user.uid) {
-                        that.userConnected = true
-                        await that.setStoreData(user.uid)
-                        that.news.userId = user.uid
-                    }
+        async setStoreData(userId){
+            const that = this
+
+            this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
+                that.SET_TOKEN_USER(idToken)
+            }).catch(function(error) {
+                console.log(error)
+            })
+
+            await this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
+                that.SET_DATA_USER(res.data)
+                that.user = that.GET_DATA_USER()
+                if(that.user != null) {
+                    if(that.user.avatar) that.userAvatar = that.user.avatar
+                    that.userRole = that.user.role
                 }
             })
         },
 
-        async mounted() {
-            window.addEventListener('resize', this.handleResize);
-            this.handleResize();
-            this.$toast.info("This website is currently under development, so you may encounter some bugs while using it.", {duration:5000, position:'top-center'})
-            const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
-            this.artistList = response
+        closeAuthentificationModal(){
+            this.authentificationModal = false
         },
 
-        methods:{
-            ...mapMutations([
-                'SET_DATA_USER',
-                'SET_TOKEN_USER',
-            ]),
-
-            ...mapGetters([
-                'GET_DATA_USER',
-                'GET_TOKEN_USER',
-            ]),
-
-            signUpUser(){
-                if(this.sign.password === this.passwordCheck){
-                    this.$axios.post('https://comeback-api.herokuapp.com/users/auth/signup', this.sign)
-                    .then((res) => {
-                        if(res){
-                            this.signupModal = false
-                            this.logIn(this.sign)
-                        }
-                    })
-                    .catch((error) => {
-                        this.$toast.error('Oops...Something went wrong', {duration:3000, position:'top-right'})
-                        console.error('Oops...connection error', error)
-                        this.$toast.error(error.response.data.message, {duration:3000, position:'top-right'})
-                    })
-                } else {
-                    this.$toast.error('Your passwords is not the same', {duration:3000, position:'top-right'})
-                }
-            },
-
-            logIn(user){
-                let that = this
-                this.$fire.auth.signInWithEmailAndPassword(user.email, user.password)
-                .then(async (res)=>{
-                    this.$toast.success('You are login', {duration:3000, position:'top-right'})
-                    this.loginModal = false
-                    this.userMenu = false
-                    this.userConnected = true
-                    if(res) {
-                        this.setStoreData(res.user.uid)
-                    }
-                })
-                .catch(error => {
-                    console.error('Oops...connection error', error) 
-                    this.$toast.error('Error while authenticating', {duration:3000, position:'top-right'})
-                    this.$toast.error('Email/Password incorrect', {duration:3000, position:'top-right'})
-                })
-            },
-
-            logout(){
-                this.$fire.auth.signOut().then(() => {
-                    this.$router.push('/')
-                    this.userConnected = false
-                    this.userRole = 'NONE'
-                    this.$toast.error('You are log out!', {duration:3000, position:'top-right'})
-                    this.SET_DATA_USER(null)
-                    this.SET_TOKEN_USER(null)
-                }).catch((error) => {
-                    console.log(error)
-                })
-            },
-
-            async setStoreData(userId){
-                const that = this
-
-                this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
-                    that.SET_TOKEN_USER(idToken)
-                }).catch(function(error) {
-                    console.log(error)
-                })
-
-                await this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
-                    that.SET_DATA_USER(res.data)
-                    that.user = that.GET_DATA_USER()
-                    if(that.user != null) {
-                        if(that.user.avatar) that.userAvatar = that.user.avatar
-                        that.userRole = that.user.role
-                    }
-                })
-            },
-
-            async openNewsWindow(){
-                this.newsWindow = !this.newsWindow
-                const{data: response} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
-                this.artistList = response
-            },
-      
-            async sendNews(){
-                console.log(this.news)
-                console.log('artistSelected', this.artistSelected)
-                if(!this.news.message) {
-                    this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
-                } else if(!this.artistSelected) {
-                    this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
-                } else {
-                    this.news.artistId = this.artistSelected.id
-                    await this.$axios.post(`https://comeback-api.herokuapp.com/infos`, this.news)
-                    .then(response => {
-                        this.newsWindow = !this.newsWindow
-                        this.news.message = null,
-                        this.news.artistId = null,
-                        this.news.date = null,
-                        this.news.source = null,
-                        this.newArtist = false
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                }
-            },
-
-            async sendNewsToValidated() {
-                if(!this.news.message) {
-                    this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
-                } else if(!this.news.newArtistName) {
-                    this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
-                } else {
-                    await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
-                        state:'PENDING',
-                        method:'POST',
-                        endpoint:`/infos`,
-                        body: this.news,
-                        currentData: [],
-                        userId: this.news.userId,
-                        source: null
-                    }).then(response=>{
-                        this.newsWindow = !this.newsWindow
-                        this.news.message = null,
-                        this.news.newArtistName = null,
-                        this.news.date = null,
-                        this.news.source = null,
-                        this.newArtist = false
-                    })
-                }
-            },
-
-            handleResize() {
-                if(window.innerWidth > 1024) {
-                    this.width = true
-                } else {
-                    this.width = false
-                }
-            },
-
-            showInput(){
-                this.searchbar = true;
-
-                this.$nextTick(() => {
-                    this.setFocus();
-                });
-            },
-
-            setFocus: function(){
-                this.$refs.searchInput.focus()
-            },
-            
-            hideInput(){
-                this.searchbar = false;
-            },
+        closeNewsModal(){
+            this.newsModal = false
         },
-    }
+    },
+}
 </script>

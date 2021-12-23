@@ -57,10 +57,10 @@
     name: 'Authentification',
     data() {
       return {
+        email: '',
         username: '',
         password: '',
         passwordVerification: '',
-        email: '',
         signUpOption: false
       }
     },
@@ -86,9 +86,10 @@
       loginAuthentification(){
         this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
           .then(async (res)=>{
-              this.$toast.success('You are login', {duration:3000, position:'top-right'})
+              this.$toast.success('You now are login', {duration:3000, position:'top-right'})
               if(res) {
                 this.setStoreData(res.user.uid)
+                this.closeModal()
               }
           })
           .catch(error => {
@@ -99,10 +100,9 @@
       },
 
       signUpAuthentification(){
-        if(this.sign.password === this.passwordCheck){
+        if(this.password === this.passwordVerification){
           this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
             .then((userCredential) => {
-              this.$toast.success('You are sign in', {duration:3000, position:'top-right'})
               let data = {
                 id: userCredential.user.uid,
                 username: this.username,
@@ -111,6 +111,7 @@
               this.$axios.post('https://comeback-api.herokuapp.com/users/auth/signup2', data)
                 .then((res) => {
                     if(res){
+                      this.$toast.success('Successful signup', {duration:3000, position:'top-right'})
                       this.loginAuthentification()
                     }
                 })
@@ -123,6 +124,8 @@
             .catch((error) => {
               var errorCode = error.code;
               var errorMessage = error.message;
+              this.$toast.error('Oops...Something went wrong', {duration:3000, position:'top-right'})
+              console.error('Oops...connection error', error)
             });
         } else {
           this.$toast.error('Password and password verification are not the same', {duration:3000, position:'top-right'})
@@ -130,23 +133,24 @@
       },
 
       async setStoreData(userId){
-          const that = this
+        const that = this
 
-          this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
-              that.SET_TOKEN_USER(idToken)
-          }).catch(function(error) {
-              console.log(error)
-          })
+        this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
+          that.SET_TOKEN_USER(idToken)
+        }).catch(function(error) {
+          console.log(error)
+        })
 
-          await this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
-              that.SET_DATA_USER(res.data)
-              that.user = that.GET_DATA_USER()
-              if(that.user != null) {
-                  if(that.user.avatar) that.userAvatar = that.user.avatar
-                  that.userRole = that.user.role
-              }
-          })
+        await this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
+          that.SET_DATA_USER(res.data)
+        }).catch(function(error) {
+          console.log(error)
+        })
       },
+
+      closeModal(){
+        this.$emit('close')
+      }
     }
   }
 </script>

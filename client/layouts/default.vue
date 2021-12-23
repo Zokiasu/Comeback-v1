@@ -1,11 +1,15 @@
 <template>
   <div>
     <div class="animate__animated animate__fadeInDown sticky top-0 z-50 bg-background">
-      <Menu/>
+      <!--<Menu/>-->
+      <MenuNavigation/>
     </div>
     <div class="animate__animated animate__fadeIn animate__delay-1s">
       <Nuxt/>
     </div>
+    <button class="bg-red-700 lg:hidden rounded-full bottom-5 right-5 p-2 shadow Card fixed">
+      <img class="block h-8 w-auto" src="../assets/image/mini-logo.png" alt="Comeback">
+    </button>
   </div>
 </template>
 
