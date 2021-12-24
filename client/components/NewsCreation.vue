@@ -29,36 +29,39 @@
             </div>
         </template>
     </multiselect>
-    <t-input v-else type="text" v-model="news.newArtistName" placeholder="Your Artist Name" name="Artist Name"></t-input>
+    <t-input v-else type="text" v-model="newsArtistName" placeholder="Your Artist Name" name="Artist Name"></t-input>
     <span v-if="!newArtist" class="text-sm">You can't find your artist ? <button @click="newArtist = !newArtist" class="focus:outline-none text-red-500">Please click here to suggest him with your news</button></span>
     <span v-else class="text-sm"><button @click="newArtist = !newArtist" class="focus:outline-none text-red-700">Back to artist list</button></span>
     <t-datepicker
         class="text-black"
-        v-model="news.date"
+        v-model="newsDate"
         placeholder="Date"
         initial-view="month" dateFormat='Y-m-d' clearable>
     </t-datepicker>
-    <t-textarea type="text" v-model="news.message" placeholder="Your News*" name="News"></t-textarea>
-    <t-textarea type="text" v-model="news.source" placeholder="Source*" name="Source"></t-textarea>
+    <t-textarea type="text" v-model="newsMessage" placeholder="Your News*" name="News"></t-textarea>
+    <t-textarea type="text" v-model="newsSource" placeholder="Source*" name="Source"></t-textarea>
     <button v-if="!newArtist" @click="sendNews()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Send the news</button>
     <button v-else @click="sendNewsToValidated()" class="texts px-3 py-2 rounded-sm flex justify-center transition duration-500 ease-in-out bg-red-700 hover:bg-red-900 transform hover:-translate-y-1 hover:scale-110 hover:font-bold text-white">Suggest Artist and News</button>
 </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
 export default {
   name: "NewsCreation",
+
   data() {
     return {
       artistList: [],
       artistSelected: null,
       newArtist: false,
-      news: {
-        date: null,
-        message: null,
-        source: null,
-        newArtistName: null,
-      },
+      
+      newsDate: null,
+      newsMessage: null,
+      newsSource: null,
+      newsArtistName: null,
+      newsArtistId: null,
+      user: null
     };
   },
 
@@ -67,20 +70,50 @@ export default {
       this.artistList = response
   },
 
+  watch: {
+    newsDate: {
+      immediate: true,
+      handler(newsDate) {
+        if (process.client) {
+          if(newsDate) this.newsMessage = `${this.artistSelected.name} is coming back on ${this.dateFormat(new Date(newsDate))}`
+        }
+      }
+    },
+  },
+
   methods:{
+    ...mapGetters([
+      'GET_DATA_USER',
+    ]),
+
+    dateFormat(d){
+      let ye = new Intl.DateTimeFormat('en', { year: '2-digit' }).format(d);
+      let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
+      let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+      return `${da}/${mo}/${ye}`
+    },
+
     async sendNews(){
-      if(!this.news.message) {
+      this.user = this.GET_DATA_USER()
+      if(!this.newsMessage) {
           this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
       } else if(!this.artistSelected) {
           this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
       } else {
-        this.news.artistId = this.artistSelected.id
-        await this.$axios.post(`https://comeback-api.herokuapp.com/infos`, this.news)
+        this.newsArtistId = this.artistSelected.id
+        await this.$axios.post(`https://comeback-api.herokuapp.com/infos`, 
+        { 
+          message : this.newsMessage, 
+          date: this.newsDate, 
+          source: this.newsSource, 
+          userId: this.user.id,
+          artistId: this.newsArtistId 
+        })
         .then(response => {
-          this.news.message = null,
-          this.news.artistId = null,
-          this.news.date = null,
-          this.news.source = null,
+          this.newsMessage = null,
+          this.newsArtistId = null,
+          this.newsDate = null,
+          this.newsSource = null,
           this.newArtist = false
           this.closeModal()
         }).catch(function (error) {
@@ -90,9 +123,10 @@ export default {
     },
 
     async sendNewsToValidated() {
-      if(!this.news.message) {
+      this.user = this.GET_DATA_USER()
+      if(!this.newsMessage) {
           this.$toast.error('Please write a news or close the window', {duration:3000, position:'top-right'})
-      } else if(!this.news.newArtistName) {
+      } else if(!this.newsArtistName) {
           this.$toast.error('Please select a artist or suggest one', {duration:3000, position:'top-right'})
       } else {
         await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
@@ -101,13 +135,13 @@ export default {
           endpoint:`/infos`,
           body: this.news,
           currentData: [],
-          userId: this.news.userId,
+          userId: this.user.id,
           source: null
         }).then(response=>{
-          this.news.message = null,
-          this.news.newArtistName = null,
-          this.news.date = null,
-          this.news.source = null,
+          this.newsMessage = null,
+          this.newsArtistName = null,
+          this.newsDate = null,
+          this.newsSource = null,
           this.newArtist = false
           this.closeModal()
         })

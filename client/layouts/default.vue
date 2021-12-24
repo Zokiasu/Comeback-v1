@@ -2,7 +2,7 @@
   <div>
     <div class="animate__animated animate__fadeInDown sticky top-0 z-50 bg-background">
       <!--<Menu/>-->
-      <MenuNavigation/>
+      <MenuNavigation ref="menu"/>
     </div>
     <div class="animate__animated animate__fadeIn animate__delay-1s">
       <Nuxt/>
