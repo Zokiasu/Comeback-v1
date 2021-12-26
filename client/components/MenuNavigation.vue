@@ -71,16 +71,16 @@
                 From: "transform opacity-100 scale-100"
                 To: "transform opacity-0 scale-95"
             -->
-            <div v-if="userMenu" @click="userMenu=false" class="animate__animated animate__fadeInRight animate__faster origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-black-one text-white focus:outline-none" role="menu">
+            <div v-if="userMenu" @click="userMenu=false" class="animate__animated animate__pulse origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-black-one text-white focus:outline-none" role="menu">
               <NuxtLink :to="`/profile/${user.id}/general`" class="block px-4 py-2 text-sm hover:bg-gray-700">
                 Your Profile
               </NuxtLink>
               <NuxtLink :to="`/add/artist`" class="block px-4 py-2 text-sm hover:bg-gray-700">
                 Add New Artist
               </NuxtLink>
-              <NuxtLink :to="`/calendar`" class="block px-4 py-2 text-sm hover:bg-gray-700">
+              <!--<NuxtLink :to="`/calendar`" class="block px-4 py-2 text-sm hover:bg-gray-700">
                 Settings
-              </NuxtLink>
+              </NuxtLink>-->
               <NuxtLink v-if="userConnected && userRole != 'NONE'" :to="`/dashboard`" class="block px-4 py-2 text-sm hover:bg-gray-700">
                 Dashboard
               </NuxtLink>
