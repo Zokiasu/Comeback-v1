@@ -144,19 +144,15 @@
         },
 
         mounted(){
-            console.log("mounted")
             this.userInfo = this.GET_DATA_USER()
-            console.log("1", "user", this.userInfo)
             if(this.userInfo) {
                 this.displayLike = true
-                console.log("T")
                 this.artist.followers.forEach(element => {
                     if(element.id == this.userInfo.id) {
                         this.liked = true
                     }
                 })
             } else {
-                console.log("F")
                 const that = this
                 this.$fire.auth.onAuthStateChanged(async function (users) {
                     if (users != null) {

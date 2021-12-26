@@ -80,8 +80,6 @@
 
         mounted(){
             this.userConnected = this.GET_DATA_USER()
-            console.log('userConnected', this.userConnected)
-            console.log('user', this.user)
         },
 
         methods:{

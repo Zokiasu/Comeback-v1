@@ -88,9 +88,6 @@
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
                             this.pendings = [...new Set(artTmp)]
-                            this.pendings.forEach(element => {
-                                console.log(element)
-                            });
                             this.maxObjectDisplay = this.maxObjectDisplay + 20
                             $state.loaded();
                         } else {

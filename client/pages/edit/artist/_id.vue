@@ -181,7 +181,6 @@
 
         mounted(){
             this.user = this.GET_DATA_USER()
-            console.log('user', this.user)
             this.oldArtistData = JSON.parse(JSON.stringify(this.artist))
         },
     

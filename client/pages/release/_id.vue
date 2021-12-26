@@ -65,7 +65,6 @@
             this.userInfo = this.GET_DATA_USER()
 
             if(this.userInfo) {
-                console.log('true')
                 this.release.followers.forEach(element => {
                     if(element.id == this.userInfo.id) {
                         this.liked = true
@@ -73,7 +72,6 @@
                 })
                 this.displayLike = true
             } else {
-                console.log('false')
                 const that = this
                 this.$fire.auth.onAuthStateChanged(async function (users) {
                     if (users != null) {
@@ -88,9 +86,6 @@
                     }
                 })
             }
-            console.log('liked', this.liked)
-            console.log('displayLike', this.displayLike)
-            console.log('userInfo', this.userInfo)
         },
 
         methods:{

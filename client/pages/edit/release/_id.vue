@@ -263,11 +263,6 @@
             this.dates = new Date(this.release.date)
             this.oldDataToApi = JSON.parse(JSON.stringify(this.release))
             this.user = await this.GET_DATA_USER()
-            console.log('user', this.user)
-            /*const {data:responseA} = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
-            this.artistList = responseA
-            const {data:responseS} = await this.$axios.get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')
-            this.styleList = responseS*/
         },
 
         watch: {

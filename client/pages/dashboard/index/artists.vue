@@ -85,7 +85,6 @@
             filterType(filter){
                 this.typeFilter = filter
                 this.updateDateList(true)
-                console.log("filterType")
             },
 
             infiniteScroll($state) {
@@ -95,7 +94,6 @@
                     if(this.artists.length >= 20) artTmp = artTmp.concat(this.artists)
                     url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`
                     if(this.typeFilter != '') url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&type=${this.typeFilter}&limit=20&offset=${this.maxObjectDisplay}`
-                    console.log('url', url)
                     this.$axios.get(`${url}`).then(response => {
                         if(response.data.length > 0) {
                             artTmp = artTmp.concat(response.data)
@@ -120,7 +118,6 @@
                     this.maxObjectDisplay = 0
                     url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`
                     if(this.typeFilter != '') url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&type=${this.typeFilter}&limit=20&offset=${this.maxObjectDisplay}`
-                    console.log('url', url)
                     const {data: response} = await this.$axios.get(`${url}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response)
@@ -137,7 +134,6 @@
                     artTmp = artTmp.concat(this.artists)
                     url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&name=%${this.search}%&op=ilike&limit=20&offset=${this.maxObjectDisplay}`
                     if(this.typeFilter != '') url = `https://comeback-api.herokuapp.com/artists/groups?sortby=name&type=${this.typeFilter}&limit=20&offset=${this.maxObjectDisplay}`
-                    console.log('url', url)
                     const {data: response} = await this.$axios.get(`${url}`)
                     if(response.length > 0) {
                         artTmp = artTmp.concat(response) //Add next artist into actual list

@@ -45,8 +45,5 @@ export default {
       title: "Dashboard"
     }
   },
-  created() {
-    console.log(this.$route.name)
-  }
 }
 </script>
