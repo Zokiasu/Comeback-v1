@@ -1,6 +1,5 @@
 <template>
     <div class="p-5 px-10 space-y-5">
-        <ModeratorMenu/>
         <div class="flex flex-wrap">
             <div class="bg-gray-500 text-white rounded flex space-x-1 mr-2 mb-2 p-2 px-3" v-for="(style, index) in styleList" :key="style.id">
                 <span>{{style.name}}</span>

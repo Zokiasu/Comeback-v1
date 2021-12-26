@@ -1,6 +1,6 @@
 <template>
     <div class="p-10 text-white">
-        <div class="border-b border-white flex justify-between">
+        <div class="border-b border-white flex justify-between pb-3">
             <div class="flex space-x-2">
                 <NuxtLink class="my-auto" :to="`/artist/${this.$route.params.id}`">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#fff" d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
@@ -9,12 +9,12 @@
                     Edition Artist
                 </h2>
             </div>
-            <button @click="editArtist()" class="Card px-5 py-1 hover:bg-red-700 text-white rounded">Confirm</button>
+            <button @click="editArtist()" class="bg-red-700 p-5 py-2 rounded-lg Card hover:bg-red-900">Confirm</button>
         </div>
         <section>
             <div class="flex flex-col lg:flex-row justify-center space-y-10 lg:space-y-0 lg:space-x-5 py-7">
-                <div id="image" class="Card mx-auto">
-                    <img class="h-80 lg:w-96 object-cover" :src="artist.image" :alt="artist.name">
+                <div id="image">
+                    <img class="aspect-aspect object-cover" :src="artist.image" :alt="artist.name">
                     <div class="xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                         <button 
                             class="px-5 py-1 bg-red-700 hover:bg-red-900 focus:outline-none rounded-b text-white w-full"

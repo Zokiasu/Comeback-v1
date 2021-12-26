@@ -1,16 +1,6 @@
 <template>
     <div>
         <div id="button" class="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between p-10">
-            <!--<div>
-                <t-datepicker
-                    class="text-black"
-                    v-model="dateStart"
-                    placeholder="Start Date"
-                    initial-view="month"
-                    dateFormat='Y-m-d'
-                    clearable>
-                </t-datepicker>
-            </div>-->
             <div v-if="user != null">
                 <t-select
                 id="artists-type-selector"
