@@ -1,5 +1,4 @@
 <template>
-<div>
   <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
     <section id="newAnnounce" class="section" v-if="newsList.length > 1">
       <div class="flex w-full justify-start space-x-5 smooth">
@@ -26,7 +25,6 @@
       </div>
     </section>
   </div>
-</div>
 </template>
 
 <script>
