@@ -84,6 +84,9 @@
               <NuxtLink v-if="userConnected && userRole != 'NONE'" :to="`/dashboard`" class="block px-4 py-2 text-sm hover:bg-gray-700">
                 Dashboard
               </NuxtLink>
+              <button @click="newsModal=true" class="block px-4 py-2 text-sm hover:bg-gray-700 w-full h-full text-left">
+                New Comeback
+              </button>
               <button @click="logout()" class="block px-4 py-2 text-sm hover:bg-gray-700 w-full h-full text-left">
                 Sign out
               </button>

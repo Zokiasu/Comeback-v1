@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row">
-    <div class="min-h-screen bg-gray-500 bg-opacity-10">
+    <div class="min-h-screen bg-gray-500 bg-opacity-10 sticky">
       <ul class="space-y-5 p-5 text-white">
         <li class="w-full px-10 py-2 rounded flex"
           :class="$route.name != 'dashboard-index-pending' ? 'hover:bg-gray-500 hover:bg-opacity-70' : 'bg-gray-500'">
