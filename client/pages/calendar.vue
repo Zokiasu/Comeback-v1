@@ -20,14 +20,15 @@
                 </div>
                 <div class="w-full flex flex-wrap overflow-y-scroll py-5 texts text-white">
                     <ReleaseCard
-                        class="mr-2 mb-5 lg:mr-5 lg:mb-0"
                         v-for="release in date.releases"
                         :release="release"
-                        :key="release.id">
-                    </ReleaseCard>
+                        :key="release.id"
+                        displayDate
+                        class="mr-2 mb-5 lg:mr-5 lg:mb-0"
+                    />
                 </div>
             </div>
-            <InfiniteLoading v-if="stopInfiniteScroll" @infinite="infiniteScroll"></InfiniteLoading>
+            <InfiniteLoading v-if="stopInfiniteScroll" @infinite="infiniteScroll"/>
             <div v-if="Object.entries(dateList).length < 1 && !stopInfiniteScroll" class="px-5 mt-5">
                 <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release Scheduled.</span>
             </div>

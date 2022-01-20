@@ -8,7 +8,7 @@
         <section class="space-y-5 px-3">
             <section id="img-media-streaming-group" class="flex flex-col space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0 relative">
                 <div id="image">
-                    <img class="w-full lg:h-80 object-cover" :src="artist.image" :alt="artist.name">
+                    <img class="w-full lg:w-96 aspect-video object-cover" :src="artist.image" :alt="artist.name">
                 </div>
                 <div id="media-streaming-group" class="flex flex-col space-y-3">
                     <div id="social-media" class="space-y-1" v-if="artist.socials.length">

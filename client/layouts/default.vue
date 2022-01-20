@@ -6,9 +6,9 @@
     <div class="animate__animated animate__fadeIn animate__delay-1s">
       <Nuxt/>
     </div>
-    <button class="bg-red-700 lg:hidden rounded-full bottom-5 right-5 p-2 shadow Card fixed">
+    <!--<button class="bg-red-700 lg:hidden rounded-full bottom-5 right-5 p-2 shadow Card fixed">
       <img class="block h-8 w-auto" src="../assets/image/mini-logo.png" alt="Comeback">
-    </button>
+    </button>-->
   </div>
 </template>
 
