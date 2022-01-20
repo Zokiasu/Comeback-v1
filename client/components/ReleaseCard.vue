@@ -5,7 +5,7 @@
           <img 
             :src="release.image" 
             alt="Artist Picture" 
-            class="rounded-md object-cover aspect-square bg-gray-500 w-40 h-40"
+            class="rounded-md object-cover aspect-square bg-gray-500 h-36 w-36 xl:h-40 xl:w-40"
           />
         </div>
         <div v-if="displayDate" class="absolute top-1 right-1 px-2 py-0.5 rounded text-white bg-gray-500 bg-opacity-80">
