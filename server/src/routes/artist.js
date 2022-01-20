@@ -39,9 +39,64 @@ const getSoloMembers = async (members, model, req) => {
 
 router.get('/', async (req, res) => {
   const artists = await req.context.models.Artist.findAll({
-    ...queriesToDict(req.query),
+    ...queriesToDict(req.query, {}, ['name']),
     include: [
       req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+router.get('/groups', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Artist, as: 'groups' },
+      req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+router.get('/members', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Artist, as: 'members' },
+      req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+router.get('/followers', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.User, as: 'followers' },
+      req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+router.get('/events', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Happening, as: 'events' },
+      req.context.models.Style,
+    ],
+  });
+  return res.send(artists);
+});
+
+
+router.get('/infos', async (req, res) => {
+  const artists = await req.context.models.Artist.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      req.context.models.Info,
     ],
   });
   return res.send(artists);
@@ -56,6 +111,7 @@ router.get('/full', async (req, res) => {
       { model: req.context.models.Artist, as: 'members' },
       { model: req.context.models.Happening, as: 'events' },
       req.context.models.Style,
+      req.context.models.Info,
       {
         model: req.context.models.Release,
         include: [{ model: req.context.models.Music, as: 'musics' }],
@@ -75,6 +131,7 @@ router.get('/:artistId', async (req, res) => {
         { model: req.context.models.Artist, as: 'members' },
         { model: req.context.models.Happening, as: 'events' },
         req.context.models.Style,
+        req.context.models.Info,
         {
           model: req.context.models.Release,
           include: [
@@ -153,7 +210,7 @@ router.put('/:artistId', async (req, res) => {
     req.body.groups,
     req.body.newGroups,
     req.context.models.Artist,
-    (array) => artist.addGroups(array),
+    (array) => artist.setGroups(array),
     (array) => artist.createGroup(array),
   );
 
@@ -161,7 +218,7 @@ router.put('/:artistId', async (req, res) => {
     req.body.members,
     req.body.newMembers,
     req.context.models.Artist,
-    (array) => artist.addMembers(array),
+    (array) => artist.setMembers(array),
     (array) => artist.createMember(array),
   );
 
@@ -169,7 +226,7 @@ router.put('/:artistId', async (req, res) => {
     null,
     req.body.styles,
     req.context.models.Style,
-    (array) => artist.addStyles(array),
+    (array) => artist.setStyles(array),
     (array) => artist.createStyle(array),
     true,
   );

@@ -1,41 +1,33 @@
 module.exports = {
-  purge: [
+  content: [
     './components/**/*.{vue,js}',
     './layouts/**/*.vue',
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
     './nuxt.config.{js,ts}',
   ],
-
-  darkMode: false, // or 'media' or 'class'
+  
+  darkMode: 'media', // or 'media' or 'class'
 
   theme: {
     extend: {
-    },
-    screens: {
-      'ms': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1536px',
-      '3xl': '1792px',
-      '4xl': '2048px',
-    },
-    backgroundColor: theme => ({
-     ...theme('colors'),
-     'main-gray': '#A6A4A4',
-     'second-gray': '#E1E1E1',
-     'leftbar': '#3B3B3B',
-     'search-leftbar': '#4B4B4B',
-     'select-leftbar': '#5B5B5B',
-     'mainbg': '#1F1D1D',
-     'gray-310': '#E0E0E0',
-    }),
-  },
-
-  variants: {
-    extend: {
-      backgroundColor: ['active'],
+      colors: {
+        'background':'#1F1D1D',
+        'black-one': '#3B3B3B',
+        'black-two': '#222020',
+        'black-three': '#2B2B2B',
+        'black-four': '#3A3A3A',
+        
+        'main-gray': '#A6A4A4',
+        'second-gray': '#E1E1E1',
+        'gray-three': '#3F3F3F',
+        'gray-310': '#E0E0E0',
+        'dark-gray': '#2D2D2D',
+      },
     },
   },
+  
+  plugins: [
+    require('tailwindcss-filters'),
+  ],
 }

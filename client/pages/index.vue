@@ -1,131 +1,84 @@
 <template>
-  <div>
-    <section id="logo" class="flex justify-center mx-auto">
-      <Logo class="justify-self-center mx-auto"/>
-    </section>
-    <section id="description" class="w-full my-20 relative grid grid-flow-col auto-cols-col auto-rows-auto gap-2 max-w-full">
-      <!--<img class="object-cover animate__fadeIn" style="min-height:15rem;" src="https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flistartist.png?alt=media&token=02164587-06cf-4e06-845b-7f75261244b9" alt="Artist List">-->
-      <img class="object-cover animate__fadeIn w-full" style="min-height:15rem;" v-lazy="'https://firebasestorage.googleapis.com/v0/b/comeback-65643.appspot.com/o/images%2Flistartist.png?alt=media&token=02164587-06cf-4e06-845b-7f75261244b9'" alt="Artist List">
-      <div class="absolute bg-mainbg bg-opacity-80 top-20 md:top-20 lg:top-10 2xl:top-16 ms:left-10">
-        <h2 class="text-white py-5 px-10 md:text-xl lg:text-2xl xl:text-3xl w-full" style="max-width:45rem;line-height: 2em;">Find your favorite artists and track all their single, album and EP in one place</h2>
+  <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
+    <section id="newAnnounce" class="section" v-if="newsList.length > 1">
+      <div class="flex w-full justify-start space-x-5 smooth">
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Next Comeback</h2>
+      </div>
+      <div class="flex flex-wrap w-full justify-center inner">
+        <NewsCard class="Card my-1.5 md:m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
       </div>
     </section>
-    <section id="help_us_message" class="flex justify-center text-white my-32">
-      <span class="text-center text-xl md:text-3xl xl:text-4xl mx-10 2xl:mx-60">Create with us the best place where you can find and track all your favorite musicians.</span>
+    <section id="newRelease" class="section" v-if="newRelease.length > 1">
+      <div>
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added</h2>
+      </div>
+      <div class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
+        <ReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in newRelease" :key="release.id" :release="release"/>
+      </div>
     </section>
-    <footer id="footer" class="w-full px-10">
-      <div class="w-full flex flex-col justify-center border-t-2 border-gray-500 py-5">
-        <span class="w-full text-center text-white">This website is currently under development, so you may encounter some bugs while using it.</span>
+    <section id="newArtist" class="section" v-if="newArtist.length > 1">
+      <div>
+        <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added</h2>
       </div>
-      <div class="w-full flex flex-col space-y-5 justify-center border-t-2 border-gray-500 py-5">
-        <ul class="flex space-x-1.5 text-white justify-center text-xl">
-          <li>
-            <a href="#" class="hover:text-red-700">About</a>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <a href="#" class="hover:text-red-700">Contact</a>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <a href="#" class="hover:text-red-700">Terms</a>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <a href="#" class="hover:text-red-700">Privacy Policy</a>
-          </li>
-        </ul>
-        <!--<ul class="flex space-x-7 justify-center">
-          <li>
-            <a href="#"><img alt="facebook_icon" class="w-5" src="../assets/image/facebook.png"/></a>
-          </li>
-          <li>
-            <a href="#"><img alt="twitter_icon" class="w-5" src="../assets/image/twitter.png"/></a>
-          </li>
-          <li>
-            <a href="#"><img alt="instagram_icon" class="w-5" src="../assets/image/instagram.png"/></a>
-          </li>
-        </ul>-->
-        <ul class="flex space-x-1.5 text-white justify-center text-xl">
-          <!--<li>
-            <span>©</span>
-          </li>-->
-          <li>
-            <span>Studeler Dev.</span>
-          </li>
-          <li>
-            <span>-</span>
-          </li>
-          <li>
-            <span>Cozy Codeur</span>
-          </li>
-        </ul>
+      <div class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
+        <ArtistCard class="artist md:mr-5 lg:mr-3.5 md:mb-5" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
       </div>
-    </footer>
+    </section>
   </div>
 </template>
 
 <script>
+  import ScrollReveal from 'scrollreveal'
+
   export default {
-    layout: 'presentation',
 
     head() {
+        return {
+            title: "Comeback - Track every next album, single, EP releases.",
+            meta: [
+                {
+                    hid: 'description',
+                    name: 'description',
+                    content: 'Find your favorite artists and track all their comeback in one place.',
+                }
+            ]
+        }
+    },
+
+    data(){
       return {
-        title: 'Comeback - Track every next album, single, EP releases.',
-        meta: [
-          {
-            hid: 'description',
-            content: 'Find your favorite artists and track all their next album, single, EP in one place.'
-          }
-        ]
+        newArtist:[],
+        newRelease:[],
+        newsList:[],
       }
+    },
+    
+    async asyncData({ $axios }){
+      let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=9`)
+      let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=9`)
+      let newsList = []
+      let dateToGet = new Date()
+      dateToGet.setDate((dateToGet.getDate())-1)
+      let tmpNews = await $axios.$get(`https://comeback-api.herokuapp.com/calendar/infos?date_sup=${dateToGet}`)
+      Object.keys(tmpNews).map(function(key, index) {
+        for(let [key2, value2] of Object.entries(tmpNews[key])) {
+            value2.forEach(element => {
+              newsList.push(element)
+            });
+        }
+      })
+
+      return {newArtist,newRelease,newsList}
+    },
+
+    mounted(){
+      ScrollReveal().reveal('.section', {interval: 300, distance: '1000%', origin: 'bottom', opacity: null})
     },
   }
 </script>
 
-<style>
-  .container {
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .title {
-    font-family:
-      'Quicksand',
-      'Source Sans Pro',
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Arial,
-      sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
-
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
-  }
+<style lang="scss" scoped>
+.inner::-webkit-scrollbar {
+  display: none;
+}
 </style>

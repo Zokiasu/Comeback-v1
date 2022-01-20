@@ -1,167 +1,162 @@
 <template>
-  <div class="p-2 xl:px-5 2xl:px-10 xl:py-5 relative">
-    <div id="title-area">
-        <NuxtLink :to="`/artist/${this.$route.params.id}`" class="absolute left-2 top-2"><img class="w-8 h-8" src="~/assets/image/arrow_back.png" alt=""></NuxtLink>
-        <div id="tilte-artist" class="relative">
-            <h1 class="text-white text-2xl xl:text-4xl mt-10 xl:mt-5 mb-2">Artist Edition</h1>
-            <div id="divider" class="border-b-2 border-gray-100"></div>
-            <button @click="editArtist()" class="absolute right-0 xl:right-5 top-0 px-5 py-1 bg-red-700 text-white rounded">Confirm</button>
+    <div class="p-10 text-white">
+        <div class="border-b border-white flex justify-between">
+            <div class="flex space-x-2">
+                <NuxtLink class="my-auto" :to="`/artist/${this.$route.params.id}`">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#fff" d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
+                </NuxtLink>
+                <h2 class="text-2xl font-semibold my-auto">
+                    Edition Artist
+                </h2>
+            </div>
+            <button @click="editArtist()" class="Card px-5 py-1 hover:bg-red-700 text-white rounded">Confirm</button>
         </div>
+        <section>
+            <div class="flex flex-col lg:flex-row justify-center space-y-10 lg:space-y-0 lg:space-x-5 py-7">
+                <div id="image" class="Card mx-auto">
+                    <img class="h-80 lg:w-96 object-cover" :src="artist.image" :alt="artist.name">
+                    <div class="xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
+                        <button 
+                            class="px-5 py-1 bg-red-700 hover:bg-red-900 focus:outline-none rounded-b text-white w-full"
+                            @click="launchImageFile"
+                            :disabled="isUploadingImage"
+                            type="button">
+                            {{ isUploadingImage ? 'Uploading...' : 'Upload' }}
+                        </button>
+                        <input
+                            ref="imageFile"
+                            @change.prevent="uploadImageFile($event.target.files)"
+                            type="file"
+                            accept="image/png, image/jpeg"
+                            class="hidden">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6 w-full">
+                    <div class="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-2">
+                        <span class="my-auto w-28 font-semibold text-lg">Name*</span>
+                        <t-input @change="newObjectToApi('name', artist.name)" autocomplete="false" type="text" v-model="artist.name" :value="artist.name" placeholder="Artist Name" name="artists-name"/>
+                    </div>
+                    <div class="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-2">
+                        <span class="my-auto w-28 font-semibold text-lg">Type</span>
+                        <t-select @change="newObjectToApi('type', artist.type)" v-model="artist.type" id="artists-type-selector" :options="[{ value: 'SOLO', text: 'Soloist' },{ value: 'GROUP', text: 'Group' },]" ></t-select>
+                    </div>
+                    <div class="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-2">
+                        <span class="my-auto w-28 font-semibold text-lg">Members</span>
+                        <multiselect
+                            v-model="artist.members" 
+                            tag-placeholder="Add this as new artists" 
+                            placeholder="Search or add a artists" 
+                            label="name" 
+                            track-by="id" 
+                            :options="artistList" 
+                            :close-on-select="false"
+                            :clear-on-select="false"
+                            :preserve-search="false"
+                            :multiple="true" 
+                            :taggable="true"
+                            @input="newObjectToApi('members', artist.members)" 
+                            @tag="addMember">
+                            <template slot="option" slot-scope="props">
+                                <div class="flex space-x-5">
+                                    <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                                    <div class="option__desc flex flex-col space-y-1">
+                                        <span class="option__title">{{ props.option.name }}</span>
+                                        <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-black-one">{{group.name}}</span></div></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </multiselect>
+                    </div>
+                    <div class="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-2">
+                        <span class="my-auto w-28 font-semibold text-lg">Groups</span>
+                        <multiselect
+                            v-model="artist.groups" 
+                            tag-placeholder="Add this as new groups" 
+                            placeholder="Search or add a groups" 
+                            label="name" 
+                            track-by="id" 
+                            :options="artistList" 
+                            :close-on-select="false"
+                            :clear-on-select="false"
+                            :preserve-search="false"
+                            :multiple="true" 
+                            :taggable="true"
+                            @input="newObjectToApi('groups', artist.groups)" 
+                            @tag="addGroup">
+                            <template slot="option" slot-scope="props">
+                                <div class="flex space-x-1">
+                                    <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                                    <div class="option__desc flex flex-col space-y-1">
+                                        <span class="option__title">{{ props.option.name }}</span>
+                                        <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-black-one">{{group.name}}</span></div></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </multiselect>
+                    </div>
+                    <div class="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-2">
+                        <span class="my-auto w-28 font-semibold text-lg">Style</span>
+                        <multiselect
+                            v-model="artist.styles" 
+                            tag-placeholder="Add this as new style" 
+                            placeholder="Search or add a style"
+                            label="name" 
+                            track-by="name" 
+                            :options="styleList" 
+                            :close-on-select="false"
+                            :clear-on-select="false"
+                            :preserve-search="false"
+                            :multiple="true" 
+                            :taggable="true"
+                            @tag="addStyle">
+                        </multiselect>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col space-y-10">
+                <div class="flex flex-col space-y-1">
+                    <span class="my-auto font-semibold text-lg">Youtube Music ID</span>
+                    <t-input @change="newObjectToApi('idyoutubemusic', artist.idyoutubemusic)" autocomplete="false" type="text" v-model="artist.idyoutubemusic" :value="artist.idyoutubemusic" placeholder="Artist idyoutubemusic" name="artists-idyoutubemusic" />
+                </div>
+                <div class="flex flex-col space-y-1">
+                    <span class="my-auto font-semibold text-lg">Description</span>
+                    <t-textarea @change="newObjectToApi('description', artist.description)" id="desc" placeholder="Description" v-model="artist.description" :value="artist.description" name="description" class="resize w-full h-44"/>
+                </div>
+                <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-5">
+                    <div id="social-media" class="w-full space-y-1">
+                        <span class="my-auto font-semibold text-lg">Social Media Link</span>
+                        <MultipleInput class="mb-1 w-full" v-for="(elem, index) in artist.socials" :key="index" :elem="elem" @updateinput="updateList(artist.socials, $event, index, 'socials')" @deleteinput="deleteList(artist.socials, index, 'socials')"/>
+                        <button @click="addSocials()" class="w-full hover:bg-opacity-50 text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
+                            <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                        </button>
+                    </div>
+                    <div id="streaming-platform" class="w-full space-y-1">
+                        <span class="my-auto font-semibold text-lg">Streaming Platforms Link</span>
+                        <MultipleInput class="mb-1 w-full" v-for="(elem, index) in artist.platforms" :key="index" :elem="elem" @updateinput="updateList(artist.platforms, $event, index, 'platforms')" @deleteinput="deleteList(artist.platforms, index, 'platforms')"/>
+                        <button @click="addStreamingLink()" class="w-full hover:bg-opacity-50 text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
+                            <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                        </button>
+                    </div>
+                </div>
+                <div id="source" class="flex flex-col space-y-1 w-full text-white">
+                    <h1 class="text-white text-xl">Source*</h1>
+                    <t-textarea id="source" placeholder="Source" v-model="source" name="source" class="resize w-full h-20"/>
+                </div>
+                <button @click="editArtist()" class="Card px-5 py-1 bg-red-700 hover:bg-red-900 text-white rounded">Confirm</button>
+            </div>
+        </section>
     </div>
-    <div class="rounded bg-gray-500 bg-opacity-20 p-10 mt-10">
-        <div class="flex flex-col xl:flex-row xl:space-x-10 my-5 xl:mb-10">
-            <div id="image-area" class="relative h-full">
-                <img class="w-96" :src="this.artists.image ? this.artists.image : defaultImage">
-                <div class="my-5 xl:my-0 xl:absolute xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
-                    <button 
-                        class="px-5 py-1 bg-red-700 text-white"
-                        @click="launchImageFile"
-                        :disabled="isUploadingImage"
-                        type="button">
-                        {{ isUploadingImage ? 'Uploading...' : 'Upload' }}
-                    </button>
-                    <input
-                        ref="imageFile"
-                        @change.prevent="uploadImageFile($event.target.files)"
-                        type="file"
-                        accept="image/png, image/jpeg"
-                        class="hidden">
-                </div>
-            </div>
-
-            <div class="space-y-10 w-full">
-                <div class="flex flex-col xl:flex-row xl:justify-between">
-                    <div id="artists-name" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
-                        <h1 class="text-white text-xl">Artist Name*</h1>
-                        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                        <t-input @change="newObjectToApi('name', artists.name)" autocomplete="false" type="text" v-model="artists.name" :value="artists.name" placeholder="Artist Name" name="artists-name" />
-                    </div>
-                    <div id="artists-type" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
-                        <h1 class="text-white text-xl">Artist Type</h1>
-                        <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                        <t-select @change="newObjectToApi('type', artists.type)" v-model="artists.type" id="artists-type-selector" :options="[
-                            { value: 'SOLO', text: 'Soloist' },
-                            { value: 'GROUP', text: 'Group' },
-                        ]" ></t-select>
-                    </div>
-                </div>
-                <div id="description">
-                    <h1 class="text-white text-xl">Description</h1>
-                    <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                    <t-textarea @change="newObjectToApi('description', artists.description)" id="desc" placeholder="Description" v-model="artists.description" :value="artists.description" name="my-textarea" class="resize w-full h-44"/>
-                </div>
-            </div>
-        </div>
-
-        <div id="group-member" class="flex flex-col text-white mb-5 xl:mb-10">
-            <h1 class="text-xl">Members</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <multiselect
-                v-model="artists.members" 
-                tag-placeholder="Add this as new artists" 
-                placeholder="Search or add a artists" 
-                label="name" 
-                track-by="id" 
-                :options="artistList" 
-                :close-on-select="false"
-                :clear-on-select="false"
-                :preserve-search="false"
-                :multiple="true" 
-                :taggable="true"
-                @input="newObjectToApi('members', artists.members)" 
-                @tag="addMember">
-                <template slot="option" slot-scope="props">
-                    <div class="flex space-x-1">
-                        <img v-if="props.option.image" class="option__image w-14 h-14" :src="props.option.image">
-                        <div class="option__desc">
-                            <span class="option__title">{{ props.option.name }}</span>
-                        </div>
-                    </div>
-                </template>
-            </multiselect>
-        </div>
-        
-        <div id="member-group" class="flex flex-col text-white mb-5 xl:mb-10">
-            <h1 class="text-xl">Belong To The Groups</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <multiselect
-                v-model="artists.groups" 
-                tag-placeholder="Add this as new groups" 
-                placeholder="Search or add a groups" 
-                label="name" 
-                track-by="id" 
-                :options="artistList" 
-                :close-on-select="false"
-                :clear-on-select="false"
-                :preserve-search="false"
-                :multiple="true" 
-                :taggable="true"
-                @input="newObjectToApi('groups', artists.groups)" 
-                @tag="addGroup">
-                <template slot="option" slot-scope="props">
-                    <div class="flex space-x-1">
-                        <img v-if="props.option.image" class="option__image w-14 h-14" :src="props.option.image">
-                        <div class="option__desc">
-                            <span class="option__title">{{ props.option.name }}</span>
-                        </div>
-                    </div>
-                </template>
-            </multiselect>
-        </div>
-        
-        <div id="artist-styles" class="flex flex-col text-white mb-5 xl:mb-10">
-            <h1 class="text-xl">Styles</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <multiselect
-                v-model="artists.styles" 
-                tag-placeholder="Add this as new style" 
-                placeholder="Search or add a style"
-                label="name" 
-                track-by="name" 
-                :options="styleList" 
-                :close-on-select="false"
-                :clear-on-select="false"
-                :preserve-search="false"
-                :multiple="true" 
-                :taggable="true"
-                @tag="addStyle">
-            </multiselect>
-        </div>
-
-        <div class="flex flex-col xl:flex-row xl:justify-between mb-5 xl:mb-10">
-            <div id="social-media" class="flex flex-col w-full xl:mr-5 text-white mb-5 xl:mb-0">
-                <h1 class="text-xl">Social Media Link</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.socials" :key="index" :elem="elem" @updateinput="updateList(artists.socials, $event, index, 'socials')" @deleteinput="deleteList(artists.socials, index, 'socials')"/>
-                <button @click="addSocials()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
-                    <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
-                </button>
-            </div>
-            <div id="streaming-platform" class="flex flex-col w-full xl:ml-5 text-white mb-5 xl:mb-0">
-                <h1 class="text-xl">Streaming Platforms Link</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <MultipleInput class="mb-1 w-full" v-for="(elem, index) in this.artists.platforms" :key="index" :elem="elem" @updateinput="updateList(artists.platforms, $event, index, 'platforms')" @deleteinput="deleteList(artists.platforms, index, 'platforms')"/>
-                <button @click="addStreamingLink()" class="mt-1 text-left focus:outline-none flex space-x-2 bg-gray-500 bg-opacity-30 p-2 justify-center rounded">
-                    <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
-                </button>
-            </div>
-        </div>
-
-        <div id="source" class="flex flex-col w-full text-white mb-5 xl:mb-0">
-            <h1 class="text-white text-xl">Source*</h1>
-            <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-            <t-textarea id="source" placeholder="Source" v-model="source" name="my-textarea" class="resize w-full h-20"/>
-        </div>
-    </div>
-  </div>
 </template>
 
 <script>
+    import { mapMutations, mapGetters } from 'vuex'
+
     export default {
 
         data() {
             return {
-                artists:{},
+                artist:{},
                 oldArtistData:{},
                 artistList:[],
                 styleList:[],
@@ -169,37 +164,71 @@
                 oldDataToApi:{},
                 source:'',
                 isUploadingImage: false,
+                user: null,
             }
         },
 
         async asyncData({ $axios, params }){
-            const artists = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
-            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists')
-            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles')
+            const artist = await $axios.$get(`https://comeback-api.herokuapp.com/artists/${params.id}`)
+            const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
+            const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')
 
-            artists["newGroups"] = []
-            artists["newMembers"] = []
+            artist["newGroups"] = []
+            artist["newMembers"] = []
 
-            return {artists, artistList, styleList}
+            return {artist, artistList, styleList}
         },
 
         mounted(){
-            this.oldArtistData = JSON.parse(JSON.stringify(this.artists))
+            this.user = this.GET_DATA_USER()
+            this.oldArtistData = JSON.parse(JSON.stringify(this.artist))
         },
     
         computed: {
-            userData(){
-                let utmp = this.$store.state.dataUser
-                return utmp
-            },
-
             defaultImage(){
                 return this.$store.state.imageArtistDefault
             },
         },
 
+        watch: {
+            'artist.styles': {
+                immediate: true,
+                handler(res) {
+                    if (process.client) {
+                        this.newObjectToApi('styles', res)
+                    }
+                }
+            },
+            'artist.groups': {
+                immediate: true,
+                handler(res) {
+                    if (process.client) {
+                        this.newObjectToApi('groups', res)
+                    }
+                }
+            },
+            'artist.members': {
+                immediate: true,
+                handler(res) {
+                    if (process.client) {
+                        this.newObjectToApi('members', res)
+                    }
+                }
+            },
+        },
+
         methods:{
+            ...mapMutations([
+                'SET_DATA_USER',
+                'SET_TOKEN_USER',
+            ]),
+
+            ...mapGetters([
+                'GET_DATA_USER',
+            ]),
+
             async editArtist() {
+                if(this.user == null) this.user = this.GET_DATA_USER()
                 this.oldDataToApi['name'] = this.oldArtistData['name']
                 this.oldDataToApi['image'] = this.oldArtistData['image']
                 await this.$axios.post(`https://comeback-api.herokuapp.com/requests`, {
@@ -208,10 +237,10 @@
                     endpoint:`/artists/${this.$route.params.id}`,
                     body: this.editToApi,
                     currentData: this.oldArtistData,
-                    userId: this.userData.id,
+                    userId: this.user.id,
                     source: this.source
                 }).then(response=>{
-                    
+                    this.$toast.success('Thank you, Your edits have been sent for verification', {duration:5000, position:'top-right'})
                     this.$router.push({ path: `/artist/${this.$route.params.id}`})
                 })
             },
@@ -220,13 +249,13 @@
                 const tag = {
                     name: newTag,
                 }
-                if(this.artists.styles == null) {
-                    this.artists.styles = [tag]
+                if(this.artist.styles == null) {
+                    this.artist.styles = [tag]
                 } else {
-                    this.artists.styles.push(tag)
+                    this.artist.styles.push(tag)
                 }
                 this.styleList.push(tag)
-                this.newObjectToApi('styles', this.artists.styles)
+                this.newObjectToApi('styles', this.artist.styles)
             },
             
             addGroup (newTag) {
@@ -240,9 +269,9 @@
                     platforms: null,
                 }
                 this.artistList.push(tag)
-                this.artists.groups.push(tag)
-                this.artists.newGroups.push(tag)
-                this.newObjectToApi('newGroups', this.artists.newGroups)
+                this.artist.groups.push(tag)
+                this.artist.newGroups.push(tag)
+                this.newObjectToApi('newGroups', this.artist.newGroups)
             },
 
             addMember (newTag) {
@@ -256,9 +285,9 @@
                     platforms: null,
                 }
                 this.artistList.push(tag)
-                this.artists.members.push(tag)
-                this.artists.newMembers.push(tag)
-                this.newObjectToApi('newMembers', this.artists.newMembers)
+                this.artist.members.push(tag)
+                this.artist.newMembers.push(tag)
+                this.newObjectToApi('newMembers', this.artist.newMembers)
             },
 
             updateList(list, newElem, index, key){
@@ -272,18 +301,18 @@
             },
 
             addStreamingLink(){
-                if(this.artists.platforms == null) {
-                    this.artists.platforms = [""]
+                if(this.artist.platforms == null) {
+                    this.artist.platforms = [""]
                 } else {
-                    this.artists.platforms.push("")
+                    this.artist.platforms.push("")
                 }
             },
 
             addSocials(){
-                if(this.artists.socials == null) {
-                    this.artists.socials = [""]
+                if(this.artist.socials == null) {
+                    this.artist.socials = [""]
                 } else {
-                    this.artists.socials.push("")
+                    this.artist.socials.push("")
                 }
             },
 
@@ -313,8 +342,7 @@
 
                 this.isUploadingImage = true
 
-                //let imageRef = this.$fire.storage.ref(`images/artist-${this.artists.id.replace(/\s/g, '')}`)
-                let imageRef = this.$fire.storage.ref(`images/artist-${this.artists.id}`)
+                let imageRef = this.$fire.storage.ref(`images/artist/${this.artist.id}-${this.artist.name}`)
 
                 let uploadTask = imageRef.put(file, metadata).then((snapshot) => {
                     return snapshot.ref.getDownloadURL().then((url) => {
@@ -325,7 +353,7 @@
                 })
                 uploadTask.then((url) => {
                     this.newObjectToApi("image", url)
-                    this.artists.image = url
+                    this.artist.image = url
                     this.isUploadingImage = false
                 })
             },
@@ -334,11 +362,5 @@
 </script>
 
 <style>
-    .textarea {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
 
-        width: 100%;
-    }
 </style>

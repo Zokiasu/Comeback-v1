@@ -33,6 +33,7 @@ const sortDateDict = (dates) => {
     .forEach(function (key) {
       orderedDates[key] = dates[key];
     });
+
   return orderedDates;
 };
 
@@ -113,10 +114,41 @@ router.get('/', async (req, res) => {
     include: [{ model: req.context.models.Happening, as: 'events' }],
   });
 
+  const infos = await req.context.models.Info.findAll({
+    ...queriesToDict(req.query),
+    include: [req.context.models.User, req.context.models.Artist],
+  });
+
   let dates = createDateDict(releases, 'releases', {}, dateQuery);
   for (const artist of artists) {
     dates = createDateDict(artist.events, 'events', dates, dateQuery);
   }
+
+  dates = createDateDict(infos, 'infos', dates, dateQuery);
+
+  return res.send(sortDateDict(dates));
+});
+
+router.get('/infos', async (req, res) => {
+  const dateQuery = {
+    date_inf: req.query.date_inf
+      ? new Date(req.query.date_inf)
+      : null,
+    date_sup: req.query.date_sup
+      ? new Date(req.query.date_sup)
+      : null,
+  };
+
+  delete req.query['date_inf'];
+  delete req.query['date_sup'];
+
+  const infos = await req.context.models.Info.findAll({
+    ...queriesToDict(req.query),
+    include: [req.context.models.User, req.context.models.Artist],
+  });
+
+  let dates = createDateDict(infos, 'infos', dates, dateQuery);
+
   return res.send(sortDateDict(dates));
 });
 
@@ -138,6 +170,7 @@ router.get('/:userId', async (req, res) => {
         {
           model: req.context.models.Release,
           as: 'releases',
+          include: [req.context.models.Artist],
         },
         {
           model: req.context.models.Artist,
@@ -145,6 +178,7 @@ router.get('/:userId', async (req, res) => {
             {
               model: req.context.models.Release,
               as: 'releases',
+              include: [req.context.models.Artist],
             },
             { model: req.context.models.Happening, as: 'events' },
           ],

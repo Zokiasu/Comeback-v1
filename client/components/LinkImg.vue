@@ -1,10 +1,10 @@
 <template>
-    <div v-if="url" class="text-white flex space-x-1.5">
+    <a :href="url" target="_blank" v-if="url" class="Card rounded p-2 px-3 bg-black-two bg-opacity-90 hover:bg-opacity-50 text-white flex space-x-1.5">
         <div class="mt-1">
             <img :src="urls">
         </div>
-        <a :href="url" target="_blank" class="hover:text-red-700"> {{this.extractRootDomain(this.url)}} </a>
-    </div>
+        <span class="linkName">{{this.extractRootDomain(this.url)}}</span>
+    </a>
 </template>
 
 <script>
@@ -27,7 +27,6 @@
                 var domain = this.extractHostname(url),
                     splitArr = domain.split('.'),
                     arrLen = splitArr.length;
-                console.log(domain)
                 //extracting the root domain here
                 //if there is a subdomain 
                 if (arrLen > 2) {
@@ -38,7 +37,6 @@
                         domain = splitArr[arrLen - 3] + '.' + domain;
                     }
                 }
-                
                 //remove '.com'
                 var n = domain.indexOf('.');
                 domain = domain.substring(0, n != -1 ? n : domain.length);
@@ -49,6 +47,9 @@
                 }
                 if(x === "Youtube" || x === "Apple" || x === "Huawei" || x === "Amazon" || x === "Line" || x === "QQ" || x === "Stingray") {
                     x = x + " Music"
+                }
+                if(url.includes('www.youtube')) {
+                    x = 'Youtube'
                 }
                 return x;
             },
@@ -74,3 +75,11 @@
         },
     }
 </script>
+
+<style>
+@media screen and (max-width: 1024px) {
+    .linkName {
+        display: none !important;
+    }
+}
+</style>

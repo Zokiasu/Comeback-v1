@@ -3,7 +3,7 @@ import {
   addAssociationItems,
   queriesToDict,
 } from '../helpers/routes';
-import { createUser } from '../firebase/user';
+import { createUser, createUserWithoutFirebase } from '../firebase/user';
 import { hasRoles } from '../firebase/authorization';
 import { ROLES } from '../constants';
 import { checkIfAuthenticated } from '../firebase/authentication';
@@ -11,14 +11,53 @@ import { checkIfAuthenticated } from '../firebase/authentication';
 const router = Router();
 
 router.post('/auth/signup', createUser);
+router.post('/auth/signup2', createUserWithoutFirebase);
 
 router.get('/', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+  });
+  return res.send(users);
+});
+
+router.get('/requests', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      req.context.models.Request,
+    ],
+  });
+  return res.send(users);
+});
+
+router.get('/releases', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      req.context.models.Release,
+    ],
+  });
+  return res.send(users);
+});
+
+router.get('/artists', async (req, res) => {
+  const users = await req.context.models.User.findAll({
+    ...queriesToDict(req.query),
+    include: [
+      { model: req.context.models.Artist, as: 'artists' },
+    ],
+  });
+  return res.send(users);
+});
+
+router.get('/full', async (req, res) => {
   const users = await req.context.models.User.findAll({
     ...queriesToDict(req.query),
     include: [
       { model: req.context.models.Artist, as: 'artists' },
       req.context.models.Release,
       req.context.models.Request,
+      req.context.models.Info,
     ],
   });
   return res.send(users);
@@ -60,6 +99,13 @@ router.get(
 
 router.get('/:userId', async (req, res) => {
   const user = await req.context.models.User.findByPk(
+    req.params.userId,{},
+  );
+  return res.send(user);
+});
+
+router.get('/:userId/full', async (req, res) => {
+  const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
       include: [
@@ -67,6 +113,7 @@ router.get('/:userId', async (req, res) => {
         req.context.models.Release,
         req.context.models.Request,
         req.context.models.Notification,
+        req.context.models.Info,
       ],
     },
   );
@@ -74,14 +121,15 @@ router.get('/:userId', async (req, res) => {
 });
 
 router.get('/:userId/artists', async (req, res) => {
+  console.log('quzry', req.query);
   const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
+    ...queriesToDict(req.query, {}, [], req.context.models.Artist),
       include: [
         {
           model: req.context.models.Artist,
           as: 'artists',
-          ...queriesToDict(req.query),
         },
         req.context.models.Release,
       ],
@@ -94,11 +142,12 @@ router.get('/:userId/releases', async (req, res) => {
   const user = await req.context.models.User.findByPk(
     req.params.userId,
     {
+    ...queriesToDict(req.query, {}, [], req.context.models.Release),
       include: [
         {
           model: req.context.models.Release,
           as: 'releases',
-          ...queriesToDict(req.query),
+          include: [req.context.models.Artist]
         },
         req.context.models.Artist,
       ],
@@ -121,6 +170,18 @@ router.get('/:userId/notifications', async (req, res) => {
     },
   );
   return res.send(user?.notifications || []);
+});
+
+router.get('/:userId/infos', async (req, res) => {
+  const user = await req.context.models.User.findByPk(
+    req.params.userId,
+    {
+      include: [
+          req.context.models.Info,
+      ],
+    },
+  );
+  return res.send(user?.infos || []);
 });
 
 router.post('/', async (req, res) => {

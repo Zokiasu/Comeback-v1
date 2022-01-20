@@ -14,7 +14,54 @@ router.get('/', async (req, res) => {
     include: [
       req.context.models.Artist,
       req.context.models.Style,
+    ],
+  });
+  return res.send(releases);
+});
+
+router.get('/full', async (req, res) => {
+  const date = req.query.date;
+  delete req.query['date'];
+  let whereOptions = whereDay(date);
+
+  const releases = await req.context.models.Release.findAll({
+    ...queriesToDict(req.query, whereOptions),
+    include: [
+      req.context.models.Artist,
+      req.context.models.Style,
       { model: req.context.models.Music, as: 'musics' },
+      { model: req.context.models.User, as: 'followers' },
+    ],
+  });
+  return res.send(releases);
+});
+
+router.get('/musics', async (req, res) => {
+  const date = req.query.date;
+  delete req.query['date'];
+  let whereOptions = whereDay(date);
+
+  const releases = await req.context.models.Release.findAll({
+    ...queriesToDict(req.query, whereOptions),
+    include: [
+      req.context.models.Artist,
+      req.context.models.Style,
+      { model: req.context.models.Music, as: 'musics' },
+    ],
+  });
+  return res.send(releases);
+});
+
+router.get('/followers', async (req, res) => {
+  const date = req.query.date;
+  delete req.query['date'];
+  let whereOptions = whereDay(date);
+
+  const releases = await req.context.models.Release.findAll({
+    ...queriesToDict(req.query, whereOptions),
+    include: [
+      req.context.models.Artist,
+      req.context.models.Style,
       { model: req.context.models.User, as: 'followers' },
     ],
   });
@@ -78,7 +125,6 @@ router.put('/:releaseId', async (req, res) => {
   release.update(req.body);
 
   await addAssociationItems(
-    null,
     req.body.artists,
     req.body.newArtists,
     req.context.models.Artist,

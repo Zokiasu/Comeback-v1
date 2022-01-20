@@ -30,3 +30,23 @@ export const createUser = async (req, res) => {
       return res.status(500).send(error);
     });
 };
+
+
+export const createUserWithoutFirebase = async (req, res) => {
+  const {id, email, username } = req.body;
+
+      const data = {
+        id: id,
+        username: username,
+        email: email,
+        role: ROLES.NONE,
+      };
+
+      const user_data = await req.context.models.User.create(data);
+
+      req.context = {
+        me: user_data,
+      };
+
+      return res.send(user_data);
+};

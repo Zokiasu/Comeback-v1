@@ -38,10 +38,10 @@ export default {
 
   ssr: false,
 
-  /*loading: {
+  loading: {
     color: 'red',
     height: '2px'
-  },*/
+  },
 
   loading: false,
 
@@ -59,8 +59,12 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
+    '@nuxtjs/tailwindcss'
   ],
+  
+  eslint: {
+    fix: true
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -137,15 +141,10 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
-      plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
+      plugins: [
+        ['@babel/plugin-proposal-private-methods', { loose: true }],
+        ["@babel/plugin-proposal-private-property-in-object", { "loose": true }]
+      ],
     },
-    extends(config, { isClient }) {
-      if (isClient) {
-        config.optimization.splitChunks.maxSize = 200000
-      }
-      config.node = {
-        fs: "empty"
-      };
-    }
   },
 }

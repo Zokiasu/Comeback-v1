@@ -13,12 +13,12 @@
             <NuxtLink :to="`/moderator/musicslist`" class="px-3 py-1.5" :class="$route.name != 'moderator-musicslist' ? '' : 'border-b-2 border-red-700'">
                 <span>Musics</span>
             </NuxtLink>
-            <!--<NuxtLink :to="`/moderator/lastupdated`" class="px-3 py-1.5" :class="$route.name != 'moderator-lastupdated' ? '' : 'border-b-2 border-red-700'">
-                <span>Last Updated</span>
+            <NuxtLink :to="`/moderator/stylelist`" class="px-3 py-1.5" :class="$route.name != 'moderator-stylelist' ? '' : 'border-b-2 border-red-700'">
+                <span>Styles</span>
             </NuxtLink>
-            <NuxtLink :to="`/moderator/lastcreated`" class="px-3 py-1.5" :class="$route.name != 'moderator-lastcreated' ? '' : 'border-b-2 border-red-700'">
-                <span>Last Created</span>
-            </NuxtLink>-->
+            <NuxtLink :to="`/moderator/newslist`" class="px-3 py-1.5" :class="$route.name != 'moderator-newslist' ? '' : 'border-b-2 border-red-700'">
+                <span>News</span>
+            </NuxtLink>
             <NuxtLink v-if="adminCheck" :to="`/moderator/users`" class="px-3 py-1.5" :class="$route.name != 'moderator-users' ? '' : 'border-b-2 border-red-700'">
                 <span>Users</span>
             </NuxtLink>
@@ -45,7 +45,6 @@
         computed: {
             userData(){
                 let utmp = this.$store.state.dataUser
-                console.log(utmp)
                 return utmp
             },
         },

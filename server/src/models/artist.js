@@ -24,8 +24,9 @@ const artist = (sequelize, DataTypes) => {
       unique: false,
       allowNull: true,
     },
-    website: {
-      type: DataTypes.STRING,
+    verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
       unique: false,
       allowNull: true,
     },
@@ -40,6 +41,16 @@ const artist = (sequelize, DataTypes) => {
     },
     platforms: {
       type: DataTypes.ARRAY(DataTypes.STRING(2000)),
+      allowNull: true,
+    },
+    idspotify: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: true,
+    },
+    idyoutubemusic: {
+      type: DataTypes.STRING,
+      unique: true,
       allowNull: true,
     },
   });
@@ -71,8 +82,9 @@ const artist = (sequelize, DataTypes) => {
       as: 'events',
     });
     Artist.belongsToMany(models.Style, {
-      through: 'Artist',
+      through: 'Artist_Style',
     });
+    Artist.hasMany(models.Info);
   };
 
   return Artist;

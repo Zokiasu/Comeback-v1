@@ -8,6 +8,7 @@ import music from './music';
 import calendar from './calendar';
 import style from './style';
 import notification from './notification';
+import info from './info';
 import comment from './comment';
 
 export default {
@@ -21,5 +22,6 @@ export default {
   calendar,
   style,
   notification,
+  info,
   comment,
 };

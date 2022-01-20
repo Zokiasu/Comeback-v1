@@ -1,15 +1,7 @@
-<template>
-    
-</template>
 <script>
     export default {
         beforeCreate(){
-            let that = this
-            this.$fire.auth.onAuthStateChanged(async function (user) {
-                if (user != null) {
-                    that.$router.push(`/profile/${user.uid}`)
-                }
-            })
+            if(this.$router.currentRoute.name != 'profile-id-general' && this.$router.currentRoute.name != 'profile-id-artist' && this.$router.currentRoute.name != 'profile-id-releas') this.$router.push(`/profile/${this.$route.params.id}/general`)
         },
     }
 </script>

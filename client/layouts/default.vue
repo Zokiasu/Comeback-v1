@@ -1,74 +1,16 @@
 <template>
-  <div v-if="start" class="flex relative overscroll-hidden min-h-screen" :class="width ? 'flex-row':'flex-col'">
-    <div class="fixed max-w-xs min-h-screen min-w-min">
-      <SideBar v-if="width" style="min-width:17rem;" class="max-w-xs w-min min-h-screen max-h-screen"/>
+  <div>
+    <div class="animate__animated animate__fadeInDown sticky top-0 z-50 bg-background">
+      <MenuNavigation ref="menu"/>
     </div>
-    <span v-if="width" style="min-width:17rem;" class="max-w-xs w-min min-h-screen max-h-screen"></span>
-    <div class="w-full flex flex-col overflow-hidden 2xl:overflow-visible">
-      <ModeratorMenu class="p-5" v-if="(this.$route.path).includes('moderator')"/>
-      <Nuxt class="w-full"/>
+    <div class="animate__animated animate__fadeIn animate__delay-1s">
+      <Nuxt/>
     </div>
-    <TopBar v-if="!width" class="absolute bottom-0"/>
+    <!--<button class="bg-red-700 lg:hidden rounded-full bottom-5 right-5 p-2 shadow Card fixed">
+      <img class="block h-8 w-auto" src="../assets/image/mini-logo.png" alt="Comeback">
+    </button>-->
   </div>
 </template>
-
-<script>
-    export default {
-
-      data(){
-        return {
-          width:false,
-          start:false,
-        }
-      },
-
-      beforeCreate(){
-        let that = this
-        this.$fire.auth.onAuthStateChanged(async function (user) {
-          if (user != null) {
-            const token = that.$fire.auth.currentUser.getIdToken();
-            const {data: response} = await that.$axios.get(`https://comeback-api.herokuapp.com/users/${user.uid}`)
-            that.$store.commit('SET_DATA_USER', response)
-            that.$store.commit('SET_TOKEN_USER', token.i)
-            if(response) {
-              that.start = true
-            }
-          }
-        })
-      },
-
-      created(){
-        let that = this
-        this.$fire.auth.onAuthStateChanged(async function (user) {
-          if (user != null) {
-            if(that.$route.path === '/') {
-              that.$router.push(`/${user.uid}/calendar`)
-            }
-          } else {
-            if(that.$route.path !== '/') {
-              that.$router.push('/')
-            }
-          }
-        })
-      },
-
-      mounted() {
-        window.addEventListener('resize', this.handleResize);
-        this.handleResize();
-      },
-
-      methods: {
-
-        handleResize() {
-          if(window.innerWidth > 768) {
-            this.width = true
-          } else {
-            this.width = false
-          }
-        },
-      },
-    }
-</script>
 
 <style>
 html {
@@ -88,7 +30,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  background-color: #1F1D1D;
+  background: #1F1D1D;
 }
 
 *,
@@ -149,9 +91,14 @@ html {
 }
 
 /* Page Transitions - 0.4s Slide/Fade */
-.page-enter-active,
+.page-enter-active {
+  transition-duration: 0.5s;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
 .page-leave-active {
-  transition-duration: 0.4s;
+  transition-duration: 0.5s;
   transition-property: height, opacity, transform;
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
   overflow: hidden;
@@ -159,11 +106,9 @@ html {
 
 .page-enter {
   opacity: 0;
-  transform: translate(2em, 0);
 }
 
 .page-leave-active {
   opacity: 0;
-  transform: translate(-2em, 0);
 }
 </style>

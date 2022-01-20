@@ -1,66 +1,58 @@
 <template>
-    <div>
-        <div class="h-96 relative">
-            <img class="h-full relative w-full object-cover object-center " :src="this.release.image ? this.release.image : defaultImage" alt="Artist Picture"/>
-            <div class="gradient w-full h-32 font-bold text-white absolute bottom-0"></div>
-            <div class="absolute bottom-5 px-5 lg:flex md:justify-between text-white text-2xl w-full">
-                <div class="flex space-x-2">
-                    <span><span v-for="(artist, index) in this.release.artists" :key="index"><NuxtLink :to="`/artist/${artist.id}`" class="hover:underline">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span> • {{this.release.name}}</span>
-                    <div v-if="this.release.styles" class="space-x-1.5 text-sm mt-2.5">
-                        <span v-for="(style, index) in this.release.styles" :key="index" class="bg-gray-500 text-white p-1 px-2 rounded">{{style.name}}</span>
+    <div class="text-white">
+        <div class="background-top relative" :style="{ 'background-image': 'url(' + release.image + ')' }">
+            <div class="h-full w-full bg-background bg-opacity-30 flex">
+                <div class="flex lg:space-x-10 mt-auto lg:my-auto w-full px-5 md:px-10 lg:px-20 z-50">
+                    <div class="relative releaseJacket min-w-max">
+                        <img class="h-80 w-80 shadowRelease object-cover object-center" :src="release.image" :alt="release.name"/>
+                        <div v-if="userInfo != null && displayLike" id="button" class="absolute right-0 top-0">
+                            <button @click="liked ? unfollowRelease() : followRelease()" :class="liked ? '':''" class="flex space-x-0.5 px-2 focus:outline-none rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
+                                <svg v-if="!liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#fff"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667zM106.1455,115.455c-1.2685,1.14667 -2.37217,2.14283 -3.268,2.98133c-5.38217,5.01667 -11.74617,10.7715 -16.8775,15.3725c-5.13133,-4.601 -11.5025,-10.363 -16.8775,-15.3725c-0.903,-0.8385 -2.00667,-1.84183 -3.268,-2.98133c-10.17667,-9.19483 -37.18783,-33.61883 -37.18783,-54.53833c0,-13.83167 11.25167,-25.08333 25.08333,-25.08333c13.0935,0 20.683,9.1375 20.88367,9.374l11.36633,12.126l11.36633,-12.126c0.07167,-0.09317 7.79017,-9.374 20.88367,-9.374c13.83167,0 25.08333,11.25167 25.08333,25.08333c0,20.9195 -27.01117,45.3435 -37.18783,54.53833z"></path></g></g></svg>
+                                <svg v-if="liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#fff"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667z"></path></g></g></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <NuxtLink v-if="userInfo != null" :to="`/edit/release/${$route.params.id}`" class="mt-auto">Edit</NuxtLink>
+                        <h2 class="cursor-default font-semibold filter tShadowRelease text-xl md:text-2xl">{{release.type}} - <span v-for="(artist, index) in release.artists" :key="index"><NuxtLink :to="`/artist/${artist.id}`" class="hover:underline cursor-pointer">{{artist.name}}</NuxtLink><span v-if="index < release.artists.length-1">, </span></span></h2>
+                        <h1 class="cursor-default font-semibold filter tShadowRelease text-2xl md:text-4xl xl:text-5xl 2xl:text-6xl">{{release.name}}</h1>
+                        <div id="link-social" class="flex flex-row lg:space-x-10 pt-3">
+                            <LinkImg class="tShadowRelease" v-for="(platforms, index) in release.platforms" :key="index" :url="platforms" :name="platforms"/>
+                        </div>
                     </div>
                 </div>
-                <span>{{(new Date(this.release.date)).toLocaleDateString({ day:'numeric', month: 'numeric', year:'numeric' })}} • {{this.release.type.charAt(0).toUpperCase() + this.release.type.slice(1).toLowerCase() }}</span>
+                <div class="gradient w-full h-32 font-bold absolute bottom-0"></div>
             </div>
         </div>
-        <div class="relative px-5 py-5">
-            <div id="button" class="my-5 md:my-0 md:absolute right-5 top-5 flex space-x-2">
-                <button @click="liked ? unfollowRelease() : followRelease()" :class="liked ? 'bg-red-500 text-white border-red-500 hover:border-white hover:bg-transparent':'text-red-500 border-red-500'" class="flex space-x-0.5 px-2 border focus:outline-none rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">
-                    <svg v-if="!liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ef4444"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667zM106.1455,115.455c-1.2685,1.14667 -2.37217,2.14283 -3.268,2.98133c-5.38217,5.01667 -11.74617,10.7715 -16.8775,15.3725c-5.13133,-4.601 -11.5025,-10.363 -16.8775,-15.3725c-0.903,-0.8385 -2.00667,-1.84183 -3.268,-2.98133c-10.17667,-9.19483 -37.18783,-33.61883 -37.18783,-54.53833c0,-13.83167 11.25167,-25.08333 25.08333,-25.08333c13.0935,0 20.683,9.1375 20.88367,9.374l11.36633,12.126l11.36633,-12.126c0.07167,-0.09317 7.79017,-9.374 20.88367,-9.374c13.83167,0 25.08333,11.25167 25.08333,25.08333c0,20.9195 -27.01117,45.3435 -37.18783,54.53833z"></path></g></g></svg>
-                    <svg v-if="liked" class="cursor-pointer mt-1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#fff"><path d="M118.25,21.5c-20.7475,0 -32.25,14.97833 -32.25,14.97833c0,0 -11.5025,-14.97833 -32.25,-14.97833c-21.77233,0 -39.41667,17.64433 -39.41667,39.41667c0,29.89217 35.20267,58.85983 45.01383,68.01167c11.30183,10.535 26.65283,24.08 26.65283,24.08c0,0 15.351,-13.545 26.65283,-24.08c9.81117,-9.15183 45.01383,-38.1195 45.01383,-68.01167c0,-21.77233 -17.64433,-39.41667 -39.41667,-39.41667z"></path></g></g></svg>
-                    <!--<span class="mt-1">{{liked ? 'Unlike':'Like'}}</span>-->
-                </button>
-                <NuxtLink :to="`/edit/release/${this.release.id}`" class="py-1 text-white border border-white hover:bg-white hover:text-black hover:border-black focus:outline-none px-5 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:font-bold">Edit</NuxtLink>
+        <div class="py-5 lg:p-10">
+            <div class="flex justify-between border-b border-white px-5 pr-8 pb-1">
+                <span>TITLE</span>
+                <embed src="~/assets/image/play.svg" type="">
             </div>
-            <div v-if="this.release.platforms && this.release.platforms.length > 0" id="tilte-artist" class="mb-10">
-                <h1 class="text-white text-xl">Streaming Platforms</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <div id="link-social" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10">
-                    <LinkImg v-for="(platforms, index) in this.release.platforms" :key="index" :url="platforms" :name="platforms"/>
-                </div>
-            </div>
-            <div v-if="this.release.musics && this.release.musics.length > 0" id="tracklist" class="mb-10">
-                <h1 class="text-white text-xl">Tracklist</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-2 w-96"></div>
-                <div id="link-social" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-300 md:w-1/2">
-                    <div v-for="(title, index) in this.release.musics" :key="index"><span> {{title.name}} </span></div>
-                </div>
-            </div>
-            <div v-if="this.videoId.length > 0" id="player-section" class="mb-10">
-                <h1 class="text-white text-xl">Music Video</h1>
-                <div id="divider" class="border-b border-red-700 border-1 my-2 mb-5 w-96"></div>
-                <div id="video" class="grid grid-cols-1 gap-5 justify-center" :class="this.videoId.length > 1 ? 'xl:grid-cols-2' : ''">
-                    <iframe class=" justify-self-center" v-for="(clip, index) in this.videoId" :key="index" width="560" height="315" :src="clip" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
+            <div class="space-y-1">
+                <TitleRelease v-for="title in release.musics" :key="title.id" :title="title" ref="title"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
+    import { mapMutations, mapGetters } from 'vuex'
 
-        data() {
-            return {
-                release: null,
-                videoId: [],
-                liked:false,
-            }
-        },
+    export default {
 
         head() {
             return {
                 title: this.release.name,
+            }
+        },
+
+        data() {
+            return {
+                release: null,
+                liked:false,
+                displayLike: false,
+                userInfo: null,
             }
         },
 
@@ -69,99 +61,104 @@
             return {release}
         },
 
-        async mounted(){
-            for (let index = 0; index < this.release.musics?.length; index++) {
-                let x = this.getYoutubeId(this.release.musics[index].clip)
-                if(x != null) this.videoId.push(x)
-            }
-            let that = this
-            /*await this.$axios.get(`https://comeback-api.herokuapp.com/users/${this.userData.id}`).then(res => {
-                res.data.releases.forEach(element => {
-                    if(element.id == that.release.id) that.liked = true
-                });
-            })*/
-            
-            this.userData.releases.forEach(element => {
-                if(element.id == that.release.id) that.liked = true
-            });
-        },
-    
-        computed: {    
-            userData(){
-                let utmp = this.$store.state.dataUser
-                return utmp
-            },
+        mounted(){
+            this.userInfo = this.GET_DATA_USER()
 
-            defaultImage(){
-                return this.$store.state.imageReleaseDefault
-            },
-
-            like(){
-                return this.liked
+            if(this.userInfo) {
+                this.release.followers.forEach(element => {
+                    if(element.id == this.userInfo.id) {
+                        this.liked = true
+                    }
+                })
+                this.displayLike = true
+            } else {
+                const that = this
+                this.$fire.auth.onAuthStateChanged(async function (users) {
+                    if (users != null) {
+                        this.displayLike = true
+                        await that.setStoreData(users.uid)
+                        that.userInfo = that.GET_DATA_USER()
+                        that.release.followers.forEach(element => {
+                            if(element.id == users.uid) {
+                                that.liked = true
+                            }
+                        })
+                    }
+                })
             }
         },
 
         methods:{
-            async followRelease(){
-                await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userData.id}`, {
-                    releases: [this.release],
-                }).then(response => {
-                    
-                    this.$toast.info('You have been following ' + this.release.name, {duration:2000, position:'bottom-left'})
-                    this.liked = true
+            ...mapMutations([
+                'SET_DATA_USER',
+                'SET_TOKEN_USER',
+            ]),
+
+            ...mapGetters([
+                'GET_DATA_USER',
+            ]),
+
+            async followRelease() {
+                this.liked = true
+                this.userInfo = this.GET_DATA_USER()
+                await this.$axios.put(`https://comeback-api.herokuapp.com/users/${this.userInfo.id}`, { releases: [this.release] }).then(response => {
+                    this.$toast.info('You are now following ' + this.release.name, {duration:2000, position:'bottom-left'})
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
 
-            async unfollowRelease(){
-                await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.userData.id}/releases/${this.release.id}`, this.release).then(response => {
-                    
-                    this.liked = false
+            async unfollowRelease() {
+                this.liked = false
+                this.userInfo = this.GET_DATA_USER()
+                await this.$axios.delete(`https://comeback-api.herokuapp.com/users/${this.userInfo.id}/releases/${this.release.id}`, this.release).then(response => {
+                    this.$toast.info('You are now unfollowing ' + this.release.name, {duration:2000, position:'top-center'})
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
 
-            getYoutubeId(url){
-                let id, fullId
-                if(this.release.type === "ALBUM") {
-                    if(url?.includes("list=")) {
+            async setStoreData(userId){
+                const that = this
 
-                        id = url.split("list=")[1]
-                        fullId = "https://www.youtube.com/embed/videoseries?list=" + id
+                this.$fire.auth.currentUser.getIdToken(true).then(function(idToken){
+                    that.SET_TOKEN_USER(idToken)
+                }).catch(function(error) {
+                    console.log(error)
+                })
 
-                    } else if(url?.includes("v=")) {
-
-                        id = url.split("v=")[1]
-                        fullId = "https://www.youtube.com/embed/" + id
-
-                    } else if(url?.includes(".be/")) {
-
-                        id = url.split(".be/")[1]
-                        fullId = "https://www.youtube.com/embed/" + id
-
-                    }
-                } else {
-                    if(url?.includes("v=")) {
-
-                        id = url.split("v=")[1]
-                        fullId = "https://www.youtube.com/embed/" + id
-
-                    } else if(url?.includes(".be/")) {
-
-                        id = url.split(".be/")[1]
-                        fullId = "https://www.youtube.com/embed/" + id
-
-                    }
-                }
-                return fullId
+                await this.$axios.get(`https://comeback-api.herokuapp.com/users/${userId}`).then((res) => {
+                    that.SET_DATA_USER(res.data)
+                    that.userInfo = that.GET_DATA_USER()
+                })
             },
         },
     }
 </script>
 
 <style>
+@media screen and (max-width: 1024px) {
+    .releaseJacket {
+        display: none !important;
+    }
+}
+
+.tShadowRelease{
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.50);
+}
+
+.shadowRelease{
+    --tw-shadow: 5px 5px 5px 5px rgba(0,0,0,0.30);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.background-top{
+    height: 30rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-position: 50% 5%;
+}
 .gradient{
     background: rgb(0,0,0);
     background: -moz-linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(31,29,29,1) 96%);

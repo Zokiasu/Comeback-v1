@@ -1,11 +1,14 @@
 <template>
-  <div id="artist-card" class="text-white">
+  <div id="artist-card" class="text-white animate__animated animate__fadeIn">
     <div id="artist-image" class="h-20 md:h-40 w-20 md:w-40 mx-auto">
-      <NuxtLink :to="`/artist/${this.id}`">
-        <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover" :src="this.image ? this.image : defaultArtistImage" :alt="this.name"/>
+      <NuxtLink :to="`/artist/${artist.id}`">
+        <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover animate__animated animate__fadeIn" :src="artist.image" :alt="artist.name"/>
       </NuxtLink>
     </div>
-    <NuxtLink id="artist-name" :to="`/artist/${this.id}`"><h3 class="font-semibold text-center hover:underline">{{this.name}}</h3></NuxtLink>
+    <NuxtLink :id="artist.name" :to="`/artist/${artist.id}`" :class=" groupSize > 0 ? 'flex flex-col justify-center space-x-1':''">
+    <h2 class="font-semibold text-center hover:underline">{{artist.name}}</h2>
+    <h3 class="text-center" v-if="groupSize > 0 && artist.type != 'GROUP'">[{{artist.groups[0].name}}]</h3>
+    </NuxtLink>
   </div>
 </template>
 
@@ -13,21 +16,16 @@
   export default {
     name: "artistCard",
 
-    props: {
-      id: '',
-      name: String,
-      image: String,
+    props: ['artist'],
+
+    data(){
+      return {
+        groupSize:0,
+      }
     },
-    
-    computed: {
-      userData(){
-        let utmp = this.$store.state.dataUser
-        return utmp
-      },
-      
-      defaultArtistImage(){
-        return this.$store.state.imageArtistDefault
-      },
-    }
+
+    created(){
+      if(this.artist.groups?.length) this.groupSize = this.artist.groups.length
+    },
   }
 </script>
