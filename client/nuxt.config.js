@@ -43,7 +43,7 @@ export default {
     height: '2px'
   },
 
-  loading: true,
+  loading: false,
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [

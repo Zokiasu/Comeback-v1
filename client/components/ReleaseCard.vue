@@ -1,11 +1,15 @@
 <template>
   <NuxtLink :to="`/release/${release.id}`" class="texts flex flex-col text-white rounded">
-    <div class="relative w-32 h-32 lg:h-40 lg:w-40">
-        <div>
-          <img class="rounded-md object-cover w-32 h-32 lg:h-36 lg:w-36" :src="release.image" alt="Artist Picture"/>
+    <div class="relative h-40 w-40">
+        <div class="bg-gray-500 rounded-md">
+          <img 
+            :src="release.image" 
+            alt="Artist Picture" 
+            class="rounded-md object-cover aspect-square bg-gray-500 w-40 h-40"
+          />
         </div>
-        <div v-if="validationDate" class="absolute top-0 right-0 text-white bg-gray-500 bg-opacity-80 p-2 rounded-bl rounded-tr">
-            <p class="text-center"> {{new Date(release.date).toLocaleTimeString('en-US', { hour:'numeric', minute:'numeric' })}} </p>
+        <div v-if="displayDate" class="absolute top-1 right-1 px-2 py-0.5 rounded text-white bg-gray-500 bg-opacity-80">
+            <p class="text-center text-xs"> {{new Date(release.date).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'2-digit' })}} </p>
         </div>
     </div>
     <div class="w-32 lg:w-40">
@@ -24,7 +28,16 @@
   export default {
     name: "releaseCard",
 
-    props: ['release'],
+    props: {
+      release: {
+        type: Object,
+        required: true
+      },
+      displayDate: {
+        type: Boolean,
+        default: false
+      },
+    },
 
     computed: {
       validationDate(){

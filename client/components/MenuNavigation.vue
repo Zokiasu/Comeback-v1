@@ -126,7 +126,7 @@
       bg-class="animate__animated"
       :bg-in-class="`animate__fadeInUp`"
       :bg-out-class="`animate__fadeOutDown`">
-      <Authentification @close="closeAuthentificationModal"/>
+      <LazyAuthentification @close="closeAuthentificationModal"/>
   </Modal>
   <Modal
       v-model="newsModal"
@@ -138,7 +138,7 @@
       bg-class="animate__animated"
       :bg-in-class="`animate__fadeInUp`"
       :bg-out-class="`animate__fadeOutDown`">
-      <NewsCreation @close="closeNewsModal"/>
+      <LazyNewsCreation @close="closeNewsModal"/>
   </Modal>
 </div>
 </template>
