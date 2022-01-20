@@ -1,44 +1,79 @@
 <template>
-    <div>
-        <div id="button" class="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between p-10">
-            <div v-if="user != null">
-                <t-select
-                id="artists-type-selector"
-                class="focus:outline-none"
-                v-model="userPreference"
-                :options="[
-                    { value: false, text: 'All Comeback' },
-                    { value: true, text: 'My Comeback' },
-                ]">
-                </t-select>
-            </div>
-        </div>
-        <div id="release-date" class="space-y-5">
-            <div v-for="(date, index) in dateList.slice().reverse()" :key="index" class="justify-center texts text-white mx-10 animate__animated animate__fadeIn">
-                <div class="top-0 bg-mainbg z-50">
-                    <h1 class="font-semibold text-2xl md:text-4xl"> {{new Date(date.date).toLocaleDateString('en-EN', {  month: 'long', day: 'numeric', year: 'numeric' })}} </h1>
+    <div class="flex flex-col p-5 md:px-20 lg:px-40 text-white">
+        <div class="space-y-5">
+            <div>
+                <div class="flex gap-5">
+                    <p class="text-3xl">
+                        {{ currentYear }}
+                    </p>
+                    <div class="grid grid-cols-2 my-auto">
+                        <button @click="changeYear(currentYear+1)" class="px-1">
+                            <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                                <path d="M37.5 35L25 22.5L12.5 35L7.5 32.5L25 15L42.5 32.5L37.5 35Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <button @click="changeYear(currentYear-1)" class="px-1">
+                            <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                                <path d="M12.5 15L25 27.5L37.5 15L42.5 17.5L25 35L7.5 17.5L12.5 15Z" fill="white"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-                <div class="w-full flex flex-wrap overflow-y-scroll py-5 texts text-white">
-                    <ReleaseCard
-                        v-for="release in date.releases"
-                        :release="release"
-                        :key="release.id"
-                        displayDate
-                        class="mr-2 mb-5 lg:mr-5 lg:mb-0"
-                    />
+                <div class="flex gap-5">
+                    <h1 class="text-7xl font-semibold">
+                        {{ month[currentMonth] }} 
+                    </h1>
+                    <div class="grid grid-cols-1 my-auto mt-4 space-y-2">
+                        <button @click="changeMonth(currentMonth+1)" class="p-1">
+                            <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                                <path d="M37.5 35L25 22.5L12.5 35L7.5 32.5L25 15L42.5 32.5L37.5 35Z" fill="white"/>
+                            </svg>
+                        </button>
+                        <button @click="changeMonth(currentMonth-1)" class="p-1">
+                            <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                                <path d="M12.5 15L25 27.5L37.5 15L42.5 17.5L25 35L7.5 17.5L12.5 15Z" fill="white"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <InfiniteLoading v-if="stopInfiniteScroll" @infinite="infiniteScroll"/>
-            <div v-if="Object.entries(dateList).length < 1 && !stopInfiniteScroll" class="px-5 mt-5">
-                <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No Release Scheduled.</span>
+            <div>
+                <ul class="flex flex-wrap gap-5">
+                    <li>
+                        <button @click="onlyAlbums=!onlyAlbums;onlyEps=false;onlySingles=false;" class="px-3 py-2 border rounded" :class="onlyAlbums ? 'border-red-500 text-red-500 font-semibold border-2':''">
+                            Album
+                        </button>
+                    </li>
+                    <li>
+                        <button @click="onlyEps=!onlyEps;onlyAlbums=false;onlySingles=false;" class="px-3 py-2 border rounded" :class="onlyEps ? 'border-red-500 text-red-500 font-semibold border-2':''">
+                            EP
+                        </button>
+                    </li>
+                    <li>
+                        <button @click="onlySingles=!onlySingles;onlyAlbums=false;onlyEps=false;" class="px-3 py-2 border rounded" :class="onlySingles ? 'border-red-500 text-red-500 font-semibold border-2':''">
+                            Single
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="flex flex-wrap gap-7 max-w-[110rem]">
+                <LazyReleaseCard
+                    v-for="release in filteredList"
+                    :release="release"
+                    :key="release.id"
+                    displayDate
+                />
+            </div>
+            <div v-if="filteredList.length < 1">
+                <p class="text-center text-xl bg-gray-500 w-full p-5 rounded">
+                    Oops... {{ filteredList.length }} releases found
+                </p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-
     export default {
 
         head() {
@@ -56,36 +91,34 @@
 
         data(){
             return {
-                userPreference: 'false',
-                stopInfiniteScroll: true,
-                dateStart: null,
-                startDate: new Date(),
-                endDate: new Date(),
-                dateList: [],
-                user: null,
-                gapDate: 5,
-                infiniteId: +new Date(),
+                startDate: null,
+                endDate: null,
+                releaseList: [],
+                onlyAlbums: false,
+                onlyEps: false,
+                onlySingles: false,
+                currentYear: new Date().getFullYear(),
+                currentMonth: new Date().getMonth(),
+                month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             }
         },
+        
 
         created(){
-            this.user = this.GET_DATA_USER()
-            this.endDate.setDate(this.startDate.getDate()+1)
-            this.startDate.setDate(this.startDate.getDate()-5)
+            this.startDate = new Date(this.currentYear, this.currentMonth, 1);
+            this.endDate = new Date(this.currentYear, this.currentMonth + 1, 0);
+            this.fetchData()
         },
-
-        watch: {
-            userPreference: {
-                immediate: true,
-                handler(userPreference) {
-                    if (process.client) {
-                        if(this.dateStart != null) {
-                            //this.startDate = new Date(this.dateStart)/
-                        }
-                        this.fetchData()
-                    }
-                }
-            },
+        
+        computed: {
+            filteredList() {
+                return this.releaseList.filter(element => {
+                    if(this.onlyAlbums && element.type.toLowerCase() !== 'album') return false
+                    if(this.onlyEps && element.type.toLowerCase() !== 'ep') return false
+                    if(this.onlySingles && element.type.toLowerCase() !== 'single') return false
+                    return true
+                })
+            }
         },
 
         methods:{
@@ -97,99 +130,49 @@
                 return `${mo}/${da}/${ye}`
             },
 
-            ...mapGetters([
-                'GET_DATA_USER',
-            ]),
-
             async fetchData() {
                 let test = []
-                if(this.userPreference == 'true'){
-                    this.user = this.GET_DATA_USER()
-                    this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.user.id}?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
-                        if(Object.entries(response.data).length) {
-                            this.dateList = []
-                            for(let [key, value] of Object.entries(response.data)) {
-                                value['date'] = key
-                                if(value.releases) test.push(value)
+                this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
+                    if(Object.entries(response.data).length) {
+                        for(let [key, value] of Object.entries(response.data)) {
+                            if(value.releases) {
+                                test = test.concat(value.releases)
+                                test = [...new Set(test, value.releases)]
+                                test.sort(function(a,b){
+                                    if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
+                                    if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
+                                    return 0;
+                                })
                             }
-                            this.dateList = test
-                        } else {
-                            this.dateList = []
                         }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-                } else {
-                    this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
-                        if(Object.entries(response.data).length) {
-                            this.dateList = []
-                            for(let [key, value] of Object.entries(response.data)) {
-                                value['date'] = KeyframeEffect
-                                if(value.releases) test.push(value)
-                            }
-                            this.dateList = test
-                        } else {
-                            this.dateList = []
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-                }
-                this.changeType()
-            },
-
-            infiniteScroll($state) {
-                setTimeout(() => {
-                    let test = []
-                    if(this.userPreference == 'true'){
-                        this.user = this.GET_DATA_USER()
-                        this.$axios.get(`https://comeback-api.herokuapp.com/calendar/${this.user.id}?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
-                            if(Object.entries(response.data).length !== 0) {
-                                this.dateList = []
-                                for(let [key, value] of Object.entries(response.data)) {
-                                    value['date'] = MediaKeySession
-                                    if(value.releases) test.push(value)
-                                }
-                                this.dateList = test
-                                this.startDate.setDate((this.startDate.getDate()) - this.gapDate)
-                                $state.loaded();
-                                this.stopInfiniteScroll = true
-                            } else {
-                                this.stopInfiniteScroll = false
-                                $state.complete();
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
-                    } else {
-                        this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
-                            if(Object.entries(response.data).length !== 0) {
-                                this.dateList = []
-                                for(let [key, value] of Object.entries(response.data)) {
-                                    value['date'] = key
-                                    if(value.releases) test.push(value)
-                                }
-                                this.dateList = test
-                                this.startDate.setDate((this.startDate.getDate()) - this.gapDate)
-                                $state.loaded();
-                                this.stopInfiniteScroll = true
-                            } else {
-                                this.stopInfiniteScroll = false
-                                $state.complete();
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
                     }
-                }, 500);
+                    this.releaseList = test
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             },
 
-            changeType() {
-                this.infiniteId += 1;
+            changeMonth(month) {
+                if(month < 0) {
+                    this.currentMonth = 11
+                    this.currentYear--
+                } else if(month > 11) {
+                    this.currentMonth = 0
+                    this.currentYear++
+                } else {
+                    this.currentMonth = month
+                }
+                this.startDate = new Date(this.currentYear, this.currentMonth, 1);
+                this.endDate = new Date(this.currentYear, this.currentMonth + 1, 0);
+                this.fetchData()
+            },
+
+            changeYear(year) {
+                this.startDate = new Date(year, this.currentMonth, 1);
+                this.endDate = new Date(year, this.currentMonth + 1, 0);
+                this.currentYear = year
+                this.fetchData()
             },
         },
     }
