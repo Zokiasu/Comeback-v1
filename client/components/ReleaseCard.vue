@@ -1,6 +1,6 @@
 <template>
   <NuxtLink :to="`/release/${release.id}`" class="texts flex flex-col text-white rounded">
-    <div class="relative h-40 w-40">
+    <div class="relative h-36 w-36 xl:h-40 xl:w-40">
         <div class="bg-gray-500 rounded-md">
           <img 
             :src="release.image" 
