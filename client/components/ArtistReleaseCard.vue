@@ -1,7 +1,7 @@
 <template>
     <div class="bg-black-four flex p-2 space-x-2 text-white rounded">
         <div class="my-auto w-20">
-            <img class="my-auto object-cover rounded" :src="this.release.image ? this.release.image : defaultImage">
+            <img loading="lazy" class="my-auto object-cover rounded" :src="this.release.image ? this.release.image : defaultImage">
         </div>
         <div class="flex flex-col w-full">
             <div class="flex flex-col">
@@ -14,7 +14,7 @@
             </div>
             <div class="flex space-x-3 my-auto">
                 <a v-for="(platforms, index) in this.release.platforms" :key="index" :href="platforms" target="_blank">
-                    <img class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/>
+                    <img loading="lazy" class="w-4" :src="`https://www.google.com/s2/favicons?domain=${platforms}`"/>
                 </a>
             </div>
         </div>

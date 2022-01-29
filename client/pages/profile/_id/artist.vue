@@ -2,7 +2,16 @@
     <div class="py-5">
         <h3 class="text-center w-full text-2xl lg:text-5xl font-semibold p-10">Artist Followed</h3>
         <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-            <ArtistCard class="artist md:mr-5 lg:mr-3.5 md:mb-5" v-for="(artist) in artists.slice(0, maxArtist)" :key="artist.id" :artist="artist"/>
+            <LazyArtistCard 
+                v-for="(artist) in artists.slice(0, maxArtist)"
+                :key="artist.id"
+                :image="artist.image"
+                :name="artist.name"
+                :id="artist.id"
+                :type="artist.type"
+                :groups="artist.groups"
+                class="artist md:mr-5 lg:mr-3.5 md:mb-5"
+            />
         </transition-group>
         <InfiniteLoading v-if="!enough" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     </div>
@@ -61,7 +70,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>

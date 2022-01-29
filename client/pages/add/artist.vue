@@ -14,7 +14,7 @@
         <section>
             <div class="flex flex-col lg:flex-row justify-center space-y-10 lg:space-y-0 lg:space-x-5 py-7">
                 <div id="image">
-                    <img class="aspect-aspect object-cover" :src="artist.image" :alt="artist.name">
+                    <img loading="lazy" class="aspect-aspect object-cover" :src="artist.image" :alt="artist.name">
                     <div class="xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
                         <button 
                             class="px-5 py-1 bg-red-700 hover:bg-red-900 focus:outline-none rounded-b text-white w-full"
@@ -57,7 +57,7 @@
                             @tag="addMember">
                             <template slot="option" slot-scope="props">
                                 <div class="flex space-x-5">
-                                    <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                                    <img loading="lazy" v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
                                     <div class="option__desc flex flex-col space-y-1">
                                         <span class="option__title">{{ props.option.name }}</span>
                                         <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-black-one">{{group.name}}</span></div></div>
@@ -83,7 +83,7 @@
                             @tag="addGroup">
                             <template slot="option" slot-scope="props">
                                 <div class="flex space-x-1">
-                                    <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                                    <img loading="lazy" v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
                                     <div class="option__desc flex flex-col space-y-1">
                                         <span class="option__title">{{ props.option.name }}</span>
                                         <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-black-one">{{group.name}}</span></div></div>
@@ -126,14 +126,14 @@
                         <span class="my-auto font-semibold text-lg">Social Media Link</span>
                         <MultipleInput class="mb-1 w-full" v-for="(elem, index) in artist.socials" :key="index" :elem="elem" @updateinput="updateList(artist.socials, $event, index, 'socials')" @deleteinput="deleteList(artist.socials, index, 'socials')"/>
                         <button @click="addSocials()" class="Card w-full text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
-                            <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                            <img loading="lazy" src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
                         </button>
                     </div>
                     <div id="streaming-platform" class="w-full space-y-1">
                         <span class="my-auto font-semibold text-lg">Streaming Platforms Link</span>
                         <MultipleInput class="mb-1 w-full" v-for="(elem, index) in artist.platforms" :key="index" :elem="elem" @updateinput="updateList(artist.platforms, $event, index, 'platforms')" @deleteinput="deleteList(artist.platforms, index, 'platforms')"/>
                         <button @click="addStreamingLink()" class="Card w-full text-left focus:outline-none flex space-x-2 bg-white bg-opacity-30 p-2 justify-center rounded">
-                            <img src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
+                            <img loading="lazy" src="https://img.icons8.com/ios/20/ffffff/plus--v2.png"/>
                         </button>
                     </div>
                 </div>

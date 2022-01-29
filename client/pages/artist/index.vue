@@ -8,7 +8,16 @@
       <input id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-opacity-20 bg-gray-500 text-white placeholder-white">
     </section>
     <section v-if="artists.length > 0" id="artist-list" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 2xl:grid-cols-10 gap-5 w-full justify-center p-5">
-      <ArtistCard class="animate__animated animate__fadeIn" v-for="artist in artists" :key="artist.id" :artist="artist"/>
+      <LazyArtistCard 
+        v-for="artist in artists"
+        :key="artist.id"
+        :image="artist.image"
+        :name="artist.name"
+        :id="artist.id"
+        :type="artist.type"
+        :groups="artist.groups"
+        class="animate__animated animate__fadeIn"
+      />
     </section>
     <InfiniteLoading v-if="!enough" :identifier="infiniteId" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     <div v-if="artists.length < 1" class="px-5">
@@ -35,7 +44,7 @@
         maxArtist: 0,
         enough: false,
         resetSearch: false,
-        infiniteId: +new Date(),
+        infiniteId: new Date(),
       }
     },
         

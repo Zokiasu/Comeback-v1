@@ -12,7 +12,7 @@
         :preserve-search="false">
         <template slot="singleLabel" slot-scope="props">
             <div class="flex space-x-1">
-                <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image" :alt="props.option.name">
+                <img v-if="props.option.image" loading="lazy" class="option__image w-14 h-14 object-cover" :src="props.option.image" :alt="props.option.name">
                 <div class="option__desc flex flex-col space-y-1">
                     <span class="option__title">{{ props.option.name }}</span>
                     <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>
@@ -21,7 +21,7 @@
         </template>
         <template slot="option" slot-scope="props">
             <div class="flex space-x-1">
-                <img v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
+                <img v-if="props.option.image" loading="lazy" class="option__image w-14 h-14 object-cover" :src="props.option.image">
                 <div class="option__desc flex flex-col space-y-1">
                     <span class="option__title">{{ props.option.name }}</span>
                     <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs">{{group.name}}</span></div></div>

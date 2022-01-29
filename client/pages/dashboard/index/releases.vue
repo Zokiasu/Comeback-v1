@@ -6,6 +6,7 @@
             </div>
             <input @change="updateDateList()" id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-opacity-20 bg-gray-500 text-white placeholder-white">
         </section>
+        <button @click="test()" class="p-5 border border-white">DELETE</button>
         <button v-if="search" @click="search=''; updateDateList(); " class="text-red-700 focus:outline-none mb-5">Reset</button>
         <section v-if="releases.length > 0" id="releases-body" class="pb-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
             <div v-for="(release, index) in this.releases" :key="index" style="background-color: #6B728033" class="flex flex-col text-white rounded-sm relative p-3 overflow-hidden">
@@ -123,6 +124,16 @@
                 } else {
                     this.enough = true
                 }
+            },
+
+            async test(){
+                const {data:tests} = await this.$axios.get(`https://comeback-api.herokuapp.com/releases`)
+                console.log(tests)
+                tests.forEach(async element =>  {
+                    await this.$axios.delete(`https://comeback-api.herokuapp.com/releases/${element.id}`).then(response => {
+                        console.log(response)
+                    })      
+                });
             },
 
             removeRelease(id, object, index){

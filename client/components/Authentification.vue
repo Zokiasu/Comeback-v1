@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col mx-auto my-auto mt-auto">
     <div class="mx-auto">
-      <img src="../assets/image/logo.png" alt="">
+      <img loading="lazy" src="../assets/image/logo.png" alt="">
     </div>
     <form 
       action="login" 
