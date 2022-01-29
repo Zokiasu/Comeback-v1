@@ -1,31 +1,56 @@
 <template>
-  <div id="artist-card" class="text-white animate__animated animate__fadeIn">
-    <div id="artist-image" class="h-20 md:h-40 w-20 md:w-40 mx-auto">
-      <NuxtLink :to="`/artist/${artist.id}`">
-        <img class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover animate__animated animate__fadeIn" :src="artist.image" :alt="artist.name"/>
+  <div :id="`artist-card-${id}`" class="text-white animate__animated animate__fadeIn">
+    <div class="h-20 md:h-40 w-20 md:w-40 mx-auto">
+      <NuxtLink :to="`/artist/${id}`">
+        <img 
+          :src="image"
+          :alt="name"
+          loading="lazy"
+          class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover animate__animated animate__fadeIn"
+        />
       </NuxtLink>
     </div>
-    <NuxtLink :id="artist.name" :to="`/artist/${artist.id}`" :class=" groupSize > 0 ? 'flex flex-col justify-center space-x-1':''">
-    <h2 class="font-semibold text-center hover:underline">{{artist.name}}</h2>
-    <h3 class="text-center" v-if="groupSize > 0 && artist.type != 'GROUP'">[{{artist.groups[0].name}}]</h3>
+    <NuxtLink 
+      :to="`/artist/${id}`" 
+      :class="groupSize > 0 ? 'flex flex-col justify-center space-x-1':''">
+      <h2 class="font-semibold text-center hover:underline">{{name}}</h2>
+      <h3 class="text-center" v-if="groupSize > 0 && type != 'GROUP'">[{{groups[0].name}}]</h3>
     </NuxtLink>
   </div>
 </template>
 
 <script>
+import { computed } from '@vue/reactivity'
   export default {
     name: "artistCard",
 
-    props: ['artist'],
-
-    data(){
-      return {
-        groupSize:0,
-      }
+    props: {
+      image: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      id: {
+        type: String,
+        required: true,
+      },
+      type: {
+        type: String,
+        required: true,
+      },
+      groups: {
+        type: Array,
+        required: false,
+      },
     },
 
-    created(){
-      if(this.artist.groups?.length) this.groupSize = this.artist.groups.length
-    },
+    computed: {
+      groupSize() {
+        return this.groups?.length ? this.groups.length : 0
+      },
+    }
   }
 </script>

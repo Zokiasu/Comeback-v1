@@ -7,7 +7,16 @@
         <section v-if="artistUser.length" id="artist-recently-follow" class="space-y-5">
             <h2 class="text-3xl font-semibold">Artist recently followed</h2>
             <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-                <ArtistCard class="artist md:mr-5 lg:mr-3.5 md:mb-5" v-for="(artist) in artistUser.slice(0, 9)" :key="artist.id" :artist="artist"/>
+                <LazyArtistCard 
+                    v-for="(artist) in artistUser.slice(0, 9)"
+                    :key="artist.id"
+                    :image="artist.image"
+                    :name="artist.name"
+                    :id="artist.id"
+                    :type="artist.type"
+                    :groups="artist.groups"
+                    class="artist md:mr-5 lg:mr-3.5 md:mb-5"
+                />
             </transition-group>
         </section>
         <section v-if="releaseUser.length" id="relaese-recently-liked" class="space-y-5">

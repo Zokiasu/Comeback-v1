@@ -5,7 +5,7 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Next Comeback</h2>
       </div>
       <div class="flex flex-wrap w-full justify-center inner">
-        <NewsCard class="Card my-1.5 md:m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
+        <LazyNewsCard class="Card my-1.5 md:m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
       </div>
     </section>
     <section id="newRelease" class="section" v-if="newRelease.length > 1">
@@ -13,7 +13,7 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added</h2>
       </div>
       <div class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-        <ReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in newRelease" :key="release.id" :release="release"/>
+        <LazyReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in newRelease" :key="release.id" :release="release"/>
       </div>
     </section>
     <section id="newArtist" class="section" v-if="newArtist.length > 1">
@@ -21,7 +21,16 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added</h2>
       </div>
       <div class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-        <ArtistCard class="artist md:mr-5 lg:mr-3.5 md:mb-5" v-for="(artist) in newArtist" :key="artist.id" :artist="artist"/>
+        <LazyArtistCard 
+          v-for="artist in newArtist"
+          :key="artist.id"
+          :image="artist.image"
+          :name="artist.name"
+          :id="artist.id"
+          :type="artist.type"
+          :groups="artist.groups"
+          class="artist md:mr-5 lg:mr-3.5 md:mb-5"
+        />
       </div>
     </section>
   </div>
