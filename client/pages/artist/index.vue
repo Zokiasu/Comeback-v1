@@ -7,7 +7,12 @@
       </div>
       <input id="search-input" type="text" placeholder="Search" v-model="search" class="w-full pl-2 focus:outline-none rounded-r rounded-none bg-opacity-20 bg-gray-500 text-white placeholder-white">
     </section>
-    <section v-if="artists.length > 0" id="artist-list" class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 2xl:grid-cols-10 gap-5 w-full justify-center p-5">
+    <transition-group 
+      v-if="artists.length > 0" 
+      id="artist-list" 
+      name="list-complete" 
+      tag="div" 
+      class="grid grid-cols-2 ms:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 1xl:grid-cols-7 2xl:grid-cols-10 gap-5 w-full justify-center p-5">
       <LazyArtistCard 
         v-for="artist in artists"
         :key="artist.id"
@@ -16,9 +21,9 @@
         :id="artist.id"
         :type="artist.type"
         :groups="artist.groups"
-        class="animate__animated animate__fadeIn"
+        class="list-complete-item"
       />
-    </section>
+    </transition-group>
     <InfiniteLoading v-if="!enough" :identifier="infiniteId" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     <div v-if="artists.length < 1" class="px-5">
       <span style="background-color: #6B728033" class="text-white w-full flex justify-center rounded p-2">No artists found.</span>
@@ -127,3 +132,19 @@
     },
   }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.list-complete-item {
+  transition: all 0.5s;
+  display: inline-block;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+</style>

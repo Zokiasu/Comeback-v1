@@ -1,12 +1,12 @@
 <template>
-  <div :id="`artist-card-${id}`" class="text-white animate__animated animate__fadeIn">
+  <div :id="`artist-card-${id}`" class="text-white">
     <div class="h-20 md:h-40 w-20 md:w-40 mx-auto">
       <NuxtLink :to="`/artist/${id}`">
         <img 
           :src="image"
           :alt="name"
           loading="lazy"
-          class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover animate__animated animate__fadeIn"
+          class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover"
         />
       </NuxtLink>
     </div>

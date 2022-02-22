@@ -75,7 +75,7 @@ export default {
       immediate: true,
       handler(newsDate) {
         if (process.client) {
-          if(newsDate) this.newsMessage = `${this.artistSelected.name} is coming back on ${this.dateFormat(new Date(newsDate))}`
+          if(newsDate) this.newsMessage = `Next comeback on ${this.dateFormat(new Date(newsDate))}`
         }
       }
     },
