@@ -56,15 +56,16 @@
                     </li>
                 </ul>
             </div>
-            <div class="flex flex-wrap gap-7 max-w-[110rem]">
+            <transition-group name="list-complete" tag="div" class="flex flex-wrap gap-7 max-w-[110rem]">
                 <LazyReleaseCard
                     v-for="release in filteredList"
                     :release="release"
                     :key="release.id"
                     displayDate
+                    class="list-complete-item"
                 />
-            </div>
-            <div v-if="filteredList.length < 1">
+            </transition-group>
+            <div v-if="filteredList.length < 1 & !loading">
                 <p class="text-center text-xl bg-gray-500 w-full p-5 rounded">
                     Oops... {{ filteredList.length }} releases found
                 </p>
@@ -97,6 +98,7 @@
                 onlyAlbums: false,
                 onlyEps: false,
                 onlySingles: false,
+                loading: true,
                 currentYear: new Date().getFullYear(),
                 currentMonth: new Date().getMonth(),
                 month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -111,13 +113,23 @@
         },
         
         computed: {
-            filteredList() {
+            /*filteredList() {
                 return this.releaseList.filter(element => {
                     if(this.onlyAlbums && element.type.toLowerCase() !== 'album') return false
                     if(this.onlyEps && element.type.toLowerCase() !== 'ep') return false
                     if(this.onlySingles && element.type.toLowerCase() !== 'single') return false
                     return true
                 })
+            }*/
+            filteredList: function() {
+                let filtered = this.releaseList;
+                filtered = this.releaseList.filter(element => {
+                    if(this.onlyAlbums && element.type.toLowerCase() !== 'album') return false
+                    if(this.onlyEps && element.type.toLowerCase() !== 'ep') return false
+                    if(this.onlySingles && element.type.toLowerCase() !== 'single') return false
+                    return true
+                })
+                return filtered
             }
         },
 
@@ -145,6 +157,7 @@
                                 })
                             }
                         }
+                        this.loading = false
                     }
                     this.releaseList = test
                 })
@@ -177,3 +190,19 @@
         },
     }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.list-complete-item {
+  transition: all 0.5s;
+  display: inline-block;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+</style>
