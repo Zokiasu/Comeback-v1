@@ -22,7 +22,17 @@
         <section v-if="releaseUser.length" id="relaese-recently-liked" class="space-y-5">
             <h2 class="text-3xl font-semibold">Release recently liked</h2>
             <transition-group name="object" class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-                <ReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in releaseUser.slice(0, 9)" :key="release.id" :release="release"/>
+                <ReleaseCard 
+                    v-for="(release) in releaseUser.slice(0, 9)" 
+                    :key="release.id"
+					:id="release.id"
+					:image="release.image"
+					:date="release.date"
+					:name="release.name"
+					:type="release.type"
+					:artists="release.artists"
+                    class="release md:mr-5 md:mb-5 justify-self-center" 
+                />
             </transition-group>
         </section>
     </div>

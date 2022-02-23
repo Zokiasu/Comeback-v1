@@ -31,9 +31,13 @@
                 <div class="w-full flex space-x-5 overflow-y-scroll py-5 texts text-white">
                     <ReleaseCard
                         v-for="release in date.releases"
-                        :release="release"
-                        :key="release.id">
-                    </ReleaseCard>
+                        :key="release.id"                
+                        :id="release.id"
+                        :image="release.image"
+                        :date="release.date"
+                        :name="release.name"
+                        :type="release.type"
+                    />
                 </div>
             </div>
             <InfiniteLoading v-if="stopInfiniteScroll" @infinite="infiniteScroll"></InfiniteLoading>

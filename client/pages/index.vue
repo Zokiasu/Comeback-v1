@@ -13,7 +13,17 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added</h2>
       </div>
       <div class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-        <LazyReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in newRelease" :key="release.id" :release="release"/>
+        <LazyReleaseCard 
+          v-for="(release) in newRelease" 
+          :key="release.id"
+					:id="release.id"
+					:image="release.image"
+					:date="release.date"
+					:name="release.name"
+					:type="release.type"
+					:artists="release.artists"
+          class="release md:mr-5 md:mb-5 justify-self-center" 
+        />
       </div>
     </section>
     <section id="newArtist" class="section" v-if="newArtist.length > 1">

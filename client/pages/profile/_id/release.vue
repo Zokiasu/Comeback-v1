@@ -2,7 +2,16 @@
     <div class="py-5">
         <h3 class="text-center w-full text-2xl lg:text-5xl font-semibold p-10">Release Liked</h3>
         <transition-group name="object" class="grid grid-cols-2 gap-y-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-            <ReleaseCard class="release md:mr-5 md:mb-5 justify-self-center" v-for="(release) in releases.slice(0, 9)" :key="release.id" :release="release"/>
+            <ReleaseCard 
+                v-for="(release) in releases.slice(0, 9)" 
+                :key="release.id" 
+                :id="release.id"
+                :image="release.image"
+                :date="release.date"
+                :name="release.name"
+                :type="release.type"
+                class="release md:mr-5 md:mb-5 justify-self-center" 
+            />
         </transition-group>
         <InfiniteLoading v-if="!enough" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
     </div>

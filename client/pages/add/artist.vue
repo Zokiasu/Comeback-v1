@@ -13,23 +13,27 @@
         </div>
         <section>
             <div class="flex flex-col lg:flex-row justify-center space-y-10 lg:space-y-0 lg:space-x-5 py-7">
-                <div id="image">
-                    <img loading="lazy" class="aspect-aspect object-cover" :src="artist.image" :alt="artist.name">
-                    <div class="xl:w-full xl:mx-auto xl:bottom-2 xl:flex xl:justify-center">
-                        <button 
-                            class="px-5 py-1 bg-red-700 hover:bg-red-900 focus:outline-none rounded-b text-white w-full"
-                            @click="launchImageFile"
-                            :disabled="isUploadingImage"
-                            type="button">
-                            {{ isUploadingImage ? 'Uploading...' : 'Upload' }}
-                        </button>
-                        <input
-                            ref="imageFile"
-                            @change.prevent="uploadImageFile($event.target.files)"
-                            type="file"
-                            accept="image/png, image/jpeg"
-                            class="hidden">
-                    </div>
+                <div class="w-full lg:w-auto">
+                    <button 
+                        @click="launchImageFile"
+                        :disabled="isUploadingImage"
+                        type="button"
+                        class="w-full h-full rounded-b focus:outline-none"
+                    >
+                        <img 
+                            loading="lazy" 
+                            :src="artist.image" 
+                            :alt="artist.name" 
+                            class="aspect-video w-full lg:aspect-square lg:w-auto object-cover rounded"
+                        />
+                    </button>
+                    <input
+                        ref="imageFile"
+                        @change.prevent="uploadImageFile($event.target.files)"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        class="hidden"
+                    />
                 </div>
                 <div class="grid grid-cols-1 gap-6 w-full">
                     <div class="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-2">
@@ -57,8 +61,7 @@
                             @tag="addMember">
                             <template slot="option" slot-scope="props">
                                 <div class="flex space-x-5">
-                                    <img loading="lazy" v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
-                                    <div class="option__desc flex flex-col space-y-1">
+                                    <div class="option__desc flex space-x-1">
                                         <span class="option__title">{{ props.option.name }}</span>
                                         <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-black-one">{{group.name}}</span></div></div>
                                     </div>
@@ -83,8 +86,7 @@
                             @tag="addGroup">
                             <template slot="option" slot-scope="props">
                                 <div class="flex space-x-1">
-                                    <img loading="lazy" v-if="props.option.image" class="option__image w-14 h-14 object-cover" :src="props.option.image">
-                                    <div class="option__desc flex flex-col space-y-1">
+                                    <div class="option__desc flex space-x-1">
                                         <span class="option__title">{{ props.option.name }}</span>
                                         <div class="flex space-x-1"><div class="space-x-1"><span v-for="(group, index) in props.option.groups" :key="index" class="bg-gray-300 p-1 px-2 rounded text-xs text-black-one">{{group.name}}</span></div></div>
                                     </div>
@@ -106,8 +108,8 @@
                             :preserve-search="false"
                             :multiple="true" 
                             :taggable="true"
-                            @tag="addStyle">
-                        </multiselect>
+                            @tag="addStyle"
+                        />
                     </div>
                 </div>
             </div>
@@ -169,8 +171,8 @@
                     idspotify: null,
                     idyoutubemusic: null,
                 },
-                artistList:[],
-                styleList:[],
+                styleList: [],
+                artistList: [],
                 source:'',
                 isUploadingImage: false,
                 user: null,
@@ -181,7 +183,10 @@
             const artistList = await $axios.$get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
             const styleList = await $axios.$get('https://comeback-api.herokuapp.com/styles?sortby=name:asc')
 
-            return {artistList, styleList}
+            return {
+                artistList,
+                styleList,
+            }
         },
 
         mounted(){

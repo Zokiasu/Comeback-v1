@@ -80,7 +80,11 @@
                 <div id="release-section" class="space-y-2" v-if="artist.releases.length">
                     <h3 class="text-white text-xl">Lastest Releases</h3>
                     <div id="release-list" class="grid grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4 gap-2">
-                    <LazyArtistReleaseCard v-for="(release, index) in artist.releases" :key="index" :release="release" :imageDefault="artist.image"/>
+                    <LazyArtistReleaseCard 
+                    v-for="(release, index) in artist.releases" 
+                    :key="index" 
+                    :release="release" 
+                    :imageDefault="artist.image"/>
                     </div>
                 </div> 
             </section>

@@ -3,9 +3,7 @@
 		<div class="space-y-5">
 			<div>
 				<div class="flex gap-5">
-					<p class="text-3xl">
-					{{ currentYear }}
-					</p>
+					<p class="text-3xl">{{ currentYear }}</p>
 					<div class="grid grid-cols-2 my-auto">
 						<button @click="changeYear(currentYear+1)" class="px-1">
 							<icons-arrow-up class="w-5 h-5"/>
@@ -57,8 +55,13 @@
 			<transition-group name="list-complete" tag="div" class="flex flex-wrap gap-7 max-w-[110rem]">
 				<LazyReleaseCard
 					v-for="release in filteredList"
-					:release="release"
 					:key="release.id"
+					:id="release.id"
+					:image="release.image"
+					:date="release.date"
+					:name="release.name"
+					:type="release.type"
+					:artists="release.artists"
 					displayDate
 					class="list-complete-item"
 				/>
@@ -71,149 +74,145 @@
 </template>
 
 <script>
-export default {
+	export default {
 
-head() {
-return {
-title: "Comeback - Calendar",
-meta: [
-{
-hid: 'description',
-name: 'description',
-content: "Find all the artists' releases by day and according to your preferences.",
-}
-]
-}
-},
+		head() {
+			return {
+				title: "Comeback - Calendar",
+				meta: [
+					{
+						hid: 'description',
+						name: 'description',
+						content: "Find all the artists' releases by day and according to your preferences.",
+					}
+				]
+			}
+		},
 
-data(){
-return {
-startDate: null,
-endDate: null,
-releaseList: [],
-onlyAlbums: false,
-onlyEps: false,
-onlySingles: false,
-loading: true,
-currentYear: new Date().getFullYear(),
-currentMonth: new Date().getMonth(),
-month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-}
-},
+		data(){
+			return {
+				startDate: null,
+				endDate: null,
+				releaseList: [],
+				onlyAlbums: false,
+				onlyEps: false,
+				onlySingles: false,
+				loading: true,
+				currentYear: new Date().getFullYear(),
+				currentMonth: new Date().getMonth(),
+				month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+			}
+		},
 
 
-created(){
-this.startDate = new Date(this.currentYear, this.currentMonth, 1);
-this.endDate = new Date(this.currentYear, this.currentMonth + 1, 0);
-//this.fetchData()
-},
+		created(){
+			this.startDate = new Date(this.currentYear, this.currentMonth, 1);
+			this.endDate = new Date(this.currentYear, this.currentMonth + 1, 0);
+		},
 
-//fetch the list of releases
-async fetch () {
-this.loading = true
-let tmpList = []
-this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
-if(Object.entries(response.data).length) {
-for(let [key, value] of Object.entries(response.data)) {
-if(value.releases) {
-tmpList = tmpList.concat(value.releases)
-tmpList = [...new Set(tmpList, value.releases)]
-tmpList.sort(function(a,b){
-if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
-if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
-return 0;
-})
-}
-}
-this.loading = false
-}
-this.releaseList = tmpList
-})
-this.releaseList = data
-this.loading = false
-},
+		//fetch the list of releases
+		async fetch () {
+			this.loading = true
+			let tmpList = []
+			this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
+				if(Object.entries(response.data).length) {
+					for(let [key, value] of Object.entries(response.data)) {
+						if(value.releases) {
+							tmpList = tmpList.concat(value.releases)
+							tmpList = [...new Set(tmpList, value.releases)]
+							tmpList.sort(function(a,b) {
+								if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
+								if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
+								return 0;
+							})
+						}
+					}
+					this.loading = false
+				}
+				this.releaseList = tmpList
+			})
+			this.loading = false
+		},
 
-computed: {
-filteredList() {
-return this.releaseList.filter(element => {
-if(this.onlyAlbums && element.type.toLowerCase() !== 'album') return false
-if(this.onlyEps && element.type.toLowerCase() !== 'ep') return false
-if(this.onlySingles && element.type.toLowerCase() !== 'single') return false
-return true
-})
-}
-},
+		computed: {
+			filteredList() {
+				return this.releaseList.filter(element => {
+					if(this.onlyAlbums && element.type.toLowerCase() !== 'album') return false
+					if(this.onlyEps && element.type.toLowerCase() !== 'ep') return false
+					if(this.onlySingles && element.type.toLowerCase() !== 'single') return false
+					return true
+				})
+			}
+		},
 
-methods:{
+		methods: {
 
-dateFormat(d){
-let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
-let da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
-return `${mo}/${da}/${ye}`
-},
+			dateFormat(d){
+				let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+				let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
+				let da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
+				return `${mo}/${da}/${ye}`
+			},
 
-async fetchData() {
-let tmpList = []
-this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
-if(Object.entries(response.data).length) {
-for(let [key, value] of Object.entries(response.data)) {
-if(value.releases) {
-tmpList = tmpList.concat(value.releases)
-tmpList = [...new Set(tmpList, value.releases)]
-tmpList.sort(function(a,b){
-if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
-if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
-return 0;
-})
-}
-}
-this.loading = false
-}
-this.releaseList = tmpList
-})
-.catch(error => {
-console.log(error);
-});
-},
+			async fetchData() {
+				let tmpList = []
+				this.$axios.get(`https://comeback-api.herokuapp.com/calendar?date_sup=${this.dateFormat(this.startDate)}&date_inf=${this.dateFormat(this.endDate)}`).then(response => {
+					if(Object.entries(response.data).length) {
+						for(let [key, value] of Object.entries(response.data)) {
+							if(value.releases) {
+								tmpList = tmpList.concat(value.releases)
+								tmpList = [...new Set(tmpList, value.releases)]
+								tmpList.sort(function(a,b){
+									if(a.date?.toLowerCase() > b.date?.toLowerCase()) {return -1}
+									if(a.date?.toLowerCase() < b.date?.toLowerCase()) {return 1}
+									return 0;
+								})
+							}
+						}
+						this.loading = false
+					}
+					this.releaseList = tmpList
+				})
+				.catch(error => {
+					console.log(error);
+				});
+			},
 
-changeMonth(month) {
-if(month < 0) {
-this.currentMonth = 11
-this.currentYear--
-} else if(month > 11) {
-this.currentMonth = 0
-this.currentYear++
-} else {
-this.currentMonth = month
-}
-this.startDate = new Date(this.currentYear, this.currentMonth, 1);
-this.endDate = new Date(this.currentYear, this.currentMonth + 1, 0);
-this.fetchData()
-},
+			changeMonth(month) {
+				if(month < 0) {
+					this.currentMonth = 11
+					this.currentYear--
+				} else if(month > 11) {
+					this.currentMonth = 0
+					this.currentYear++
+				} else {
+					this.currentMonth = month
+				}
+				this.startDate = new Date(this.currentYear, this.currentMonth, 1);
+				this.endDate = new Date(this.currentYear, this.currentMonth + 1, 0);
+				this.fetchData()
+			},
 
-changeYear(year) {
-this.startDate = new Date(year, this.currentMonth, 1);
-this.endDate = new Date(year, this.currentMonth + 1, 0);
-this.currentYear = year
-this.fetchData()
-},
-},
-}
+			changeYear(year) {
+				this.startDate = new Date(year, this.currentMonth, 1);
+				this.endDate = new Date(year, this.currentMonth + 1, 0);
+				this.currentYear = year
+				this.fetchData()
+			},
+		},
+	}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.list-complete-item {
-transition: all 0.5s;
-display: inline-block;
-}
-.list-complete-enter, .list-complete-leave-to
-/* .list-complete-leave-active below version 2.1.8 */ {
-opacity: 0;
-transform: translateY(30px);
-}
-.list-complete-leave-active {
-position: absolute;
-}
+	.list-complete-item {
+		transition: all 0.5s;
+		display: inline-block;
+	}
+	.list-complete-enter, .list-complete-leave-to {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	.list-complete-leave-active {
+		position: absolute;
+	}
 </style>
