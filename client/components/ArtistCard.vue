@@ -6,7 +6,7 @@
           :src="image"
           :alt="name"
           loading="lazy"
-          class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover"
+          class="rounded-full h-20 md:h-40 w-20 md:w-40 object-cover bg-gray-700"
         />
       </NuxtLink>
     </div>

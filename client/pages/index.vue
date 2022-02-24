@@ -1,14 +1,27 @@
 <template>
   <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
-    <section id="newAnnounce" class="section" v-if="newsList.length > 1">
+    <section
+      v-if="newsList.length > 1"
+      id="newAnnounce"
+      class="section"
+    >
       <div class="flex w-full justify-start space-x-5 smooth">
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Next Comeback</h2>
       </div>
       <div class="flex flex-wrap w-full justify-center inner">
-        <LazyNewsCard class="Card my-1.5 md:m-2" v-for="(element) in newsList" :key="element.id" :element="element"/>
+        <LazyNewsCard 
+          v-for="(element) in newsList" 
+          :key="element.id" 
+          :element="element" 
+          class="Card my-1.5 md:m-2"
+        />
       </div>
     </section>
-    <section id="newRelease" class="section" v-if="newRelease.length > 1">
+    <section 
+      v-if="newRelease.length > 1" 
+      id="newRelease" 
+      class="section"
+    >
       <div>
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added</h2>
       </div>
@@ -26,7 +39,11 @@
         />
       </div>
     </section>
-    <section id="newArtist" class="section" v-if="newArtist.length > 1">
+    <section 
+      v-if="newArtist.length > 1" 
+      id="newArtist" 
+      class="section"
+    >
       <div>
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added</h2>
       </div>
@@ -52,23 +69,15 @@
   export default {
 
     head() {
-        return {
-            title: "Comeback - Track every next album, single, EP releases.",
-            meta: [
-                {
-                    hid: 'description',
-                    name: 'description',
-                    content: 'Find your favorite artists and track all their comeback in one place.',
-                }
-            ]
-        }
-    },
-
-    data(){
       return {
-        newArtist:[],
-        newRelease:[],
-        newsList:[],
+        title: "Comeback - Track every next album, single, EP releases.",
+        meta: [
+          {
+            hid: 'description',
+            name: 'description',
+            content: 'Find your favorite artists and track all their comeback in one place.'
+          }
+        ]
       }
     },
     
@@ -76,18 +85,24 @@
       let newArtist = await $axios.$get(`https://comeback-api.herokuapp.com/artists?sortby=createdAt:desc&limit=9`)
       let newRelease = await $axios.$get(`https://comeback-api.herokuapp.com/releases?sortby=createdAt:desc&limit=9`)
       let newsList = []
+
       let dateToGet = new Date()
       dateToGet.setDate((dateToGet.getDate())-1)
       let tmpNews = await $axios.$get(`https://comeback-api.herokuapp.com/calendar/infos?date_sup=${dateToGet}`)
+
       Object.keys(tmpNews).map(function(key, index) {
         for(let [key2, value2] of Object.entries(tmpNews[key])) {
-            value2.forEach(element => {
-              newsList.push(element)
-            });
+          value2.forEach(element => {
+            newsList.push(element)
+          });
         }
       })
 
-      return {newArtist,newRelease,newsList}
+      return { 
+        newArtist,
+        newRelease,
+        newsList 
+      }
     },
 
     mounted(){
@@ -95,9 +110,3 @@
     },
   }
 </script>
-
-<style lang="scss" scoped>
-.inner::-webkit-scrollbar {
-  display: none;
-}
-</style>

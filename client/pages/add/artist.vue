@@ -2,7 +2,7 @@
     <div class="p-10 text-white">
         <div class="border-b border-white flex justify-between pb-3">
             <div class="flex space-x-2">
-                <NuxtLink class="my-auto" :to="`/artist/${this.$route.params.id}`">
+                <NuxtLink class="my-auto" :to="`/`">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#fff" d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
                 </NuxtLink>
                 <h2 class="text-2xl font-semibold my-auto">
@@ -18,13 +18,13 @@
                         @click="launchImageFile"
                         :disabled="isUploadingImage"
                         type="button"
-                        class="w-full h-full rounded-b focus:outline-none"
+                        class="w-full h-full lg:w-auto lg:h-auto rounded-b focus:outline-none"
                     >
                         <img 
                             loading="lazy" 
                             :src="artist.image" 
                             :alt="artist.name" 
-                            class="aspect-video w-full lg:aspect-square lg:w-auto object-cover rounded"
+                            class="w-[50%] h-[50%] lg:w-auto lg:h-auto object-cover rounded mx-auto"
                         />
                     </button>
                     <input
