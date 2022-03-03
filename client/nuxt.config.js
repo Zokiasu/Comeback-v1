@@ -10,28 +10,52 @@ export default {
     appId: process.env.FIREBASE_APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   },
-  
+
   generate: {
     fallback: true
   },
-  
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Comeback',
+    title: 'Comeback - Track every next album, single, EP releases.',
     htmlAttrs: {
       lang: 'en'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: 'Find your favorite artists and track all their comeback in one place.' },
+      { property: "og:site_name", content: "Pierrick's Portfolio - Zokiasu" },
+      { hid: "og:type", property: "og:type", content: "website" },
+      {
+        hid: "og:url",
+        property: "og:url",
+        content: "https://come-back.netlify.app/",
+      },
+      {
+        hid: "og:title",
+        property: "og:title",
+        content: "Comeback - Track every next album, single, EP releases.",
+      },
+      {
+        hid: "og:description",
+        property: "og:description",
+        content: "Find your favorite artists and track all their comeback in one place.",
+      },
+      {
+        hid: "og:image",
+        property: "og:image",
+        content: "https://i.ibb.co/JkfZXwk/Comeback-Logo.png",
+      },
+      { property: "og:image:width", content: "740" },
+      { property: "og:image:height", content: "300" },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
 
-  target:'static',
+  target: 'static',
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
@@ -61,7 +85,7 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss'
   ],
-  
+
   eslint: {
     fix: true
   },
@@ -77,7 +101,7 @@ export default {
         icon: false,
         // if you omit a module key form configuration sensible defaults will be applied
         // manifest: false,
-    
+
         workbox: {
           importScripts: [
             '/firebase-auth-sw.js'

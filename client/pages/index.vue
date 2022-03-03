@@ -67,18 +67,10 @@
   import ScrollReveal from 'scrollreveal'
 
   export default {
+    name: 'App',
 
-    head() {
-      return {
-        title: "Comeback - Track every next album, single, EP releases.",
-        meta: [
-          {
-            hid: 'description',
-            name: 'description',
-            content: 'Find your favorite artists and track all their comeback in one place.'
-          }
-        ]
-      }
+    created() {
+      ScrollReveal().reveal('.section', {interval: 300, distance: '1000%', origin: 'bottom', opacity: null})
     },
     
     async asyncData({ $axios }){
@@ -103,10 +95,6 @@
         newRelease,
         newsList 
       }
-    },
-
-    mounted(){
-      ScrollReveal().reveal('.section', {interval: 300, distance: '1000%', origin: 'bottom', opacity: null})
     },
   }
 </script>

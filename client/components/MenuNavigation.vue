@@ -27,12 +27,10 @@
                 :class="$route.name != 'index' ? 'text-gray-300 hover:bg-zinc-700 hover:text-white' : 'bg-zinc-600 text-white'">
                 Home
               </NuxtLink>
-
               <NuxtLink :to="`/calendar`" class="px-3 py-2 rounded-md text-sm font-medium"
                 :class="$route.name != 'calendar' ? 'text-gray-300 hover:bg-zinc-700 hover:text-white' : 'bg-zinc-600 text-white'">
                 Calendar
               </NuxtLink>
-
               <NuxtLink :to="`/artist`" class="px-3 py-2 rounded-md text-sm font-medium"
                 :class="$route.name != 'artist' ? 'text-gray-300 hover:bg-zinc-700 hover:text-white' : 'bg-zinc-600 text-white'">
                 Artists
@@ -103,12 +101,10 @@
           :class="$route.name != 'index' ? 'text-gray-300 hover:bg-zinc-700 hover:text-white' : 'bg-zinc-600 text-white'">
           Home
         </NuxtLink>
-
         <NuxtLink :to="`/calendar`" class="block px-3 py-2 rounded-md text-base font-medium"
           :class="$route.name != 'calendar' ? 'text-gray-300 hover:bg-zinc-700 hover:text-white' : 'bg-zinc-600 text-white'">
           Calendar
         </NuxtLink>
-
         <NuxtLink :to="`/artist`" class="block px-3 py-2 rounded-md text-base font-medium"
           :class="$route.name != 'artist' ? 'text-gray-300 hover:bg-zinc-700 hover:text-white' : 'bg-zinc-600 text-white'">
           Artists
@@ -138,7 +134,10 @@
       bg-class="animate__animated"
       :bg-in-class="`animate__fadeInUp`"
       :bg-out-class="`animate__fadeOutDown`">
-      <LazyNewsCreation @close="closeNewsModal"/>
+      <NewsCreation 
+        @close="closeNewsModal" 
+        :artistList="artist"
+      />
   </Modal>
 </div>
 </template>
@@ -161,23 +160,31 @@
         user: null,
         userRole: 'NONE',
         userAvatar: require('@/assets/image/artist.png'),
+
+        artist: null,
       }
+    },
+    
+    async fetch(){
+      const { data : tmpArtist } = await this.$axios.get('https://comeback-api.herokuapp.com/artists/groups?sortby=name:asc')
+      this.artist = tmpArtist
+      console.log(this.artist)
     },
 
     async created(){
-        let that = this
-        await this.$fire.auth.onAuthStateChanged(async function (user) {
-            if (user != null) {
-                if(user.uid) {
-                    that.userConnected = true
-                    await that.setStoreData(user.uid)
-                }
-            }
-        })
+      let that = this
+      await this.$fire.auth.onAuthStateChanged(async function (user) {
+        if (user != null) {
+          if(user.uid) {
+            that.userConnected = true
+            await that.setStoreData(user.uid)
+          }
+        }
+      })
     },
 
     async mounted() {
-        this.$toast.info("This website is currently under development, so you may encounter some bugs while using it.", {duration:3000, position:'top-left'})
+      this.$toast.info("This website is currently under development, so you may encounter some bugs while using it.", {duration:3000, position:'top-left'})
     },
 
     methods:{
