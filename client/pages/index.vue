@@ -95,6 +95,6 @@
         newRelease,
         newsList 
       }
-    },
+    }
   }
 </script>

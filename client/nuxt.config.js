@@ -135,7 +135,11 @@ export default {
             ssr: true, // default
           },
           firestore: true,
-          functions: true,
+          functions: {
+            location: 'us-central1',
+            emulatorPort: 5001,
+            emulatorHost: 'http://localhost',
+          },
           storage: true,
           database: true,
           messaging: true,
