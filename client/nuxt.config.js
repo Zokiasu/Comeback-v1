@@ -62,12 +62,11 @@ export default {
 
   ssr: false,
 
-  loading: {
-    color: 'red',
-    height: '2px'
+  loadingIndicator: {
+    name: 'circle',
+    color: 'white',
+    background: '#1F1D1D'
   },
-
-  loading: false,
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [

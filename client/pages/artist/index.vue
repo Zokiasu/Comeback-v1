@@ -31,7 +31,7 @@
       />
     </transition-group>
     <InfiniteLoading v-if="!enough" :identifier="infiniteId" spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>
-    <div v-if="artists.length < 1" class="px-5">
+    <div v-if="artists.length < 1 & !loading" class="px-5">
       <p class="text-white bg-[#6B728033] w-full flex justify-center rounded p-2">No artists found.</p>
     </div>
   </div>
@@ -54,6 +54,7 @@
         artists: [],
         maxArtist: 0,
         enough: false,
+				loading: true,
         resetSearch: false,
         infiniteId: new Date(),
       }
@@ -104,6 +105,7 @@
               this.enough = true
               $state.complete();
             }
+					  this.loading = false
           })
           .catch(error => {
             console.log(error);

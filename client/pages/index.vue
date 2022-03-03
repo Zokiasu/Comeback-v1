@@ -1,7 +1,7 @@
 <template>
   <div class="px-10 py-5 pb-16 overflow-hidden space-y-10">
     <section
-      v-if="newsList.length > 1"
+      v-if="newsList.length"
       id="newAnnounce"
       class="section"
     >
@@ -17,8 +17,8 @@
         />
       </div>
     </section>
-    <section 
-      v-if="newRelease.length > 1" 
+    <section
+      v-if="newRelease.length" 
       id="newRelease" 
       class="section"
     >
@@ -39,8 +39,8 @@
         />
       </div>
     </section>
-    <section 
-      v-if="newArtist.length > 1" 
+    <section
+      v-if="newArtist.length" 
       id="newArtist" 
       class="section"
     >
@@ -69,7 +69,7 @@
   export default {
     name: 'App',
 
-    created() {
+    mounted() {
       ScrollReveal().reveal('.section', {interval: 300, distance: '1000%', origin: 'bottom', opacity: null})
     },
     
@@ -98,3 +98,17 @@
     }
   }
 </script>
+
+<style scoped>
+  .list-complete {
+    transition: all 0.5s;
+    display: inline-block;
+  }
+  .list-complete-enter, .list-complete-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .list-complete-leave-active {
+    position: absolute;
+  }
+</style>

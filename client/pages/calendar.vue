@@ -104,7 +104,6 @@
 			}
 		},
 
-
 		created(){
 			this.startDate = new Date(this.currentYear, this.currentMonth, 1);
 			this.endDate = new Date(this.currentYear, this.currentMonth + 1, 0);
@@ -127,11 +126,10 @@
 							})
 						}
 					}
-					this.loading = false
 				}
 				this.releaseList = tmpList
+				this.loading = false
 			})
-			this.loading = false
 		},
 
 		computed: {
