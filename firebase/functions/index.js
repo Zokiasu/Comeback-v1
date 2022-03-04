@@ -19,8 +19,10 @@ exports.createUser = functions.https.onCall(async (data, context) => {
 		updatedAt: admin.firestore.FieldValue.serverTimestamp(),
 		id: data.id,
 		name: data.name,
-		age: data.age,
 		picture: data.picture,
+		role: data.role,
+		artists: [],
+		releases: [],
 	});
 	return res;
 });

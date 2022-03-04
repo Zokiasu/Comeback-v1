@@ -9,7 +9,7 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Next Comeback</h2>
       </div>
       <div class="flex flex-wrap w-full justify-center inner">
-        <LazyNewsCard 
+        <NewsCard 
           v-for="(element) in newsList" 
           :key="element.id" 
           :element="element" 
@@ -26,7 +26,7 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Release Added</h2>
       </div>
       <div class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-        <LazyReleaseCard 
+        <ReleaseCard 
           v-for="(release) in newRelease" 
           :key="release.id"
 					:id="release.id"
@@ -48,7 +48,7 @@
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Last Artist Added</h2>
       </div>
       <div class="grid grid-cols-2 gap-5 md:flex md:flex-wrap w-full md:justify-center lg:justify-start md:inner">
-        <LazyArtistCard 
+        <ArtistCard 
           v-for="artist in newArtist"
           :key="artist.id"
           :image="artist.image"
