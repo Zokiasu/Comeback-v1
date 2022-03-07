@@ -30,27 +30,22 @@
                         </div>
                     </div>
                 </div>
-
-                <v-read-more-box bg-color="#6B728033">
-                    <button slot="readMore" class="focus:outline-none font-semibold mt-2">SHOW MORE</button>
-                    <button slot="readLess" class="focus:outline-none font-semibold mt-2">SHOW LESS</button>
-                    <div class="mb-2">
-                        <span v-for="(style, index) in release.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style.name}} </span>
-                        <span v-if="!release.styles" class="text-red-500"> No styles </span>
-                    </div>
-                    <span class="font-semibold text-gray-400">Artists :</span>
-                    <div class="mb-5">
-                        <span v-for="(artist, index) in release.artists" :key="index" class="rounded">{{artist.name}}<span v-if="index < release.artists.length-1">, </span></span>
-                        <span v-if="!release.artists" class="text-red-500"> No Artists </span>
-                    </div>
-                    <span class="font-semibold text-gray-400">Tracklist :</span>
-                    <div v-if="release.musics" class="grid grid-cols-1 gap-y-1">
-                        <span v-for="(music, index) in release.musics" :key="index" class="rounded truncate text-sm">{{music.name}}</span>
-                    </div>
-                    <div v-else class="grid grid-cols-1 gap-y-1">
-                        <span class="text-red-500"> No Musics </span>
-                    </div>
-                </v-read-more-box>
+                <div class="mb-2">
+                    <span v-for="(style, index) in release.styles" :key="index" class="bg-gray-500 p-1 px-2 rounded text-xs"> {{style.name}} </span>
+                    <span v-if="!release.styles" class="text-red-500"> No styles </span>
+                </div>
+                <span class="font-semibold text-gray-400">Artists :</span>
+                <div class="mb-5">
+                    <span v-for="(artist, index) in release.artists" :key="index" class="rounded">{{artist.name}}<span v-if="index < release.artists.length-1">, </span></span>
+                    <span v-if="!release.artists" class="text-red-500"> No Artists </span>
+                </div>
+                <span class="font-semibold text-gray-400">Tracklist :</span>
+                <div v-if="release.musics" class="grid grid-cols-1 gap-y-1">
+                    <span v-for="(music, index) in release.musics" :key="index" class="rounded truncate text-sm">{{music.name}}</span>
+                </div>
+                <div v-else class="grid grid-cols-1 gap-y-1">
+                    <span class="text-red-500"> No Musics </span>
+                </div>
             </div>
         </section>
         <InfiniteLoading spinner="spiral" @infinite="infiniteScroll"></InfiniteLoading>

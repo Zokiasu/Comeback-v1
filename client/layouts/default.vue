@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="animate__animated animate__fadeInDown sticky top-0 z-50 bg-background">
-      <MenuNavigation ref="menu"/>
+      <MenuNavigation ref="menu" class="z-50"/>
     </div>
     <div>
       <Nuxt/>

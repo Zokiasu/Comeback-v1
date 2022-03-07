@@ -8,12 +8,11 @@
       <div class="flex w-full justify-start space-x-5 smooth">
         <h2 class="text-xl sm:text-2xl lg:text-4xl text-white py-5 flex">Next Comeback</h2>
       </div>
-      <div class="flex flex-wrap w-full justify-center inner">
+      <div class="flex flex-wrap gap-5 w-full justify-center inner">
         <NewsCard 
           v-for="(element) in newsList" 
           :key="element.id" 
-          :element="element" 
-          class="Card my-1.5 md:m-2"
+          :element="element"
         />
       </div>
     </section>
