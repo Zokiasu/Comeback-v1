@@ -1,7 +1,4 @@
 # Comeback
 
-### Site actuellement en développement
-
-Comeback est outil communautaire qui à pour but d'aider les communautés de fan de musiques à suivre les nouvelles sorties musicale qui les intéressent et se partager les informations à travers un outil dédié à cet effet, ainsi que d'être alerté lors de la sortie d'une nouvelle musique d'un artiste suivis.  
-  
-L'outil se base sur le partage communautaire et permet à celle-ci de retrouver les divers espace où retrouver leurs artistes tel que leurs réseaux ou encore les plateformes utilisé par celui-ci ainsi que retrouver les plateformes de streaming proposant les musiques suivis.
+This project was initially thought in order to be able to follow and list the recent releases of an artist list, because when you start following more than a hundred artists it is difficult to follow each of their releases on multiple networks or tools.
+So it uses the information sharing of the fan communities to warn in advance the releases announced on the multiple networks of the artists. The addition of new artists with the appropriate information allows the system to automatically inform the album releases so that users do not miss any more album releases of their favorite artists.
