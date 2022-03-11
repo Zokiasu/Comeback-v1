@@ -18,8 +18,8 @@
           <!-- PC Navigation -->
           <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <NuxtLink :to="`/`" class="flex-shrink-0 flex items-center">
-              <img loading="lazy" class="block lg:hidden h-8 w-auto" src="../assets/image/mini-logo.png" alt="Comeback">
-              <img loading="lazy" class="hidden lg:block h-8 w-auto" src="../assets/image/logo.png" alt="Comeback">
+              <img class="block lg:hidden h-8 w-auto" src="../assets/image/mini-logo.png" alt="Comeback">
+              <img class="hidden lg:block h-8 w-auto" src="../assets/image/logo.png" alt="Comeback">
             </NuxtLink>
             <div class="hidden sm:block sm:ml-6">
               <div class="flex space-x-4" @click="userMenu=false">
@@ -57,7 +57,7 @@
               <div>
                 <button @click="userMenu = !userMenu" type="button" class="bg-gray-500 bg-opacity-10 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                   <span class="sr-only">Open user menu</span>
-                  <img loading="lazy" class="h-8 w-8 rounded-full" :src="userAvatar" alt="User avatar">
+                  <img class="h-8 w-8 rounded-full" :src="userAvatar" alt="User avatar">
                 </button>
               </div>
               <!--
@@ -122,7 +122,7 @@
         bg-class="animate__animated"
         :bg-in-class="`animate__fadeInUp`"
         :bg-out-class="`animate__fadeOutDown`">
-        <LazyAuthentification @close="closeAuthentificationModal"/>
+        <Authentification @close="closeAuthentificationModal"/>
     </Modal>
     <Modal
         v-model="newsModal"

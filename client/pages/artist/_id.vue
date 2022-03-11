@@ -8,7 +8,7 @@
         <section class="space-y-5 px-3">
             <section id="img-media-streaming-group" class="flex flex-col space-y-5 lg:flex-row lg:space-x-5 lg:space-y-0 relative">
                 <div id="image">
-                    <img loading="lazy" class="w-full lg:w-96 aspect-video object-cover" :src="artist.image" :alt="artist.name">
+                    <img class="w-full lg:w-96 aspect-video object-cover" :src="artist.image" :alt="artist.name">
                 </div>
                 <div id="media-streaming-group" class="flex flex-col space-y-3">
                     <div id="social-media" class="space-y-1" v-if="artist.socials.length">
@@ -38,18 +38,14 @@
             <section class="space-y-5">
                 <div id="description" class="space-y-2" v-if="artist.description">
                     <h3 class="text-xl">Description</h3>
-                    <v-read-more-box bg-color="#1F1D1D">
-                        <button slot="readMore" class="focus:outline-none font-semibold">SHOW MORE</button>
-                        <button slot="readLess" class="focus:outline-none font-semibold">SHOW LESS</button>
-                        <p class="text-base whitespace-pre-line"> {{artist.description}} </p>
-                    </v-read-more-box>
+                    <p class="text-base whitespace-pre-line"> {{artist.description}} </p>
                 </div>
                 <div id="member" class="space-y-2" v-if="memberslist.length">
                     <h3 class="text-white text-xl">Members ({{memberslist.length}})</h3>
                     <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
                         <NuxtLink :to="`/artist/${members.id}`" class="p-3 rounded flex flex-col justify-center" v-for="(members, index) in memberslist" :key="index">
                             <div class="mb-0.5">
-                                <img loading="lazy" class="Card rounded-full h-10 lg:h-20 w-10 lg:w-20 object-cover mx-auto" :src="members.image" alt="">
+                                <img class="Card rounded-full h-10 lg:h-20 w-10 lg:w-20 object-cover mx-auto" :src="members.image" alt="">
                             </div>
                             <span class="w-full h-full text-center xl:text-xl"> {{members.name}} </span>
                         </NuxtLink>
@@ -60,7 +56,7 @@
                     <div class="text-white grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-5">
                     <NuxtLink :to="`/artist/${member.id}`" class="Card p-3 rounded flex flex-col justify-center" v-for="(member, index) in subunitlist" :key="index">
                         <div class="mb-0.5">
-                        <img loading="lazy" class="rounded h-20 object-cover mx-auto" :src="member.image" alt="">
+                        <img class="rounded h-20 object-cover mx-auto" :src="member.image" alt="">
                         </div>
                         <span class="w-full h-full text-center xl:text-xl"> {{member.name}} </span>
                     </NuxtLink>
@@ -71,7 +67,7 @@
                     <div class="flex flex-row">
                         <NuxtLink :to="`/artist/${group.id}`" v-for="(group, index) in artist.groups" :key="index" class="Card p-3 rounded flex flex-col justify-center">
                             <div class="mb-0.5">
-                                <img loading="lazy" class="rounded w-20 h-20 object-cover mx-auto" :src="group.image" alt="">
+                                <img class="rounded w-20 h-20 object-cover mx-auto" :src="group.image" alt="">
                             </div>
                             <span class="w-full h-full text-center"> {{group.name}} </span>
                         </NuxtLink>
@@ -79,13 +75,21 @@
                 </div>
                 <div id="release-section" class="space-y-2" v-if="artist.releases.length">
                     <h3 class="text-white text-xl">Lastest Releases</h3>
-                    <div id="release-list" class="grid grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4 gap-2">
-                    <LazyArtistReleaseCard 
-                    v-for="(release, index) in artist.releases" 
-                    :key="index" 
-                    :release="release" 
-                    :imageDefault="artist.image"/>
-                    </div>
+					<div
+						id="release-list"
+						class="flex flex-wrap gap-1"
+					>
+						<ReleaseCard 
+							v-for="(release) in artist.releases" 
+							:key="release.id"
+							:id="release.id"
+							:image="release.image"
+							:date="release.date"
+							:name="release.name"
+							:type="release.type"
+							class="release md:mr-5 md:mb-5 justify-self-center" 
+						/>
+					</div>
                 </div> 
             </section>
         </section>
